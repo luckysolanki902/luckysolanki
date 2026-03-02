@@ -1,0 +1,213 @@
+/* ============================================================
+   Nav.module.css — Navigation styles
+   Fixed bar: transparent → frosted glass on scroll.
+   Mobile: fullscreen overlay with centered stacked links.
+   ============================================================ */
+
+/* -----------------------------------------------------------
+   DESKTOP NAV BAR
+   ----------------------------------------------------------- */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 60px;
+  transition: background-color 200ms var(--ease-standard),
+              backdrop-filter 200ms var(--ease-standard),
+              border-color 200ms var(--ease-standard),
+              transform 300ms var(--ease-standard);
+  border-bottom: 1px solid transparent;
+}
+
+.nav.scrolled {
+  background-color: color-mix(in srgb, var(--bg-primary) 88%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom-color: var(--border-subtle);
+}
+
+.nav.hidden {
+  transform: translateY(-100%);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--max-page);
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+/* -----------------------------------------------------------
+   LOGO
+   ----------------------------------------------------------- */
+.logo {
+  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  letter-spacing: var(--tracking-wide);
+  cursor: pointer;
+  user-select: none;
+  transition: color 200ms var(--ease-standard);
+}
+
+/* -----------------------------------------------------------
+   DESKTOP LINKS
+   ----------------------------------------------------------- */
+.desktopLinks {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.navLink {
+  position: relative;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: var(--text-sm);
+  font-weight: 400;
+  color: var(--text-secondary);
+  transition: color 200ms var(--ease-standard);
+  padding: var(--space-2) 0;
+}
+
+.navLink::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--text-primary);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 250ms var(--ease-standard);
+}
+
+.navLink:hover {
+  color: var(--text-primary);
+}
+
+.navLink:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.navLink.active {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* -----------------------------------------------------------
+   HAMBURGER (Mobile only)
+   ----------------------------------------------------------- */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.hamburgerLine {
+  display: block;
+  width: 20px;
+  height: 1.5px;
+  background-color: var(--text-primary);
+  border-radius: 1px;
+  transition: background-color 200ms var(--ease-standard);
+}
+
+/* -----------------------------------------------------------
+   MOBILE OVERLAY
+   ----------------------------------------------------------- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: color-mix(in srgb, var(--bg-primary) 98%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.closeButton {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-primary);
+  border-radius: var(--radius-full);
+  transition: background-color 200ms var(--ease-standard);
+}
+
+.closeButton:hover {
+  background-color: var(--accent-subtle);
+}
+
+.overlayContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.overlayLink {
+  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: var(--text-2xl);
+  color: var(--text-primary);
+  transition: color 200ms var(--ease-standard);
+}
+
+.overlayLink:hover {
+  color: var(--text-secondary);
+}
+
+.overlayToggle {
+  margin-top: var(--space-4);
+}
+
+/* -----------------------------------------------------------
+   RESPONSIVE
+   ----------------------------------------------------------- */
+@media (max-width: 767px) {
+  .inner {
+    padding: 0 var(--space-5);
+  }
+
+  .desktopLinks {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}
+
+@media (min-width: 768px) {
+  .inner {
+    padding: 0 var(--space-10);
+  }
+}

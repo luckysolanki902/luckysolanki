@@ -1,0 +1,127 @@
+/* ============================================================
+   About.module.css — About section styles
+   --max-content for text, 3-column cards on desktop.
+   ============================================================ */
+
+.section {
+  padding: var(--space-16) 0;
+  background-color: var(--bg-subtle);
+}
+
+.container {
+  max-width: var(--max-page);
+  margin: 0 auto;
+  padding: 0 var(--space-5);
+}
+
+/* -----------------------------------------------------------
+   HEADING
+   ----------------------------------------------------------- */
+.heading {
+  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: var(--text-2xl);
+  line-height: var(--leading-snug);
+  color: var(--text-primary);
+  max-width: var(--max-content);
+}
+
+/* -----------------------------------------------------------
+   DIVIDER
+   ----------------------------------------------------------- */
+.divider {
+  width: 60px;
+  height: 1px;
+  background-color: var(--border-primary);
+  margin: var(--space-8) 0;
+}
+
+/* -----------------------------------------------------------
+   BODY TEXT
+   ----------------------------------------------------------- */
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: var(--max-content);
+}
+
+.body p {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-weight: 400;
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+  color: var(--text-secondary);
+}
+
+/* -----------------------------------------------------------
+   EXPERIENCE CARDS
+   ----------------------------------------------------------- */
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  margin-top: var(--space-12);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-5);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  transition: border-color 200ms var(--ease-standard),
+              box-shadow 200ms var(--ease-standard);
+}
+
+.card:hover {
+  border-color: var(--border-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.cardCompany {
+  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: var(--text-base);
+  color: var(--text-primary);
+}
+
+.cardRole {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-weight: 400;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.cardPeriod {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-weight: 400;
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  margin-top: var(--space-1);
+}
+
+/* -----------------------------------------------------------
+   RESPONSIVE
+   ----------------------------------------------------------- */
+@media (min-width: 768px) {
+  .section {
+    padding: var(--space-24) 0;
+  }
+
+  .container {
+    padding: 0 var(--space-10);
+  }
+
+  .cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .section {
+    padding: var(--space-32) 0;
+  }
+}

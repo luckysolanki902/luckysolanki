@@ -1,0 +1,218 @@
+/* ============================================================
+   Hero.module.css — Hero section styles
+   ~85-92vh on desktop. Z-pattern layout.
+   Photo right, text left on desktop. Stacked on mobile.
+   ============================================================ */
+
+.hero {
+  position: relative;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  padding: var(--space-40) 0 var(--space-32);
+  overflow: hidden;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: var(--space-10);
+  max-width: var(--max-page);
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--space-5);
+}
+
+/* -----------------------------------------------------------
+   TEXT CONTENT
+   ----------------------------------------------------------- */
+.content {
+  display: flex;
+  flex-direction: column;
+  order: 2;
+}
+
+.name {
+  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: var(--text-md);
+  color: var(--text-secondary);
+  letter-spacing: var(--tracking-wide);
+  margin-bottom: var(--space-4);
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: var(--text-2xl);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--text-primary);
+  max-width: 540px;
+}
+
+.headingLine {
+  display: block;
+}
+
+.subtext {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-weight: 400;
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+  color: var(--text-secondary);
+  max-width: 460px;
+  margin-top: var(--space-5);
+}
+
+/* -----------------------------------------------------------
+   CTAs
+   ----------------------------------------------------------- */
+.ctas {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+  flex-wrap: wrap;
+}
+
+/* Primary: Text link with arrow */
+.primaryCta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: var(--text-base);
+  color: var(--text-primary);
+  position: relative;
+  transition: color 200ms var(--ease-standard);
+}
+
+.primaryCta::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: calc(100% - var(--space-6));
+  height: 1px;
+  background: var(--text-primary);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 250ms var(--ease-standard);
+}
+
+.primaryCta:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.arrow {
+  display: inline-block;
+  transition: transform 250ms var(--ease-standard);
+}
+
+.primaryCta:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* Secondary: Pill outline */
+.secondaryCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: var(--text-base);
+  color: var(--text-primary);
+  border: 1px solid var(--border-primary);
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-full);
+  transition: background-color 250ms var(--ease-standard),
+              color 250ms var(--ease-standard),
+              border-color 250ms var(--ease-standard);
+}
+
+.secondaryCta:hover {
+  background-color: var(--accent);
+  color: var(--text-inverse);
+  border-color: var(--accent);
+}
+
+/* -----------------------------------------------------------
+   PHOTO
+   ----------------------------------------------------------- */
+.photoWrapper {
+  display: flex;
+  justify-content: center;
+  order: 1;
+}
+
+.photo {
+  width: 220px;
+  height: 270px;
+  object-fit: cover;
+  object-position: center 20%;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  filter: saturate(0.93) contrast(1.02);
+  transition: filter 300ms var(--ease-standard);
+}
+
+/* Dark mode — slightly dimmed */
+:global([data-theme="dark"]) .photo {
+  filter: brightness(0.88) saturate(0.88);
+}
+
+/* -----------------------------------------------------------
+   RESPONSIVE — Tablet
+   ----------------------------------------------------------- */
+@media (min-width: 768px) {
+  .container {
+    padding: 0 var(--space-10);
+  }
+
+  .heading {
+    font-size: var(--text-3xl);
+  }
+
+  .photo {
+    width: 250px;
+    height: 310px;
+  }
+}
+
+/* -----------------------------------------------------------
+   RESPONSIVE — Desktop
+   ----------------------------------------------------------- */
+@media (min-width: 1024px) {
+  .hero {
+    min-height: 88vh;
+  }
+
+  .container {
+    grid-template-columns: 55fr 45fr;
+    gap: var(--space-12);
+  }
+
+  .content {
+    order: 1;
+  }
+
+  .heading {
+    font-size: var(--text-4xl);
+  }
+
+  .photoWrapper {
+    order: 2;
+    justify-content: flex-end;
+  }
+
+  .photo {
+    width: 280px;
+    height: 340px;
+  }
+}
