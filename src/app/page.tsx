@@ -9,6 +9,7 @@ import { Hero } from "@/components/Hero/Hero";
 import { About } from "@/components/About/About";
 import { Work } from "@/components/Work/Work";
 import { Tools } from "@/components/Tools/Tools";
+import { Stories } from "@/components/Stories/Stories";
 import { Contact } from "@/components/Contact/Contact";
 import { Footer } from "@/components/Footer/Footer";
 
@@ -21,6 +22,7 @@ export default function Home() {
         <About />
         <Work />
         <Tools />
+        <Stories />
         <Contact />
       </main>
       <Footer />

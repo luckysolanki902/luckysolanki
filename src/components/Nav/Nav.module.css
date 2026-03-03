@@ -110,29 +110,10 @@
 }
 
 /* -----------------------------------------------------------
-   HAMBURGER (Mobile only)
+   MOBILE THEME TOGGLE (visible only on mobile)
    ----------------------------------------------------------- */
-.hamburger {
+.mobileToggle {
   display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.hamburgerLine {
-  display: block;
-  width: 20px;
-  height: 1.5px;
-  background-color: var(--text-primary);
-  border-radius: 1px;
-  transition: background-color 200ms var(--ease-standard);
 }
 
 /* -----------------------------------------------------------
@@ -200,15 +181,34 @@
    RESPONSIVE
    ----------------------------------------------------------- */
 @media (max-width: 767px) {
+  .nav {
+    background: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom: none;
+  }
+
+  .nav.scrolled {
+    background: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom-color: transparent;
+  }
+
   .inner {
     padding: 0 var(--space-5);
+    justify-content: flex-end;
+  }
+
+  .logo {
+    display: none;
   }
 
   .desktopLinks {
     display: none;
   }
 
-  .hamburger {
+  .mobileToggle {
     display: flex;
   }
 }

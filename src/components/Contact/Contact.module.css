@@ -101,13 +101,24 @@
 
 .socialLink {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
   font-family: var(--font-inter), system-ui, sans-serif;
   font-weight: 400;
   font-size: var(--text-sm);
   color: var(--text-tertiary);
   transition: color 200ms var(--ease-standard);
   width: fit-content;
+}
+
+.socialIcon {
+  flex-shrink: 0;
+  transition: color 200ms var(--ease-standard);
+}
+
+.socialText {
+  display: inline;
 }
 
 .socialLink::after {

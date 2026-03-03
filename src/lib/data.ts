@@ -28,9 +28,9 @@ export interface Experience {
 
 export const siteConfig = {
   name: "Lucky Solanki",
-  title: "Lucky Solanki — Engineer & Founder",
+  title: "Lucky Solanki — Software Engineer & Founder",
   description:
-    "Full-stack engineer at Blitzit. Founder of Spyll. Building software that gets used.",
+    "Software engineer at Blitzit. Founder of Spyll. Building software that gets used.",
   url: "https://luckysolanki.dev",
 } as const;
 
@@ -114,7 +114,7 @@ export const projects: Project[] = [
       "AI investment research platform for Bali real estate. Multi-agent chat with orchestrator and specialist handoffs, realtime voice via WebRTC, Xendit payment integration, and an admin panel with automated news scraping. Two codebases, built solo.",
     url: "https://web.avanaapp.ai",
     image: "/images/projects/avana.png",
-    stack: ["Next.js 16", "OpenAI Agents", "WebRTC", "Xendit", "MongoDB", "Supabase"],
+    stack: ["Next.js 16", "OpenAI Agents", "WebRTC", "Xendit", "MongoDB"],
     metrics: "Multi-agent AI · Realtime voice · Xendit payments",
     year: "2025",
     status: "active",

@@ -12,8 +12,8 @@ const stories = [
     label: "Origin",
     heading: "The long way around.",
     teaser:
-      "Mechanical Engineering, then games, then a startup, then web dev. There was no plan — just decisions that made sense at the time.",
-    readTime: "4 min",
+      "A Mechanical Engineering degree, a startup that took three years and most of my sleep, a billing desk that took my patience, and the engineering role that finally fit.",
+    readTime: "6 min",
   },
   {
     href: "/stories/ai",

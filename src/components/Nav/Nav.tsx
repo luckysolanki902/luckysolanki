@@ -77,18 +77,10 @@ export function Nav() {
             <ThemeToggle />
           </div>
 
-          {/* Mobile Hamburger */}
-          <button
-            className={styles.hamburger}
-            onClick={() => setMobileOpen(true)}
-            aria-label="Open navigation menu"
-            aria-expanded={mobileOpen}
-            type="button"
-          >
-            <span className={styles.hamburgerLine} />
-            <span className={styles.hamburgerLine} />
-            <span className={styles.hamburgerLine} />
-          </button>
+          {/* Mobile: only theme toggle, no hamburger */}
+          <div className={styles.mobileToggle}>
+            <ThemeToggle />
+          </div>
         </div>
       </nav>
 

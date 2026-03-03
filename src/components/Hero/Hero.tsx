@@ -73,7 +73,7 @@ const photoVariants = {
 };
 
 // GIF plays for one full cycle (~2.4s) then reverts
-const GIF_DURATION = 2400;
+const GIF_DURATION = 1800;
 
 export function Hero() {
   const [showGif, setShowGif] = useState(false);

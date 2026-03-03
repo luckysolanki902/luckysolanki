@@ -18,11 +18,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Lucky Solanki — Engineer & Founder",
+  title: "Lucky Solanki — Software Engineer & Founder",
   description:
-    "Full-stack engineer at Blitzit. Founder of Spyll. Building software that gets used.",
+    "Software engineer at Blitzit. Founder of Spyll. Building software that gets used.",
   openGraph: {
-    title: "Lucky Solanki — Engineer & Founder",
+    title: "Lucky Solanki — Software Engineer & Founder",
     description: "I build products people actually use.",
     url: "https://luckysolanki.dev",
     siteName: "Lucky Solanki",
@@ -32,13 +32,13 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Lucky Solanki — Engineer & Founder",
+        alt: "Lucky Solanki — Software Engineer & Founder",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Lucky Solanki — Engineer & Founder",
+    title: "Lucky Solanki — Software Engineer & Founder",
     description: "I build products people actually use.",
     images: ["/og-image.png"],
   },
@@ -49,14 +49,14 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Lucky Solanki",
-  jobTitle: "Engineer & Founder",
+  jobTitle: "Software Engineer & Founder",
   url: "https://luckysolanki.dev",
   sameAs: [
     "https://github.com/Luckysolanki902",
     "https://linkedin.com/in/luckysolanki902",
   ],
   description:
-    "Full-stack engineer at Blitzit. Founder of Spyll. Building software that gets used.",
+    "Software engineer at Blitzit. Founder of Spyll. Building software that gets used.",
 };
 
 export default function RootLayout({
