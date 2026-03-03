@@ -1,12 +1,12 @@
 /* ============================================================
-   Work.module.css — Work section + ProjectCard styles
-   Full-width editorial cards. Generous spacing between projects.
+   Work.module.css — Alternating side-by-side project cards.
+   Image left on even, image right on odd.
    Animation #5: "The Lift" on screenshot hover.
    Animation #6: "The Underline Draw" on link hover.
    ============================================================ */
 
 .section {
-  padding: var(--space-16) 0;
+  padding: var(--space-12) 0;
 }
 
 .container {
@@ -25,31 +25,26 @@
   color: var(--text-primary);
 }
 
-.subtext {
-  font-family: var(--font-inter), system-ui, sans-serif;
-  font-weight: 400;
-  font-size: var(--text-md);
-  color: var(--text-secondary);
-  margin-top: var(--space-3);
-}
-
 /* -----------------------------------------------------------
    PROJECTS LIST
    ----------------------------------------------------------- */
 .projects {
   display: flex;
   flex-direction: column;
-  gap: var(--space-16);
-  margin-top: var(--space-12);
+  gap: var(--space-10);
+  margin-top: var(--space-10);
 }
 
 /* -----------------------------------------------------------
-   PROJECT CARD
+   PROJECT CARD — Mobile: stacked. Desktop: side-by-side.
    ----------------------------------------------------------- */
 .card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  width: 100%;
   max-width: var(--max-wide);
   margin: 0 auto;
-  width: 100%;
 }
 
 /* -----------------------------------------------------------
@@ -60,48 +55,73 @@
   width: 100%;
   overflow: hidden;
   border-radius: var(--radius-lg);
-  border: 1px solid var(--border-subtle);
-  background-color: var(--bg-secondary);
-  transition: transform 250ms var(--ease-standard),
-              box-shadow 250ms var(--ease-standard);
+  line-height: 0;
+  font-size: 0;
+  flex-shrink: 0;
+  transition: transform 400ms var(--ease-out),
+              box-shadow 400ms var(--ease-out);
+}
+
+/* Subtle vignette — just bottom + faint sides */
+.imageWrapper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    linear-gradient(to top, var(--bg-primary) 0%, transparent 10%),
+    linear-gradient(to right, var(--bg-primary) 0%, transparent 4%),
+    linear-gradient(to left, var(--bg-primary) 0%, transparent 4%);
+  opacity: 0.55;
+  transition: opacity 400ms var(--ease-out);
+}
+
+.imageWrapper:hover::after {
+  opacity: 0.25;
 }
 
 .imageLink {
   display: block;
+  font-size: 0;
+  line-height: 0;
 }
 
 .image {
   width: 100%;
   height: auto;
-  aspect-ratio: 16 / 10;
-  object-fit: cover;
-  transition: transform 400ms var(--ease-standard);
   display: block;
+  transition: transform 600ms var(--ease-out),
+              filter 500ms var(--ease-out);
+  filter: saturate(0.65) contrast(0.88) brightness(1.03) sepia(0.12);
 }
 
-/* Animation #5: "The Lift" — translateY -4px + deepened shadow */
+/* Animation #5: "The Lift" */
 .imageWrapper:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg);
 }
 
 .imageWrapper:hover .image {
-  transform: scale(1.015);
+  transform: scale(1.02);
+  filter: saturate(0.85) contrast(0.94) brightness(1.01) sepia(0.08);
 }
 
 /* -----------------------------------------------------------
    CARD META
    ----------------------------------------------------------- */
 .cardMeta {
-  margin-top: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.cardHeader {
+.cardNameRow {
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
-  flex-wrap: wrap;
   gap: var(--space-3);
+  flex-wrap: wrap;
 }
 
 .cardName {
@@ -111,13 +131,28 @@
   color: var(--text-primary);
 }
 
-/* Animation #6: "The Underline Draw" on link */
+.cardRole {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  background-color: var(--accent-subtle);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+
+/* Animation #6: "The Underline Draw" */
 .cardLink {
   position: relative;
+  display: inline-block;
+  align-self: flex-start;
   font-family: var(--font-inter), system-ui, sans-serif;
   font-weight: 400;
   font-size: var(--text-sm);
   color: var(--text-tertiary);
+  margin-top: var(--space-2);
   transition: color 200ms var(--ease-standard);
 }
 
@@ -158,8 +193,34 @@
   font-size: var(--text-base);
   line-height: var(--leading-normal);
   color: var(--text-secondary);
-  max-width: 600px;
+  margin-top: var(--space-4);
+}
+
+.cardMetrics {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: var(--text-sm);
+  color: var(--text-primary);
   margin-top: var(--space-3);
+  letter-spacing: 0.01em;
+}
+
+.playStoreLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--text-primary);
+  transition: opacity 200ms var(--ease-standard);
+}
+
+.playStoreLink:hover {
+  opacity: 0.7;
+}
+
+.playStoreIcon {
+  flex-shrink: 0;
+  position: relative;
+  top: 0.5px;
 }
 
 .cardStack {
@@ -167,15 +228,15 @@
   font-weight: 400;
   font-size: var(--text-sm);
   color: var(--text-tertiary);
-  margin-top: var(--space-4);
+  margin-top: var(--space-3);
 }
 
 /* -----------------------------------------------------------
-   RESPONSIVE
+   RESPONSIVE — Tablet: side-by-side kicks in
    ----------------------------------------------------------- */
 @media (min-width: 768px) {
   .section {
-    padding: var(--space-24) 0;
+    padding: var(--space-16) 0;
   }
 
   .container {
@@ -183,16 +244,37 @@
   }
 
   .projects {
-    gap: var(--space-24);
+    gap: var(--space-12);
+  }
+
+  .card {
+    display: grid;
+    grid-template-columns: 44fr 56fr;
+    gap: var(--space-10);
+    align-items: center;
+  }
+
+  /* Odd cards: image goes to the right */
+  .cardReversed .imageWrapper {
+    order: 2;
+  }
+
+  .cardReversed .cardMeta {
+    order: 1;
   }
 }
 
 @media (min-width: 1024px) {
   .section {
-    padding: var(--space-32) 0;
+    padding: var(--space-24) 0;
   }
 
   .projects {
-    gap: var(--space-24);
+    gap: var(--space-16);
+  }
+
+  .card {
+    grid-template-columns: 42fr 58fr;
+    gap: var(--space-12);
   }
 }

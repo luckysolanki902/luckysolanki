@@ -279,3 +279,23 @@ h1, h2, h3, h4, h5, h6 {
   background-color: var(--accent);
   color: var(--text-inverse);
 }
+
+/* -----------------------------------------------------------
+   SMOOTH SCROLLBAR (webkit browsers)
+   ----------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}

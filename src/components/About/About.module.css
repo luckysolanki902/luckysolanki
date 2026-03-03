@@ -73,12 +73,20 @@
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   transition: border-color 200ms var(--ease-standard),
-              box-shadow 200ms var(--ease-standard);
+              box-shadow 200ms var(--ease-standard),
+              transform 200ms var(--ease-standard);
 }
 
 .card:hover {
   border-color: var(--border-primary);
   box-shadow: var(--shadow-sm);
+  transform: translateY(-2px);
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 .cardCompany {
@@ -86,6 +94,14 @@
   font-weight: 600;
   font-size: var(--text-base);
   color: var(--text-primary);
+}
+
+.currentDot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background-color: #4ade80;
+  flex-shrink: 0;
 }
 
 .cardRole {
@@ -116,12 +132,16 @@
   }
 
   .cards {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (min-width: 1024px) {
   .section {
     padding: var(--space-32) 0;
+  }
+
+  .cards {
+    grid-template-columns: repeat(3, 1fr);
   }
 }

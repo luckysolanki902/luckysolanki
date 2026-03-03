@@ -32,6 +32,13 @@
   transform: translateY(-100%);
 }
 
+/* Only hide nav on scroll-down on mobile per DESIGN.md §8 */
+@media (min-width: 768px) {
+  .nav.hidden {
+    transform: none;
+  }
+}
+
 .inner {
   display: flex;
   align-items: center;

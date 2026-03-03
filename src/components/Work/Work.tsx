@@ -23,12 +23,6 @@ export function Work() {
           <h2 className={styles.heading}>Selected Work</h2>
         </FadeIn>
 
-        <FadeIn delay={0.05}>
-          <p className={styles.subtext}>
-            Products I&apos;ve built, scaled, and shipped.
-          </p>
-        </FadeIn>
-
         <div className={styles.projects}>
           {projects.map((project, i) => (
             <ProjectCard key={project.slug} project={project} index={i} />

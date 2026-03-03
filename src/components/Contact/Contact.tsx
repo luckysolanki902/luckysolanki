@@ -20,7 +20,7 @@ export function Contact() {
 
         <FadeIn>
           <h2 className={styles.heading}>
-            Let&apos;s build something together.
+            Let&apos;s work together.
           </h2>
         </FadeIn>
 

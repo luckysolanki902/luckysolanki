@@ -20,7 +20,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Lucky Solanki — Engineer & Founder",
   description:
-    "I build products people actually use. Engineer at Blitzit, co-founder of Spyll. Full-stack development, from first line to first user.",
+    "Full-stack engineer at Blitzit. Founder of Spyll. Building software that gets used.",
   openGraph: {
     title: "Lucky Solanki — Engineer & Founder",
     description: "I build products people actually use.",
@@ -56,7 +56,7 @@ const jsonLd = {
     "https://linkedin.com/in/luckysolanki902",
   ],
   description:
-    "I build products people actually use. Engineer at Blitzit, co-founder of Spyll.",
+    "Full-stack engineer at Blitzit. Founder of Spyll. Building software that gets used.",
 };
 
 export default function RootLayout({
@@ -65,7 +65,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="light" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -73,7 +73,11 @@ export default function RootLayout({
               (function() {
                 try {
                   var stored = JSON.parse(localStorage.getItem('portfolio-theme') || '{}');
-                  var theme = (stored.state && stored.state.theme) || 'light';
+                  // Only use stored theme if user explicitly chose one (userOverride=true)
+                  var theme = (stored.state && stored.state.userOverride && stored.state.theme);
+                  if (!theme) {
+                    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                  }
                   document.documentElement.setAttribute('data-theme', theme);
                 } catch (e) {}
               })();

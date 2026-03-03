@@ -8,10 +8,13 @@ export interface Project {
   name: string;
   tagline: string;
   description: string;
+  role: string;
   url?: string;
   github?: string;
+  playStore?: string;
   image: string;
   stack: string[];
+  metrics?: string;
   year: string;
   status: "active" | "shipped" | "archived";
 }
@@ -26,12 +29,13 @@ export interface Experience {
 export const siteConfig = {
   name: "Lucky Solanki",
   title: "Lucky Solanki — Engineer & Founder",
-  description: "I build products people actually use.",
+  description:
+    "Full-stack engineer at Blitzit. Founder of Spyll. Building software that gets used.",
   url: "https://luckysolanki.dev",
 } as const;
 
 export const socials = {
-  github: "https://github.com/Luckysolanki902",
+  github: "https://github.com/luckysolanki902",
   linkedin: "https://linkedin.com/in/luckysolanki902",
   email: "luckysolanki902@gmail.com",
 } as const;
@@ -39,20 +43,20 @@ export const socials = {
 export const experience: Experience[] = [
   {
     company: "Blitzit",
-    role: "Full-Stack Engineer",
-    period: "2025 — Now",
-    current: true,
-  },
-  {
-    company: "Spyll",
-    role: "Co-Founder",
+    role: "Software Engineer",
     period: "2024 — Now",
     current: true,
   },
   {
+    company: "Spyll",
+    role: "Founder",
+    period: "2023 — Now",
+    current: true,
+  },
+  {
     company: "MaddyCustom",
-    role: "Co-Founder",
-    period: "2022 — 2026",
+    role: "Co-Founder & Lead Dev",
+    period: "2023 — 2026",
     current: false,
   },
 ];
@@ -61,55 +65,95 @@ export const projects: Project[] = [
   {
     slug: "spyll",
     name: "Spyll",
-    tagline: "Social platform for real connections",
+    tagline: "Anonymous college social platform",
+    role: "Founder",
     description:
-      "A social platform where conversations happen in real time — voice, video, and text. Built with WebRTC for peer-to-peer communication and Socket.IO for instant presence. Designed to feel like being in the same room.",
+      "Anonymous social platform for college students in India. Real-time 1:1 chat pair matching, voice calls, encrypted confessions, and a post feed — live across 1,300+ colleges. Next.js with Socket.IO, WebRTC, Redis pub/sub for scaling, and Capacitor for Android.",
     url: "https://spyll.in",
+    playStore: "https://play.google.com/store/apps/details?id=in.spyll.app&pcampaignid=lucky_portfolio",
     image: "/images/projects/spyll.png",
-    stack: ["Next.js", "Socket.IO", "MongoDB", "WebRTC"],
-    year: "2024",
+    stack: ["Next.js", "Socket.IO", "WebRTC", "MongoDB", "Redis", "Capacitor"],
+    metrics: "Download on Play Store",
+    year: "2023",
     status: "active",
   },
   {
     slug: "maddycustom",
     name: "MaddyCustom",
-    tagline: "Vehicle personalization eCommerce",
+    tagline: "E-commerce for vehicle customization",
+    role: "Co-Founder & Lead Developer",
     description:
-      "An eCommerce platform for vehicle personalization serving 50K+ monthly users. Built the entire stack from storefront to admin dashboard to payment pipeline. Ranked top 5 on Google for core product keywords.",
-    url: "https://maddycustom.com",
+      "E-commerce platform for custom vehicle wraps and stickers. Dual payment gateways, Shiprocket shipping, server-side Meta tracking, and an admin panel with Sankey funnel analytics. Grew to 100K+ monthly users and ₹60L annual revenue.",
+    url: "https://maddycustom.vercel.app",
     image: "/images/projects/maddycustom.png",
-    stack: ["Next.js", "MongoDB", "Razorpay", "AWS S3"],
-    year: "2022",
+    stack: ["Next.js 15", "MongoDB", "Razorpay", "Shiprocket", "Meta API", "Clerk"],
+    metrics: "100K+ monthly users · ₹60L annual revenue",
+    year: "2023",
     status: "shipped",
   },
   {
     slug: "blitzit",
-    name: "Blitzit — MCP Integration",
-    tagline: "Unified productivity platform",
+    name: "Blitzit",
+    url: "https://www.blitzit.app",
+    tagline: "AI-powered task management platform",
+    role: "Software Engineer",
     description:
-      "Engineering integrations that connect tools like Asana, Trello, and Notion into one unified product. Building the bridge layer that lets teams work across platforms without context-switching.",
-    image: "/images/projects/blitzit.png",
-    stack: ["Next.js", "Node.js", "REST APIs", "TypeScript"],
+      "MCP server with OAuth 2.1 (PKCE), JSON-RPC 2.0 over Streamable HTTP, and 13 AI-callable tools. Deep bidirectional sync with Asana, ClickUp, and Google Calendar. BullMQ notification queue and timezone-aware scheduling across 21 timezones.",
+    image: "/images/projects/blitzit.jpeg",
+    stack: ["Fastify", "BullMQ", "MCP SDK", "Firebase", "OAuth 2.1", "Electron"],
+    metrics: "13 AI-callable tools · 21-timezone scheduling",
+    year: "2024",
+    status: "active",
+  },
+  {
+    slug: "avana",
+    name: "Avana",
+    tagline: "AI-powered Bali land investment platform",
+    role: "Freelance · Sole Developer",
+    description:
+      "AI investment research platform for Bali real estate. Multi-agent chat with orchestrator and specialist handoffs, realtime voice via WebRTC, Xendit payment integration, and an admin panel with automated news scraping. Two codebases, built solo.",
+    url: "https://web.avanaapp.ai",
+    image: "/images/projects/avana.png",
+    stack: ["Next.js 16", "OpenAI Agents", "WebRTC", "Xendit", "MongoDB", "Supabase"],
+    metrics: "Multi-agent AI · Realtime voice · Xendit payments",
     year: "2025",
     status: "active",
   },
   {
     slug: "dailicle",
     name: "Dailicle",
-    tagline: "Daily articles & perspectives",
+    tagline: "One essay per day. No feed. No algorithm.",
+    role: "Solo Project",
     description:
-      "A reading platform built around daily curated content. Shows product thinking beyond code — editorial design, content hierarchy, and reader experience at the center.",
+      "A daily essay platform. Every morning at 9:00 AM IST, a Python pipeline generates a long-form essay with web research, saves it to MongoDB, creates a Notion page, produces TTS audio via S3 and CloudFront, and emails subscribers. Next.js frontend with timezone-aware caching and dynamic OG images.",
     url: "https://dailicle.com",
     image: "/images/projects/dailicle.png",
-    stack: ["Next.js", "MongoDB", "OpenAI"],
-    year: "2024",
+    stack: ["Next.js 16", "Python", "FastAPI", "OpenAI", "AWS S3", "MongoDB"],
+    metrics: "Automated daily pipeline · TTS narration",
+    year: "2025",
     status: "active",
   },
 ];
 
 export const tools = {
-  frontend: ["React, Next.js", "Framer Motion", "CSS Modules"],
-  backend: ["Node.js, Express", "MongoDB, MySQL", "REST, WebSocket"],
-  infrastructure: ["AWS, Vercel", "CI/CD", "Cloudflare, S3"],
-  also: "Python, Firebase, Razorpay, Socket.IO, WebRTC, OpenAI",
+  frontend: [
+    "React, Next.js",
+    "Vue.js, Electron",
+    "Framer Motion",
+    "CSS Modules, Tailwind",
+    "MUI, shadcn/ui",
+  ],
+  backend: [
+    "Node.js, Fastify",
+    "Python, FastAPI",
+    "MongoDB, MySQL, Firebase",
+    "BullMQ, Redis",
+  ],
+  infrastructure: [
+    "AWS S3, CloudFront",
+    "Vercel, Render",
+    "Docker, CI/CD",
+    "Cloudflare",
+  ],
+  also: "WebRTC, Socket.IO, OpenAI, Razorpay, Capacitor, MCP Protocol, Clerk, Playwright",
 } as const;
