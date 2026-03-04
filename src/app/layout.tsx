@@ -173,6 +173,8 @@ export default function RootLayout({
                   }
                   document.documentElement.setAttribute('data-theme', theme);
                 } catch (e) {}
+                // Signal CSS that JS is active — enables bot-safe animations
+                document.documentElement.classList.add('js');
               })();
             `,
           }}

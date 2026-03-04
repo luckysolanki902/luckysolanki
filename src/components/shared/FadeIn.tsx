@@ -1,18 +1,20 @@
 /* ============================================================
-   FadeIn — Reusable scroll-reveal wrapper (Framer Motion)
+   FadeIn — Reusable scroll-reveal wrapper (CSS + IntersectionObserver)
    Animation #1: "The Soft Rise"
    opacity 0→1, translateY 20px→0, 500ms, --ease-reveal
-   Fires once. Stagger 80ms between siblings.
+   Bot-safe: opacity:0 is applied only via JS class on <html>,
+   so crawlers without JS see fully visible content.
    ============================================================ */
 
 "use client";
 
-import { motion } from "framer-motion";
-import { ReactNode } from "react";
+import { useEffect, useRef, ReactNode } from "react";
+import styles from "./FadeIn.module.css";
 
 interface FadeInProps {
   children: ReactNode;
   delay?: number;
+  /** @deprecated - duration is now controlled by CSS */
   duration?: number;
   direction?: "up" | "left" | "none";
   className?: string;
@@ -22,40 +24,44 @@ interface FadeInProps {
 export function FadeIn({
   children,
   delay = 0,
-  duration = 0.5,
   direction = "up",
   className,
   once = true,
 }: FadeInProps) {
-  const directionMap = {
-    up: { y: 20, x: 0 },
-    left: { y: 0, x: -10 },
-    none: { y: 0, x: 0 },
-  };
+  const ref = useRef<HTMLDivElement>(null);
 
-  const offset = directionMap[direction];
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (delay) el.style.transitionDelay = `${delay}s`;
+          el.classList.add(styles.visible);
+          if (once) observer.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [delay, once]);
 
   return (
-    <motion.div
-      className={className}
-      initial={{
-        opacity: 0,
-        y: offset.y,
-        x: offset.x,
-      }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-        x: 0,
-      }}
-      viewport={{ once, amount: 0.15 }}
-      transition={{
-        duration,
-        delay,
-        ease: [0.16, 1, 0.3, 1], // --ease-reveal
-      }}
+    <div
+      ref={ref}
+      className={[
+        styles.fadeIn,
+        direction === "left" ? styles.left : "",
+        direction === "none" ? styles.none : "",
+        className ?? "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

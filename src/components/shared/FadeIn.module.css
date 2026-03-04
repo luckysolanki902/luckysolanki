@@ -1,0 +1,33 @@
+/* ============================================================
+   FadeIn — CSS-based scroll reveal (bot-safe)
+   Hides content only when JS is active (.js class on <html>).
+   Bots / crawlers without JS see fully visible content.
+   IntersectionObserver adds .visible when element enters view.
+   ============================================================ */
+
+.fadeIn {
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Hide only when JS is present (set by inline head script) */
+:global(.js) .fadeIn:not(.visible) {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Direction overrides */
+:global(.js) .fadeIn.left:not(.visible) {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+:global(.js) .fadeIn.none:not(.visible) {
+  opacity: 0;
+  transform: none;
+}
+
+.visible {
+  opacity: 1;
+  transform: none;
+}

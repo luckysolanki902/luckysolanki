@@ -326,3 +326,40 @@
   }
 }
 
+/* -------------------------------------------------------
+   Bot-safe entrance animations via CSS
+   Applied only when .animate class is on the section
+   (added by Hero.tsx after client mount via useEffect).
+   Without .animate: all content renders fully visible —
+   bots / crawlers always see the real text.
+   ------------------------------------------------------- */
+
+@keyframes heroFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes heroRiseIn {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.animate .name {
+  animation: heroFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+.animate .headingLine:nth-child(1) {
+  animation: heroRiseIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+.animate .headingLine:nth-child(2) {
+  animation: heroRiseIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
+}
+
+.animate .subtext {
+  animation: heroRiseIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
+}
+
+.animate .ctas {
+  animation: heroRiseIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.75s both;
+}

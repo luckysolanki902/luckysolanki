@@ -1,13 +1,15 @@
 /* ============================================================
    Hero — The first impression. 80% of the conversion.
-   Animation #2: "The Measured Arrival" — line-by-line heading
-   Animation #3: "The Gentle Uncover" — clip-path photo reveal
+   Animation #2: "The Measured Arrival" — line-by-line heading (CSS)
+   Animation #3: "The Gentle Uncover" — clip-path photo reveal (motion)
+   Bot-safe: text content is immediately visible in SSR HTML.
+   CSS animations via .animate class (added after client mount).
    Z-pattern: name → photo → heading → subtext → CTA
    ============================================================ */
 
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { siteConfig } from "@/lib/data";
@@ -16,46 +18,7 @@ import styles from "./Hero.module.css";
 
 const headingLines = ["I build products", "people actually use."];
 
-// Animation #2: "The Measured Arrival"
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.3,
-    },
-  },
-};
-
-const lineVariants = {
-  hidden: {
-    opacity: 0,
-    y: 24,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
-    },
-  },
-};
-
-const fadeInVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: (delay: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      delay,
-      ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
-    },
-  }),
-};
-
-// Animation #3: "The Gentle Uncover"
+// Animation #3: "The Gentle Uncover" — photo only (decorative, ok to hide in SSR)
 const photoVariants = {
   hidden: {
     clipPath: "inset(100% 0 0 0)",
@@ -66,7 +29,7 @@ const photoVariants = {
     scale: 1,
     transition: {
       duration: 0.7,
-      delay: 0.9, // After heading lines finish
+      delay: 0.9,
       ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
     },
   },
@@ -77,7 +40,13 @@ const GIF_DURATION = 1800;
 
 export function Hero() {
   const [showGif, setShowGif] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // After mount, add .animate class to trigger CSS entrance animations
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const triggerGif = useCallback(() => {
     if (showGif) return;
@@ -95,56 +64,31 @@ export function Hero() {
   };
 
   return (
-    <section id={SECTION_IDS.hero} className={styles.hero}>
+    <section
+      id={SECTION_IDS.hero}
+      className={`${styles.hero} ${mounted ? styles.animate : ""}`}
+    >
       <div className={styles.container}>
         <div className={styles.content}>
-          {/* Name Badge */}
-          <motion.span
-            className={styles.name}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          >
-            {siteConfig.name}
-          </motion.span>
+          {/* Name Badge — plain HTML, CSS animates via .animate parent */}
+          <span className={styles.name}>{siteConfig.name}</span>
 
-          {/* Heading — Line by line */}
-          <motion.h1
-            className={styles.heading}
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
+          {/* Heading — plain HTML, CSS handles staggered line-by-line animation */}
+          <h1 className={styles.heading}>
             {headingLines.map((line, i) => (
-              <motion.span
-                key={i}
-                className={styles.headingLine}
-                variants={lineVariants}
-              >
+              <span key={i} className={styles.headingLine}>
                 {line}
-              </motion.span>
+              </span>
             ))}
-          </motion.h1>
+          </h1>
 
           {/* Subtext */}
-          <motion.p
-            className={styles.subtext}
-            custom={1.1}
-            variants={fadeInVariants}
-            initial="hidden"
-            animate="visible"
-          >
+          <p className={styles.subtext}>
             Software Engineer at Blitzit. Founder of Spyll.
-          </motion.p>
+          </p>
 
           {/* CTAs */}
-          <motion.div
-            className={styles.ctas}
-            custom={1.3}
-            variants={fadeInVariants}
-            initial="hidden"
-            animate="visible"
-          >
+          <div className={styles.ctas}>
             <a
               href={`#${SECTION_IDS.work}`}
               className={styles.primaryCta}
@@ -160,10 +104,10 @@ export function Hero() {
             >
               Get in touch
             </a>
-          </motion.div>
+          </div>
         </div>
 
-        {/* Photo — hover/tap to say hello */}
+        {/* Photo — hover/tap to say hello (decorative, motion clip-path ok) */}
         <motion.div
           className={styles.photoWrapper}
           variants={photoVariants}
