@@ -112,7 +112,7 @@ export const projects: Project[] = [
     role: "Freelance · Sole Developer",
     description:
       "AI investment research platform for Bali real estate. Multi-agent chat with orchestrator and specialist handoffs, realtime voice via WebRTC, Xendit payment integration, and an admin panel with automated news scraping. Two codebases, built solo.",
-    url: "https://web.avanaapp.ai",
+    url: "https://avanaapp.ai/",
     image: "/images/projects/avana.png",
     stack: ["Next.js 16", "OpenAI Agents", "WebRTC", "Xendit", "MongoDB"],
     metrics: "Multi-agent AI · Realtime voice · Xendit payments",

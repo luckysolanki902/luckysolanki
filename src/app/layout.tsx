@@ -135,7 +135,7 @@ const jsonLd = {
     {
       "@type": "SoftwareApplication",
       name: "Avana",
-      url: "https://web.avanaapp.ai",
+      url: "https://avanaapp.ai/",
       description:
         "AI investment research platform for Bali real estate with multi-agent chat and realtime voice.",
       applicationCategory: "FinanceApplication",
