@@ -20,7 +20,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Lucky Solanki — Software Engineer & Entrepreneur",
   description:
-    "Software engineer at Blitzit. Entrepreneur behind Spyll. Building software that gets used.",
+    "Software engineer at Blitzit. Entrepreneur behind Spyll, Maddy Custom, and Dailicle. Building software that gets used.",
   keywords: [
     "Lucky Solanki",
     "software engineer",
@@ -88,7 +88,7 @@ const jsonLd = {
     "https://linkedin.com/in/luckysolanki902",
   ],
   description:
-    "Software engineer at Blitzit. Entrepreneur behind Spyll. Building software that gets used.",
+    "Software engineer at Blitzit. Entrepreneur behind Spyll, Maddy Custom, and Dailicle. Building software that gets used.",
   worksFor: {
     "@type": "Organization",
     name: "Blitzit",

@@ -84,7 +84,7 @@ export function Hero() {
 
           {/* Subtext */}
           <p className={styles.subtext}>
-            Software Engineer at Blitzit. Entrepreneur behind Spyll.
+            Software Engineer at Blitzit. Entrepreneur behind Spyll, Maddy Custom, and Dailicle.
           </p>
 
           {/* CTAs */}
