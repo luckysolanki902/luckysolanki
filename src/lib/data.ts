@@ -28,9 +28,9 @@ export interface Experience {
 
 export const siteConfig = {
   name: "Lucky Solanki",
-  title: "Lucky Solanki — Software Engineer & Founder",
+  title: "Lucky Solanki — Software Engineer & Entrepreneur",
   description:
-    "Software engineer at Blitzit. Founder of Spyll. Building software that gets used.",
+    "Software engineer at Blitzit. Entrepreneur behind Spyll. Building software that gets used.",
   url: "https://luckysolanki.com",
 } as const;
 

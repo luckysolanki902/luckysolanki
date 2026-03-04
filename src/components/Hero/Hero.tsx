@@ -84,7 +84,7 @@ export function Hero() {
 
           {/* Subtext */}
           <p className={styles.subtext}>
-            Software Engineer at Blitzit. Founder of Spyll.
+            Software Engineer at Blitzit. Entrepreneur behind Spyll.
           </p>
 
           {/* CTAs */}
@@ -153,7 +153,7 @@ export function Hero() {
                 >
                   <Image
                     src="/images/lucky.jpg"
-                    alt="Lucky Solanki — Engineer and Founder"
+                    alt="Lucky Solanki — Engineer and Entrepreneur"
                     width={280}
                     height={340}
                     className={styles.photo}

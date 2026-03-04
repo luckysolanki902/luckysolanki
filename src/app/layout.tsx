@@ -18,9 +18,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Lucky Solanki — Software Engineer & Founder",
+  title: "Lucky Solanki — Software Engineer & Entrepreneur",
   description:
-    "Software engineer at Blitzit. Founder of Spyll. Building software that gets used.",
+    "Software engineer at Blitzit. Entrepreneur behind Spyll. Building software that gets used.",
   keywords: [
     "Lucky Solanki",
     "software engineer",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     canonical: "https://luckysolanki.com",
   },
   openGraph: {
-    title: "Lucky Solanki — Software Engineer & Founder",
+    title: "Lucky Solanki — Software Engineer & Entrepreneur",
     description: "I build products people actually use.",
     url: "https://luckysolanki.com",
     siteName: "Lucky Solanki",
@@ -62,13 +62,13 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Lucky Solanki — Software Engineer & Founder",
+        alt: "Lucky Solanki — Software Engineer & Entrepreneur",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Lucky Solanki — Software Engineer & Founder",
+    title: "Lucky Solanki — Software Engineer & Entrepreneur",
     description: "I build products people actually use.",
     images: ["/og-image.png"],
     creator: "@luckysolanki902",
@@ -80,7 +80,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Lucky Solanki",
-  jobTitle: "Software Engineer & Founder",
+  jobTitle: "Software Engineer & Entrepreneur",
   url: "https://luckysolanki.com",
   email: "luckysolanki902@gmail.com",
   sameAs: [
@@ -88,7 +88,7 @@ const jsonLd = {
     "https://linkedin.com/in/luckysolanki902",
   ],
   description:
-    "Software engineer at Blitzit. Founder of Spyll. Building software that gets used.",
+    "Software engineer at Blitzit. Entrepreneur behind Spyll. Building software that gets used.",
   worksFor: {
     "@type": "Organization",
     name: "Blitzit",
