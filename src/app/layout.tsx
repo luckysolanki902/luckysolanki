@@ -35,6 +35,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Lucky Solanki", url: "https://luckysolanki.com" }],
   creator: "Lucky Solanki",
+  manifest: "/site.webmanifest",
   robots: {
     index: true,
     follow: true,
