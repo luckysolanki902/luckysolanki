@@ -15,13 +15,13 @@ export const metadata: Metadata = {
   description:
     "I use AI every day. Here's what that actually looks like — practical thoughts, not hype.",
   alternates: {
-    canonical: "https://luckysolanki.dev/stories/ai",
+    canonical: "https://luckysolanki.com/stories/ai",
   },
   openGraph: {
     title: "On using AI — Lucky Solanki",
     description:
       "I use AI every day. Here's what that actually looks like — practical thoughts, not hype.",
-    url: "https://luckysolanki.dev/stories/ai",
+    url: "https://luckysolanki.com/stories/ai",
     siteName: "Lucky Solanki",
     type: "article",
   },

@@ -15,13 +15,13 @@ export const metadata: Metadata = {
   description:
     "Mechanical Engineering, a startup that took everything, a job that took nothing, and the work that finally fit. The full timeline.",
   alternates: {
-    canonical: "https://luckysolanki.dev/stories/journey",
+    canonical: "https://luckysolanki.com/stories/journey",
   },
   openGraph: {
     title: "The long way around — Lucky Solanki",
     description:
       "Mechanical Engineering, a startup that took everything, a job that took nothing, and the work that finally fit.",
-    url: "https://luckysolanki.dev/stories/journey",
+    url: "https://luckysolanki.com/stories/journey",
     siteName: "Lucky Solanki",
     type: "article",
   },

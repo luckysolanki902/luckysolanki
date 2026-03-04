@@ -6,4 +6,4 @@ Allow: /
 Disallow: /_next/
 
 # Sitemap
-Sitemap: https://luckysolanki.dev/sitemap.xml
+Sitemap: https://luckysolanki.com/sitemap.xml

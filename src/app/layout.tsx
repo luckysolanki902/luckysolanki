@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     "portfolio",
     "India",
   ],
-  authors: [{ name: "Lucky Solanki", url: "https://luckysolanki.dev" }],
+  authors: [{ name: "Lucky Solanki", url: "https://luckysolanki.com" }],
   creator: "Lucky Solanki",
   robots: {
     index: true,
@@ -47,12 +47,12 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: "https://luckysolanki.dev",
+    canonical: "https://luckysolanki.com",
   },
   openGraph: {
     title: "Lucky Solanki — Software Engineer & Founder",
     description: "I build products people actually use.",
-    url: "https://luckysolanki.dev",
+    url: "https://luckysolanki.com",
     siteName: "Lucky Solanki",
     type: "website",
     locale: "en_US",
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     images: ["/og-image.png"],
     creator: "@luckysolanki902",
   },
-  metadataBase: new URL("https://luckysolanki.dev"),
+  metadataBase: new URL("https://luckysolanki.com"),
 };
 
 const jsonLd = {
@@ -80,7 +80,7 @@ const jsonLd = {
   "@type": "Person",
   name: "Lucky Solanki",
   jobTitle: "Software Engineer & Founder",
-  url: "https://luckysolanki.dev",
+  url: "https://luckysolanki.com",
   email: "luckysolanki902@gmail.com",
   sameAs: [
     "https://github.com/Luckysolanki902",

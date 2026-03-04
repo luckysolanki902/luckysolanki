@@ -31,7 +31,7 @@ export const siteConfig = {
   title: "Lucky Solanki — Software Engineer & Founder",
   description:
     "Software engineer at Blitzit. Founder of Spyll. Building software that gets used.",
-  url: "https://luckysolanki.dev",
+  url: "https://luckysolanki.com",
 } as const;
 
 export const socials = {
