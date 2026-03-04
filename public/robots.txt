@@ -1,4 +1,9 @@
+# Allow all crawlers full access
 User-agent: *
 Allow: /
 
+# Disallow Next.js internals
+Disallow: /_next/
+
+# Sitemap
 Sitemap: https://luckysolanki.dev/sitemap.xml

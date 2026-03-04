@@ -13,6 +13,8 @@ import { Stories } from "@/components/Stories/Stories";
 import { Contact } from "@/components/Contact/Contact";
 import { Footer } from "@/components/Footer/Footer";
 
+export const dynamic = "force-static";
+
 export default function Home() {
   return (
     <>

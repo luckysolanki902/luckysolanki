@@ -21,12 +21,41 @@ export const metadata: Metadata = {
   title: "Lucky Solanki — Software Engineer & Founder",
   description:
     "Software engineer at Blitzit. Founder of Spyll. Building software that gets used.",
+  keywords: [
+    "Lucky Solanki",
+    "software engineer",
+    "founder",
+    "Next.js",
+    "full-stack developer",
+    "Entrepreneur",
+    "Blitzit",
+    "Spyll",
+    "portfolio",
+    "India",
+  ],
+  authors: [{ name: "Lucky Solanki", url: "https://luckysolanki.dev" }],
+  creator: "Lucky Solanki",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+    },
+  },
+  alternates: {
+    canonical: "https://luckysolanki.dev",
+  },
   openGraph: {
     title: "Lucky Solanki — Software Engineer & Founder",
     description: "I build products people actually use.",
     url: "https://luckysolanki.dev",
     siteName: "Lucky Solanki",
     type: "website",
+    locale: "en_US",
     images: [
       {
         url: "/og-image.png",
@@ -41,6 +70,7 @@ export const metadata: Metadata = {
     title: "Lucky Solanki — Software Engineer & Founder",
     description: "I build products people actually use.",
     images: ["/og-image.png"],
+    creator: "@luckysolanki902",
   },
   metadataBase: new URL("https://luckysolanki.dev"),
 };
@@ -51,12 +81,75 @@ const jsonLd = {
   name: "Lucky Solanki",
   jobTitle: "Software Engineer & Founder",
   url: "https://luckysolanki.dev",
+  email: "luckysolanki902@gmail.com",
   sameAs: [
     "https://github.com/Luckysolanki902",
     "https://linkedin.com/in/luckysolanki902",
   ],
   description:
     "Software engineer at Blitzit. Founder of Spyll. Building software that gets used.",
+  worksFor: {
+    "@type": "Organization",
+    name: "Blitzit",
+    url: "https://www.blitzit.app",
+  },
+  knowsAbout: [
+    "Next.js",
+    "React",
+    "Node.js",
+    "MongoDB",
+    "WebRTC",
+    "Socket.IO",
+    "TypeScript",
+    "Full-Stack Development",
+  ],
+  hasCreativeWork: [
+    {
+      "@type": "SoftwareApplication",
+      name: "Spyll",
+      url: "https://spyll.in",
+      description:
+        "Anonymous social platform for college students in India. Live across 1,300+ colleges.",
+      applicationCategory: "SocialNetworkingApplication",
+      operatingSystem: "Web, Android",
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "MaddyCustom",
+      url: "https://maddycustom.vercel.app",
+      description:
+        "E-commerce platform for custom vehicle wraps and stickers. 100K+ monthly users, ₹60L annual revenue.",
+      applicationCategory: "ShoppingApplication",
+      operatingSystem: "Web",
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "Blitzit",
+      url: "https://www.blitzit.app",
+      description:
+        "AI-powered task management with MCP server, 13 AI-callable tools, and deep calendar integrations.",
+      applicationCategory: "ProductivityApplication",
+      operatingSystem: "Web, Mac",
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "Avana",
+      url: "https://web.avanaapp.ai",
+      description:
+        "AI investment research platform for Bali real estate with multi-agent chat and realtime voice.",
+      applicationCategory: "FinanceApplication",
+      operatingSystem: "Web",
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "Dailicle",
+      url: "https://dailicle.com",
+      description:
+        "Daily essay platform with automated AI writing pipeline, TTS narration, and subscriber emails.",
+      applicationCategory: "NewsApplication",
+      operatingSystem: "Web",
+    },
+  ],
 };
 
 export default function RootLayout({

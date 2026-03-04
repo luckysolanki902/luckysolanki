@@ -8,10 +8,29 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import styles from "../story.module.css";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = {
   title: "On using AI — Lucky Solanki",
   description:
     "I use AI every day. Here's what that actually looks like — practical thoughts, not hype.",
+  alternates: {
+    canonical: "https://luckysolanki.dev/stories/ai",
+  },
+  openGraph: {
+    title: "On using AI — Lucky Solanki",
+    description:
+      "I use AI every day. Here's what that actually looks like — practical thoughts, not hype.",
+    url: "https://luckysolanki.dev/stories/ai",
+    siteName: "Lucky Solanki",
+    type: "article",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "On using AI — Lucky Solanki",
+    description:
+      "I use AI every day. Here's what that actually looks like — practical thoughts, not hype.",
+  },
 };
 
 const tools = [

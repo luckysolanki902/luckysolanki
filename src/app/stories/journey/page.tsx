@@ -8,10 +8,29 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import styles from "../story.module.css";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = {
   title: "The long way around — Lucky Solanki",
   description:
     "Mechanical Engineering, a startup that took everything, a job that took nothing, and the work that finally fit. The full timeline.",
+  alternates: {
+    canonical: "https://luckysolanki.dev/stories/journey",
+  },
+  openGraph: {
+    title: "The long way around — Lucky Solanki",
+    description:
+      "Mechanical Engineering, a startup that took everything, a job that took nothing, and the work that finally fit.",
+    url: "https://luckysolanki.dev/stories/journey",
+    siteName: "Lucky Solanki",
+    type: "article",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "The long way around — Lucky Solanki",
+    description:
+      "Mechanical Engineering, a startup that took everything, and the work that finally fit.",
+  },
 };
 
 const chapters = [
