@@ -44,7 +44,7 @@ export const experience: Experience[] = [
   {
     company: "Blitzit",
     role: "Software Engineer",
-    period: "2024 — Now",
+    period: "2025 — Now",
     current: true,
   },
   {
