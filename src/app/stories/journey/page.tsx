@@ -11,14 +11,14 @@ import styles from "../story.module.css";
 export const dynamic = "force-static";
 
 export const metadata: Metadata = {
-  title: "The long way around — Lucky Solanki",
+  title: "The long way around - A blog by Lucky Solanki",
   description:
     "Mechanical Engineering, a startup that took everything, a job that took nothing, and the work that finally fit. The full timeline.",
   alternates: {
     canonical: "https://luckysolanki.com/stories/journey",
   },
   openGraph: {
-    title: "The long way around — Lucky Solanki",
+    title: "The long way around - A blog by Lucky Solanki",
     description:
       "Mechanical Engineering, a startup that took everything, a job that took nothing, and the work that finally fit.",
     url: "https://luckysolanki.com/stories/journey",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "The long way around — Lucky Solanki",
+    title: "The long way around - A blog by Lucky Solanki",
     description:
       "Mechanical Engineering, a startup that took everything, and the work that finally fit.",
   },
@@ -73,7 +73,7 @@ const chapters = [
   {
     year: "Nov 2025",
     title: "Blitzit — the right one",
-    body: `Blitzit gave me a take-home assignment. I solved it. Did the interview. Got the offer. Now I work as a full-stack software developer — the kind of work I'd been doing for years, except now it's the job title too. I integrated Asana's two-way sync from scratch, built a map server, implemented a notification system with BullMQ and Redis queues, debugged and improved the Notion and Google Calendar integrations, and continue to ship complex features every week.`,
+    body: `Blitzit gave me a take-home assignment. I solved it. Did the interview. Got the offer. Now I work as a full-stack software developer — the kind of work I'd been doing for years, except now it's the job title too. I integrated Asana's two-way sync from scratch, built an MCP server, implemented a notification system with BullMQ and Redis queues, debugged and improved the Notion and Google Calendar integrations, and continue to ship complex features every week.`,
     tags: ["Full-Stack", "Asana", "BullMQ", "Redis", "Integrations"],
   },
   {
@@ -81,6 +81,12 @@ const chapters = [
     title: "The exit",
     body: `I wasn't interested in managing a Shopify store. What I cared about was building — the systems, the logic, the architecture decisions. So I stepped away from MaddyCustom. It was three years of shipping under real constraints — real users, real money, real outages. Nights of two hours of sleep. Trade-offs between grades and uptime. I leaned in harder than was probably healthy. But it made me the engineer I am now, and I don't regret the exchange.`,
     tags: ["Startup", "Growth"],
+  },
+  {
+    year: "Now",
+    title: "What I'm doing right now",
+    body: `At Blitzit, I'm building a new, more robust backend from scratch — unit-tested, modular, plugin-based integrations, auto-switching model routing with prompt-level control, personalised Pinecone vector memory, and tighter security: rate limiting, request validation, and defences against the usual attack vectors. Outside of work, I'm learning data science and machine learning, and starting to explore deep learning. On the side, Spyll — the anonymous social platform for college students — hit 1,000+ Android downloads in its first month after launch, with zero advertising. Now I'm expanding it.`,
+    tags: ["Blitzit", "Backend", "Pinecone", "ML", "Data Science", "Spyll"],
   },
 ];
 

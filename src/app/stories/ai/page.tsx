@@ -11,14 +11,14 @@ import styles from "../story.module.css";
 export const dynamic = "force-static";
 
 export const metadata: Metadata = {
-  title: "On using AI — Lucky Solanki",
+  title: "On using AI - A blog by Lucky Solanki",
   description:
     "I use AI every day. Here's what that actually looks like — practical thoughts, not hype.",
   alternates: {
     canonical: "https://luckysolanki.com/stories/ai",
   },
   openGraph: {
-    title: "On using AI — Lucky Solanki",
+    title: "On using AI - A blog by Lucky Solanki",
     description:
       "I use AI every day. Here's what that actually looks like — practical thoughts, not hype.",
     url: "https://luckysolanki.com/stories/ai",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "On using AI — Lucky Solanki",
+    title: "On using AI - A blog by Lucky Solanki",
     description:
       "I use AI every day. Here's what that actually looks like — practical thoughts, not hype.",
   },
