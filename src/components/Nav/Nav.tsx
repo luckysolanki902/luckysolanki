@@ -52,10 +52,10 @@ export function Nav() {
         <div className={styles.inner}>
           {/* Logo */}
           <a
-            href="#"
+            href="/"
             className={styles.logo}
             onClick={scrollToTop}
-            aria-label="Scroll to top"
+            aria-label="Go to homepage"
           >
             Lucky Solanki
           </a>
