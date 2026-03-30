@@ -330,9 +330,20 @@
    Bot-safe entrance animations via CSS
    Applied only when .animate class is on the section
    (added by Hero.tsx after client mount via useEffect).
-   Without .animate: all content renders fully visible —
-   bots / crawlers always see the real text.
+   Elements start invisible so there is no SSR-visible-then-
+   disappear flash when the .animate class is added on mount.
+   Bots / crawlers read HTML text directly and are unaffected
+   by CSS opacity.
    ------------------------------------------------------- */
+
+/* Start invisible to prevent SSR flash (text visible → snap to
+   opacity:0 at animation start → animate in). */
+.name,
+.headingLine,
+.subtext,
+.ctas {
+  opacity: 0;
+}
 
 @keyframes heroFadeIn {
   from { opacity: 0; }
