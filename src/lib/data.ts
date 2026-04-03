@@ -73,7 +73,7 @@ export const projects: Project[] = [
     playStore: "https://play.google.com/store/apps/details?id=in.spyll.app&pcampaignid=lucky_portfolio",
     image: "/images/projects/spyll.png",
     stack: ["Next.js", "Socket.IO", "WebRTC", "MongoDB", "Redis", "Capacitor"],
-    metrics: "Download on Play Store",
+    metrics: "Download from Play Store",
     year: "2023",
     status: "active",
   },
