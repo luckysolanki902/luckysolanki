@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Quicksand, Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/shared/ThemeProvider";
 import { Buddy } from "@/components/Buddy/Buddy";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const quicksand = Quicksand({
@@ -195,6 +196,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <Analytics />
       </body>
     </html>
   );
