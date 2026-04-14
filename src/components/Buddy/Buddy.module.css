@@ -308,8 +308,8 @@
 
 .glass {
   position: absolute;
-  bottom: 8px;
-  left: -12px;
+  bottom: 4px;
+  left: -14px;
   pointer-events: none;
   animation: glassPopIn 0.3s ease 0.1s both,
              glassPopOut 0.35s ease 2.5s both;
@@ -318,11 +318,11 @@
 @keyframes glassPopIn {
   0%   { opacity: 0; transform: translateY(6px) scale(0); }
   70%  { transform: translateY(-2px) scale(1.1); }
-  100% { opacity: 0.75; transform: translateY(0) scale(1); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 @keyframes glassPopOut {
-  0%   { opacity: 0.75; transform: translateY(0) scale(1); }
+  0%   { opacity: 1; transform: translateY(0) scale(1); }
   100% { opacity: 0; transform: translateY(4px) scale(0.4); }
 }
 
@@ -353,8 +353,8 @@
 
 .ladder {
   position: absolute;
-  bottom: -42px;
-  right: 6px;
+  bottom: 0;
+  right: -14px;
   pointer-events: none;
   /* Ladder counter-translates so it STAYS IN PLACE while character climbs */
   animation: ladderCounterMove 5.5s steps(1) forwards;
@@ -362,20 +362,20 @@
 
 /* Counters the parent climb so ladder stays rooted */
 @keyframes ladderCounterMove {
-  0%, 7%    { opacity: 0; transform: translateY(0); }
-  8%        { opacity: 0.7; transform: translateY(0); }
-  12%       { opacity: 0.7; transform: translateY(8px); }
-  17%       { opacity: 0.7; transform: translateY(16px); }
-  22%       { opacity: 0.7; transform: translateY(24px); }
-  27%       { opacity: 0.7; transform: translateY(32px); }
-  34%       { opacity: 0.7; transform: translateY(40px); }
-  65%       { opacity: 0.7; transform: translateY(40px); }
-  71%       { opacity: 0.7; transform: translateY(32px); }
-  76%       { opacity: 0.7; transform: translateY(24px); }
-  81%       { opacity: 0.7; transform: translateY(16px); }
-  86%       { opacity: 0.7; transform: translateY(8px); }
-  92%       { opacity: 0.7; transform: translateY(0); }
-  96%       { opacity: 0.2; transform: translateY(0); }
+  0%        { opacity: 0; transform: translateY(0); }
+  4%        { opacity: 1; transform: translateY(0); }
+  12%       { opacity: 1; transform: translateY(8px); }
+  17%       { opacity: 1; transform: translateY(16px); }
+  22%       { opacity: 1; transform: translateY(24px); }
+  27%       { opacity: 1; transform: translateY(32px); }
+  34%       { opacity: 1; transform: translateY(40px); }
+  65%       { opacity: 1; transform: translateY(40px); }
+  71%       { opacity: 1; transform: translateY(32px); }
+  76%       { opacity: 1; transform: translateY(24px); }
+  81%       { opacity: 1; transform: translateY(16px); }
+  86%       { opacity: 1; transform: translateY(8px); }
+  92%       { opacity: 1; transform: translateY(0); }
+  96%       { opacity: 0.3; transform: translateY(0); }
   100%      { opacity: 0; transform: translateY(0); }
 }
 
