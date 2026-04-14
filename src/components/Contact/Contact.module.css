@@ -83,11 +83,7 @@
    DIVIDER
    ----------------------------------------------------------- */
 .divider {
-  width: 100%;
-  max-width: 200px;
-  height: 1px;
-  background-color: var(--border-subtle);
-  margin: var(--space-8) 0;
+  display: none;
 }
 
 /* -----------------------------------------------------------
@@ -95,8 +91,9 @@
    ----------------------------------------------------------- */
 .socials {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
+  flex-direction: row;
+  gap: var(--space-6);
+  margin-top: 1rem;
 }
 
 .socialLink {
@@ -156,13 +153,33 @@
   }
 
   .socials {
-    flex-direction: row;
     gap: var(--space-6);
   }
+}
+
+/* Mobile gap before resume card */
+.right {
+  margin-top: var(--space-8);
 }
 
 @media (min-width: 1024px) {
   .section {
     padding: var(--space-32) 0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: var(--space-16);
+  }
+
+  .right {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
   }
 }

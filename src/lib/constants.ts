@@ -11,9 +11,9 @@ export const SECTION_IDS = {
 } as const;
 
 export const NAV_LINKS = [
-  { label: "About", href: `#${SECTION_IDS.about}` },
-  { label: "Work", href: `#${SECTION_IDS.work}` },
-  { label: "Contact", href: `#${SECTION_IDS.contact}` },
+  { label: "About", href: `/#${SECTION_IDS.about}` },
+  { label: "Work", href: `/#${SECTION_IDS.work}` },
+  { label: "Contact", href: `/#${SECTION_IDS.contact}` },
 ] as const;
 
 export const BREAKPOINTS = {

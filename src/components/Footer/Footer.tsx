@@ -1,16 +1,10 @@
 /* ============================================================
-   Footer — "The quietest part of the page."
-   Just a respectful sign-off. No repeated nav.
+   Footer — Thin visual closer. Just the border.
+   Name is already in nav, hero, resume card — no need to repeat.
    ============================================================ */
 
 import styles from "./Footer.module.css";
 
 export function Footer() {
-  return (
-    <footer className={styles.footer}>
-      <div className={styles.inner}>
-        <span className={styles.text}>Made with ❤️ by Lucky Solanki</span>
-      </div>
-    </footer>
-  );
+  return <footer className={styles.footer} />;
 }

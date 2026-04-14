@@ -1,0 +1,97 @@
+/* ============================================================
+   MarginNote.module.css — Superscript triggers + floating notes.
+   Desktop: notes float to the right margin.
+   Mobile: notes expand inline below the text.
+   ============================================================ */
+
+.wrapper {
+  position: relative;
+  display: inline;
+}
+
+/* ---- Superscript trigger ---- */
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.65em;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  vertical-align: super;
+  line-height: 1;
+  min-width: 14px;
+  min-height: 14px;
+  border-radius: var(--radius-full);
+  transition: color 150ms var(--ease-out),
+              background-color 150ms var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.trigger:hover {
+  color: var(--text-primary);
+  background-color: var(--accent-subtle);
+}
+
+/* ---- Note content ---- */
+.note {
+  display: block;
+  margin-top: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: var(--text-sm);
+  font-weight: 400;
+  font-style: italic;
+  line-height: var(--leading-normal);
+  color: var(--text-secondary);
+  animation: marginNote-appear 200ms var(--ease-out);
+}
+
+@keyframes marginNote-appear {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.noteNumber {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  margin-right: var(--space-1);
+  font-size: var(--text-xs);
+}
+
+.noteContent {
+  font-style: italic;
+}
+
+/* ---- Desktop: float note to the right margin ---- */
+@media (min-width: 1200px) {
+  .note {
+    position: absolute;
+    right: calc(-280px - var(--space-6));
+    top: -4px;
+    width: 260px;
+    margin-top: 0;
+    box-shadow: var(--shadow-sm);
+  }
+}
+
+/* ---- Print: hide ---- */
+@media print {
+  .wrapper {
+    display: none !important;
+  }
+}

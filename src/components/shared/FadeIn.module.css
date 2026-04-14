@@ -6,14 +6,14 @@
    ============================================================ */
 
 .fadeIn {
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Hide only when JS is present (set by inline head script) */
 :global(.js) .fadeIn:not(.visible) {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(24px);
 }
 
 /* Direction overrides */

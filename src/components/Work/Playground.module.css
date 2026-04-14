@@ -1,0 +1,256 @@
+/* ============================================================
+   Playground.module.css — Architecture pipeline visualizer.
+   Responsive grid. Animated data flow edges.
+   Uses design tokens throughout for theme consistency.
+   ============================================================ */
+
+/* ---- Overlay panel ---- */
+.panel {
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+.panelInner {
+  padding: var(--space-5);
+}
+
+.panelHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.panelTitle {
+  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: var(--text-lg);
+  color: var(--text-primary);
+  line-height: var(--leading-snug);
+}
+
+.panelSubtitle {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  margin-top: var(--space-1);
+  letter-spacing: 0.02em;
+  font-family: monospace;
+}
+
+.closeBtn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  padding: var(--space-1);
+  border-radius: var(--radius-sm);
+  transition: color 150ms ease, background 150ms ease;
+  line-height: 1;
+  font-size: var(--text-lg);
+}
+
+.closeBtn:hover {
+  color: var(--text-primary);
+  background: var(--bg-subtle);
+}
+
+/* ---- Pipeline grid ---- */
+.pipeline {
+  position: relative;
+  display: grid;
+  gap: var(--space-3);
+  min-height: 180px;
+}
+
+/* SVG edges layer — positioned behind nodes */
+.edgeLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: visible;
+}
+
+/* ---- Node ---- */
+.node {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color 200ms ease, box-shadow 200ms ease, transform 150ms ease;
+  user-select: none;
+  min-height: 44px;
+}
+
+.node:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-sm);
+}
+
+.node:active {
+  transform: scale(0.98);
+}
+
+.nodeActive {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), var(--shadow-sm);
+}
+
+.nodePulse {
+  animation: nodePulse 2s ease-in-out infinite;
+}
+
+@keyframes nodePulse {
+  0%, 100% { box-shadow: 0 0 0 0 transparent; }
+  50% { box-shadow: 0 0 0 3px var(--accent-subtle); }
+}
+
+.nodeIcon {
+  font-size: var(--text-base);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.nodeLabel {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: var(--leading-snug);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---- Detail tooltip ---- */
+.detail {
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--text-secondary);
+}
+
+.detailTitle {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-1);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* ---- Edge labels ---- */
+.edgeLabel {
+  font-family: monospace;
+  font-size: 9px;
+  letter-spacing: 0.03em;
+  fill: var(--text-tertiary);
+}
+
+/* ---- Data packet animation ---- */
+.packet {
+  r: 3;
+  fill: var(--accent);
+  opacity: 0;
+}
+
+.packetAnimate {
+  animation: packetMove var(--packet-duration, 800ms) ease-in-out forwards;
+  animation-delay: var(--packet-delay, 0ms);
+}
+
+@keyframes packetMove {
+  0% { opacity: 0; offset-distance: 0%; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; offset-distance: 100%; }
+}
+
+/* ---- Trigger button on card ---- */
+.triggerBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  background: none;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  padding: var(--space-1) var(--space-3);
+  cursor: pointer;
+  transition: color 200ms ease, border-color 200ms ease, background 200ms ease;
+  margin-top: var(--space-3);
+}
+
+.triggerBtn:hover {
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+  background: var(--bg-subtle);
+}
+
+.triggerIcon {
+  display: inline-block;
+  transition: transform 300ms ease;
+}
+
+.triggerBtn:hover .triggerIcon {
+  transform: rotate(90deg);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 767px) {
+  .panelInner {
+    padding: var(--space-4);
+  }
+
+  .pipeline {
+    gap: var(--space-2);
+  }
+
+  .node {
+    padding: var(--space-2);
+    gap: var(--space-1);
+    min-height: 38px;
+  }
+
+  .nodeLabel {
+    font-size: 10px;
+  }
+
+  .nodeIcon {
+    font-size: var(--text-sm);
+  }
+
+  .panelTitle {
+    font-size: var(--text-base);
+  }
+
+  .detail {
+    font-size: var(--text-xs);
+    padding: var(--space-2) var(--space-3);
+  }
+}
+
+@media print {
+  .panel, .triggerBtn {
+    display: none !important;
+  }
+}

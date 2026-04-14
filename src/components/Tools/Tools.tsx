@@ -16,6 +16,7 @@ import styles from "./Tools.module.css";
 const columns = [
   { heading: "Frontend", items: tools.frontend },
   { heading: "Backend", items: tools.backend },
+  { heading: "AI / Agents", items: tools.ai },
   { heading: "Infrastructure", items: tools.infrastructure },
 ];
 
@@ -23,13 +24,11 @@ export function Tools() {
   return (
     <section id={SECTION_IDS.tools} className={styles.section}>
       <div className={styles.container}>
-        <SectionLabel label="TOOLS" />
+        <SectionLabel label="Tools" />
 
         <FadeIn>
           <h2 className={styles.heading}>What I build with</h2>
         </FadeIn>
-
-        <div className={styles.divider} />
 
         <div className={styles.grid}>
           {columns.map((col, i) => (

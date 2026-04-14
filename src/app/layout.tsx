@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Quicksand, Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/shared/ThemeProvider";
+import { Buddy } from "@/components/Buddy/Buddy";
 import "./globals.css";
 
 const quicksand = Quicksand({
@@ -18,16 +19,17 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Lucky Solanki — Software Engineer & Entrepreneur",
+  title: "Lucky Solanki — Full-Stack Product Engineer",
   description:
-    "Software engineer at Blitzit. Entrepreneur behind Spyll, Maddy Custom, and Dailicle. Building software that gets used.",
+    "Product-minded full-stack engineer shipping consumer products to 100K+ users. Building with TypeScript, Next.js, MCP servers, and multi-agent AI systems.",
   keywords: [
     "Lucky Solanki",
-    "software engineer",
-    "founder",
+    "full-stack engineer",
+    "product engineer",
+    "agentic AI",
+    "MCP server",
     "Next.js",
-    "full-stack developer",
-    "Entrepreneur",
+    "founder",
     "Blitzit",
     "Spyll",
     "portfolio",
@@ -51,7 +53,7 @@ export const metadata: Metadata = {
     canonical: "https://luckysolanki.com",
   },
   openGraph: {
-    title: "Lucky Solanki — Software Engineer & Entrepreneur",
+    title: "Lucky Solanki — Full-Stack Product Engineer",
     description: "I build products people actually use.",
     url: "https://luckysolanki.com",
     siteName: "Lucky Solanki",
@@ -68,7 +70,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Lucky Solanki — Software Engineer & Entrepreneur",
+    title: "Lucky Solanki — Full-Stack Product Engineer",
     description: "I build products people actually use.",
     images: ["/og-image.png"],
     creator: "@luckysolanki902",
@@ -80,7 +82,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Lucky Solanki",
-  jobTitle: "Software Engineer & Entrepreneur",
+  jobTitle: "Full-Stack Product Engineer",
   url: "https://luckysolanki.com",
   email: "luckysolanki902@gmail.com",
   sameAs: [
@@ -88,7 +90,7 @@ const jsonLd = {
     "https://linkedin.com/in/luckysolanki902",
   ],
   description:
-    "Software engineer at Blitzit. Entrepreneur behind Spyll, Maddy Custom, and Dailicle. Building software that gets used.",
+    "Product-minded full-stack engineer shipping consumer products to 100K+ users. Building with TypeScript, Next.js, MCP servers, and multi-agent AI systems.",
   worksFor: {
     "@type": "Organization",
     name: "Blitzit",
@@ -187,6 +189,7 @@ export default function RootLayout({
             Skip to content
           </a>
           {children}
+          <Buddy />
         </ThemeProvider>
         <script
           type="application/ld+json"

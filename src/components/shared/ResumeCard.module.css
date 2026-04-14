@@ -1,0 +1,200 @@
+/* ============================================================
+   ResumeCard.module.css
+   Two-layer stacked document card with paper-like texture.
+   Hover: back card fans out (rotate), front card lifts.
+   ============================================================ */
+
+/* ---- Stack wrapper ---- */
+.stack {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 272px;
+}
+
+/* ---- Back / shadow card ---- */
+.back {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  transform: rotate(2.5deg) translateY(5px);
+  transition: transform 400ms var(--ease-spring);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.stack:hover .back {
+  transform: rotate(3deg) translateY(6px);
+}
+
+/* ---- Main card ---- */
+.card {
+  position: relative;
+  z-index: 1;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: border-color 200ms var(--ease-out);
+}
+
+/* Subtle paper grain texture — removed for restraint */
+
+.stack:hover .card {
+  border-color: var(--border-strong);
+}
+
+/* ---- Folded corner ornament ---- */
+/* Two triangles: one masks the original corner (bg-primary),
+   one draws the fold crease (border-primary).               */
+.fold {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 30px 30px 0;
+  border-color: transparent var(--bg-primary) transparent transparent;
+  border-top-right-radius: var(--radius-lg);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Fold shadow crease line */
+.fold::after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  right: -31px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 30px 30px 0;
+  border-color: transparent var(--border-primary) transparent transparent;
+}
+
+/* ---- Header row (icon + label + year) ---- */
+.header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-5);
+}
+
+.headerLabel {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+}
+
+.headerMeta {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+}
+
+/* ---- Identity block ---- */
+.body {
+  position: relative;
+  z-index: 1;
+  margin-bottom: var(--space-5);
+}
+
+.name {
+  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: var(--text-lg);
+  color: var(--text-primary);
+  letter-spacing: var(--tracking-tight);
+}
+
+.role {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-weight: 400;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin-top: var(--space-1);
+}
+
+/* ---- Footer ---- */
+.footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  border-top: 1px solid var(--border-subtle);
+  padding-top: var(--space-4);
+}
+
+/* ---- Download button ---- */
+.downloadBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-weight: 500;
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  transition: background-color 200ms var(--ease-standard),
+              color 200ms var(--ease-standard),
+              border-color 200ms var(--ease-standard);
+  /* 44px touch target */
+  min-height: 36px;
+}
+
+.downloadBtn:hover {
+  background-color: var(--accent);
+  color: var(--text-inverse);
+  border-color: var(--accent);
+}
+
+.downloadBtn.done {
+  background-color: var(--accent);
+  color: var(--text-inverse);
+  border-color: var(--accent);
+}
+
+/* PDF badge */
+.fileBadge {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 2px var(--space-2);
+}
+
+/* Bouncing download arrow — gentle pulse */
+@keyframes nudge-down {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(2.5px); }
+}
+
+.downloadIcon {
+  animation: nudge-down 1.8s ease-in-out infinite;
+}
+
+/* Stop animation while hovered (intentional stillness on interaction) */
+.downloadBtn:hover .downloadIcon,
+.downloadBtn:focus-visible .downloadIcon {
+  animation: none;
+}

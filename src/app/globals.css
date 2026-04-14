@@ -89,6 +89,15 @@ ol {
   --shadow-card: 0 1px 2px rgba(26, 26, 25, 0.02),
                  0 4px 8px rgba(26, 26, 25, 0.03),
                  0 12px 32px rgba(26, 26, 25, 0.05);
+
+  /* Buddy companion */
+  --buddy-body: #2E2E2C;
+  --buddy-eye: #FAFAF9;
+  --buddy-cheek: #D4A07A;
+  --buddy-glow: rgba(46, 46, 44, 0.08);
+  --buddy-bubble-bg: #FFFFFF;
+  --buddy-bubble-border: #E3E2DE;
+  --buddy-bubble-text: #1A1A19;
 }
 
 /* -----------------------------------------------------------
@@ -120,6 +129,15 @@ ol {
   --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.15),
                  0 4px 8px rgba(0, 0, 0, 0.2),
                  0 12px 32px rgba(0, 0, 0, 0.3);
+
+  /* Buddy companion */
+  --buddy-body: #EDEDEC;
+  --buddy-eye: #111110;
+  --buddy-cheek: #C49070;
+  --buddy-glow: rgba(237, 237, 236, 0.06);
+  --buddy-bubble-bg: #1F1F1E;
+  --buddy-bubble-border: #2A2A28;
+  --buddy-bubble-text: #EDEDEC;
 }
 
 /* -----------------------------------------------------------
@@ -298,4 +316,318 @@ h1, h2, h3, h4, h5, h6 {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-tertiary);
+}
+
+/* ============================================================
+   PRINT STYLESHEET — Cmd+P transforms the site into a resume.
+   One page. Clean typography. Tight spacing.
+   The "who built this??" moment when someone hits print.
+   ============================================================ */
+@media print {
+  /* ---- Global reset ---- */
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    float: none !important;
+  }
+
+  html {
+    font-size: 10.5pt;
+    scroll-behavior: auto;
+  }
+
+  body {
+    background: white !important;
+    color: #1a1a1a !important;
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    line-height: 1.4;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  @page {
+    margin: 0.5in 0.6in;
+    size: letter;
+  }
+
+  /* ---- Force FadeIn wrappers visible ---- */
+  [class*="fadeIn"],
+  [class*="FadeIn"] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* ---- Hide non-resume elements ---- */
+  nav,
+  footer {
+    display: none !important;
+  }
+
+  /* ---- Layout: collapse to single column ---- */
+  main {
+    display: block !important;
+  }
+
+  section {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    page-break-inside: avoid;
+  }
+
+  section > div {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+  }
+
+  /* ========== HERO — Name + subtitle ========== */
+  [id="hero"] {
+    margin-bottom: 8pt !important;
+    padding-bottom: 6pt !important;
+    border-bottom: 1.5pt solid #1a1a1a !important;
+  }
+
+  [id="hero"] > div {
+    display: block !important;
+    flex-direction: unset !important;
+  }
+
+  [id="hero"] h1 {
+    font-size: 18pt !important;
+    font-weight: 700;
+    line-height: 1.15 !important;
+    color: #1a1a1a !important;
+    margin: 0 !important;
+  }
+
+  /* Make heading spans inline so they flow as one line */
+  [id="hero"] h1 span {
+    display: inline !important;
+  }
+
+  [id="hero"] h1 span::after {
+    content: " ";
+  }
+
+  [id="hero"] p {
+    font-size: 9pt !important;
+    color: #444 !important;
+    margin-top: 3pt !important;
+    max-width: none !important;
+  }
+
+  /* Hide photo, CTAs */
+  [id="hero"] img,
+  [id="hero"] a {
+    display: none !important;
+  }
+
+  /* ========== ABOUT — Compact paragraphs ========== */
+  [id="about"] {
+    margin-top: 2pt !important;
+  }
+
+  [id="about"] h2 {
+    font-size: 10pt !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #1a1a1a !important;
+    margin: 10pt 0 3pt 0 !important;
+    padding-bottom: 2pt !important;
+    border-bottom: 0.5pt solid #ccc !important;
+  }
+
+  [id="about"] p {
+    font-size: 8.5pt !important;
+    color: #333 !important;
+    margin: 0 0 3pt 0 !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Hide experience cards in print (info is in text already) */
+  [id="about"] > div > div:last-child {
+    display: none !important;
+  }
+
+  /* ========== WORK — Project list ========== */
+  [id="work"] h2 {
+    font-size: 10pt !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #1a1a1a !important;
+    margin: 10pt 0 3pt 0 !important;
+    padding-bottom: 2pt !important;
+    border-bottom: 0.5pt solid #ccc !important;
+  }
+
+  /* Cards → stacked blocks */
+  [id="work"] article {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 0 6pt 0 !important;
+    border: none !important;
+    background: transparent !important;
+    page-break-inside: avoid;
+  }
+
+  /* Hide images in work */
+  [id="work"] img {
+    display: none !important;
+  }
+
+  /* Hide image wrappers */
+  [id="work"] article > div:first-child {
+    display: none !important;
+  }
+
+  /* Show meta */
+  [id="work"] article > div:last-child {
+    display: block !important;
+    padding: 0 !important;
+  }
+
+  [id="work"] h3 {
+    font-size: 9.5pt !important;
+    font-weight: 600;
+    color: #1a1a1a !important;
+    margin: 0 !important;
+    display: inline !important;
+  }
+
+  [id="work"] article p {
+    font-size: 8pt !important;
+    color: #444 !important;
+    margin: 2pt 0 0 0 !important;
+    line-height: 1.35 !important;
+  }
+
+  /* ========== TOOLS — Inline comma list ========== */
+  [id="tools"] {
+    background: transparent !important;
+  }
+
+  [id="tools"] h2 {
+    font-size: 10pt !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #1a1a1a !important;
+    margin: 10pt 0 3pt 0 !important;
+    padding-bottom: 2pt !important;
+    border-bottom: 0.5pt solid #ccc !important;
+  }
+
+  [id="tools"] h3 {
+    font-size: 8.5pt !important;
+    font-weight: 600;
+    color: #1a1a1a !important;
+    display: inline !important;
+  }
+
+  [id="tools"] h3::after {
+    content: ": ";
+  }
+
+  [id="tools"] p {
+    font-size: 8pt !important;
+    color: #444 !important;
+    display: inline !important;
+  }
+
+  [id="tools"] > div > div:nth-child(3) {
+    display: block !important;
+  }
+
+  [id="tools"] > div > div:nth-child(3) > div {
+    display: inline !important;
+  }
+
+  [id="tools"] > div > div:nth-child(3) > div > div {
+    display: inline !important;
+  }
+
+  [id="tools"] > div > div:nth-child(3) > div > div > p::after {
+    content: " · ";
+  }
+
+  [id="tools"] > div > div:nth-child(3) > div > div:last-child > p:last-child::after {
+    content: "";
+  }
+
+  /* ========== STORIES — hide entirely ========== */
+  [id="stories"],
+  section:has(> div > p) + section:not([id]) {
+    display: none !important;
+  }
+
+  /* Hide Stories by targeting eyebrow text structure */
+  section:not([id]) {
+    display: none !important;
+  }
+
+  /* ========== CONTACT — Email + links only ========== */
+  [id="contact"] {
+    margin-top: 8pt !important;
+    padding-top: 4pt !important;
+    border-top: 0.5pt solid #ccc !important;
+  }
+
+  [id="contact"] h2 {
+    display: none !important;
+  }
+
+  [id="contact"] p {
+    display: none !important;
+  }
+
+  [id="contact"] a {
+    font-size: 8.5pt !important;
+    color: #1a1a1a !important;
+    display: inline !important;
+  }
+
+  [id="contact"] svg {
+    display: none !important;
+  }
+
+  [id="contact"] > div > div > div:last-child {
+    display: none !important;
+  }
+
+  /* ---- Inline links: show URL ---- */
+  [id="work"] a[href^="http"]::after,
+  [id="contact"] a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 7pt;
+    color: #888;
+    font-weight: 400;
+  }
+
+  a[href^="#"]::after,
+  a[href^="mailto:"]::after,
+  a[href^="/"]::after {
+    content: "" !important;
+  }
+
+  /* ---- Generic: hide margin notes, badges, buttons in print ---- */
+  button {
+    display: none !important;
+  }
+
+  /* Restore link-styled buttons that are actually <a> tags */
+  a[href] {
+    display: inline !important;
+  }
+
+  /* Hide the "current" dot */
+  [id="about"] span:empty {
+    display: none !important;
+  }
 }

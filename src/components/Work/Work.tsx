@@ -17,7 +17,7 @@ export function Work() {
   return (
     <section id={SECTION_IDS.work} className={styles.section}>
       <div className={styles.container}>
-        <SectionLabel label="WORK" />
+        <SectionLabel label="Work" />
 
         <FadeIn>
           <h2 className={styles.heading}>Selected Work</h2>

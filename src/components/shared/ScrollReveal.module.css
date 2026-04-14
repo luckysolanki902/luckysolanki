@@ -1,0 +1,57 @@
+/* ============================================================
+   ScrollReveal.module.css — Hidden bottom-of-page message.
+   Fades in gently. Minimal. Feels like a secret.
+   ============================================================ */
+
+.reveal {
+  text-align: center;
+  padding: var(--space-10) var(--space-5);
+  animation: reveal-appear 600ms var(--ease-out);
+}
+
+@keyframes reveal-appear {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.text {
+  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.subtext {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+  margin-top: var(--space-2);
+}
+
+.link {
+  display: inline-block;
+  margin-top: var(--space-4);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: color 200ms var(--ease-out);
+}
+
+.link:hover {
+  color: var(--text-primary);
+}
+
+/* ---- Print: hide ---- */
+@media print {
+  .reveal {
+    display: none !important;
+  }
+}

@@ -8,6 +8,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS } from "@/lib/constants";
 import { useActiveSection } from "@/hooks/useActiveSection";
@@ -19,12 +20,15 @@ export function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const activeSection = useActiveSection();
   const { scrollDirection, scrollY } = useScrollDirection();
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   const isScrolled = scrollY > 100;
   const isHidden = scrollDirection === "down" && scrollY > 400;
 
   const handleNavClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+      if (!isHome) return; // let normal navigation happen (goes to /#section)
       e.preventDefault();
       setMobileOpen(false);
       const target = document.querySelector(href);
@@ -32,7 +36,7 @@ export function Nav() {
         target.scrollIntoView({ behavior: "smooth" });
       }
     },
-    []
+    [isHome]
   );
 
   const scrollToTop = useCallback((e: React.MouseEvent) => {
@@ -67,9 +71,9 @@ export function Nav() {
                 key={link.label}
                 href={link.href}
                 className={`${styles.navLink} ${
-                  activeSection === link.href.slice(1) ? styles.active : ""
+                  activeSection === link.href.replace("/#", "") ? styles.active : ""
                 }`}
-                onClick={(e) => handleNavClick(e, link.href)}
+                onClick={(e) => handleNavClick(e, link.href.replace("/", ""))}
               >
                 {link.label}
               </a>
@@ -121,7 +125,7 @@ export function Nav() {
                   key={link.label}
                   href={link.href}
                   className={styles.overlayLink}
-                  onClick={(e) => handleNavClick(e, link.href)}
+                  onClick={(e) => handleNavClick(e, link.href.replace("/", ""))}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{

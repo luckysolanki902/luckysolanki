@@ -28,9 +28,9 @@ export interface Experience {
 
 export const siteConfig = {
   name: "Lucky Solanki",
-  title: "Lucky Solanki — Software Engineer & Entrepreneur",
+  title: "Lucky Solanki — Full-Stack Product Engineer",
   description:
-    "Software engineer at Blitzit. Entrepreneur behind Spyll, Maddy Custom, and Dailicle. Building software that gets used.",
+    "Product-minded full-stack engineer shipping consumer products to 100K+ users. Building with TypeScript, Next.js, MCP servers, and multi-agent AI systems.",
   url: "https://luckysolanki.com",
 } as const;
 
@@ -43,20 +43,20 @@ export const socials = {
 export const experience: Experience[] = [
   {
     company: "Blitzit",
-    role: "Software Engineer",
-    period: "2025 — Now",
+    role: "Full-Stack Software Engineer",
+    period: "Nov 2025 — Now",
     current: true,
   },
   {
     company: "Spyll",
-    role: "Founder",
+    role: "Founder & Lead Engineer",
     period: "2023 — Now",
     current: true,
   },
   {
     company: "MaddyCustom",
-    role: "Co-Founder & Lead Dev",
-    period: "2023 — 2026",
+    role: "Co-Founder & Lead Developer",
+    period: "Dec 2022 — Feb 2026",
     current: false,
   },
 ];
@@ -68,11 +68,11 @@ export const projects: Project[] = [
     tagline: "Anonymous college social platform",
     role: "Founder",
     description:
-      "Anonymous social platform for college students in India. Real-time 1:1 chat pair matching, voice calls, encrypted confessions, and a post feed — live across 1,300+ colleges. Next.js with Socket.IO, WebRTC, Redis pub/sub for scaling, and Capacitor for Android.",
+      "Anonymous social platform for college students in India. Real-time 1:1 chat pair matching, voice calls, encrypted confessions, and a post feed — live across 1,300+ colleges. Rebuilding mobile client in Flutter for native-grade smoothness. Redis pub/sub matching engine with WebRTC voice and Socket.IO chat.",
     url: "https://spyll.in",
     playStore: "https://play.google.com/store/apps/details?id=in.spyll.app&pcampaignid=lucky_portfolio",
     image: "/images/projects/spyll.png",
-    stack: ["Next.js", "Socket.IO", "WebRTC", "MongoDB", "Redis", "Capacitor"],
+    stack: ["Next.js", "Flutter", "Socket.IO", "WebRTC", "Redis", "MongoDB"],
     metrics: "Download from Play Store",
     year: "2023",
     status: "active",
@@ -83,7 +83,7 @@ export const projects: Project[] = [
     tagline: "E-commerce for vehicle customization",
     role: "Co-Founder & Lead Developer",
     description:
-      "E-commerce platform for custom vehicle wraps and stickers. Dual payment gateways, Shiprocket shipping, server-side Meta tracking, and an admin panel with Sankey funnel analytics. Grew to 100K+ monthly users and ₹60L annual revenue.",
+      "E-commerce platform for custom vehicle wraps and stickers. Multi-gateway payment orchestration (Razorpay + PayU fallback), Shiprocket shipping, server-side Meta tracking, and an admin panel with Sankey funnel analytics and customer journey analysis. Grew to 100K+ monthly users and ₹60L annual revenue.",
     url: "https://maddycustom.vercel.app",
     image: "/images/projects/maddycustom.png",
     stack: ["Next.js 15", "MongoDB", "Razorpay", "Shiprocket", "Meta API", "Clerk"],
@@ -96,9 +96,9 @@ export const projects: Project[] = [
     name: "Blitzit",
     url: "https://www.blitzit.app",
     tagline: "AI-powered task management platform",
-    role: "Software Engineer",
+    role: "Full-Stack Software Engineer",
     description:
-      "MCP server with OAuth 2.1 (PKCE), JSON-RPC 2.0 over Streamable HTTP, and 13 AI-callable tools. Deep bidirectional sync with Asana, ClickUp, and Google Calendar. BullMQ notification queue and timezone-aware scheduling across 21 timezones.",
+      "Architected a plugin-based integration SDK — cut new integrations from 10+ files to a single 300–500 line plugin (~80% reduction). Built an MCP server with 13 AI-callable tools using OAuth 2.1 (PKCE) and JSON-RPC 2.0 over Streamable HTTP. Deep bidirectional sync with Asana, ClickUp, Notion, and Google Calendar across 21 timezones.",
     image: "/images/projects/blitzit.jpeg",
     stack: ["Fastify", "BullMQ", "MCP SDK", "Firebase", "OAuth 2.1", "Electron"],
     metrics: "13 AI-callable tools · 21-timezone scheduling",
@@ -137,23 +137,28 @@ export const projects: Project[] = [
 
 export const tools = {
   frontend: [
-    "React, Next.js",
-    "Vue.js, Electron",
-    "Framer Motion",
-    "CSS Modules, Tailwind",
-    "MUI, shadcn/ui",
+    "TypeScript, JavaScript, Dart",
+    "React, Next.js, Vue",
+    "Flutter, React Native, Electron",
+    "Tailwind, Framer Motion, shadcn/ui",
   ],
   backend: [
-    "Node.js, Fastify",
+    "Node.js, Fastify, Express",
     "Python, FastAPI",
-    "MongoDB, MySQL, Firebase",
-    "BullMQ, Redis",
+    "MongoDB, MySQL, Redis",
+    "BullMQ, Firebase",
+  ],
+  ai: [
+    "OpenAI Agents SDK, MCP Protocol",
+    "LLM orchestration, multi-agent handoffs",
+    "Pinecone vector memory, RAG",
+    "Prompt-level model routing",
   ],
   infrastructure: [
     "AWS S3, CloudFront",
-    "Vercel, Render",
-    "Docker, CI/CD",
-    "Cloudflare",
+    "Vercel, Docker, Cloudflare",
+    "WebRTC, Socket.IO",
+    "OAuth 2.1/PKCE, Clerk",
   ],
-  also: "WebRTC, Socket.IO, OpenAI, Razorpay, Capacitor, MCP Protocol, Clerk, Playwright",
+  also: "A/B testing, funnel analytics, Razorpay, Xendit, Shiprocket, Playwright, Redux, MUI",
 } as const;

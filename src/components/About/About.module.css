@@ -1,10 +1,11 @@
 /* ============================================================
    About.module.css — About section styles
-   --max-content for text, 3-column cards on desktop.
+   Visual break from hero (bg-subtle). Shorter text blocks.
+   Current experience cards have accent left border.
    ============================================================ */
 
 .section {
-  padding: var(--space-16) 0;
+  padding: var(--space-12) 0;
   background-color: var(--bg-subtle);
 }
 
@@ -20,38 +21,35 @@
 .heading {
   font-family: var(--font-quicksand), system-ui, sans-serif;
   font-weight: 600;
-  font-size: var(--text-2xl);
+  font-size: var(--text-xl);
   line-height: var(--leading-snug);
   color: var(--text-primary);
   max-width: var(--max-content);
 }
 
 /* -----------------------------------------------------------
-   DIVIDER
-   ----------------------------------------------------------- */
-.divider {
-  width: 60px;
-  height: 1px;
-  background-color: var(--border-primary);
-  margin: var(--space-8) 0;
-}
-
-/* -----------------------------------------------------------
-   BODY TEXT
+   BODY TEXT — shorter paragraphs, slight gap between
    ----------------------------------------------------------- */
 .body {
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  gap: var(--space-3);
   max-width: var(--max-content);
+  margin-top: var(--space-3);
 }
 
 .body p {
   font-family: var(--font-inter), system-ui, sans-serif;
   font-weight: 400;
-  font-size: var(--text-md);
-  line-height: var(--leading-normal);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
   color: var(--text-secondary);
+}
+
+/* Inline highlights for company names */
+.highlight {
+  font-weight: 500;
+  color: var(--text-primary);
 }
 
 /* -----------------------------------------------------------
@@ -61,7 +59,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-4);
-  margin-top: var(--space-12);
+  margin-top: var(--space-10);
 }
 
 .card {
@@ -72,15 +70,20 @@
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  transition: border-color 200ms var(--ease-standard),
-              box-shadow 200ms var(--ease-standard),
-              transform 200ms var(--ease-standard);
+  transition: border-color 200ms var(--ease-out);
 }
 
 .card:hover {
   border-color: var(--border-primary);
-  box-shadow: var(--shadow-sm);
-  transform: translateY(-2px);
+}
+
+/* Current role: accent left border — preserved on hover */
+.cardCurrent {
+  border-left: 2px solid var(--accent);
+}
+
+.cardCurrent:hover {
+  border-left-color: var(--accent);
 }
 
 .cardTop {
@@ -96,12 +99,17 @@
   color: var(--text-primary);
 }
 
-.currentDot {
-  width: 6px;
-  height: 6px;
+/* "now" badge — replaces green dot */
+.currentBadge {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.1);
+  padding: 1px 6px;
   border-radius: var(--radius-full);
-  background-color: #4ade80;
-  flex-shrink: 0;
+  line-height: 1.4;
 }
 
 .cardRole {
@@ -124,7 +132,15 @@
    ----------------------------------------------------------- */
 @media (min-width: 768px) {
   .section {
-    padding: var(--space-24) 0;
+    padding: var(--space-20) 0;
+  }
+
+  .heading {
+    font-size: var(--text-2xl);
+  }
+
+  .body p {
+    font-size: var(--text-md);
   }
 
   .container {
@@ -138,7 +154,7 @@
 
 @media (min-width: 1024px) {
   .section {
-    padding: var(--space-32) 0;
+    padding: var(--space-24) 0;
   }
 
   .cards {

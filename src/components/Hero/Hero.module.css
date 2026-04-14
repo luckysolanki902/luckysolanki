@@ -1,121 +1,61 @@
 /* ============================================================
-   Hero.module.css — Hero section styles
-   Mobile-first. Photo above text on mobile, side-by-side on desktop.
-   Animation #2: "The Measured Arrival" — line-by-line heading
-   Animation #3: "The Gentle Uncover" — clip-path photo reveal
+   Hero.module.css
+   Mobile: content anchored to upper zone, next section peeks.
+   Desktop: side-by-side, vertically centered.
+   Psychology: F-pattern scan on mobile, information scent via
+   visible next section, scroll cue in breathing space.
    ============================================================ */
 
+/* -----------------------------------------------------------
+   BASE (Mobile-first)
+   Content flows from top. No vertical centering.
+   Height is proportional — About section peeks below.
+   ----------------------------------------------------------- */
 .hero {
   position: relative;
+  min-height: clamp(480px, 70svh, 680px);
   display: flex;
-  align-items: center;
-  /* Mobile: no navbar, generous top breathing room */
-  padding: var(--space-12) 0 var(--space-12);
-  overflow: hidden;
-}
-
-/* Subtle grain texture — paper-like warmth */
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 256px 256px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.hero > * {
-  position: relative;
-  z-index: 1;
+  flex-direction: column;
+  padding: calc(56px + var(--space-8)) 0 var(--space-8);
 }
 
 .container {
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: center;
-  gap: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
   max-width: var(--max-page);
-  width: 100%;
   margin: 0 auto;
-  padding: 2rem var(--space-5);
+  padding: 0 var(--space-5);
 }
 
 /* -----------------------------------------------------------
    PHOTO — order 1 on mobile (above content)
    ----------------------------------------------------------- */
 .photoWrapper {
-  display: flex;
-  justify-content: center;
   order: 1;
-}
-
-/* Tight wrapper — only the photo area is clickable/hoverable */
-.photoClickArea {
-  display: inline-flex;
-  cursor: pointer;
-  position: relative;
-}
-
-/* Shared frame clipping container — ensures border-radius is respected
-   even during scale animations */
-.imageFrame {
-  width: 200px;
-  height: 248px;
-  border-radius: var(--radius-xl);
-  overflow: hidden;
-  box-shadow: var(--shadow-card);
+  width: 80px;
+  flex-shrink: 0;
 }
 
 .photo {
-  width: 200px;
-  height: 248px;
-  object-fit: cover;
-  object-position: center 15%;
-  display: block;
-  filter: saturate(0.93) contrast(1.02);
-  transition: filter 300ms var(--ease-standard);
-}
-
-:global([data-theme="dark"]) .photo {
-  filter: brightness(0.88) saturate(0.88);
-}
-
-/* GIF easter egg — same size and cover crop as the photo */
-.gifImage {
-  width: 200px;
-  height: 248px;
-  object-fit: cover;
+  width: 80px;
+  height: auto;
+  border-radius: var(--radius-md);
   display: block;
 }
 
 /* -----------------------------------------------------------
-   TEXT CONTENT — order 2 on mobile (below photo)
+   TEXT CONTENT — order 2 on mobile
    ----------------------------------------------------------- */
 .content {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
   order: 2;
 }
 
-.name {
-  font-family: var(--font-quicksand), system-ui, sans-serif;
-  font-weight: 500;
-  font-size: var(--text-base);
-  color: var(--text-secondary);
-  letter-spacing: var(--tracking-wide);
-  margin-bottom: var(--space-3);
-}
-
 .heading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   font-family: var(--font-quicksand), system-ui, sans-serif;
-  font-weight: 700;
+  font-weight: 600;
   font-size: var(--text-2xl);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tight);
@@ -129,248 +69,156 @@
 .subtext {
   font-family: var(--font-inter), system-ui, sans-serif;
   font-weight: 400;
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   line-height: var(--leading-normal);
   color: var(--text-secondary);
-  margin-top: var(--space-4);
+  margin-top: var(--space-3);
+  max-width: 48ch;
 }
 
 /* -----------------------------------------------------------
-   CTAs
+   CTAs — primary has underline accent, secondary is plain text
    ----------------------------------------------------------- */
 .ctas {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: var(--space-4);
-  margin-top: var(--space-6);
-  flex-wrap: wrap;
+  gap: var(--space-5);
+  margin-top: var(--space-4);
 }
 
-/* Primary: text link with arrow */
 .primaryCta {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
   font-family: var(--font-inter), system-ui, sans-serif;
   font-weight: 500;
-  font-size: var(--text-base);
+  font-size: var(--text-sm);
   color: var(--text-primary);
-  position: relative;
-  transition: color 200ms var(--ease-standard);
-  /* 44px touch target */
-  padding: var(--space-2) 0;
+  transition: color 200ms var(--ease-out);
 }
 
+/* Subtle underline accent */
 .primaryCta::after {
   content: "";
   position: absolute;
-  bottom: 5px;
+  bottom: -3px;
   left: 0;
-  width: calc(100% - var(--space-6));
-  height: 1px;
-  background: var(--text-primary);
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 250ms var(--ease-standard);
+  right: 0;
+  height: 1.5px;
+  background: var(--accent);
+  border-radius: 1px;
+  opacity: 0.5;
+  transition: opacity 200ms var(--ease-out);
 }
 
 .primaryCta:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
+  opacity: 1;
 }
 
 .arrow {
   display: inline-block;
-  transition: transform 250ms var(--ease-standard);
+  transition: transform 200ms var(--ease-out);
 }
 
 .primaryCta:hover .arrow {
-  transform: translateX(4px);
+  transform: translateX(3px);
 }
 
-/* Secondary: pill outline */
 .secondaryCta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   font-family: var(--font-inter), system-ui, sans-serif;
-  font-weight: 500;
-  font-size: var(--text-base);
-  color: var(--text-primary);
-  border: 1px solid var(--border-primary);
-  padding: var(--space-2) var(--space-5);
-  border-radius: var(--radius-full);
-  transition: background-color 250ms var(--ease-standard),
-              color 250ms var(--ease-standard),
-              border-color 250ms var(--ease-standard);
-  /* 44px touch target on mobile */
-  min-height: 40px;
+  font-weight: 400;
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+  transition: color 200ms var(--ease-out);
 }
 
 .secondaryCta:hover {
-  background-color: var(--accent);
-  color: var(--text-inverse);
-  border-color: var(--accent);
+  color: var(--text-primary);
 }
 
 /* -----------------------------------------------------------
-   RESPONSIVE — Tablet (768px+)
+   SCROLL CUE — bottom center, fades in late, bounces gently
+   ----------------------------------------------------------- */
+.scrollCue {
+  position: absolute;
+  bottom: var(--space-5);
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--text-tertiary);
+  opacity: 0.4;
+  cursor: pointer;
+  padding: var(--space-2);
+  animation: scroll-hint 2.5s ease-in-out infinite;
+  animation-delay: 2s;
+  transition: opacity 200ms var(--ease-out);
+}
+
+.scrollCue:hover {
+  opacity: 0.8;
+}
+
+@keyframes scroll-hint {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(4px); }
+}
+
+/* -----------------------------------------------------------
+   DESKTOP — side by side, vertically centered
    ----------------------------------------------------------- */
 @media (min-width: 768px) {
   .hero {
-    padding: calc(60px + var(--space-16)) 0 var(--space-16);
-    min-height: 80vh;
+    min-height: 85vh;
+    justify-content: center;
+    padding: calc(60px + var(--space-16)) 0 var(--space-12);
   }
 
   .container {
-    padding: 0 var(--space-10);
+    flex-direction: row;
+    align-items: center;
     gap: var(--space-10);
-  }
-
-  .photoWrapper {
-    justify-content: flex-start;
-  }
-
-  .content {
-    align-items: flex-start;
-    text-align: left;
-  }
-
-  .heading {
-    align-items: flex-start;
-  }
-
-  .ctas {
-    justify-content: flex-start;
-  }
-
-  .heading {
-    font-size: var(--text-3xl);
-  }
-
-  .subtext {
-    font-size: var(--text-md);
-  }
-
-  .imageFrame {
-    width: 240px;
-    height: 295px;
-  }
-
-  .photo {
-    width: 240px;
-    height: 295px;
-  }
-
-  .gifImage {
-    width: 240px;
-    height: 295px;
-  }
-
-  .name {
-    font-size: var(--text-md);
-  }
-}
-
-/* -----------------------------------------------------------
-   RESPONSIVE — Desktop (1024px+): side-by-side layout
-   ----------------------------------------------------------- */
-@media (min-width: 1024px) {
-  .hero {
-    min-height: 88vh;
-    padding: var(--space-40) 0 var(--space-32);
-  }
-
-  .container {
-    grid-template-columns: 55fr 45fr;
-    gap: var(--space-12);
+    padding: 0 var(--space-10);
   }
 
   .content {
     order: 1;
+    flex: 1;
   }
 
   .photoWrapper {
     order: 2;
-    justify-content: flex-end;
+    width: 180px;
+  }
+
+  .photo {
+    width: 180px;
+    border-radius: var(--radius-lg);
   }
 
   .heading {
     font-size: var(--text-4xl);
-    max-width: 540px;
   }
 
   .subtext {
     font-size: var(--text-md);
-    max-width: 460px;
   }
 
-  .imageFrame {
-    width: 280px;
-    height: 340px;
+  .primaryCta,
+  .secondaryCta {
+    font-size: var(--text-base);
+  }
+
+  .scrollCue {
+    bottom: var(--space-8);
+  }
+}
+
+@media (min-width: 1024px) {
+  .photoWrapper {
+    width: 200px;
   }
 
   .photo {
-    width: 280px;
-    height: 340px;
+    width: 200px;
   }
-
-  .gifImage {
-    width: 280px;
-    height: 340px;
-  }
-
-  .ctas {
-    margin-top: var(--space-8);
-  }
-}
-
-/* -------------------------------------------------------
-   Bot-safe entrance animations via CSS
-   Applied only when .animate class is on the section
-   (added by Hero.tsx after client mount via useEffect).
-   Elements start invisible so there is no SSR-visible-then-
-   disappear flash when the .animate class is added on mount.
-   Bots / crawlers read HTML text directly and are unaffected
-   by CSS opacity.
-   ------------------------------------------------------- */
-
-/* Start invisible to prevent SSR flash (text visible → snap to
-   opacity:0 at animation start → animate in). */
-.name,
-.headingLine,
-.subtext,
-.ctas {
-  opacity: 0;
-}
-
-@keyframes heroFadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes heroRiseIn {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: none; }
-}
-
-.animate .name {
-  animation: heroFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
-}
-
-.animate .headingLine:nth-child(1) {
-  animation: heroRiseIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
-}
-
-.animate .headingLine:nth-child(2) {
-  animation: heroRiseIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
-}
-
-.animate .subtext {
-  animation: heroRiseIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
-}
-
-.animate .ctas {
-  animation: heroRiseIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.75s both;
 }

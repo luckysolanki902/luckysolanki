@@ -1,7 +1,7 @@
 /* ============================================================
    About — "A trailer, not the movie."
-   Three pieces: positioning statement, narrative, experience cards.
-   Cognitive Load: ~4 chunks max (Hick's Law).
+   Short punchy paragraphs. Max 2 lines each.
+   Experience cards with current vs past differentiation.
    ============================================================ */
 
 "use client";
@@ -16,29 +16,35 @@ export function About() {
   return (
     <section id={SECTION_IDS.about} className={styles.section}>
       <div className={styles.container}>
-        <SectionLabel label="ABOUT" />
+        <SectionLabel label="About" />
 
         <FadeIn>
           <h2 className={styles.heading}>
-            I like building things from the ground up.
+            I like building things from the ground&nbsp;up.
           </h2>
         </FadeIn>
 
-        <div className={styles.divider} />
-
-        <FadeIn delay={0.1}>
+        <FadeIn delay={0.08}>
           <div className={styles.body}>
             <p>
-              I work at Blitzit as a software engineer, building the MCP
-              server and integration infrastructure. On the side, I run
-              Spyll — an anonymous social platform live across 1,300+
-              colleges in India.
+              Full-stack engineer at{" "}
+              <strong className={styles.highlight}>Blitzit</strong>, where I
+              build integrations, AI tooling, and the infrastructure behind
+              them.
             </p>
             <p>
-              Before that, I co-founded MaddyCustom, an e-commerce platform
-              for vehicle customization that grew to 100K+ monthly users.
-              Studied Mechanical Engineering at HBTU and picked up
-              programming on my own.
+              I also run{" "}
+              <strong className={styles.highlight}>Spyll</strong> — an
+              anonymous social platform live across 1,300+ colleges. 1,200+
+              downloads in month one, zero paid marketing.
+            </p>
+            <p>
+              Previously co-founded{" "}
+              <strong className={styles.highlight}>MaddyCustom</strong> —
+              scaled to 100K+ monthly users and ₹60L ARR.
+            </p>
+            <p>
+              Mechanical Engineering from HBTU Kanpur. Self-taught developer.
             </p>
           </div>
         </FadeIn>
@@ -46,11 +52,15 @@ export function About() {
         {/* Experience Cards */}
         <div className={styles.cards}>
           {experience.map((exp, i) => (
-            <FadeIn key={exp.company} delay={0.1 + i * 0.08}>
-              <div className={styles.card}>
+            <FadeIn key={exp.company} delay={0.1 + i * 0.06}>
+              <div
+                className={`${styles.card} ${exp.current ? styles.cardCurrent : ""}`}
+              >
                 <div className={styles.cardTop}>
                   <span className={styles.cardCompany}>{exp.company}</span>
-                  {exp.current && <span className={styles.currentDot} />}
+                  {exp.current && (
+                    <span className={styles.currentBadge}>now</span>
+                  )}
                 </div>
                 <span className={styles.cardRole}>{exp.role}</span>
                 <span className={styles.cardPeriod}>{exp.period}</span>

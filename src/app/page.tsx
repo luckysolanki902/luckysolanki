@@ -12,6 +12,7 @@ import { Tools } from "@/components/Tools/Tools";
 import { Stories } from "@/components/Stories/Stories";
 import { Contact } from "@/components/Contact/Contact";
 import { Footer } from "@/components/Footer/Footer";
+import { ScrollReveal } from "@/components/shared/ScrollReveal";
 
 export const dynamic = "force-static";
 
@@ -28,6 +29,7 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
+      <ScrollReveal />
     </>
   );
 }

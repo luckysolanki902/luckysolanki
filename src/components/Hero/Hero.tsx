@@ -1,171 +1,102 @@
 /* ============================================================
-   Hero — The first impression. 80% of the conversion.
-   Animation #2: "The Measured Arrival" — line-by-line heading (CSS)
-   Animation #3: "The Gentle Uncover" — clip-path photo reveal (motion)
-   Bot-safe: text content is immediately visible in SSR HTML.
-   CSS animations via .animate class (added after client mount).
-   Z-pattern: name → photo → heading → subtext → CTA
+   Hero — The first impression.
+   Left-aligned. Content-first. One visual idea: the soft rise.
+   Metric callout for trust. Scroll cue at bottom.
+   Mobile: photo above text. Desktop: text left, photo right.
    ============================================================ */
 
 "use client";
 
-import { useState, useRef, useCallback, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { siteConfig } from "@/lib/data";
 import { SECTION_IDS } from "@/lib/constants";
+import { FadeIn } from "@/components/shared/FadeIn";
+import { MarginNote } from "@/components/shared/MarginNote";
 import styles from "./Hero.module.css";
 
-const headingLines = ["I build products", "people actually use."];
-
-// Animation #3: "The Gentle Uncover" — photo only (decorative, ok to hide in SSR)
-const photoVariants = {
-  hidden: {
-    clipPath: "inset(100% 0 0 0)",
-    scale: 1.04,
-  },
-  visible: {
-    clipPath: "inset(0% 0 0 0)",
-    scale: 1,
-    transition: {
-      duration: 0.7,
-      delay: 0.9,
-      ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
-    },
-  },
-};
-
-// GIF plays for one full cycle (~2.4s) then reverts
-const GIF_DURATION = 1800;
+const headingLines = ["I ship products", "people actually use."];
 
 export function Hero() {
-  const [showGif, setShowGif] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  // After mount, add .animate class to trigger CSS entrance animations
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const triggerGif = useCallback(() => {
-    if (showGif) return;
-    setShowGif(true);
-    if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => setShowGif(false), GIF_DURATION);
-  }, [showGif]);
-
   const handleScrollTo = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault();
-    const target = document.getElementById(id);
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
-    }
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <section
-      id={SECTION_IDS.hero}
-      className={`${styles.hero} ${mounted ? styles.animate : ""}`}
-    >
+    <section id={SECTION_IDS.hero} className={styles.hero}>
       <div className={styles.container}>
+        <FadeIn delay={0.06}>
+          <div className={styles.photoWrapper}>
+            <Image
+              src="/images/lucky.jpg"
+              alt="Lucky Solanki"
+              width={200}
+              height={248}
+              className={styles.photo}
+              priority
+              sizes="(max-width: 768px) 140px, 200px"
+            />
+          </div>
+        </FadeIn>
+
         <div className={styles.content}>
-          {/* Name Badge — plain HTML, CSS animates via .animate parent */}
-          <span className={styles.name}>{siteConfig.name}</span>
+          <FadeIn>
+            <h1 className={styles.heading}>
+              {headingLines.map((line, i) => (
+                <span key={i} className={styles.headingLine}>
+                  {line}
+                </span>
+              ))}
+            </h1>
+          </FadeIn>
 
-          {/* Heading — plain HTML, CSS handles staggered line-by-line animation */}
-          <h1 className={styles.heading}>
-            {headingLines.map((line, i) => (
-              <span key={i} className={styles.headingLine}>
-                {line}
-              </span>
-            ))}
-          </h1>
+          <FadeIn delay={0.08}>
+            <p className={styles.subtext}>
+              Full-stack product engineer. 4+ years shipping consumer apps to
+              100K+&nbsp;users. Building with TypeScript, AI&nbsp;agents, and
+              MCP&nbsp;servers.
+              <MarginNote number={1}>I almost became a mechanical engineer. Taught myself to code between lectures — the compiler didn&apos;t care about my GPA.</MarginNote>
+            </p>
+          </FadeIn>
 
-          {/* Subtext */}
-          <p className={styles.subtext}>
-            Software Engineer at Blitzit. Entrepreneur behind Spyll, Maddy Custom, and Dailicle.
-          </p>
-
-          {/* CTAs */}
-          <div className={styles.ctas}>
-            <a
-              href={`#${SECTION_IDS.work}`}
-              className={styles.primaryCta}
-              onClick={handleScrollTo(SECTION_IDS.work)}
-            >
-              View my work
-              <span className={styles.arrow}>→</span>
-            </a>
-            <a
-              href={`#${SECTION_IDS.contact}`}
-              className={styles.secondaryCta}
-              onClick={handleScrollTo(SECTION_IDS.contact)}
-            >
-              Get in touch
-            </a>
-          </div>
+          <FadeIn delay={0.14}>
+            <div className={styles.ctas}>
+              <a
+                href={`#${SECTION_IDS.work}`}
+                className={styles.primaryCta}
+                onClick={handleScrollTo(SECTION_IDS.work)}
+              >
+                See my work
+                <span className={styles.arrow} aria-hidden="true">→</span>
+              </a>
+              <a
+                href={`#${SECTION_IDS.contact}`}
+                className={styles.secondaryCta}
+                onClick={handleScrollTo(SECTION_IDS.contact)}
+              >
+                Get in touch
+              </a>
+            </div>
+          </FadeIn>
         </div>
-
-        {/* Photo — hover/tap to say hello (decorative, motion clip-path ok) */}
-        <motion.div
-          className={styles.photoWrapper}
-          variants={photoVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          {/* Tight clickable wrapper — only the photo area triggers gif */}
-          <div
-            className={styles.photoClickArea}
-            onMouseEnter={triggerGif}
-            onClick={triggerGif}
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              {showGif ? (
-                <motion.div
-                  key="gif"
-                  className={styles.imageFrame}
-                  initial={{ opacity: 0, y: 36, scale: 0.92 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 16, scale: 0.96 }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 380,
-                    damping: 22,
-                    opacity: { duration: 0.18 },
-                  }}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/images/hello-penguin.gif"
-                    alt="Hello!"
-                    className={styles.gifImage}
-                  />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="photo"
-                  className={styles.imageFrame}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0, scale: 0.97 }}
-                  transition={{ duration: 0.25 }}
-                >
-                  <Image
-                    src="/images/lucky.jpg"
-                    alt="Lucky Solanki — Engineer and Entrepreneur"
-                    width={280}
-                    height={340}
-                    className={styles.photo}
-                    priority
-                    sizes="(max-width: 768px) 200px, (max-width: 1024px) 240px, 280px"
-                  />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </motion.div>
       </div>
+
+      {/* Scroll cue — subtle arrow at bottom of hero */}
+      <FadeIn delay={0.5}>
+        <div
+          className={styles.scrollCue}
+          onClick={handleScrollTo(SECTION_IDS.about)}
+          role="button"
+          tabIndex={0}
+          aria-label="Scroll to about section"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") handleScrollTo(SECTION_IDS.about)(e as unknown as React.MouseEvent);
+          }}
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M8 3v10M4 9l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
+      </FadeIn>
     </section>
   );
 }
