@@ -1,0 +1,280 @@
+/* ============================================================
+   AvanaPlayground.module.css — AI chat + voice UI.
+   Chat bubbles with agent badges, system routing messages,
+   voice waveform indicator + connection steps.
+   ============================================================ */
+
+/* ── Container / Header / Tabs (shared) ──────────────────── */
+
+.playground {
+  margin-top: var(--space-6);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  animation: enter 400ms var(--ease-out);
+}
+
+@keyframes enter {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-5);
+}
+
+.title {
+  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.01em;
+}
+
+.tabs {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.tab {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-tertiary);
+  background: none;
+  border: none;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color 200ms var(--ease-standard),
+              background-color 200ms var(--ease-standard);
+}
+
+.tab:hover { color: var(--text-secondary); }
+
+.tabActive {
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+}
+
+/* ============================================================
+   ASK FLOW — Chat Messages
+   ============================================================ */
+
+.chatArea {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-height: 320px;
+  overflow-y: auto;
+  padding: var(--space-3);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  scrollbar-width: none;
+}
+
+.chatArea::-webkit-scrollbar { display: none; }
+
+/* ── Bubbles ─────────────────────────────────────────────── */
+
+.bubble {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  padding: var(--space-2) var(--space-3);
+  border-radius: 12px;
+  max-width: 85%;
+  animation: bubbleIn 250ms var(--ease-out);
+}
+
+.bubbleUser {
+  align-self: flex-end;
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border-bottom-right-radius: 4px;
+}
+
+.bubbleAgent {
+  color: var(--text-secondary);
+  background: var(--bg-subtle, var(--bg-secondary));
+  border-bottom-left-radius: 4px;
+}
+
+@keyframes bubbleIn {
+  from { opacity: 0; transform: translateY(6px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Agent row (badge + bubble) ──────────────────────────── */
+
+.agentRow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  max-width: 85%;
+  animation: bubbleIn 250ms var(--ease-out);
+}
+
+.agentBadge {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.55rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary);
+  background: var(--bg-elevated);
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── System messages (routing, tool calls) ───────────────── */
+
+.systemMsg {
+  font-family: "SF Mono", "Fira Code", ui-monospace, monospace;
+  font-size: 0.6rem;
+  color: var(--text-tertiary);
+  text-align: center;
+  padding: var(--space-1) 0;
+  animation: fadeIn 200ms var(--ease-out);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ============================================================
+   VOICE FLOW
+   ============================================================ */
+
+.voiceArea {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ── Waveform ────────────────────────────────────────────── */
+
+.waveform {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: var(--space-4) 0;
+}
+
+.waveBar {
+  width: 3px;
+  height: 12px;
+  border-radius: 2px;
+  background: var(--border-subtle);
+  transition: background-color 400ms var(--ease-out);
+}
+
+.waveBarActive {
+  background: var(--text-primary);
+  animation: wave 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes wave {
+  from { height: 6px; }
+  to   { height: 18px; }
+}
+
+.waveLabel {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.65rem;
+  color: var(--text-tertiary);
+  margin-left: var(--space-2);
+}
+
+/* ── Voice Steps ─────────────────────────────────────────── */
+
+.voiceSteps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.voiceStep {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 300ms var(--ease-out),
+              transform 300ms var(--ease-out);
+}
+
+.voiceStepVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.voiceStepDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--border-strong);
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.voiceStepVisible .voiceStepDot {
+  background: var(--text-primary);
+}
+
+.voiceStepContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.voiceStepLabel {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.voiceStepDetail {
+  font-family: "SF Mono", ui-monospace, monospace;
+  font-size: 0.6rem;
+  color: var(--text-tertiary);
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .chatArea { max-height: 260px; }
+  .bubble { font-size: 0.7rem; }
+}
+
+/* ── Reduced motion ──────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .playground { animation: none; }
+  .bubble { animation: none; }
+  .agentRow { animation: none; }
+  .systemMsg { animation: none; }
+  .waveBarActive { animation: none; }
+  .voiceStep { transition: none; }
+}

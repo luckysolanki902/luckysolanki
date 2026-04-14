@@ -1,0 +1,405 @@
+/* ============================================================
+   DailiclePlayground.module.css — Literary morning-pipeline UI.
+   Warm newspaper aesthetic, typewriter essay preview,
+   audio waveform, and calm step-by-step pipeline flow.
+   ============================================================ */
+
+/* ── Container / Header / Tabs (shared) ──────────────────── */
+
+.playground {
+  margin-top: var(--space-6);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  animation: enter 400ms var(--ease-out);
+}
+
+@keyframes enter {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-5);
+}
+
+.title {
+  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.01em;
+}
+
+.tabs {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.tab {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-tertiary);
+  background: none;
+  border: none;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color 200ms var(--ease-standard),
+              background-color 200ms var(--ease-standard);
+}
+
+.tab:hover { color: var(--text-secondary); }
+
+.tabActive {
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+}
+
+/* ============================================================
+   PIPELINE FLOW — Morning automation
+   ============================================================ */
+
+.pipelineArea {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* ── Clock badge ─────────────────────────────────────────── */
+
+.clockBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-family: "SF Mono", "Fira Code", ui-monospace, monospace;
+  font-size: 0.6rem;
+  color: var(--text-tertiary);
+  background: var(--bg-elevated);
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  align-self: flex-start;
+}
+
+.clockDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-tertiary);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 1; }
+}
+
+/* ── Steps ───────────────────────────────────────────────── */
+
+.pipelineSteps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.pipelineStep {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 350ms var(--ease-out),
+              transform 350ms var(--ease-out);
+}
+
+.pipelineStepVisible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.stepIndex {
+  font-family: "SF Mono", ui-monospace, monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--text-tertiary);
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 50%;
+}
+
+.pipelineStepVisible .stepIndex {
+  color: var(--text-primary);
+  border-color: var(--text-primary);
+}
+
+.stepBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+
+.stepTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.stepService {
+  font-family: "SF Mono", ui-monospace, monospace;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.stepDuration {
+  font-family: "SF Mono", ui-monospace, monospace;
+  font-size: 0.55rem;
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+}
+
+.stepAction {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+.stepDetail {
+  font-family: "SF Mono", ui-monospace, monospace;
+  font-size: 0.6rem;
+  color: var(--text-tertiary);
+}
+
+/* ── Pipeline Summary ────────────────────────────────────── */
+
+.pipelineSummary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  animation: fadeSlide 400ms var(--ease-out);
+}
+
+.summaryLight {
+  font-weight: 400;
+  font-size: 0.6rem;
+  color: var(--text-tertiary);
+}
+
+.replayBtn {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.6rem;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  background: none;
+  border: 1px solid var(--border-subtle);
+  padding: 2px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  margin-top: var(--space-1);
+  transition: color 200ms var(--ease-standard),
+              border-color 200ms var(--ease-standard);
+}
+
+.replayBtn:hover {
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   ESSAY FLOW — Typewriter preview + audio bar
+   ============================================================ */
+
+.essayArea {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* ── Progress row ────────────────────────────────────────── */
+
+.progressRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.progressLabel {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.6rem;
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+  min-width: 120px;
+}
+
+.progressTrack {
+  flex: 1;
+  height: 2px;
+  background: var(--border-subtle);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  background: var(--text-primary);
+  border-radius: 1px;
+  transition: width 180ms var(--ease-standard);
+}
+
+/* ── Essay text ──────────────────────────────────────────── */
+
+.essayText {
+  max-height: 260px;
+  overflow-y: auto;
+  padding: var(--space-4);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  scrollbar-width: none;
+}
+
+.essayText::-webkit-scrollbar { display: none; }
+
+.essayLine {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.8rem;
+  line-height: 1.85;
+  color: var(--text-secondary);
+  margin: 0;
+  animation: lineIn 200ms var(--ease-out);
+}
+
+.essayTitle {
+  font-family: var(--font-quicksand), Georgia, serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+@keyframes lineIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.cursor {
+  font-family: ui-monospace, monospace;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  animation: blink 0.8s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+/* ── Audio bar ───────────────────────────────────────────── */
+
+.audioBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  animation: fadeSlide 400ms var(--ease-out);
+}
+
+.audioWave {
+  display: flex;
+  align-items: center;
+  gap: 1.5px;
+  flex: 1;
+}
+
+.audioBarUnit {
+  width: 2px;
+  height: 8px;
+  border-radius: 1px;
+  background: var(--text-primary);
+  animation: audioWave 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes audioWave {
+  from { height: 3px; opacity: 0.3; }
+  to   { height: 14px; opacity: 0.8; }
+}
+
+.audioMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  flex-shrink: 0;
+}
+
+.audioVoice {
+  font-family: "SF Mono", ui-monospace, monospace;
+  font-size: 0.55rem;
+  color: var(--text-tertiary);
+}
+
+.audioDuration {
+  font-family: "SF Mono", ui-monospace, monospace;
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .essayText { max-height: 200px; }
+  .pipelineStep { gap: var(--space-2); }
+}
+
+/* ── Reduced motion ──────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .playground { animation: none; }
+  .pipelineStep { transition: none; }
+  .pipelineSummary { animation: none; }
+  .essayLine { animation: none; }
+  .cursor { animation: none; }
+  .audioBarUnit { animation: none; height: 8px; opacity: 0.5; }
+  .audioBar { animation: none; }
+  .clockDot { animation: none; opacity: 0.7; }
+}

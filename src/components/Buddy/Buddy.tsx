@@ -79,34 +79,48 @@ const PIXEL_PAPER = pixelProp(
   { X: FG }
 );
 
-// Paper airplane pointing left (7×5 at 3px = 21×15px)
+// Paper airplane — folded paper plane pointing right (8×7 at 3px = 24×21px)
 const PIXEL_AIRPLANE = pixelProp(
   [
-    "..X....",
-    ".XX.X..",
-    "XXXXXXX",
-    ".XX.X..",
-    "..X....",
+    ".......X",
+    "....XXXX",
+    "..XXXXFX",
+    "XXXXXFFX",
+    "..XXXXFX",
+    "...XXXXX",
+    "....XXX.",
   ],
   PP,
-  { X: FG }
+  { X: FG, F: "var(--buddy-bubble-bg)" }
 );
 
-// Glass with water (4×6)
-const PIXEL_GLASS = pixelProp(
-  [".GG.", "G..G", "GWWG", "GWWG", "GWWG", "GGGG"],
+// Cup with straw (5×8 at 3px = 15×24px)
+const PIXEL_CUP = pixelProp(
+  [
+    "....S",
+    "....S",
+    "GGGGS",
+    "GWWWG",
+    "GWWWG",
+    "GWWWG",
+    "GWWWG",
+    ".GGG.",
+  ],
   PP,
-  { G: FG, W: "#5b9bd5" }
+  { G: FG, W: "#5b9bd5", S: "#e87060" }
 );
 
-// Tall ladder (3×14 at 3px = 9×42px)
+// Tall ladder (3×22 at 3px = 9×66px — extra height is free, buddy leaves mid-ladder)
 const PIXEL_LADDER = pixelProp(
   [
     "X.X", "XXX", "X.X",
     "X.X", "XXX", "X.X",
     "X.X", "XXX", "X.X",
     "X.X", "XXX", "X.X",
-    "X.X", "X.X",
+    "X.X", "XXX", "X.X",
+    "X.X", "XXX", "X.X",
+    "X.X", "XXX", "X.X",
+    "X.X",
   ],
   3,
   { X: FG }
@@ -116,6 +130,17 @@ const PIXEL_LADDER = pixelProp(
 const PIXEL_BALL_R = pixelProp(["XX", "XX"], PP, { X: "#e87060" });
 const PIXEL_BALL_B = pixelProp(["XX", "XX"], PP, { X: "#60a8e8" });
 const PIXEL_BALL_G = pixelProp(["XX", "XX"], PP, { X: "#70d860" });
+
+// Skateboard (8×3 at 3px = 24×9px)
+const PIXEL_SKATEBOARD = pixelProp(
+  [
+    ".XXXXXX.",
+    "XXXXXXXX",
+    ".O....O.",
+  ],
+  PP,
+  { X: FG, O: "#e87060" }
+);
 
 /* -----------------------------------------------------------
    IDLE ACTIVITIES
@@ -130,7 +155,8 @@ type IdleActivity =
   | "ladder"
   | "lookAround"
   | "juggle"
-  | "sitDown";
+  | "sitDown"
+  | "skateboard";
 
 const ACTIVITY_POOL: IdleActivity[] = [
   "sleep", "walk", "paperToss", "airplane",
@@ -298,7 +324,7 @@ export function Buddy() {
   const hidingRef = useRef(false);
   const activityRef = useRef<IdleActivity>("none");
   const lastActivityEnd = useRef(Date.now());
-  const nextGap = useRef(3000 + Math.random() * 5000);
+  const nextGap = useRef(2500 + Math.random() * 3500);
   const hideTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const walkTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const activityTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -306,6 +332,7 @@ export function Buddy() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const prePosX = useRef(0);
   const lastPickedActivity = useRef<IdleActivity>("none");
+  const startActivityRef = useRef<((act: IdleActivity) => void) | null>(null);
 
   // Keep activityRef synced
   useEffect(() => { activityRef.current = activity; }, [activity]);
@@ -352,7 +379,7 @@ export function Buddy() {
     setWalking(false);
     if (useBuddyStore.getState().mood === "sleep") setMood("idle");
     lastActivityEnd.current = Date.now();
-    nextGap.current = 3000 + Math.random() * 5000;
+    nextGap.current = 2500 + Math.random() * 3500;
   }, [setMood]);
 
   /* ===========================================================
@@ -378,7 +405,7 @@ export function Buddy() {
       setWalking(false);
       setElevated(false);
       lastActivityEnd.current = Date.now();
-      nextGap.current = 3000 + Math.random() * 5000;
+      nextGap.current = 2500 + Math.random() * 3500;
     };
 
     const start = (act: IdleActivity) => {
@@ -438,10 +465,25 @@ export function Buddy() {
           activityTimeout.current = setTimeout(finish, 4000);
           break;
 
+        case "skateboard": {
+          // Rare: skate across to the other side and back
+          setWalking(true);
+          const skateTarget = Math.min(window.innerWidth - 100, 600);
+          setPosX(skateTarget);
+          // Pause at the other side, then come back
+          setTimeout(() => { if (activityRef.current === "skateboard") setPosX(0); }, 3500);
+          setTimeout(() => { if (activityRef.current === "skateboard") setWalking(false); }, 5200);
+          activityTimeout.current = setTimeout(finish, 5800);
+          break;
+        }
+
         default:
           activityTimeout.current = setTimeout(finish, 3000);
       }
     };
+
+    // Expose start for the secret buddy() console command
+    startActivityRef.current = start;
 
     // Poll every 1.5s — can't die
     const interval = setInterval(() => {
@@ -449,13 +491,19 @@ export function Buddy() {
       if (hidingRef.current) return;
       const elapsed = Date.now() - lastActivityEnd.current;
       if (elapsed < nextGap.current) return;
-      const picked = pickActivity();
+      // ~5% chance of rare skateboard instead of normal activity
+      const picked = Math.random() < 0.05 ? "skateboard" as IdleActivity : pickActivity();
       start(picked);
     }, 1500);
 
     return () => {
       clearInterval(interval);
       if (activityTimeout.current) clearTimeout(activityTimeout.current);
+      // Reset so re-mount doesn't see stale "in-progress" activity
+      activityRef.current = "none";
+      setActivity("none");
+      setWalking(false);
+      setElevated(false);
     };
   }, [phase, pickActivity, setMood]);
 
@@ -489,6 +537,17 @@ export function Buddy() {
         fire(buddyHideTriggers);
         if (walkTimeout.current) clearTimeout(walkTimeout.current);
         walkTimeout.current = setTimeout(() => setWalking(false), 450);
+        // Safety: auto-unhide if mouse leaves window or stops moving
+        if (hideTimeout.current) clearTimeout(hideTimeout.current);
+        hideTimeout.current = setTimeout(() => {
+          if (hidingRef.current) {
+            hidingRef.current = false;
+            setHiding(false);
+            setWalking(true);
+            setPosX(prePosX.current);
+            walkTimeout.current = setTimeout(() => setWalking(false), 600);
+          }
+        }, 6000);
       } else if (hidingRef.current && dist > UNHIDE_DIST) {
         if (hideTimeout.current) clearTimeout(hideTimeout.current);
         hideTimeout.current = setTimeout(() => {
@@ -753,6 +812,27 @@ export function Buddy() {
     return () => window.removeEventListener("keydown", h);
   }, [fire]);
 
+  /* ---- Secret buddy(N) console command ---- */
+  useEffect(() => {
+    const CODES: Record<number, IdleActivity> = {
+      1: "airplane", 2: "skateboard", 3: "ladder", 4: "paperToss",
+      5: "juggle", 6: "drink", 7: "sleep", 8: "walk",
+      9: "lookAround", 10: "sitDown",
+    };
+    (window as unknown as Record<string, unknown>).buddy = (code?: number) => {
+      if (code === undefined || code === 0) {
+        console.table(Object.entries(CODES).map(([k, v]) => ({ code: k, animation: v })));
+        return;
+      }
+      const act = CODES[code];
+      if (!act) { console.log("Unknown code. Use buddy(0) for list."); return; }
+      stopActivity();
+      setTimeout(() => startActivityRef.current?.(act), 100);
+      console.log(`▶ ${act}`);
+    };
+    return () => { delete (window as unknown as Record<string, unknown>).buddy; };
+  }, [stopActivity]);
+
   /* ---- Global click ---- */
   useEffect(() => {
     const h = (e: MouseEvent) => {
@@ -854,17 +934,20 @@ export function Buddy() {
 
       {/* Character + props */}
       <div className={`${moodClass} ${activityClass}`} style={{ position: "relative" }}>
-        <div
-          className={`${styles.character} ${isOffscreen ? styles.offscreen : ""} ${walking ? styles.walking : ""} ${isFalling ? styles.falling : ""} ${isLanding ? styles.landing : ""} ${isDizzy ? styles.dizzyAnim : ""}`}
-          onClick={handleBuddyClick}
-          role="button"
-          tabIndex={0}
-          aria-label="Lucky's companion buddy"
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); if (!hidingRef.current) { stopActivity(); fire(buddyClickTriggers); } }
-          }}
-        >
-          <div className={styles.pixelGrid} style={{ boxShadow: pixelShadow }} />
+        {/* Ladder climber wrapper — isolates climb translateY from the ladder prop */}
+        <div className={activity === "ladder" ? styles.ladderClimber : undefined}>
+          <div
+            className={`${styles.character} ${isOffscreen ? styles.offscreen : ""} ${walking ? styles.walking : ""} ${isFalling ? styles.falling : ""} ${isLanding ? styles.landing : ""} ${isDizzy ? styles.dizzyAnim : ""}`}
+            onClick={handleBuddyClick}
+            role="button"
+            tabIndex={0}
+            aria-label="Lucky's companion buddy"
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") { e.preventDefault(); if (!hidingRef.current) { stopActivity(); fire(buddyClickTriggers); } }
+            }}
+          >
+            <div className={styles.pixelGrid} style={{ boxShadow: pixelShadow }} />
+          </div>
         </div>
 
         {/* ===== ACTIVITY PROPS (pixel art) ===== */}
@@ -897,14 +980,14 @@ export function Buddy() {
           <div className={styles.airplaneHand} aria-hidden />
         )}
 
-        {/* Drink: pixel glass */}
+        {/* Drink: pixel cup with straw */}
         {activity === "drink" && (
-          <div className={styles.glass} aria-hidden>
-            <div style={propStyle(PIXEL_GLASS, PP)} />
+          <div className={styles.cup} aria-hidden>
+            <div style={propStyle(PIXEL_CUP, PP)} />
           </div>
         )}
 
-        {/* Ladder: pixel ladder */}
+        {/* Ladder: outside climber wrapper so it stays rooted in place */}
         {activity === "ladder" && (
           <div className={styles.ladder} aria-hidden>
             <div style={propStyle(PIXEL_LADDER, 3)} />
@@ -923,6 +1006,13 @@ export function Buddy() {
         {/* Sit down: pixel cushion shadow */}
         {activity === "sitDown" && (
           <div className={styles.sitCushion} aria-hidden />
+        )}
+
+        {/* Skateboard: pixel board under buddy */}
+        {activity === "skateboard" && (
+          <div className={styles.skateboard} aria-hidden>
+            <div style={propStyle(PIXEL_SKATEBOARD, PP)} />
+          </div>
         )}
 
         {/* Look around: no prop, just character animation */}

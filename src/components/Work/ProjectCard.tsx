@@ -7,10 +7,16 @@
 
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { Download } from "lucide-react";
 import type { Project } from "@/lib/data";
 import { FadeIn } from "@/components/shared/FadeIn";
+import { BlitzitPlayground } from "./BlitzitPlayground";
+import { MaddyCustomPlayground } from "./MaddyCustomPlayground";
+import { SpyllPlayground } from "./SpyllPlayground";
+import { AvanaPlayground } from "./AvanaPlayground";
+import { DailiclePlayground } from "./DailiclePlayground";
 import styles from "./Work.module.css";
 
 interface ProjectCardProps {
@@ -18,8 +24,12 @@ interface ProjectCardProps {
   index: number;
 }
 
+const PLAYGROUND_SLUGS = new Set(["blitzit", "maddycustom", "spyll", "avana", "dailicle"]);
+
 export function ProjectCard({ project, index }: ProjectCardProps) {
   const isReversed = index % 2 !== 0;
+  const [showPlayground, setShowPlayground] = useState(false);
+  const hasPlayground = PLAYGROUND_SLUGS.has(project.slug);
 
   return (
     <FadeIn delay={index * 0.07}>
@@ -95,8 +105,23 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           )}
 
           <p className={styles.cardStack}>{project.stack.join(" · ")}</p>
+
+          {hasPlayground && (
+            <button
+              className={styles.playgroundToggle}
+              onClick={() => setShowPlayground(!showPlayground)}
+            >
+              {showPlayground ? "Hide" : "See how it works →"}
+            </button>
+          )}
         </div>
       </article>
+
+      {showPlayground && project.slug === "blitzit" && <BlitzitPlayground />}
+      {showPlayground && project.slug === "maddycustom" && <MaddyCustomPlayground />}
+      {showPlayground && project.slug === "spyll" && <SpyllPlayground />}
+      {showPlayground && project.slug === "avana" && <AvanaPlayground />}
+      {showPlayground && project.slug === "dailicle" && <DailiclePlayground />}
     </FadeIn>
   );
 }

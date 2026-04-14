@@ -293,57 +293,56 @@
   display: none; /* placeholder — hand built into character animation */
 }
 
-/* ---- Drink (pixel glass with water) ---- */
+/* ---- Drink (pixel cup with straw) ---- */
 .actDrink .character {
   animation: drinkSip 2.8s ease-in-out forwards;
 }
 
 @keyframes drinkSip {
-  0%        { transform: rotate(0deg); }
-  12%, 35%  { transform: rotate(-8deg) translateY(-2px); }
-  50%       { transform: rotate(-12deg) translateY(-3px); }
-  68%, 85%  { transform: rotate(-8deg) translateY(-2px); }
-  100%      { transform: rotate(0deg); }
+  0%        { transform: rotate(0deg) translateX(0); }
+  10%       { transform: rotate(-6deg) translateX(-3px); }
+  20%, 40%  { transform: rotate(-8deg) translateX(-4px) translateY(-1px); }
+  45%       { transform: rotate(-5deg) translateX(-3px); }
+  55%, 75%  { transform: rotate(-8deg) translateX(-4px) translateY(-1px); }
+  80%       { transform: rotate(-5deg) translateX(-3px); }
+  100%      { transform: rotate(0deg) translateX(0); }
 }
 
-.glass {
+.cup {
   position: absolute;
-  bottom: 4px;
-  left: -14px;
+  bottom: 2px;
+  left: -16px;
   pointer-events: none;
-  animation: glassPopIn 0.3s ease 0.1s both,
-             glassPopOut 0.35s ease 2.5s both;
+  animation: cupPopIn 0.3s ease 0.1s both,
+             cupPopOut 0.35s ease 2.5s both;
 }
 
-@keyframes glassPopIn {
+@keyframes cupPopIn {
   0%   { opacity: 0; transform: translateY(6px) scale(0); }
   70%  { transform: translateY(-2px) scale(1.1); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-@keyframes glassPopOut {
+@keyframes cupPopOut {
   0%   { opacity: 1; transform: translateY(0) scale(1); }
   100% { opacity: 0; transform: translateY(4px) scale(0.4); }
 }
 
-/* ---- Ladder (REAL step-by-step climb) ---- */
+/* ---- Ladder (character climbs, ladder stays rooted) ---- */
 
-/* The character+props container climbs up in discrete steps */
-.actLadder {
+/* Inner wrapper isolates climb animation — ladder prop sits outside */
+.ladderClimber {
   animation: ladderClimbUp 5.5s steps(1) forwards;
 }
 
 @keyframes ladderClimbUp {
   0%, 7%    { transform: translateY(0); }
-  /* Climb UP — 5 rung steps */
   12%       { transform: translateY(-8px); }
   17%       { transform: translateY(-16px); }
   22%       { transform: translateY(-24px); }
   27%       { transform: translateY(-32px); }
   34%       { transform: translateY(-40px); }
-  /* Stay at top while walking */
   65%       { transform: translateY(-40px); }
-  /* Climb DOWN */
   71%       { transform: translateY(-32px); }
   76%       { transform: translateY(-24px); }
   81%       { transform: translateY(-16px); }
@@ -353,30 +352,18 @@
 
 .ladder {
   position: absolute;
-  bottom: 0;
-  right: -14px;
+  top: -22px;
+  left: -12px;
   pointer-events: none;
-  /* Ladder counter-translates so it STAYS IN PLACE while character climbs */
-  animation: ladderCounterMove 5.5s steps(1) forwards;
+  animation: ladderFade 5.5s ease forwards;
 }
 
-/* Counters the parent climb so ladder stays rooted */
-@keyframes ladderCounterMove {
-  0%        { opacity: 0; transform: translateY(0); }
-  4%        { opacity: 1; transform: translateY(0); }
-  12%       { opacity: 1; transform: translateY(8px); }
-  17%       { opacity: 1; transform: translateY(16px); }
-  22%       { opacity: 1; transform: translateY(24px); }
-  27%       { opacity: 1; transform: translateY(32px); }
-  34%       { opacity: 1; transform: translateY(40px); }
-  65%       { opacity: 1; transform: translateY(40px); }
-  71%       { opacity: 1; transform: translateY(32px); }
-  76%       { opacity: 1; transform: translateY(24px); }
-  81%       { opacity: 1; transform: translateY(16px); }
-  86%       { opacity: 1; transform: translateY(8px); }
-  92%       { opacity: 1; transform: translateY(0); }
-  96%       { opacity: 0.3; transform: translateY(0); }
-  100%      { opacity: 0; transform: translateY(0); }
+@keyframes ladderFade {
+  0%        { opacity: 0; }
+  4%        { opacity: 1; }
+  92%       { opacity: 1; }
+  96%       { opacity: 0.3; }
+  100%      { opacity: 0; }
 }
 
 /* ---- Look Around ---- */
@@ -586,6 +573,39 @@
 
 .moodBlink .character {
   /* Blink handled by switching pixel art */
+}
+
+/* ---- Skateboard (rare — ride across screen) ---- */
+.actSkateboard .character {
+  animation: skateLean 5.8s ease forwards;
+}
+
+@keyframes skateLean {
+  0%   { transform: rotate(0deg); }
+  7%   { transform: rotate(-6deg); }
+  55%  { transform: rotate(-6deg); }
+  62%  { transform: rotate(6deg); }
+  90%  { transform: rotate(6deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.skateboard {
+  position: absolute;
+  bottom: -6px;
+  left: 4px;
+  pointer-events: none;
+  animation: skateboardAppear 0.25s ease both,
+             skateboardDisappear 0.3s ease 5.2s both;
+}
+
+@keyframes skateboardAppear {
+  0%   { opacity: 0; transform: translateY(4px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes skateboardDisappear {
+  0%   { opacity: 1; }
+  100% { opacity: 0; transform: translateY(4px); }
 }
 
 /* ============================================================
