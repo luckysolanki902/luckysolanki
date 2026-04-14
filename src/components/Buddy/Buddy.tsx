@@ -919,7 +919,13 @@ export function Buddy() {
             exit="exit"
             transition={{ duration: 0.2, ease: [0, 0, 0.2, 1] }}
           >
-            <p className={styles.bubbleText}>{message}</p>
+            <p className={styles.bubbleText}>
+              {message.split(/(\*[^*]+\*)/).map((part, i) =>
+                part.startsWith("*") && part.endsWith("*")
+                  ? <em key={i}>{part.slice(1, -1)}</em>
+                  : part
+              )}
+            </p>
             <button
               className={styles.bubbleClose}
               onClick={(e) => { e.stopPropagation(); dismiss(); }}
