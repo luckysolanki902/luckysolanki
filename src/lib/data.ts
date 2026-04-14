@@ -68,7 +68,7 @@ export const projects: Project[] = [
     tagline: "Anonymous college social platform",
     role: "Founder",
     description:
-      "Anonymous social platform for college students in India. Real-time 1:1 chat pair matching, voice calls, encrypted confessions, and a post feed — live across 1,300+ colleges. Rebuilding mobile client in Flutter for native-grade smoothness. Redis pub/sub matching engine with WebRTC voice and Socket.IO chat.",
+      "Anonymous social platform for college students in India. 1,200+ Android downloads in the first month with zero paid marketing. Real-time 1:1 chat pair matching, voice calls, and encrypted confessions. Redis pub/sub matching engine with WebRTC voice and Socket.IO chat. Rebuilding mobile client in Flutter for native-grade smoothness.",
     url: "https://spyll.in",
     playStore: "https://play.google.com/store/apps/details?id=in.spyll.app&pcampaignid=lucky_portfolio",
     image: "/images/projects/spyll.png",

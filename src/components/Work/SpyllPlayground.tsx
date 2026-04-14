@@ -226,7 +226,7 @@ function MatchFlow() {
   const [messages, setMessages] = useState<ChatMsg[]>([]);
   const [callActive, setCallActive] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const chatAreaRef = useRef<HTMLDivElement | null>(null);
 
   const cleanup = useCallback(() => {
     if (timerRef.current) clearTimeout(timerRef.current);
@@ -279,9 +279,10 @@ function MatchFlow() {
     };
   }, [runMatch, cleanup]);
 
-  // Auto-scroll chat
+  // Auto-scroll chat within the box only
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const el = chatAreaRef.current;
+    if (el) el.scrollTop = el.scrollHeight;
   }, [messages]);
 
   return (
@@ -354,7 +355,7 @@ function MatchFlow() {
 
       {/* Chat bubbles */}
       {messages.length > 0 && (
-        <div className={styles.chatArea}>
+        <div className={styles.chatArea} ref={chatAreaRef}>
           {messages.map((msg, i) => (
             <div
               key={i}
@@ -365,7 +366,6 @@ function MatchFlow() {
               {msg.text}
             </div>
           ))}
-          <div ref={messagesEndRef} />
         </div>
       )}
 

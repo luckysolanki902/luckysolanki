@@ -235,7 +235,7 @@ export const clickTriggers: Record<string, BuddyTrigger[]> = {
     { id: "click-li-2", message: "Ah, the professional networking move.", mood: "wink", priority: 6, cooldown: 15 },
   ],
   projectSpyll: [
-    { id: "click-spyll-1", message: "1,300+ colleges. Built from a dorm room.", mood: "excited", priority: 7, cooldown: 30 },
+    { id: "click-spyll-1", message: "1,200+ downloads. Zero paid marketing. Built from a dorm room.", mood: "excited", priority: 7, cooldown: 30 },
     { id: "click-spyll-2", message: "Spyll is the big one. Pay attention.", mood: "wink", priority: 7, cooldown: 30 },
   ],
   projectMaddy: [
