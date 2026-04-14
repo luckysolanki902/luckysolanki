@@ -503,3 +503,68 @@ export const progressionTriggers: Record<number, BuddyTrigger> = {
   6: { id: "prog-6", message: "Six visits. I'm starting to feel responsible for you.", mood: "happy", priority: 10, cooldown: 0, once: true },
   7: { id: "prog-7", message: "Seven. Lucky number for a lucky contact.", mood: "wink", priority: 10, cooldown: 0, once: true },
 };
+
+/* -----------------------------------------------------------
+   STORY PAGE TRIGGERS — personalised per story
+   Fired on: page enter, scroll 25/50/75/100
+   ----------------------------------------------------------- */
+
+export interface StoryTriggers {
+  enter: BuddyTrigger[];
+  scroll25: BuddyTrigger[];
+  scroll50: BuddyTrigger[];
+  scroll75: BuddyTrigger[];
+  end: BuddyTrigger[];
+}
+
+export const storyTriggers: Record<"ai" | "journey", StoryTriggers> = {
+  /* ── /stories/ai — "On using AI" ────────────────────────── */
+  ai: {
+    enter: [
+      { id: "ai-enter-1", message: "Oh, the AI essay. He has opinions.", mood: "think", priority: 10, cooldown: 0, once: true },
+      { id: "ai-enter-2", message: "He wrote this at 1 AM. Probably with Copilot's help.", mood: "wink", priority: 10, cooldown: 0, once: true },
+      { id: "ai-enter-3", message: "No hype. No doom. Just how it actually works for him.", mood: "happy", priority: 10, cooldown: 0, once: true },
+    ],
+    scroll25: [
+      { id: "ai-25-1", message: "\"AI makes the gap smaller. It doesn't generate the clarity.\" That line hit.", mood: "think", priority: 9, cooldown: 0, once: true },
+      { id: "ai-25-2", message: "That batch WebP script in 2022 started something.", mood: "happy", priority: 9, cooldown: 0, once: true },
+    ],
+    scroll50: [
+      { id: "ai-50-1", message: "Copilot is literally the tool writing his portfolio right now.", mood: "wink", priority: 9, cooldown: 0, once: true },
+      { id: "ai-50-2", message: "Three tools. No fluff list of 20 he's never used.", mood: "think", priority: 9, cooldown: 0, once: true },
+    ],
+    scroll75: [
+      { id: "ai-75-1", message: "\"Judgment stays mine.\" That's the whole thesis.", mood: "think", priority: 9, cooldown: 0, once: true },
+      { id: "ai-75-2", message: "Nearly there. The ending lands well.", mood: "idle", priority: 9, cooldown: 0, once: true },
+    ],
+    end: [
+      { id: "ai-end-1", message: "An accelerant, not a replacement. Exactly right.", mood: "happy", priority: 10, cooldown: 0, once: true },
+      { id: "ai-end-2", message: "The journey story is even better, if you haven't read it.", mood: "wink", priority: 10, cooldown: 0, once: true },
+    ],
+  },
+
+  /* ── /stories/journey — "The long way around" ───────────── */
+  journey: {
+    enter: [
+      { id: "jrn-enter-1", message: "Mechanical Engineering to full-stack. It's a whole arc.", mood: "think", priority: 10, cooldown: 0, once: true },
+      { id: "jrn-enter-2", message: "The origin story. This one's actually good.", mood: "excited", priority: 10, cooldown: 0, once: true },
+      { id: "jrn-enter-3", message: "Buckle up. This covers like 5 years in one scroll.", mood: "wink", priority: 10, cooldown: 0, once: true },
+    ],
+    scroll25: [
+      { id: "jrn-25-1", message: "Self-taught. No bootcamp. Just confusion and stubbornness.", mood: "happy", priority: 9, cooldown: 0, once: true },
+      { id: "jrn-25-2", message: "A C# game from scratch in first year of engineering. Casual.", mood: "excited", priority: 9, cooldown: 0, once: true },
+    ],
+    scroll50: [
+      { id: "jrn-50-1", message: "₹60L revenue. AWS bill under $2. That's actually insane.", mood: "shocked", priority: 9, cooldown: 0, once: true },
+      { id: "jrn-50-2", message: "Built what Shopify offers — for one specific store. Alone.", mood: "think", priority: 9, cooldown: 0, once: true },
+    ],
+    scroll75: [
+      { id: "jrn-75-1", message: "Voltas. Debugging at lunch breaks. That chapter hurts a little.", mood: "sad", priority: 9, cooldown: 0, once: true },
+      { id: "jrn-75-2", message: "The take-home assignment that changed everything. Classic.", mood: "think", priority: 9, cooldown: 0, once: true },
+    ],
+    end: [
+      { id: "jrn-end-1", message: "The long way around. Worth every detour.", mood: "love", priority: 10, cooldown: 0, once: true },
+      { id: "jrn-end-2", message: "Three years. Real outages. Two hours of sleep. I'd have quit.", mood: "think", priority: 10, cooldown: 0, once: true },
+    ],
+  },
+};

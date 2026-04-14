@@ -15,6 +15,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useBuddyStore, trackBehavior, getStrongestBehavior } from "@/lib/buddy-engine";
 import { IntentDetector } from "@/lib/buddy-intent";
@@ -45,6 +46,7 @@ import {
   rareTriggers,
   behaviorMemoryTriggers,
   progressionTriggers,
+  storyTriggers,
   type BuddyMood,
 } from "@/lib/buddy-triggers";
 import { useThemeStore } from "@/store/useThemeStore";
@@ -290,6 +292,7 @@ const HOVER_SELECTORS: [string, string][] = [
 export function Buddy() {
   const { mood, message, fire, dismiss, setMood, getVisitCount, incrementVisit } =
     useBuddyStore();
+  const pathname = usePathname();
   const theme = useThemeStore((s) => s.theme);
   const prevThemeRef = useRef(theme);
   const lastScrollY = useRef(0);
@@ -633,6 +636,41 @@ export function Buddy() {
     }, 8000);
     return () => clearInterval(iv);
   }, [phase, fire]);
+
+  /* ---- Story page triggers ---- */
+  useEffect(() => {
+    const storyKey = pathname === "/stories/ai" ? "ai"
+      : pathname === "/stories/journey" ? "journey"
+      : null;
+    if (!storyKey) return;
+    const trigs = storyTriggers[storyKey];
+
+    // Page enter — delay so it fires after the standard greeting
+    const enterTimer = setTimeout(() => fire(trigs.enter), 3200);
+
+    // Scroll milestone triggers (25 / 50 / 75 / end)
+    const milestones = new Map([
+      [25, trigs.scroll25],
+      [50, trigs.scroll50],
+      [75, trigs.scroll75],
+      [95, trigs.end],
+    ]);
+    const fired = new Set<number>();
+    const onScroll = () => {
+      const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      milestones.forEach((tList, threshold) => {
+        if (pct >= threshold && !fired.has(threshold)) {
+          fired.add(threshold);
+          fire(tList);
+        }
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      clearTimeout(enterTimer);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, [pathname, fire]);
 
   /* ---- Section observers ---- */
   useEffect(() => {
