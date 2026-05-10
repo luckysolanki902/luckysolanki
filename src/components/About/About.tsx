@@ -20,31 +20,33 @@ export function About() {
 
         <FadeIn>
           <h2 className={styles.heading}>
-            I like building things from the ground&nbsp;up.
+            Where I fit best.
           </h2>
         </FadeIn>
 
         <FadeIn delay={0.08}>
           <div className={styles.body}>
             <p>
-              Full-stack engineer at{" "}
+              At{" "}
               <strong className={styles.highlight}>Blitzit</strong>, where I
-              build integrations, AI tooling, and the infrastructure behind
-              them.
+              work on integrations, AI tooling, and backend systems that support
+              daily product use.
             </p>
             <p>
-              I also run{" "}
-              <strong className={styles.highlight}>Spyll</strong> — an
-              anonymous social platform live across 1,300+ colleges. 1,200+
-              downloads in month one, zero paid marketing.
+              Before that, I co-founded{" "}
+              <strong className={styles.highlight}>MaddyCustom</strong> and
+              built the platform behind a business that grew to 100K+ monthly
+              users and ₹60L annual revenue.
             </p>
             <p>
-              Previously co-founded{" "}
-              <strong className={styles.highlight}>MaddyCustom</strong> —
-              scaled to 100K+ monthly users and ₹60L ARR.
+              I also run <strong className={styles.highlight}>Spyll</strong>, a
+              consumer app that reached 1,200+ Android downloads in its first
+              month without paid acquisition.
             </p>
             <p>
-              Mechanical Engineering from HBTU Kanpur. Self-taught developer.
+              That mix matters. I have shipped as a founder, as an in-house
+              engineer, and as a solo builder - which makes me comfortable
+              owning both product tradeoffs and technical execution.
             </p>
           </div>
         </FadeIn>

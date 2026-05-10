@@ -3,6 +3,7 @@ import { Quicksand, Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/shared/ThemeProvider";
 import { Buddy } from "@/components/Buddy/Buddy";
 import { Analytics } from "@vercel/analytics/next";
+import { siteConfig, socials } from "@/lib/data";
 import "./globals.css";
 
 const quicksand = Quicksand({
@@ -20,15 +21,16 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Lucky Solanki — Full-Stack Product Engineer",
-  description:
-    "Product-minded full-stack engineer shipping consumer products to 100K+ users. Building with TypeScript, Next.js, MCP servers, and multi-agent AI systems.",
+  title: siteConfig.title,
+  description: siteConfig.description,
   keywords: [
     "Lucky Solanki",
-    "full-stack engineer",
     "product engineer",
-    "agentic AI",
-    "MCP server",
+    "AI workflows",
+    "MCP server developer",
+    "integrations",
+    "realtime systems",
+    "payments",
     "Next.js",
     "founder",
     "Blitzit",
@@ -36,8 +38,8 @@ export const metadata: Metadata = {
     "portfolio",
     "India",
   ],
-  authors: [{ name: "Lucky Solanki", url: "https://luckysolanki.com" }],
-  creator: "Lucky Solanki",
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
+  creator: siteConfig.name,
   manifest: "/site.webmanifest",
   robots: {
     index: true,
@@ -51,13 +53,14 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: "https://luckysolanki.com",
+    canonical: siteConfig.url,
   },
   openGraph: {
-    title: "Lucky Solanki — Full-Stack Product Engineer",
-    description: "I build products people actually use.",
-    url: "https://luckysolanki.com",
-    siteName: "Lucky Solanki",
+    title: siteConfig.title,
+    description:
+      "Product engineering for AI workflows, integrations, payments, realtime systems, and internal tooling.",
+    url: siteConfig.url,
+    siteName: siteConfig.name,
     type: "website",
     locale: "en_US",
     images: [
@@ -65,39 +68,46 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Lucky Solanki — Software Engineer & Entrepreneur",
+        alt: "Lucky Solanki — Product Engineer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Lucky Solanki — Full-Stack Product Engineer",
-    description: "I build products people actually use.",
+    title: siteConfig.title,
+    description:
+      "Product engineering for AI workflows, integrations, payments, realtime systems, and internal tooling.",
     images: ["/og-image.png"],
     creator: "@luckysolanki902",
   },
-  metadataBase: new URL("https://luckysolanki.com"),
+  metadataBase: new URL(siteConfig.url),
 };
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
-  name: "Lucky Solanki",
-  jobTitle: "Full-Stack Product Engineer",
-  url: "https://luckysolanki.com",
-  email: "luckysolanki902@gmail.com",
+  name: siteConfig.name,
+  jobTitle: "Product Engineer",
+  url: siteConfig.url,
+  email: socials.email,
   sameAs: [
-    "https://github.com/Luckysolanki902",
-    "https://linkedin.com/in/luckysolanki902",
+    socials.github,
+    socials.linkedin,
+    socials.x,
   ],
-  description:
-    "Product-minded full-stack engineer shipping consumer products to 100K+ users. Building with TypeScript, Next.js, MCP servers, and multi-agent AI systems.",
+  description: siteConfig.description,
   worksFor: {
     "@type": "Organization",
     name: "Blitzit",
     url: "https://www.blitzit.app",
   },
   knowsAbout: [
+    "AI Workflows",
+    "MCP Servers",
+    "API Integrations",
+    "Realtime Systems",
+    "Payments",
+    "Internal Tooling",
     "Next.js",
     "React",
     "Node.js",

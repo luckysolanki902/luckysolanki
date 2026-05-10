@@ -10,10 +10,14 @@
 import Image from "next/image";
 import { SECTION_IDS } from "@/lib/constants";
 import { FadeIn } from "@/components/shared/FadeIn";
-import { MarginNote } from "@/components/shared/MarginNote";
 import styles from "./Hero.module.css";
 
-const headingLines = ["I ship products", "people actually use."];
+const headingLines = ["I build the hard parts", "of product software."];
+const proofPoints = [
+  "100K+ monthly users",
+  "13-tool MCP server",
+  "Founder + in-house experience",
+];
 
 export function Hero() {
   const handleScrollTo = (id: string) => (e: React.MouseEvent) => {
@@ -27,7 +31,7 @@ export function Hero() {
         <FadeIn delay={0.06}>
           <div className={styles.photoWrapper}>
             <Image
-              src="/images/lucky.jpg"
+              src="/images/lucky2.png"
               alt="Lucky Solanki"
               width={200}
               height={248}
@@ -51,11 +55,22 @@ export function Hero() {
 
           <FadeIn delay={0.08}>
             <p className={styles.subtext}>
-              Full-stack product engineer. 4+ years shipping consumer apps to
-              100K+&nbsp;users. Building with TypeScript, AI&nbsp;agents, and
-              MCP&nbsp;servers.
-              <MarginNote number={1}>I almost became a mechanical engineer. Taught myself to code between lectures — the compiler didn&apos;t care about my GPA.</MarginNote>
+              I work on integrations, AI workflows, realtime systems,
+              payments, and internal tooling - the parts of a product that are
+              hard to fake and expensive to get wrong. My background spans
+              founder-led products, in-house engineering, and solo client
+              builds.
             </p>
+          </FadeIn>
+
+          <FadeIn delay={0.11}>
+            <ul className={styles.proofStrip} aria-label="Selected proof points">
+              {proofPoints.map((point) => (
+                <li key={point} className={styles.proofItem}>
+                  {point}
+                </li>
+              ))}
+            </ul>
           </FadeIn>
 
           <FadeIn delay={0.14}>

@@ -9,18 +9,18 @@ import styles from "./Stories.module.css";
 const stories = [
   {
     href: "/stories/journey",
-    label: "Origin",
-    heading: "The long way around.",
+    label: "Background",
+    heading: "How I got into software.",
     teaser:
-      "A Mechanical Engineering degree, a startup that took three years and most of my sleep, a billing desk that took my patience, and the engineering role that finally fit.",
+      "From Mechanical Engineering to founder-led product work to full-time product engineering. The short version, without the drama.",
     readTime: "6 min",
   },
   {
     href: "/stories/ai",
-    label: "Perspective",
-    heading: "On using AI.",
+    label: "Working style",
+    heading: "How I use AI in practice.",
     teaser:
-      "I use it every day. Here's what that actually looks like — and what it doesn't change.",
+      "Where it helps, where it does not, and how I use it without outsourcing judgment.",
     readTime: "3 min",
   },
 ];
@@ -29,7 +29,7 @@ export function Stories() {
   return (
     <section className={styles.stories}>
       <div className={styles.container}>
-        <p className={styles.eyebrow}>Two threads worth reading</p>
+        <p className={styles.eyebrow}>More context, if useful</p>
         <div className={styles.grid}>
           {stories.map((story) => (
             <Link key={story.href} href={story.href} className={styles.card}>

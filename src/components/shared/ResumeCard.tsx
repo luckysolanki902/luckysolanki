@@ -51,7 +51,7 @@ export function ResumeCard() {
         {/* Identity */}
         <div className={styles.body}>
           <p className={styles.name}>Lucky Solanki</p>
-          <p className={styles.role}>Software Engineer &amp; Entrepreneur</p>
+          <p className={styles.role}>Product Engineer</p>
         </div>
 
         {/* Download action */}

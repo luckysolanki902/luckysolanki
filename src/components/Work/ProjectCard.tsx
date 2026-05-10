@@ -63,6 +63,12 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 440px"
             />
           )}
+          {project.location && (
+            <div className={styles.locationTag} aria-label={`Client based in ${project.location}`}>
+              <span className={styles.locationDot} />
+              {project.location}
+            </div>
+          )}
         </div>
 
         {/* Meta */}
@@ -111,7 +117,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
               className={styles.playgroundToggle}
               onClick={() => setShowPlayground(!showPlayground)}
             >
-              {showPlayground ? "Hide" : "See how it works →"}
+              {showPlayground ? "Hide walkthrough" : "View system walkthrough →"}
             </button>
           )}
         </div>

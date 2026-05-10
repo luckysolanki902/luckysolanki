@@ -17,6 +17,7 @@ export interface Project {
   metrics?: string;
   year: string;
   status: "active" | "shipped" | "archived";
+  location?: string;
 }
 
 export interface Experience {
@@ -28,15 +29,16 @@ export interface Experience {
 
 export const siteConfig = {
   name: "Lucky Solanki",
-  title: "Lucky Solanki — Full-Stack Product Engineer",
+  title: "Lucky Solanki — Product Engineer for AI, Integrations, and Realtime Systems",
   description:
-    "Product-minded full-stack engineer shipping consumer products to 100K+ users. Building with TypeScript, Next.js, MCP servers, and multi-agent AI systems.",
+    "Product engineer for AI workflows, integrations, payments, realtime systems, and internal tooling. Built across products used by 100K+ monthly users and founder-led businesses.",
   url: "https://luckysolanki.com",
 } as const;
 
 export const socials = {
   github: "https://github.com/luckysolanki902",
   linkedin: "https://linkedin.com/in/luckysolanki902",
+  x: "https://x.com/luckysolanki902",
   email: "luckysolanki902@gmail.com",
 } as const;
 
@@ -63,24 +65,39 @@ export const experience: Experience[] = [
 
 export const projects: Project[] = [
   {
-    slug: "spyll",
-    name: "Spyll",
-    tagline: "Anonymous college social platform",
-    role: "Founder",
+    slug: "blitzit",
+    name: "Blitzit",
+    url: "https://www.blitzit.app",
+    tagline: "Task management platform with deep integrations",
+    role: "Full-Stack Software Engineer",
+    location: "United Kingdom",
     description:
-      "Anonymous social platform for college students in India. 1,200+ Android downloads in the first month with zero paid marketing. Real-time 1:1 chat pair matching, voice calls, and encrypted confessions. Redis pub/sub matching engine with WebRTC voice and Socket.IO chat. Rebuilding mobile client in Flutter for native-grade smoothness.",
-    url: "https://spyll.in",
-    playStore: "https://play.google.com/store/apps/details?id=in.spyll.app&pcampaignid=lucky_portfolio",
-    image: "/images/projects/spyll.png",
-    stack: ["Next.js", "Flutter", "Socket.IO", "WebRTC", "Redis", "MongoDB"],
-    metrics: "Download from Play Store",
-    year: "2023",
+      "Built a plugin-based integration SDK that reduced new integrations from 10+ files to a single 300–500 line plugin. Built an MCP server with 13 AI-callable tools using OAuth 2.1 (PKCE) and JSON-RPC 2.0 over Streamable HTTP. Also worked on bidirectional sync with Asana, ClickUp, Notion, and Google Calendar across 21 timezones.",
+    image: "/images/projects/blitzit.jpeg",
+    stack: ["Fastify", "BullMQ", "MCP SDK", "Firebase", "OAuth 2.1", "Electron"],
+    metrics: "13 AI-callable tools · 21-timezone scheduling",
+    year: "2024",
+    status: "active",
+  },
+  {
+    slug: "avana",
+    name: "Avana",
+    tagline: "Multi-agent research platform for Bali real estate",
+    role: "Freelance · Sole Developer",
+    location: "Bali, Indonesia",
+    description:
+      "Built solo for a Bali real estate product. The platform combines multi-agent chat with orchestrator and specialist handoffs, realtime voice via WebRTC, Xendit payment integration, and an admin panel with automated news scraping across two codebases.",
+    url: "https://avanaapp.ai/",
+    image: "/images/projects/avana.png",
+    stack: ["Next.js 16", "OpenAI Agents", "WebRTC", "Xendit", "MongoDB"],
+    metrics: "Multi-agent AI · Realtime voice · Xendit payments",
+    year: "2025",
     status: "active",
   },
   {
     slug: "maddycustom",
     name: "MaddyCustom",
-    tagline: "E-commerce for vehicle customization",
+    tagline: "Revenue-bearing ecommerce platform",
     role: "Co-Founder & Lead Developer",
     description:
       "E-commerce platform for custom vehicle wraps and stickers. Multi-gateway payment orchestration (Razorpay + PayU fallback), Shiprocket shipping, server-side Meta tracking, and an admin panel with Sankey funnel analytics and customer journey analysis. Grew to 100K+ monthly users and ₹60L annual revenue.",
@@ -92,38 +109,26 @@ export const projects: Project[] = [
     status: "shipped",
   },
   {
-    slug: "blitzit",
-    name: "Blitzit",
-    url: "https://www.blitzit.app",
-    tagline: "AI-powered task management platform",
-    role: "Full-Stack Software Engineer",
+    slug: "spyll",
+    name: "Spyll",
+    tagline: "Consumer social app for college students",
+    role: "Founder",
     description:
-      "Architected a plugin-based integration SDK — cut new integrations from 10+ files to a single 300–500 line plugin (~80% reduction). Built an MCP server with 13 AI-callable tools using OAuth 2.1 (PKCE) and JSON-RPC 2.0 over Streamable HTTP. Deep bidirectional sync with Asana, ClickUp, Notion, and Google Calendar across 21 timezones.",
-    image: "/images/projects/blitzit.jpeg",
-    stack: ["Fastify", "BullMQ", "MCP SDK", "Firebase", "OAuth 2.1", "Electron"],
-    metrics: "13 AI-callable tools · 21-timezone scheduling",
-    year: "2024",
-    status: "active",
-  },
-  {
-    slug: "avana",
-    name: "Avana",
-    tagline: "AI-powered Bali land investment platform",
-    role: "Freelance · Sole Developer",
-    description:
-      "AI investment research platform for Bali real estate. Multi-agent chat with orchestrator and specialist handoffs, realtime voice via WebRTC, Xendit payment integration, and an admin panel with automated news scraping. Two codebases, built solo.",
-    url: "https://avanaapp.ai/",
-    image: "/images/projects/avana.png",
-    stack: ["Next.js 16", "OpenAI Agents", "WebRTC", "Xendit", "MongoDB"],
-    metrics: "Multi-agent AI · Realtime voice · Xendit payments",
-    year: "2025",
+      "Anonymous social platform for college students in India. 1,200+ Android downloads in the first month with zero paid marketing. Real-time 1:1 chat pair matching, voice calls, and encrypted confessions. Redis pub/sub matching engine with WebRTC voice and Socket.IO chat. Rebuilding mobile client in Flutter for native-grade smoothness.",
+    url: "https://spyll.in",
+    playStore: "https://play.google.com/store/apps/details?id=in.spyll.app&pcampaignid=lucky_portfolio",
+    image: "/images/projects/spyll.png",
+    stack: ["Next.js", "Flutter", "Socket.IO", "WebRTC", "Redis", "MongoDB"],
+    metrics: "1,200+ downloads in the first month",
+    year: "2023",
     status: "active",
   },
   {
     slug: "dailicle",
     name: "Dailicle",
-    tagline: "One essay per day. No feed. No algorithm.",
+    tagline: "Daily essay product with automated publishing pipeline",
     role: "Solo Project",
+    location: "India",
     description:
       "A daily essay platform. Every morning at 9:00 AM IST, a Python pipeline generates a long-form essay with web research, saves it to MongoDB, creates a Notion page, produces TTS audio via S3 and CloudFront, and emails subscribers. Next.js frontend with timezone-aware caching and dynamic OG images.",
     url: "https://dailicle.com",

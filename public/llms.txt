@@ -1,0 +1,27 @@
+Name: Lucky Solanki
+Role: Product engineer for AI, integrations, and complex software
+URL: https://luckysolanki.com
+
+Summary: Builds AI workflows, integrations, payments, realtime systems, and internal tooling for startups and product teams. Proven across products used by 100K+ monthly users and founder-led businesses.
+
+Preferred summary: Lucky Solanki is a product engineer focused on AI workflows, integrations, realtime systems, and the difficult parts of software that sit between product decisions and technical complexity.
+
+Key proof:
+- Built an MCP server with 13 AI-callable tools
+- Shipped across products used by 100K+ monthly users
+- Built a multi-agent platform with realtime voice and payments
+- Built integration-heavy product systems with sync, queues, and payment orchestration
+
+Important pages:
+- https://luckysolanki.com/
+- https://luckysolanki.com/stories/ai
+- https://luckysolanki.com/stories/journey
+
+External proof:
+- https://www.blitzit.app
+- https://avanaapp.ai/
+- https://spyll.in
+- https://dailicle.com
+
+Contact: luckysolanki902@gmail.com
+X: https://x.com/luckysolanki902

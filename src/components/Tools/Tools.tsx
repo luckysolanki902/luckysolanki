@@ -24,10 +24,10 @@ export function Tools() {
   return (
     <section id={SECTION_IDS.tools} className={styles.section}>
       <div className={styles.container}>
-        <SectionLabel label="Tools" />
+        <SectionLabel label="Stack" />
 
         <FadeIn>
-          <h2 className={styles.heading}>What I build with</h2>
+          <h2 className={styles.heading}>Core stack</h2>
         </FadeIn>
 
         <div className={styles.grid}>
@@ -46,7 +46,7 @@ export function Tools() {
         </div>
 
         <FadeIn delay={0.3}>
-          <p className={styles.also}>Also: {tools.also}</p>
+          <p className={styles.also}>Other tools: {tools.also}</p>
         </FadeIn>
       </div>
     </section>
