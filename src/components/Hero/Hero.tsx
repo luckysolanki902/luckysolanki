@@ -31,7 +31,7 @@ export function Hero() {
         <FadeIn delay={0.06}>
           <div className={styles.photoWrapper}>
             <Image
-              src="/images/lucky2.png"
+              src="/images/lucky3.png"
               alt="Lucky Solanki"
               width={200}
               height={248}
