@@ -8,7 +8,6 @@
 
 import { experience } from "@/lib/data";
 import { SECTION_IDS } from "@/lib/constants";
-import { FadeIn } from "@/components/shared/FadeIn";
 import { SectionLabel } from "@/components/shared/SectionLabel";
 import { HoverText } from "@/components/shared/HoverText";
 import { HoverBlock } from "@/components/shared/HoverBlock";
@@ -20,14 +19,11 @@ export function About() {
       <div className={styles.container}>
         <SectionLabel label="About" />
 
-        <FadeIn>
-          <HoverText as="h2" variant="heading" className={styles.heading} font="600 24px Quicksand">
+        <HoverText as="h2" variant="heading" className={styles.heading} font="600 24px Quicksand">
             Where I fit best.
           </HoverText>
-        </FadeIn>
 
-        <FadeIn delay={0.08}>
-          <div className={styles.body}>
+        <div className={styles.body}>
             <HoverBlock as="p">
               At{" "}
               <strong className={styles.highlight}>Blitzit</strong>, where I
@@ -51,31 +47,29 @@ export function About() {
               owning both product tradeoffs and technical execution.
             </HoverBlock>
           </div>
-        </FadeIn>
 
         {/* Experience Cards */}
         <div className={styles.cards}>
-          {experience.map((exp, i) => (
-            <FadeIn key={exp.company} delay={0.1 + i * 0.06}>
-              <div
-                className={`${styles.card} ${exp.current ? styles.cardCurrent : ""}`}
-              >
-                <div className={styles.cardTop}>
-                  <HoverText as="span" variant="card-heading" className={styles.cardCompany} font="600 16px Quicksand">
-                    {exp.company}
-                  </HoverText>
-                  {exp.current && (
-                    <span className={styles.currentBadge}>now</span>
-                  )}
-                </div>
-                <HoverText as="span" variant="detail" className={styles.cardRole} font="400 14px Inter">
-                  {exp.role}
+          {experience.map((exp) => (
+            <div
+              key={exp.company}
+              className={`${styles.card} ${exp.current ? styles.cardCurrent : ""}`}
+            >
+              <div className={styles.cardTop}>
+                <HoverText as="span" variant="card-heading" className={styles.cardCompany} font="600 16px Quicksand">
+                  {exp.company}
                 </HoverText>
-                <HoverText as="span" variant="label" className={styles.cardPeriod} font="400 12px Inter">
-                  {exp.period}
-                </HoverText>
+                {exp.current && (
+                  <span className={styles.currentBadge}>now</span>
+                )}
               </div>
-            </FadeIn>
+              <HoverText as="span" variant="detail" className={styles.cardRole} font="400 14px Inter">
+                {exp.role}
+              </HoverText>
+              <HoverText as="span" variant="label" className={styles.cardPeriod} font="400 12px Inter">
+                {exp.period}
+              </HoverText>
+            </div>
           ))}
         </div>
       </div>

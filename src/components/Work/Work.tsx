@@ -8,7 +8,6 @@
 
 import { projects } from "@/lib/data";
 import { SECTION_IDS } from "@/lib/constants";
-import { FadeIn } from "@/components/shared/FadeIn";
 import { SectionLabel } from "@/components/shared/SectionLabel";
 import { HoverText } from "@/components/shared/HoverText";
 import { ProjectCard } from "./ProjectCard";
@@ -20,11 +19,9 @@ export function Work() {
       <div className={styles.container}>
         <SectionLabel label="Work" />
 
-        <FadeIn>
-          <HoverText as="h2" variant="heading" className={styles.heading} font="600 24px Quicksand">
+        <HoverText as="h2" variant="heading" className={styles.heading} font="600 24px Quicksand">
             Selected Work
           </HoverText>
-        </FadeIn>
 
         <div className={styles.projects}>
           {projects.map((project, i) => (

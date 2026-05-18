@@ -9,7 +9,6 @@
 
 import Image from "next/image";
 import { SECTION_IDS } from "@/lib/constants";
-import { FadeIn } from "@/components/shared/FadeIn";
 import { HoverText } from "@/components/shared/HoverText";
 import styles from "./Hero.module.css";
 
@@ -29,8 +28,7 @@ export function Hero() {
   return (
     <section id={SECTION_IDS.hero} className={styles.hero}>
       <div className={styles.container}>
-        <FadeIn delay={0.06}>
-          <div className={styles.photoWrapper}>
+        <div className={styles.photoWrapper}>
             <Image
               src="/images/lucky3.png"
               alt="Lucky Solanki"
@@ -41,11 +39,9 @@ export function Hero() {
               sizes="(max-width: 768px) 140px, 200px"
             />
           </div>
-        </FadeIn>
 
         <div className={styles.content}>
-          <FadeIn>
-            <h1 className={styles.heading}>
+          <h1 className={styles.heading}>
               {headingLines.map((line, i) => (
                 <HoverText
                   key={i}
@@ -58,10 +54,8 @@ export function Hero() {
                 </HoverText>
               ))}
             </h1>
-          </FadeIn>
 
-          <FadeIn delay={0.08}>
-            <HoverText
+          <HoverText
               as="p"
               variant="paragraph"
               className={styles.subtext}
@@ -69,10 +63,8 @@ export function Hero() {
             >
               I work on integrations, AI workflows, realtime systems, payments, and internal tooling - the parts of a product that are hard to fake and expensive to get wrong. My background spans founder-led products, in-house engineering, and solo client builds.
             </HoverText>
-          </FadeIn>
 
-          <FadeIn delay={0.11}>
-            <ul className={styles.proofStrip} aria-label="Selected proof points">
+          <ul className={styles.proofStrip} aria-label="Selected proof points">
               {proofPoints.map((point) => (
                 <li key={point} className={styles.proofItem}>
                   <HoverText as="span" variant="chip" font="500 12px Inter">
@@ -81,10 +73,8 @@ export function Hero() {
                 </li>
               ))}
             </ul>
-          </FadeIn>
 
-          <FadeIn delay={0.14}>
-            <div className={styles.ctas}>
+          <div className={styles.ctas}>
               <a
                 href={`#${SECTION_IDS.work}`}
                 className={styles.primaryCta}
@@ -101,13 +91,11 @@ export function Hero() {
                 <HoverText as="span" variant="cta" font="500 14px Inter">Get in touch</HoverText>
               </a>
             </div>
-          </FadeIn>
         </div>
       </div>
 
       {/* Scroll cue — subtle arrow at bottom of hero */}
-      <FadeIn delay={0.5}>
-        <div
+      <div
           className={styles.scrollCue}
           onClick={handleScrollTo(SECTION_IDS.about)}
           role="button"
@@ -121,7 +109,6 @@ export function Hero() {
             <path d="M8 3v10M4 9l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </div>
-      </FadeIn>
     </section>
   );
 }

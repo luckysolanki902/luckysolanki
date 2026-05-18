@@ -9,7 +9,6 @@
 
 import { tools } from "@/lib/data";
 import { SECTION_IDS } from "@/lib/constants";
-import { FadeIn } from "@/components/shared/FadeIn";
 import { SectionLabel } from "@/components/shared/SectionLabel";
 import { HoverText } from "@/components/shared/HoverText";
 import styles from "./Tools.module.css";
@@ -27,16 +26,13 @@ export function Tools() {
       <div className={styles.container}>
         <SectionLabel label="Stack" />
 
-        <FadeIn>
-          <HoverText as="h2" variant="heading" className={styles.heading} font="600 24px Quicksand">
+        <HoverText as="h2" variant="heading" className={styles.heading} font="600 24px Quicksand">
             Core stack
           </HoverText>
-        </FadeIn>
 
         <div className={styles.grid}>
           {columns.map((col, i) => (
-            <FadeIn key={col.heading} delay={0.05 + i * 0.08}>
-              <div className={styles.column}>
+            <div key={col.heading} className={styles.column}>
                 <HoverText as="h3" variant="label" className={styles.columnHeading} font="500 13px Inter">
                   {col.heading}
                 </HoverText>
@@ -46,15 +42,12 @@ export function Tools() {
                   </HoverText>
                 ))}
               </div>
-            </FadeIn>
           ))}
         </div>
 
-        <FadeIn delay={0.3}>
-          <HoverText as="p" variant="paragraph" className={styles.also} font="400 13px Inter">
+        <HoverText as="p" variant="paragraph" className={styles.also} font="400 13px Inter">
             {`Other tools: ${tools.also}`}
           </HoverText>
-        </FadeIn>
       </div>
     </section>
   );
