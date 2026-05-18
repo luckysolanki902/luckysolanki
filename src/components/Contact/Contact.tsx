@@ -11,6 +11,8 @@ import { SECTION_IDS } from "@/lib/constants";
 import { FadeIn } from "@/components/shared/FadeIn";
 import { SectionLabel } from "@/components/shared/SectionLabel";
 import { ResumeCard } from "@/components/shared/ResumeCard";
+import { HoverText } from "@/components/shared/HoverText";
+import { HoverBlock } from "@/components/shared/HoverBlock";
 import styles from "./Contact.module.css";
 
 const engagementLanes = [
@@ -29,38 +31,37 @@ export function Contact() {
           {/* Left column */}
           <div className={styles.left}>
             <FadeIn>
-              <h2 className={styles.heading}>
+              <HoverText as="h2" variant="heading" className={styles.heading} font="600 24px Quicksand">
                 If you need someone to own a difficult product surface.
-              </h2>
+              </HoverText>
             </FadeIn>
 
             <FadeIn delay={0.1}>
-              <p className={styles.body}>
-                The best fit is work that sits between product judgment and
-                technical complexity.
-              </p>
+              <HoverText as="p" variant="paragraph" className={styles.body} font="400 14px Inter">
+                The best fit is work that sits between product judgment and technical complexity.
+              </HoverText>
             </FadeIn>
 
             <FadeIn delay={0.14}>
               <ul className={styles.lanes} aria-label="Best-fit engagement lanes">
                 {engagementLanes.map((lane) => (
                   <li key={lane} className={styles.laneItem}>
-                    {lane}
+                    <HoverText as="span" variant="detail" font="400 13px Inter">{lane}</HoverText>
                   </li>
                 ))}
               </ul>
             </FadeIn>
 
             <FadeIn delay={0.17}>
-              <p className={styles.note}>
+              <HoverBlock as="p" className={styles.note}>
                 If that sounds close, email me with the problem, the current
                 stack, and where things are blocked.
-              </p>
+              </HoverBlock>
             </FadeIn>
 
             <FadeIn delay={0.2}>
               <a href={`mailto:${socials.email}`} className={styles.email}>
-                {socials.email}
+                <HoverText as="span" variant="cta" font="500 16px Inter">{socials.email}</HoverText>
                 <span className={styles.emailArrow}> →</span>
               </a>
             </FadeIn>
@@ -119,21 +120,17 @@ export function Contact() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.socialLink}
-                  aria-label="X"
+                  aria-label="X (Twitter)"
                 >
+                  {/* Official X (Twitter) logo */}
                   <svg
                     width="18"
                     height="18"
                     viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                    fill="currentColor"
                     className={styles.socialIcon}
                   >
-                    <path d="M4 4l16 16" />
-                    <path d="M20 4 4 20" />
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.713 6.057 5.45-6.057zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                   </svg>
                   <span className={styles.socialText}>X</span>
                 </a>

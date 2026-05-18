@@ -11,6 +11,7 @@ import { tools } from "@/lib/data";
 import { SECTION_IDS } from "@/lib/constants";
 import { FadeIn } from "@/components/shared/FadeIn";
 import { SectionLabel } from "@/components/shared/SectionLabel";
+import { HoverText } from "@/components/shared/HoverText";
 import styles from "./Tools.module.css";
 
 const columns = [
@@ -27,18 +28,22 @@ export function Tools() {
         <SectionLabel label="Stack" />
 
         <FadeIn>
-          <h2 className={styles.heading}>Core stack</h2>
+          <HoverText as="h2" variant="heading" className={styles.heading} font="600 24px Quicksand">
+            Core stack
+          </HoverText>
         </FadeIn>
 
         <div className={styles.grid}>
           {columns.map((col, i) => (
             <FadeIn key={col.heading} delay={0.05 + i * 0.08}>
               <div className={styles.column}>
-                <h3 className={styles.columnHeading}>{col.heading}</h3>
+                <HoverText as="h3" variant="label" className={styles.columnHeading} font="500 13px Inter">
+                  {col.heading}
+                </HoverText>
                 {col.items.map((item) => (
-                  <p key={item} className={styles.columnItem}>
+                  <HoverText key={item} as="p" variant="detail" className={styles.columnItem} font="400 14px Inter">
                     {item}
-                  </p>
+                  </HoverText>
                 ))}
               </div>
             </FadeIn>
@@ -46,7 +51,9 @@ export function Tools() {
         </div>
 
         <FadeIn delay={0.3}>
-          <p className={styles.also}>Other tools: {tools.also}</p>
+          <HoverText as="p" variant="paragraph" className={styles.also} font="400 13px Inter">
+            {`Other tools: ${tools.also}`}
+          </HoverText>
         </FadeIn>
       </div>
     </section>

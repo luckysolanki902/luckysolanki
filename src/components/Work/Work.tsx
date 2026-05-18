@@ -10,6 +10,7 @@ import { projects } from "@/lib/data";
 import { SECTION_IDS } from "@/lib/constants";
 import { FadeIn } from "@/components/shared/FadeIn";
 import { SectionLabel } from "@/components/shared/SectionLabel";
+import { HoverText } from "@/components/shared/HoverText";
 import { ProjectCard } from "./ProjectCard";
 import styles from "./Work.module.css";
 
@@ -20,7 +21,9 @@ export function Work() {
         <SectionLabel label="Work" />
 
         <FadeIn>
-          <h2 className={styles.heading}>Selected Work</h2>
+          <HoverText as="h2" variant="heading" className={styles.heading} font="600 24px Quicksand">
+            Selected Work
+          </HoverText>
         </FadeIn>
 
         <div className={styles.projects}>

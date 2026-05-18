@@ -1,0 +1,19 @@
+/* ============================================================
+   HoverBlock.module.css
+   Whole-block hover animation for mixed-content elements.
+   Uses CSS transition (not keyframe) — persistent hover state.
+   Motion: subtle lift + soft brightness increase.
+   Completely different from all HoverText split-text variants.
+   ============================================================ */
+
+.block {
+  transition:
+    filter 260ms ease,
+    transform 260ms ease;
+  cursor: default;
+}
+
+.block:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}

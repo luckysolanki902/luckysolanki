@@ -12,6 +12,7 @@ import Image from "next/image";
 import { Download } from "lucide-react";
 import type { Project } from "@/lib/data";
 import { FadeIn } from "@/components/shared/FadeIn";
+import { HoverText } from "@/components/shared/HoverText";
 import { BlitzitPlayground } from "./BlitzitPlayground";
 import { MaddyCustomPlayground } from "./MaddyCustomPlayground";
 import { SpyllPlayground } from "./SpyllPlayground";
@@ -74,8 +75,12 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
         {/* Meta */}
         <div className={styles.cardMeta}>
           <div className={styles.cardNameRow}>
-            <h3 className={styles.cardName}>{project.name}</h3>
-            <span className={styles.cardRole}>{project.role}</span>
+            <HoverText as="h3" variant="card-heading" className={styles.cardName} font="600 18px Quicksand">
+              {project.name}
+            </HoverText>
+            <HoverText as="span" variant="label" className={styles.cardRole} font="500 12px Inter">
+              {project.role}
+            </HoverText>
           </div>
 
           {project.url && (
@@ -85,12 +90,16 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
               rel="noopener noreferrer"
               className={styles.cardLink}
             >
-              {project.url.replace(/^https?:\/\//, "").replace(/\/$/, "")}{" "}
+              <HoverText as="span" variant="cta" font="400 13px Inter">
+                {project.url.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+              </HoverText>{" "}
               <span className={styles.linkArrow}>→</span>
             </a>
           )}
 
-          <p className={styles.cardDescription}>{project.description}</p>
+          <HoverText as="p" variant="detail" className={styles.cardDescription} font="400 14px Inter">
+            {project.description}
+          </HoverText>
 
           {project.metrics && (
             <p className={styles.cardMetrics}>
@@ -110,14 +119,18 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
             </p>
           )}
 
-          <p className={styles.cardStack}>{project.stack.join(" · ")}</p>
+          <HoverText as="p" variant="label" className={styles.cardStack} font="400 13px Inter">
+            {project.stack.join(" · ")}
+          </HoverText>
 
           {hasPlayground && (
             <button
               className={styles.playgroundToggle}
               onClick={() => setShowPlayground(!showPlayground)}
             >
-              {showPlayground ? "Hide walkthrough" : "View system walkthrough →"}
+              <HoverText as="span" variant="cta" font="500 13px Inter">
+                {showPlayground ? "Hide walkthrough" : "View system walkthrough →"}
+              </HoverText>
             </button>
           )}
         </div>

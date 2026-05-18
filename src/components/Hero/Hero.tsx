@@ -10,6 +10,7 @@
 import Image from "next/image";
 import { SECTION_IDS } from "@/lib/constants";
 import { FadeIn } from "@/components/shared/FadeIn";
+import { HoverText } from "@/components/shared/HoverText";
 import styles from "./Hero.module.css";
 
 const headingLines = ["I build the hard parts", "of product software."];
@@ -46,28 +47,37 @@ export function Hero() {
           <FadeIn>
             <h1 className={styles.heading}>
               {headingLines.map((line, i) => (
-                <span key={i} className={styles.headingLine}>
+                <HoverText
+                  key={i}
+                  as="span"
+                  variant="heading"
+                  className={styles.headingLine}
+                  font="600 32px Quicksand"
+                >
                   {line}
-                </span>
+                </HoverText>
               ))}
             </h1>
           </FadeIn>
 
           <FadeIn delay={0.08}>
-            <p className={styles.subtext}>
-              I work on integrations, AI workflows, realtime systems,
-              payments, and internal tooling - the parts of a product that are
-              hard to fake and expensive to get wrong. My background spans
-              founder-led products, in-house engineering, and solo client
-              builds.
-            </p>
+            <HoverText
+              as="p"
+              variant="paragraph"
+              className={styles.subtext}
+              font="400 14px Inter"
+            >
+              I work on integrations, AI workflows, realtime systems, payments, and internal tooling - the parts of a product that are hard to fake and expensive to get wrong. My background spans founder-led products, in-house engineering, and solo client builds.
+            </HoverText>
           </FadeIn>
 
           <FadeIn delay={0.11}>
             <ul className={styles.proofStrip} aria-label="Selected proof points">
               {proofPoints.map((point) => (
                 <li key={point} className={styles.proofItem}>
-                  {point}
+                  <HoverText as="span" variant="chip" font="500 12px Inter">
+                    {point}
+                  </HoverText>
                 </li>
               ))}
             </ul>
@@ -80,7 +90,7 @@ export function Hero() {
                 className={styles.primaryCta}
                 onClick={handleScrollTo(SECTION_IDS.work)}
               >
-                See my work
+                <HoverText as="span" variant="cta" font="500 14px Inter">See my work</HoverText>
                 <span className={styles.arrow} aria-hidden="true">→</span>
               </a>
               <a
@@ -88,7 +98,7 @@ export function Hero() {
                 className={styles.secondaryCta}
                 onClick={handleScrollTo(SECTION_IDS.contact)}
               >
-                Get in touch
+                <HoverText as="span" variant="cta" font="500 14px Inter">Get in touch</HoverText>
               </a>
             </div>
           </FadeIn>

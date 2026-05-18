@@ -7,6 +7,7 @@
 "use client";
 
 import { FadeIn } from "./FadeIn";
+import { HoverText } from "./HoverText";
 import styles from "./SectionLabel.module.css";
 
 interface SectionLabelProps {
@@ -16,7 +17,9 @@ interface SectionLabelProps {
 export function SectionLabel({ label }: SectionLabelProps) {
   return (
     <FadeIn direction="left" duration={0.4}>
-      <span className={styles.label}>{label}</span>
+      <HoverText as="span" variant="label" className={styles.label} font="500 12px Inter">
+        {label}
+      </HoverText>
     </FadeIn>
   );
 }

@@ -14,6 +14,7 @@ import { NAV_LINKS } from "@/lib/constants";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
+import { HoverText } from "@/components/shared/HoverText";
 import styles from "./Nav.module.css";
 
 export function Nav() {
@@ -61,7 +62,7 @@ export function Nav() {
             onClick={scrollToTop}
             aria-label="Go to homepage"
           >
-            Lucky Solanki
+            <HoverText as="span" variant="card-heading" font="600 14px Quicksand">Lucky Solanki</HoverText>
           </a>
 
           {/* Desktop Links */}
@@ -75,7 +76,7 @@ export function Nav() {
                 }`}
                 onClick={(e) => handleNavClick(e, link.href.replace("/", ""))}
               >
-                {link.label}
+                <HoverText as="span" variant="label" font="500 13px Inter">{link.label}</HoverText>
               </a>
             ))}
             <ThemeToggle />
