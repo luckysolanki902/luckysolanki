@@ -11,7 +11,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { Download } from "lucide-react";
 import type { Project } from "@/lib/data";
-import { FadeIn } from "@/components/shared/FadeIn";
 import { HoverText } from "@/components/shared/HoverText";
 import { BlitzitPlayground } from "./BlitzitPlayground";
 import { MaddyCustomPlayground } from "./MaddyCustomPlayground";
@@ -33,7 +32,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
   const hasPlayground = PLAYGROUND_SLUGS.has(project.slug);
 
   return (
-    <FadeIn delay={index * 0.07}>
+    <>
       <article className={`${styles.card} ${isReversed ? styles.cardReversed : ""}`}>
         {/* Screenshot */}
         <div className={styles.imageWrapper}>
@@ -78,9 +77,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
             <HoverText as="h3" variant="card-heading" className={styles.cardName} font="600 18px Quicksand">
               {project.name}
             </HoverText>
-            <HoverText as="span" variant="label" className={styles.cardRole} font="500 12px Inter">
-              {project.role}
-            </HoverText>
+            <span className={styles.cardRole}>{project.role}</span>
           </div>
 
           {project.url && (
@@ -90,16 +87,12 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
               rel="noopener noreferrer"
               className={styles.cardLink}
             >
-              <HoverText as="span" variant="cta" font="400 13px Inter">
-                {project.url.replace(/^https?:\/\//, "").replace(/\/$/, "")}
-              </HoverText>{" "}
+              {project.url.replace(/^https?:\/\//, "").replace(/\/$/, "")}{" "}
               <span className={styles.linkArrow}>→</span>
             </a>
           )}
 
-          <HoverText as="p" variant="detail" className={styles.cardDescription} font="400 14px Inter">
-            {project.description}
-          </HoverText>
+          <p className={styles.cardDescription}>{project.description}</p>
 
           {project.metrics && (
             <p className={styles.cardMetrics}>
@@ -119,18 +112,14 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
             </p>
           )}
 
-          <HoverText as="p" variant="label" className={styles.cardStack} font="400 13px Inter">
-            {project.stack.join(" · ")}
-          </HoverText>
+          <p className={styles.cardStack}>{project.stack.join(" · ")}</p>
 
           {hasPlayground && (
             <button
               className={styles.playgroundToggle}
               onClick={() => setShowPlayground(!showPlayground)}
             >
-              <HoverText as="span" variant="cta" font="500 13px Inter">
-                {showPlayground ? "Hide walkthrough" : "View system walkthrough →"}
-              </HoverText>
+              {showPlayground ? "Hide walkthrough" : "View system walkthrough →"}
             </button>
           )}
         </div>
@@ -141,6 +130,6 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
       {showPlayground && project.slug === "spyll" && <SpyllPlayground />}
       {showPlayground && project.slug === "avana" && <AvanaPlayground />}
       {showPlayground && project.slug === "dailicle" && <DailiclePlayground />}
-    </FadeIn>
+    </>
   );
 }

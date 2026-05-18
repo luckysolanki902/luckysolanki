@@ -33,21 +33,15 @@ export function Tools() {
         <div className={styles.grid}>
           {columns.map((col, i) => (
             <div key={col.heading} className={styles.column}>
-                <HoverText as="h3" variant="label" className={styles.columnHeading} font="500 13px Inter">
-                  {col.heading}
-                </HoverText>
+                <h3 className={styles.columnHeading}>{col.heading}</h3>
                 {col.items.map((item) => (
-                  <HoverText key={item} as="p" variant="detail" className={styles.columnItem} font="400 14px Inter">
-                    {item}
-                  </HoverText>
+                  <p key={item} className={styles.columnItem}>{item}</p>
                 ))}
               </div>
           ))}
         </div>
 
-        <HoverText as="p" variant="paragraph" className={styles.also} font="400 13px Inter">
-            {`Other tools: ${tools.also}`}
-          </HoverText>
+        <p className={styles.also}>{`Other tools: ${tools.also}`}</p>
       </div>
     </section>
   );

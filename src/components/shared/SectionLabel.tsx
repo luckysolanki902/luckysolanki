@@ -6,7 +6,6 @@
 
 "use client";
 
-import { HoverText } from "./HoverText";
 import styles from "./SectionLabel.module.css";
 
 interface SectionLabelProps {
@@ -15,8 +14,6 @@ interface SectionLabelProps {
 
 export function SectionLabel({ label }: SectionLabelProps) {
   return (
-    <HoverText as="span" variant="label" className={styles.label} font="500 12px Inter">
-      {label}
-    </HoverText>
+    <span className={styles.label}>{label}</span>
   );
 }

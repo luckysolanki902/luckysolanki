@@ -5,8 +5,8 @@
 
 "use client";
 
-import Link from "next/link";
 import { HoverText } from "@/components/shared/HoverText";
+import Link from "next/link";
 import styles from "./Stories.module.css";
 
 const stories = [
@@ -32,25 +32,17 @@ export function Stories() {
   return (
     <section className={styles.stories}>
       <div className={styles.container}>
-        <HoverText as="p" variant="label" className={styles.eyebrow} font="500 12px Inter">
-          More context, if useful
-        </HoverText>
+        <p className={styles.eyebrow}>More context, if useful</p>
         <div className={styles.grid}>
           {stories.map((story) => (
             <Link key={story.href} href={story.href} className={styles.card}>
-              <HoverText as="span" variant="label" className={styles.cardLabel} font="500 11px Inter">
-                {story.label}
-              </HoverText>
+              <span className={styles.cardLabel}>{story.label}</span>
               <HoverText as="h3" variant="card-heading" className={styles.cardHeading} font="600 18px Quicksand">
                 {story.heading}
               </HoverText>
-              <HoverText as="p" variant="paragraph" className={styles.cardTeaser} font="400 14px Inter">
-                {story.teaser}
-              </HoverText>
+              <p className={styles.cardTeaser}>{story.teaser}</p>
               <span className={styles.cardFooter}>
-                <HoverText as="span" variant="chip" className={styles.readTime} font="400 12px Inter">
-                  {`${story.readTime} read`}
-                </HoverText>
+                <span className={styles.readTime}>{`${story.readTime} read`}</span>
                 <span className={styles.arrow} aria-hidden="true">→</span>
               </span>
             </Link>

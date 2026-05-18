@@ -10,7 +10,6 @@ import { experience } from "@/lib/data";
 import { SECTION_IDS } from "@/lib/constants";
 import { SectionLabel } from "@/components/shared/SectionLabel";
 import { HoverText } from "@/components/shared/HoverText";
-import { HoverBlock } from "@/components/shared/HoverBlock";
 import styles from "./About.module.css";
 
 export function About() {
@@ -24,28 +23,28 @@ export function About() {
           </HoverText>
 
         <div className={styles.body}>
-            <HoverBlock as="p">
+            <p>
               At{" "}
               <strong className={styles.highlight}>Blitzit</strong>, where I
               work on integrations, AI tooling, and backend systems that support
               daily product use.
-            </HoverBlock>
-            <HoverBlock as="p">
+            </p>
+            <p>
               Before that, I co-founded{" "}
               <strong className={styles.highlight}>MaddyCustom</strong> and
               built the platform behind a business that grew to 100K+ monthly
               users and ₹60L annual revenue.
-            </HoverBlock>
-            <HoverBlock as="p">
+            </p>
+            <p>
               I also run <strong className={styles.highlight}>Spyll</strong>, a
               consumer app that reached 1,200+ Android downloads in its first
               month without paid acquisition.
-            </HoverBlock>
-            <HoverBlock as="p">
+            </p>
+            <p>
               That mix matters. I have shipped as a founder, as an in-house
               engineer, and as a solo builder - which makes me comfortable
               owning both product tradeoffs and technical execution.
-            </HoverBlock>
+            </p>
           </div>
 
         {/* Experience Cards */}
@@ -63,12 +62,8 @@ export function About() {
                   <span className={styles.currentBadge}>now</span>
                 )}
               </div>
-              <HoverText as="span" variant="detail" className={styles.cardRole} font="400 14px Inter">
-                {exp.role}
-              </HoverText>
-              <HoverText as="span" variant="label" className={styles.cardPeriod} font="400 12px Inter">
-                {exp.period}
-              </HoverText>
+              <span className={styles.cardRole}>{exp.role}</span>
+              <span className={styles.cardPeriod}>{exp.period}</span>
             </div>
           ))}
         </div>

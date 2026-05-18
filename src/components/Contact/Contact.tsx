@@ -11,7 +11,6 @@ import { SECTION_IDS } from "@/lib/constants";
 import { SectionLabel } from "@/components/shared/SectionLabel";
 import { ResumeCard } from "@/components/shared/ResumeCard";
 import { HoverText } from "@/components/shared/HoverText";
-import { HoverBlock } from "@/components/shared/HoverBlock";
 import styles from "./Contact.module.css";
 
 const engagementLanes = [
@@ -33,25 +32,25 @@ export function Contact() {
                 If you need someone to own a difficult product surface.
               </HoverText>
 
-            <HoverText as="p" variant="paragraph" className={styles.body} font="400 14px Inter">
+            <p className={styles.body}>
                 The best fit is work that sits between product judgment and technical complexity.
-              </HoverText>
+              </p>
 
             <ul className={styles.lanes} aria-label="Best-fit engagement lanes">
                 {engagementLanes.map((lane) => (
                   <li key={lane} className={styles.laneItem}>
-                    <HoverText as="span" variant="detail" font="400 13px Inter">{lane}</HoverText>
+                    {lane}
                   </li>
                 ))}
               </ul>
 
-            <HoverBlock as="p" className={styles.note}>
+            <p className={styles.note}>
                 If that sounds close, email me with the problem, the current
                 stack, and where things are blocked.
-              </HoverBlock>
+              </p>
 
             <a href={`mailto:${socials.email}`} className={styles.email}>
-                <HoverText as="span" variant="cta" font="500 16px Inter">{socials.email}</HoverText>
+                {socials.email}
                 <span className={styles.emailArrow}> →</span>
               </a>
 

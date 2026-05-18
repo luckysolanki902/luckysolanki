@@ -67,9 +67,7 @@ export function Hero() {
           <ul className={styles.proofStrip} aria-label="Selected proof points">
               {proofPoints.map((point) => (
                 <li key={point} className={styles.proofItem}>
-                  <HoverText as="span" variant="chip" font="500 12px Inter">
-                    {point}
-                  </HoverText>
+                  {point}
                 </li>
               ))}
             </ul>
@@ -80,7 +78,7 @@ export function Hero() {
                 className={styles.primaryCta}
                 onClick={handleScrollTo(SECTION_IDS.work)}
               >
-                <HoverText as="span" variant="cta" font="500 14px Inter">See my work</HoverText>
+                See my work
                 <span className={styles.arrow} aria-hidden="true">→</span>
               </a>
               <a
@@ -88,7 +86,7 @@ export function Hero() {
                 className={styles.secondaryCta}
                 onClick={handleScrollTo(SECTION_IDS.contact)}
               >
-                <HoverText as="span" variant="cta" font="500 14px Inter">Get in touch</HoverText>
+                Get in touch
               </a>
             </div>
         </div>
