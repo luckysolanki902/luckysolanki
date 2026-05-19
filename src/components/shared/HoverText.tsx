@@ -97,29 +97,50 @@ export function HoverText({
       variant === "card-heading" ? styles.blurSnap   :
       variant === "label"        ? styles.labelFlick : "";
 
-    const renderedChars = segments.flatMap((seg, si) =>
-      [...seg].map((char, ci) => {
+    // Group chars by word so line breaks only occur at spaces, not mid-word
+    const wordNodes: React.ReactNode[] = [];
+    let currentWordChars: React.ReactNode[] = [];
+    let wordKey = 0;
+
+    const flushWord = () => {
+      if (currentWordChars.length > 0) {
+        wordNodes.push(
+          <span key={`w-${wordKey++}`} className={styles.charWord}>
+            {currentWordChars}
+          </span>
+        );
+        currentWordChars = [];
+      }
+    };
+
+    segments.forEach((seg, si) =>
+      [...seg].forEach((char, ci) => {
         const isSpace = char === " " || char === "\u00A0" || char === "\t";
         if (isSpace) {
-          return (
+          flushWord();
+          wordNodes.push(
             <span key={`${si}-${ci}`} aria-hidden="true" className={styles.gap}>
               {char}
             </span>
           );
+        } else {
+          const i = charIdx++;
+          currentWordChars.push(
+            <span
+              key={`${si}-${ci}`}
+              aria-hidden="true"
+              className={`${styles.char}${active && activeClass ? ` ${activeClass}` : ""}`}
+              style={{ "--i": i } as React.CSSProperties}
+            >
+              {char}
+            </span>
+          );
         }
-        const i = charIdx++;
-        return (
-          <span
-            key={`${si}-${ci}`}
-            aria-hidden="true"
-            className={`${styles.char}${active && activeClass ? ` ${activeClass}` : ""}`}
-            style={{ "--i": i } as React.CSSProperties}
-          >
-            {char}
-          </span>
-        );
       })
     );
+    flushWord();
+
+    const renderedChars = wordNodes;
 
     return (
       <Tag

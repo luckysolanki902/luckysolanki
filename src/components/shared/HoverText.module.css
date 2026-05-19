@@ -10,10 +10,18 @@
   display: inline;
 }
 
+/* Wraps a full word's chars — prevents mid-word line breaks */
+.charWord {
+  display: inline-block;
+  white-space: nowrap;
+}
+
 /* Base for all char-level variants */
 .char {
   display: inline-block;
   white-space: pre;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 /* Base for color-only word variants (no transform needed) */
