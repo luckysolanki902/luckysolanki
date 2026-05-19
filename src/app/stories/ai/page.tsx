@@ -95,7 +95,7 @@ export default function AIPage() {
 
           <p>
             I build integrations, realtime features, and payment flows. These
-            are systems where "often correct" is not good enough. A sync
+            are systems where &quot;often correct&quot; is not good enough. A sync
             conflict, a race condition, a missing idempotency key — the AI will
             generate plausible code for all of these and sometimes generate it
             wrong. Every output gets read. Every pattern gets checked against
