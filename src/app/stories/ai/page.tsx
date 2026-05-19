@@ -1,6 +1,6 @@
 /* ============================================================
    Story page: How I use AI in practice
-   Tone: practical, sober, specific.
+   Tone: practical, sober, specific. One voice — no tool ranking.
    ============================================================ */
 
 import type { Metadata } from "next";
@@ -12,14 +12,14 @@ export const dynamic = "force-static";
 export const metadata: Metadata = {
   title: "How I use AI in practice - Lucky Solanki",
   description:
-    "A practical note on how I use Claude Code and GitHub Copilot for research, technical decisions, implementation, and verification.",
+    "A practical note on how tools like GitHub Copilot and Claude Code fit into my workflow — where they earn their keep and where judgment still lives.",
   alternates: {
     canonical: "https://luckysolanki.com/stories/ai",
   },
   openGraph: {
     title: "How I use AI in practice - Lucky Solanki",
     description:
-      "A practical note on how I use Claude Code and GitHub Copilot for research, technical decisions, implementation, and verification.",
+      "A practical note on how tools like GitHub Copilot and Claude Code fit into my workflow — where they earn their keep and where judgment still lives.",
     url: "https://luckysolanki.com/stories/ai",
     siteName: "Lucky Solanki",
     type: "article",
@@ -29,26 +29,11 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "How I use AI in practice - Lucky Solanki",
     description:
-      "A practical note on how I use Claude Code and GitHub Copilot for research, technical decisions, implementation, and verification.",
+      "A practical note on how tools like GitHub Copilot and Claude Code fit into my workflow — where they earn their keep and where judgment still lives.",
     images: ["/og-image.png"],
     creator: "@luckysolanki902",
   },
 };
-
-const tools = [
-  {
-    name: "Claude Code",
-    role: "Research, codebase inspection, and planning",
-    description:
-      "Best when I need to inspect an unfamiliar codebase, compare implementation paths, gather documentation, trace dependencies, or turn a rough problem into a concrete plan. It helps with research and technical decisions, not just code generation.",
-  },
-  {
-    name: "GitHub Copilot",
-    role: "Implementation, refactoring, and fast iteration",
-    description:
-      "Best once the direction is clear: repetitive code, schema work, file-to-file refactors, tests, and quick editor-side iteration. It compresses the mechanical part of shipping, but I still review and verify everything it produces.",
-  },
-];
 
 export default function AIPage() {
   return (
@@ -62,64 +47,72 @@ export default function AIPage() {
           <span className={styles.eyebrow}>Working style</span>
           <h1 className={styles.heading}>How I use AI in practice.</h1>
           <p className={styles.lede}>
-            Claude Code and GitHub Copilot do far more than syntax work for me.
-            They accelerate research, planning, implementation, and verification
-            without replacing judgment.
+            Tools like GitHub Copilot and Claude Code have changed every phase
+            of how I work — not just how fast I type, but how quickly I can
+            think through a problem and move to something working.
           </p>
         </header>
 
         <div className={styles.prose}>
           <p>
-            If AI only helped with syntax, I would not care about it nearly as
-            much. The bigger value is how quickly it helps me gather context,
-            inspect unfamiliar code, compare options, and move from a rough
-            problem to a workable plan.
+            If AI only saved keystrokes, I would not care much about it. The
+            bigger shift is cognitive. Context gathering, codebase traversal,
+            option comparison, first-pass architecture — all of that moves
+            faster now. What used to be an afternoon of chasing documentation
+            and tracing dependencies can take twenty minutes.
           </p>
           <p>
-            Technical decisions still get made the normal way: understand the
-            product constraint, inspect the system, and choose tradeoffs
-            deliberately. AI helps during that process too. It speeds up
-            documentation lookup, alternative evaluation, edge-case discovery,
-            codebase exploration, and first-pass architecture work.
-          </p>
-          <p>
-            Once the direction is clear, Claude Code and Copilot make execution
-            dramatically faster. Refactors that used to take hours become much
-            shorter loops. Boilerplate, repetitive handlers, schema changes,
-            test scaffolding, repo-wide edits, and implementation follow-through
-            move far faster than they used to. In practice, the whole workflow
-            feels closer to 20x faster than before.
+            I use tools like GitHub Copilot and Claude Code. Both do the same
+            core thing well: read context, reason about it, generate useful
+            output. Between the two, I have settled into preferring GitHub
+            Copilot as my primary tool. It lives inside VS Code, the editor I
+            already think in — I do not context-switch, I do not break flow, it
+            is just there. The pricing is also meaningfully better for the
+            volume of work I push through it every day.
           </p>
 
-          <h2 className={styles.subheading}>How the work actually splits</h2>
-        </div>
+          <h2 className={styles.subheading}>Where AI earns its keep</h2>
 
-        <div className={styles.toolsGrid}>
-          {tools.map((tool) => (
-            <div key={tool.name} className={styles.toolCard}>
-              <div className={styles.toolHeader}>
-                <span className={styles.toolName}>{tool.name}</span>
-                <span className={styles.toolRole}>{tool.role}</span>
-              </div>
-              <p className={styles.toolDesc}>{tool.description}</p>
-            </div>
-          ))}
-        </div>
-
-        <div className={styles.prose}>
           <p>
-            Claude Code is strongest for repo-level research and decision
-            support. Copilot is strongest once the path is clear and I want to
-            move quickly inside the editor. Together they speed up the whole
-            loop, not just typing.
+            It is not autocomplete. Before I write a line of code: reading an
+            unfamiliar codebase, tracing how a feature actually works end to
+            end, comparing two implementation paths before committing to one.
+            During implementation: schema changes, repetitive handlers,
+            file-to-file refactors, test scaffolding, boilerplate that has to
+            be correct but does not need to be interesting. After: reviewing
+            the diff, catching edge cases I missed, spotting places where I
+            over-engineered.
           </p>
           <p>
-            I still debug by reading the code and tracing the system. I still
-            decide what is correct, what is risky, and what actually ships.
-            That is the useful frame for me: AI is leverage across the full
-            loop, from research to delivery. It makes me faster at thinking,
-            faster at executing, and faster at verifying. It does not remove
-            the need for judgment.
+            The whole loop — from problem to shipped code — moves differently
+            now. Refactors that used to cost hours become short feedback
+            cycles. I can explore an option I would have skipped before just
+            because the cost of trying it is so low. That changes what I build,
+            not just how fast I build it.
+          </p>
+
+          <h2 className={styles.subheading}>Where judgment still lives</h2>
+
+          <p>
+            I build integrations, realtime features, and payment flows. These
+            are systems where "often correct" is not good enough. A sync
+            conflict, a race condition, a missing idempotency key — the AI will
+            generate plausible code for all of these and sometimes generate it
+            wrong. Every output gets read. Every pattern gets checked against
+            how the actual system behaves.
+          </p>
+          <p>
+            The tools are fast and frequently right. But I still decide what
+            ships. I still read the error and trace the system. I still catch
+            the case where a generated pattern is technically valid but wrong
+            for the product. That work has not changed — only the speed at
+            which everything around it moves.
+          </p>
+          <p>
+            The frame that works for me: AI is leverage across the full loop,
+            from research to delivery. Not a replacement for knowing what you
+            are doing, but a serious force multiplier on the parts of the work
+            that did not need to be slow.
           </p>
         </div>
 
