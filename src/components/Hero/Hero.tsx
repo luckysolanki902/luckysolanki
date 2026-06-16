@@ -3,10 +3,12 @@
    Left-aligned. Content-first. One visual idea: the soft rise.
    Metric callout for trust. Scroll cue at bottom.
    Mobile: photo above text. Desktop: text left, photo right.
+   Photo: stepped zoom-in at cursor on hover, reverses after 5.
    ============================================================ */
 
 "use client";
 
+import { useState, useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { SECTION_IDS } from "@/lib/constants";
 import { HoverText } from "@/components/shared/HoverText";
@@ -20,23 +22,84 @@ const proofPoints = [
   "Founder + in-house experience",
 ];
 
+const ZOOM_STEP = 0.08;
+const ZOOM_MAX = 5;
+const ZOOM_INTERVAL_MS = 2000;
+
 export function Hero() {
   const theme = useThemeStore((s) => s.theme);
+
+  // ── Stepped zoom at cursor ────────────────────────────
+  const [zoom, setZoom] = useState({ step: 0, zoomingIn: true });
+  const [origin, setOrigin] = useState({ x: 50, y: 50 });
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const clearZoomInterval = useCallback(() => {
+    if (intervalRef.current !== null) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => clearZoomInterval, [clearZoomInterval]);
+
+  const handleMouseEnter = useCallback(() => {
+    setZoom({ step: 1, zoomingIn: true });
+    clearZoomInterval();
+    intervalRef.current = setInterval(() => {
+      setZoom((prev) => {
+        if (prev.zoomingIn) {
+          if (prev.step >= ZOOM_MAX) return { step: ZOOM_MAX - 1, zoomingIn: false };
+          return { step: prev.step + 1, zoomingIn: true };
+        }
+        if (prev.step <= 0) return { step: 1, zoomingIn: true };
+        return { step: prev.step - 1, zoomingIn: false };
+      });
+    }, ZOOM_INTERVAL_MS);
+  }, [clearZoomInterval]);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!wrapperRef.current) return;
+    const rect = wrapperRef.current.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setOrigin({ x, y });
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    clearZoomInterval();
+    setZoom({ step: 0, zoomingIn: true });
+  }, [clearZoomInterval]);
+
   const handleScrollTo = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault();
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const scale = 1 + zoom.step * ZOOM_STEP;
+  const imageStyle = {
+    transform: `scale(${scale})`,
+    transformOrigin: `${origin.x}% ${origin.y}%`,
+  };
+
   return (
     <section id={SECTION_IDS.hero} className={styles.hero}>
       <div className={styles.container}>
-        <div className={styles.photoWrapper}>
+        <div
+          className={styles.photoWrapper}
+          ref={wrapperRef}
+          onMouseEnter={handleMouseEnter}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+        >
             <Image
               src={theme === "dark" ? "/images/lucky-b-dark.png" : "/images/lucky-b-light.png"}
               alt="Lucky Solanki"
               width={200}
               height={248}
               className={styles.photo}
+              style={imageStyle}
               priority
               sizes="(max-width: 768px) 140px, 200px"
             />

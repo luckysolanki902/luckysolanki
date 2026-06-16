@@ -49,6 +49,16 @@
   color: var(--text-primary);
 }
 
+/* ---- Per-letter spans (pretext split) — float / bury ---- */
+.letter {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.gap {
+  white-space: pre;
+}
+
 /* ---- Print: hide ---- */
 @media print {
   .reveal {

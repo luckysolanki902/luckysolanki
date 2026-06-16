@@ -202,16 +202,26 @@ export function getTimeGreeting(): BuddyTrigger {
    ----------------------------------------------------------- */
 export const themeToggleTriggers: Record<string, BuddyTrigger[]> = {
   dark: [
-    { id: "theme-dark-1", message: "Dark mode. A person of culture.", mood: "wink", priority: 7, cooldown: 15 },
-    { id: "theme-dark-2", message: "Ah, dark mode. My eyes thank you.", mood: "happy", priority: 7, cooldown: 15 },
-    { id: "theme-dark-3", message: "The dark side has better contrast.", mood: "wink", priority: 7, cooldown: 15 },
+    { id: "theme-dark-1", message: "Storm's rolling in. Let me grab my umbrella.", mood: "wink", priority: 7, cooldown: 15 },
+    { id: "theme-dark-2", message: "Dark mode and rain. Cozy. My eyes thank you.", mood: "happy", priority: 7, cooldown: 15 },
+    { id: "theme-dark-3", message: "Thunder weather. Don't worry, I packed an umbrella.", mood: "wink", priority: 7, cooldown: 15 },
   ],
   light: [
-    { id: "theme-light-1", message: "Whoa. Bright mode. Brave.", mood: "happy", priority: 7, cooldown: 15 },
-    { id: "theme-light-2", message: "Light mode? In this economy?", mood: "wink", priority: 7, cooldown: 15 },
-    { id: "theme-light-3", message: "Light mode activated. Nowhere to hide now.", mood: "happy", priority: 7, cooldown: 15 },
+    { id: "theme-light-1", message: "Sun's out, leaves are falling. I'll put the umbrella away.", mood: "happy", priority: 7, cooldown: 15 },
+    { id: "theme-light-2", message: "Autumn mode. Smells like a good afternoon.", mood: "wink", priority: 7, cooldown: 15 },
+    { id: "theme-light-3", message: "Bright and breezy. Watch the leaves pile up below.", mood: "happy", priority: 7, cooldown: 15 },
   ],
 };
+
+/* -----------------------------------------------------------
+   WATER — fired the moment the rising flood reaches the buddy
+   ----------------------------------------------------------- */
+export const waterTriggers: BuddyTrigger[] = [
+  { id: "water-1", message: "Welp. The page is flooding. Time to swim, I guess.", mood: "shocked", priority: 8, cooldown: 60 },
+  { id: "water-2", message: "Water's rising. Folding the umbrella — won't help now.", mood: "wink", priority: 8, cooldown: 60 },
+  { id: "water-3", message: "Good thing I learned to float. Wheee.", mood: "happy", priority: 8, cooldown: 60 },
+  { id: "water-4", message: "If it keeps filling, I'm getting a bigger boat.", mood: "think", priority: 8, cooldown: 60 },
+];
 
 /* -----------------------------------------------------------
    CLICK TRIGGERS — 2-3 per target

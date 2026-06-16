@@ -37,7 +37,7 @@ function pickWeighted(
   const now = Date.now();
 
   // Remove ineligible: once-fired or on cooldown
-  let pool = triggers.filter((t) => {
+  const pool = triggers.filter((t) => {
     if (t.once && firedOnce.has(t.id)) return false;
     const cd = cooldowns.get(t.id) || 0;
     if (now < cd) return false;

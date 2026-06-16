@@ -35,26 +35,46 @@
   transform: translateX(55%) translateY(-20px);
 }
 
-/* ---- Chat bubble ---- */
+/* ---- Chat bubble ---- speech bubble floating above the buddy's head */
 .bubble {
   position: relative;
-  max-width: 210px;
-  padding: 10px 12px;
-  border-radius: 12px 12px 4px 12px;
+  align-self: flex-end;
+  /* never wider than the viewport allows (kept clear of both edges) */
+  max-width: min(230px, calc(100vw - 2.5rem));
+  margin-right: 8px; /* nudge so the tail sits over the head */
+  margin-bottom: 7px; /* room for the tail */
+  padding: 10px 13px;
+  border-radius: 14px 14px 14px 6px;
   font-size: 0.72rem;
   line-height: 1.4;
   letter-spacing: 0.01em;
   color: var(--buddy-bubble-text);
   background: var(--buddy-bubble-bg);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--buddy-bubble-border);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
   word-break: break-word;
-  animation: bubblePop 0.2s ease-out;
+  transform-origin: bottom right;
+  animation: bubblePop 0.22s var(--ease-spring, cubic-bezier(0.34, 1.56, 0.64, 1));
   pointer-events: auto;
 }
 
+/* little tail pointing down toward the head */
+.bubble::after {
+  content: "";
+  position: absolute;
+  right: 16px;
+  bottom: -5px;
+  width: 10px;
+  height: 10px;
+  background: var(--buddy-bubble-bg);
+  border-right: 1px solid var(--buddy-bubble-border);
+  border-bottom: 1px solid var(--buddy-bubble-border);
+  transform: rotate(45deg);
+}
+
 @keyframes bubblePop {
-  0% { transform: scale(0.95) translateY(4px); }
-  100% { transform: scale(1) translateY(0); }
+  0% { opacity: 0; transform: scale(0.9) translateY(6px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .bubbleText {
@@ -648,7 +668,7 @@
   .ladder { transform-origin: bottom right; }
 }
 
-/* ---- Umbrella: held overhead, opens with a little flourish ---- */
+/* ---- Umbrella: held overhead (open/close driven by framer-motion) ---- */
 .umbrella {
   position: absolute;
   left: 0;
@@ -658,15 +678,38 @@
   z-index: 5; /* umbrella sits in front of the buddy */
   pointer-events: none;
   transform-origin: 50% 100%;
-  animation: umbrellaOpen 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.18));
 }
 
-@keyframes umbrellaOpen {
-  0%   { opacity: 0; transform: translateY(6px) scaleX(0.15) scaleY(0.35); }
-  35%  { opacity: 1; transform: translateY(0)   scaleX(0.15) scaleY(1); }
-  68%  { transform: translateY(0) scaleX(1.12) scaleY(1.04); }
-  100% { transform: translateY(0) scaleX(1) scaleY(1); }
+/* ============================================================
+   FLOAT LAYER + WATER ACTIVITIES (dark mode)
+   ============================================================ */
+
+/* Lifted via inline transform from the float rAF loop. */
+.floatLayer {
+  position: relative;
+  will-change: transform;
+}
+
+/* ---- Swim: gentle paddle bob while floating (no props) ---- */
+.actSwim .character {
+  animation: swimBob 2.2s ease-in-out infinite;
+}
+
+@keyframes swimBob {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50%      { transform: translateY(-2px) rotate(3deg); }
+}
+
+/* ---- Play with leaves: little shuffle/kick ---- */
+.actPlayLeaves .character {
+  animation: leafKick 0.6s ease-in-out infinite;
+}
+
+@keyframes leafKick {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  30%      { transform: translateY(-3px) rotate(-5deg); }
+  60%      { transform: translateY(0) rotate(4deg); }
 }
 
 @media (max-width: 600px) {

@@ -1,19 +1,19 @@
 /* ============================================================
-   Weather — Atmospheric, theme + scroll reactive weather layer.
+   Weather — theme + scroll reactive atmosphere (pure canvas).
 
-   Dark mode  → thunderstorm: slanted rain + lightning. Rain
-                water collects in a rising puddle at the bottom
-                of the PAGE that keeps filling the longer you
-                stay (resets on reload / nav / theme switch).
-   Light mode → a warm sky that journeys sunrise → sunset with
-                scroll, and realistic autumn leaves tumbling
-                down that gather into a growing pile at the
-                bottom of the page.
+   Dark mode  → thunderstorm: slanted rain, lightning, and water
+                that collects at the bottom of the PAGE, filling
+                the longer you stay (resets on reload / nav / theme
+                switch). Rain dimples the surface with ripples.
+   Light mode → warm sky journeying sunrise → sunset with scroll,
+                and autumn leaves that tumble down and gather into
+                a soft pile at the page bottom. When the buddy plays
+                with the heap it bursts a few leaves into the air.
 
    One full-screen canvas (pointer-events: none) painted above
    content but below Nav/Buddy. Theme changes crossfade smoothly
-   and reset the accumulation. Scroll progress is eased so the
-   sky/leaf transitions feel continuous.
+   and reset the accumulation. The water surface is published to
+   weatherState so the Buddy can float on it.
    Respects prefers-reduced-motion (renders nothing).
    ============================================================ */
 
@@ -24,7 +24,7 @@ import { useThemeStore } from "@/store/useThemeStore";
 import { weatherState } from "@/lib/weatherState";
 import styles from "./Weather.module.css";
 
-/* ---- Particle types --------------------------------------- */
+/* ---- types ---- */
 interface Drop {
   x: number;
   y: number;
@@ -33,7 +33,6 @@ interface Drop {
   thickness: number;
   alpha: number;
 }
-
 interface Leaf {
   x: number;
   y: number;
@@ -44,28 +43,37 @@ interface Leaf {
   swaySpeed: number;
   spin: number;
   angle: number;
-  flip: number; // current x-scale (3D flutter)
-  flipSpeed: number;
-  ci: number; // colour index
+  flip: number;
+  ci: number;
 }
-
-/* Static leaves that make up the pile at the page bottom */
+/** Static leaf making up the pile at the page bottom */
 interface PileLeaf {
-  fx: number; // 0..1 across width
-  fy: number; // 0..1 depth within current pile height
+  fx: number;
+  fy: number;
   size: number;
   angle: number;
   ci: number;
 }
-
+/** A leaf kicked loose from the heap (buddy playing) — tiny ballistic toss */
+interface KickedLeaf {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  angle: number;
+  spin: number;
+  size: number;
+  ci: number;
+  life: number;
+}
 interface Ripple {
   x: number;
-  age: number; // 0..1
+  age: number;
   speed: number;
   width: number;
 }
 
-/* ---- Colour helpers --------------------------------------- */
+/* ---- colour helpers ---- */
 type RGB = [number, number, number];
 const mix = (a: RGB, b: RGB, k: number): RGB => [
   a[0] + (b[0] - a[0]) * k,
@@ -75,26 +83,20 @@ const mix = (a: RGB, b: RGB, k: number): RGB => [
 const rgba = (c: RGB, a: number) =>
   `rgba(${c[0] | 0}, ${c[1] | 0}, ${c[2] | 0}, ${a})`;
 
-/* Autumn leaf palette — [face, shade] pairs for a soft gradient */
 const LEAF_COLORS: [RGB, RGB][] = [
-  [[201, 67, 43], [140, 36, 26]], // deep red
-  [[230, 126, 34], [168, 76, 18]], // orange
-  [[211, 84, 0], [138, 50, 4]], // pumpkin
-  [[201, 148, 31], [150, 100, 16]], // amber gold
-  [[160, 82, 45], [104, 50, 28]], // sienna
-  [[205, 133, 63], [140, 84, 38]], // peru
-  [[224, 168, 64], [168, 116, 34]], // honey
+  [[201, 67, 43], [140, 36, 26]],
+  [[230, 126, 34], [168, 76, 18]],
+  [[211, 84, 0], [138, 50, 4]],
+  [[201, 148, 31], [150, 100, 16]],
+  [[160, 82, 45], [104, 50, 28]],
+  [[205, 133, 63], [140, 84, 38]],
+  [[224, 168, 64], [168, 116, 34]],
 ];
 
-/* Day-cycle sky keyframes (by scroll progress 0 → 0.5 → 1) */
-interface Sky {
-  top: RGB;
-  bottom: RGB;
-}
+interface Sky { top: RGB; bottom: RGB; }
 const DAWN: Sky = { top: [255, 196, 176], bottom: [255, 234, 218] };
 const NOON: Sky = { top: [176, 208, 238], bottom: [240, 246, 252] };
 const DUSK: Sky = { top: [255, 150, 96], bottom: [255, 210, 156] };
-
 function skyAt(p: number): Sky {
   if (p < 0.5) {
     const k = p / 0.5;
@@ -112,11 +114,11 @@ export function Weather() {
   const targetRef = useRef(theme === "dark" ? 1 : 0);
   const resetAccumRef = useRef(false);
   const scrollProgressRef = useRef(0);
-  const bottomGapRef = useRef(0); // px of page below the viewport bottom
+  const bottomGapRef = useRef(0);
 
   useEffect(() => {
     targetRef.current = theme === "dark" ? 1 : 0;
-    resetAccumRef.current = true; // theme switch empties the puddle / pile
+    resetAccumRef.current = true;
   }, [theme]);
 
   useEffect(() => {
@@ -137,20 +139,20 @@ export function Weather() {
     let drops: Drop[] = [];
     let leaves: Leaf[] = [];
     let pileLeaves: PileLeaf[] = [];
-    let pileProfile: number[] = []; // uneven top of the pile across width
+    let pileProfile: number[] = [];
     let ripples: Ripple[] = [];
+    let kicked: KickedLeaf[] = [];
 
-    let t = targetRef.current; // eased theme value (0 day → 1 storm)
-    let p = 0; // eased scroll progress
-    let gap = 0; // eased px below viewport bottom
-    let accum = 0; // 0..1 fill level of puddle / pile
+    let t = targetRef.current;
+    let p = 0;
+    let gap = 0;
+    let accum = 0;
     let maxAccum = 120;
 
     let flash = 0;
     let nextStrike = 1500 + Math.random() * 4000;
     let strikeQueue = 0;
 
-    /* ---- factories ---- */
     function makeDrop(initial: boolean): Drop {
       return {
         x: Math.random() * (width + 200) - 100,
@@ -174,33 +176,37 @@ export function Weather() {
         spin: (Math.random() - 0.5) * 0.03,
         angle: Math.random() * Math.PI * 2,
         flip: 1,
-        flipSpeed: 0.015 + Math.random() * 0.03,
         ci: (Math.random() * LEAF_COLORS.length) | 0,
       };
     }
 
     function buildPile() {
-      const count = Math.min(180, Math.round(width / 7));
+      // Dense leaves packed into the top band of the heap so it reads as a
+      // mound of individual leaves rather than a flat brown blob. `band` is
+      // 0 at the crest → 1 deeper down; deeper leaves are drawn first & darker.
+      const count = Math.min(340, Math.round(width / 6));
       pileLeaves = Array.from({ length: count }, () => ({
         fx: Math.random(),
-        fy: Math.random(),
-        size: 7 + Math.random() * 8,
-        angle: Math.random() * Math.PI * 2,
+        fy: Math.random(), // reused as `band`
+        size: 9 + Math.random() * 9,
+        angle: (Math.random() - 0.5) * 1.6,
         ci: (Math.random() * LEAF_COLORS.length) | 0,
       }));
-      // Smooth, slightly uneven top edge for the pile
-      const n = 64;
+      // draw deepest first for correct overlap
+      pileLeaves.sort((a, b) => b.fy - a.fy);
+
+      const n = 80;
       const phA = Math.random() * 6.28;
       const phB = Math.random() * 6.28;
       const phC = Math.random() * 6.28;
       pileProfile = Array.from({ length: n }, (_, i) => {
         const x = i / n;
         const v =
-          0.72 +
-          0.16 * Math.sin(x * Math.PI * 3 + phA) +
-          0.08 * Math.sin(x * Math.PI * 7 + phB) +
-          0.05 * Math.sin(x * Math.PI * 13 + phC);
-        return Math.max(0.45, Math.min(1, v));
+          0.78 +
+          0.14 * Math.sin(x * Math.PI * 2.5 + phA) +
+          0.07 * Math.sin(x * Math.PI * 6 + phB) +
+          0.04 * Math.sin(x * Math.PI * 11 + phC);
+        return Math.max(0.5, Math.min(1, v));
       });
     }
 
@@ -210,7 +216,6 @@ export function Weather() {
       return pileProfile[Math.min(n - 1, Math.max(0, (fx * n) | 0))];
     };
 
-    /* ---- leaf shape (almond leaf + midrib + stem) ---- */
     function drawLeaf(size: number, face: RGB, shade: RGB, alpha: number) {
       const h = size;
       const w = size * 0.6;
@@ -224,7 +229,6 @@ export function Weather() {
       ctx.closePath();
       ctx.fillStyle = grad;
       ctx.fill();
-      // veins
       ctx.strokeStyle = rgba(shade, alpha * 0.7);
       ctx.lineWidth = Math.max(0.5, size * 0.06);
       ctx.beginPath();
@@ -234,23 +238,33 @@ export function Weather() {
       ctx.lineTo(w * 0.55, -h * 0.45);
       ctx.moveTo(0, -h * 0.2);
       ctx.lineTo(-w * 0.55, -h * 0.45);
-      ctx.moveTo(0, h * 0.25);
-      ctx.lineTo(w * 0.5, h * 0.05);
-      ctx.moveTo(0, h * 0.25);
-      ctx.lineTo(-w * 0.5, h * 0.05);
-      ctx.stroke();
-      // stem
-      ctx.beginPath();
-      ctx.moveTo(0, h);
-      ctx.lineTo(0, h + size * 0.3);
       ctx.stroke();
     }
+
+    /* ---- shared disturb hook: buddy plays with the heap → leaves burst ---- */
+    weatherState.disturb = (x: number, _y: number, power: number) => {
+      if (weatherState.storm) return; // only the leaf pile reacts
+      const n = 5 + ((Math.random() * 4) | 0);
+      const baseY = (typeof window !== "undefined" ? window.innerHeight : height) + 0;
+      for (let i = 0; i < n; i++) {
+        kicked.push({
+          x: x + (Math.random() - 0.5) * 30,
+          y: baseY - 6 - Math.random() * 12,
+          vx: (Math.random() - 0.5) * 3.4 * power,
+          vy: -(2.2 + Math.random() * 2.6) * power,
+          angle: Math.random() * Math.PI * 2,
+          spin: (Math.random() - 0.5) * 0.3,
+          size: 7 + Math.random() * 6,
+          ci: (Math.random() * LEAF_COLORS.length) | 0,
+          life: 1,
+        });
+      }
+    };
 
     function readScroll() {
       const sh = document.documentElement.scrollHeight;
       const denom = sh - window.innerHeight;
-      scrollProgressRef.current =
-        denom > 0 ? Math.min(1, Math.max(0, window.scrollY / denom)) : 0;
+      scrollProgressRef.current = denom > 0 ? Math.min(1, Math.max(0, window.scrollY / denom)) : 0;
       bottomGapRef.current = Math.max(0, sh - window.scrollY - window.innerHeight);
     }
 
@@ -265,21 +279,14 @@ export function Weather() {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       const area = width * height;
-      drops = Array.from(
-        { length: Math.min(420, Math.round(area / 4200)) },
-        () => makeDrop(true)
-      );
-      leaves = Array.from(
-        { length: Math.min(70, Math.round(area / 26000)) },
-        () => makeLeaf(true)
-      );
+      drops = Array.from({ length: Math.min(420, Math.round(area / 4200)) }, () => makeDrop(true));
+      leaves = Array.from({ length: Math.min(70, Math.round(area / 26000)) }, () => makeLeaf(true));
       maxAccum = Math.min(150, height * 0.16);
       buildPile();
       readScroll();
     }
 
     resize();
-    readScroll();
     p = scrollProgressRef.current;
     gap = bottomGapRef.current;
     window.addEventListener("resize", resize);
@@ -293,15 +300,14 @@ export function Weather() {
       last = now;
       const dtScale = dt / 16.67;
 
-      // Ease theme + scroll
       t += (targetRef.current - t) * Math.min(1, dt / 650);
       p += (scrollProgressRef.current - p) * Math.min(1, dt / 320);
       gap += (bottomGapRef.current - gap) * Math.min(1, dt / 260);
 
-      // Accumulation (resets on theme switch); fills over time on the page.
       if (resetAccumRef.current) {
         accum = 0;
         ripples = [];
+        kicked = [];
         buildPile();
         resetAccumRef.current = false;
       }
@@ -309,14 +315,16 @@ export function Weather() {
 
       const stormOpacity = t;
       const dayOpacity = 1 - t;
-      const pileBottomY = height + gap; // page bottom in viewport space
+      const pileBottomY = height + gap;
       const accumH = accum * maxAccum;
+      const surfaceVisible = pileBottomY - accumH < height + 40;
 
-      // Publish the water surface so the Buddy can float on it.
-      const surfaceVisibleNow = pileBottomY - accumH < height + 40;
       weatherState.storm = stormOpacity > 0.5;
       weatherState.surfaceY =
-        stormOpacity > 0.5 && accumH > 0.5 && surfaceVisibleNow
+        stormOpacity > 0.5 && accumH > 0.5 && surfaceVisible ? pileBottomY - accumH : Infinity;
+      // Fill top for the footer letters — water (dark) or leaf heap (light).
+      weatherState.fillY =
+        accumH > 0.5 && surfaceVisible && (stormOpacity > 0.5 || dayOpacity > 0.5)
           ? pileBottomY - accumH
           : Infinity;
 
@@ -332,11 +340,10 @@ export function Weather() {
         ctx.fillStyle = g;
         ctx.fillRect(0, 0, width, height);
 
-        // Falling leaves
         for (const lf of leaves) {
           lf.phase += lf.swaySpeed * dt;
           lf.angle += lf.spin * dtScale;
-          lf.flip = Math.cos(lf.phase * 1.6); // -1..1 → 3D tumble
+          lf.flip = Math.cos(lf.phase * 1.6);
           lf.y += lf.vy * dtScale;
           lf.x += (Math.cos(lf.phase) * lf.sway * 0.02 + 0.4 + p * 0.8) * dtScale;
           if (lf.y - lf.size > height || lf.x - lf.size > width + 40) {
@@ -376,7 +383,6 @@ export function Weather() {
         }
       }
 
-      // Lightning flash decay
       if (flash > 0) {
         flash -= 0.06 * dtScale;
         if (flash < 0) flash = 0;
@@ -389,7 +395,7 @@ export function Weather() {
         ctx.fillRect(0, 0, width, height);
       }
 
-      // Rain
+      /* ---- rain ---- */
       if (stormOpacity > 0.01) {
         const WIND = 1.8;
         ctx.lineCap = "round";
@@ -410,21 +416,18 @@ export function Weather() {
       }
 
       /* ============ ACCUMULATION (page bottom) ============== */
-      const surfaceVisible = pileBottomY - accumH < height + 40;
-
       // Water puddle (storm)
       if (stormOpacity > 0.02 && accumH > 0.5 && surfaceVisible) {
         const surfaceY = pileBottomY - accumH;
         const tsec = now / 1000;
         const wave = (x: number) =>
-          Math.sin(x * 0.012 + tsec * 1.6) * 3 +
-          Math.sin(x * 0.03 + tsec * 2.3) * 1.6;
+          Math.sin(x * 0.012 + tsec * 1.6) * 3 + Math.sin(x * 0.03 + tsec * 2.3) * 1.6;
 
         ctx.save();
         ctx.beginPath();
         ctx.moveTo(0, surfaceY + wave(0));
         for (let x = 12; x < width; x += 12) ctx.lineTo(x, surfaceY + wave(x));
-        ctx.lineTo(width, surfaceY + wave(width)); // reach the right edge exactly
+        ctx.lineTo(width, surfaceY + wave(width));
         ctx.lineTo(width, pileBottomY + 4);
         ctx.lineTo(0, pileBottomY + 4);
         ctx.closePath();
@@ -433,7 +436,6 @@ export function Weather() {
         wg.addColorStop(1, rgba([34, 52, 92], 0.62 * stormOpacity));
         ctx.fillStyle = wg;
         ctx.fill();
-        // surface highlight
         ctx.strokeStyle = rgba([200, 220, 250], 0.35 * stormOpacity);
         ctx.lineWidth = 1.2;
         ctx.beginPath();
@@ -443,7 +445,7 @@ export function Weather() {
         ctx.stroke();
         ctx.restore();
 
-        // Rain dimples the surface with ripples
+        // rain dimples the surface
         if (Math.random() < 0.5) {
           ripples.push({
             x: Math.random() * width,
@@ -469,37 +471,64 @@ export function Weather() {
         }
       }
 
-      // Leaf pile (day)
+      // Leaf pile (day) — a shadowed mass crowned with a dense leafy crest.
       if (dayOpacity > 0.02 && accumH > 0.5 && surfaceVisible) {
-        // Base mass following the uneven top profile
+        const n = pileProfile.length;
+        const topAt = (fx: number) => pileBottomY - accumH * profileAt(fx);
+
+        // 1) deep mass: warm, shadowed body so no page shows through the gaps
         ctx.save();
         ctx.beginPath();
         ctx.moveTo(0, pileBottomY + 4);
-        const n = pileProfile.length;
-        for (let i = 0; i <= n; i++) {
-          const fx = i / n;
-          const topY = pileBottomY - accumH * profileAt(fx);
-          ctx.lineTo(fx * width, topY);
-        }
+        for (let i = 0; i <= n; i++) ctx.lineTo((i / n) * width, topAt(i / n) + 4);
         ctx.lineTo(width, pileBottomY + 4);
         ctx.closePath();
         const pg = ctx.createLinearGradient(0, pileBottomY - accumH, 0, pileBottomY);
-        pg.addColorStop(0, rgba([170, 96, 38], 0.85 * dayOpacity));
-        pg.addColorStop(1, rgba([120, 64, 28], 0.92 * dayOpacity));
+        pg.addColorStop(0, rgba([150, 82, 34], 0.9 * dayOpacity));
+        pg.addColorStop(0.5, rgba([116, 60, 26], 0.95 * dayOpacity));
+        pg.addColorStop(1, rgba([74, 40, 18], 0.97 * dayOpacity));
         ctx.fillStyle = pg;
         ctx.fill();
         ctx.restore();
 
-        // Scattered leaves for texture, riding the pile height
+        // 2) leafy crest: individual leaves packed into the top band, deeper
+        //    ones darker so the mound has real depth
+        const band = Math.min(accumH, 40);
         for (const pl of pileLeaves) {
-          const colH = accumH * profileAt(pl.fx);
-          const y = pileBottomY - pl.fy * colH;
-          const [face, shade] = LEAF_COLORS[pl.ci];
+          const t0 = topAt(pl.fx);
+          const y = t0 + pl.fy * band; // 0 at crest → down into the band
+          const shadeMix = 0.55 + 0.45 * (1 - pl.fy); // crest brighter
+          const [face0, shade0] = LEAF_COLORS[pl.ci];
+          const face: RGB = [face0[0] * shadeMix, face0[1] * shadeMix, face0[2] * shadeMix];
+          const shade: RGB = [shade0[0] * shadeMix, shade0[1] * shadeMix, shade0[2] * shadeMix];
           ctx.save();
           ctx.translate(pl.fx * width, y);
           ctx.rotate(pl.angle);
-          ctx.scale(1, 0.8); // settled / flattened
-          drawLeaf(pl.size, face, shade, 0.95 * dayOpacity);
+          ctx.scale(1.15, 0.85); // foreshortened, lying flat
+          drawLeaf(pl.size, face, shade, 0.97 * dayOpacity);
+          ctx.restore();
+        }
+      }
+
+      /* ---- kicked leaves (buddy playing with the heap) ---- */
+      if (kicked.length) {
+        for (let i = kicked.length - 1; i >= 0; i--) {
+          const k = kicked[i];
+          k.vy += 0.22 * dtScale; // gravity
+          k.vx *= 0.99;
+          k.x += k.vx * dtScale;
+          k.y += k.vy * dtScale;
+          k.angle += k.spin * dtScale;
+          k.life -= 0.006 * dtScale;
+          if (k.life <= 0 || k.y - k.size > height + 10) {
+            kicked.splice(i, 1);
+            continue;
+          }
+          const [face, shade] = LEAF_COLORS[k.ci];
+          ctx.save();
+          ctx.translate(k.x, k.y);
+          ctx.rotate(k.angle);
+          drawLeaf(k.size, face, shade, 0.95 * dayOpacity);
           ctx.restore();
         }
       }
@@ -514,7 +543,9 @@ export function Weather() {
       window.removeEventListener("resize", resize);
       window.removeEventListener("scroll", readScroll);
       weatherState.surfaceY = Infinity;
+      weatherState.fillY = Infinity;
       weatherState.storm = false;
+      weatherState.disturb = () => {};
     };
   }, []);
 
