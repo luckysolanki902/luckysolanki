@@ -955,40 +955,42 @@ export function Buddy() {
       style={wrapperStyle}
       aria-live="polite"
     >
-      {/* Chat bubble */}
-      <AnimatePresence mode="wait">
-        {message && !hiding && (
-          <motion.div
-            key={message}
-            className={styles.bubble}
-            variants={bubbleVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            transition={{ duration: 0.2, ease: [0, 0, 0.2, 1] }}
-          >
-            <p className={styles.bubbleText}>
-              {message.split(/(\*[^*]+\*)/).map((part, i) =>
-                part.startsWith("*") && part.endsWith("*")
-                  ? <em key={i}>{part.slice(1, -1)}</em>
-                  : part
-              )}
-            </p>
-            <button
-              className={styles.bubbleClose}
-              onClick={(e) => { e.stopPropagation(); dismiss(); }}
-              aria-label="Dismiss"
-              type="button"
-            >
-              ✕
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Character + props — wrapped in a float layer that lifts on water */}
+      {/* Character + props — wrapped in a float layer that lifts on water.
+          The chat bubble lives INSIDE this layer (anchored above the head)
+          so it tracks the buddy through float / walk / hide automatically. */}
       <div ref={floatRef} className={styles.floatLayer}>
         <div className={`${moodClass} ${activityClass}`} style={{ position: "relative" }}>
+          {/* Chat bubble — absolutely anchored above the head */}
+          <AnimatePresence mode="wait">
+            {message && !hiding && (
+              <motion.div
+                key={message}
+                className={styles.bubble}
+                variants={bubbleVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                transition={{ duration: 0.2, ease: [0, 0, 0.2, 1] }}
+              >
+                <p className={styles.bubbleText}>
+                  {message.split(/(\*[^*]+\*)/).map((part, i) =>
+                    part.startsWith("*") && part.endsWith("*")
+                      ? <em key={i}>{part.slice(1, -1)}</em>
+                      : part
+                  )}
+                </p>
+                <button
+                  className={styles.bubbleClose}
+                  onClick={(e) => { e.stopPropagation(); dismiss(); }}
+                  aria-label="Dismiss"
+                  type="button"
+                >
+                  ✕
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           {/* Umbrella — dark-mode idle shelter only. Opens while idle, folds
               away before any activity and the moment the buddy floats into the
               water. Never appears in light mode. */}

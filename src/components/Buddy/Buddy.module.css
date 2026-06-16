@@ -35,14 +35,18 @@
   transform: translateX(55%) translateY(-20px);
 }
 
-/* ---- Chat bubble ---- speech bubble floating above the buddy's head */
+/* ---- Chat bubble ---- anchored above the head, INSIDE the float layer,
+   so it follows the buddy through float / walk / hide. The character box is
+   40px wide; the bubble's right edge aligns to it and the body grows leftward
+   (the buddy lives at the right viewport edge), with the tail over the head. */
 .bubble {
-  position: relative;
-  align-self: flex-end;
+  position: absolute;
+  bottom: calc(100% + 11px); /* sit just above the head */
+  right: 0; /* right edge aligned with the 40px character box */
+  z-index: 10; /* above the umbrella */
   /* never wider than the viewport allows (kept clear of both edges) */
   max-width: min(230px, calc(100vw - 2.5rem));
-  margin-right: 8px; /* nudge so the tail sits over the head */
-  margin-bottom: 7px; /* room for the tail */
+  width: max-content;
   padding: 10px 13px;
   border-radius: 14px 14px 14px 6px;
   font-size: 0.72rem;
@@ -58,11 +62,12 @@
   pointer-events: auto;
 }
 
-/* little tail pointing down toward the head */
+/* little tail pointing straight down at the head (head center ≈ 20px from
+   the character's right edge, which is the bubble's right edge) */
 .bubble::after {
   content: "";
   position: absolute;
-  right: 16px;
+  right: 15px;
   bottom: -5px;
   width: 10px;
   height: 10px;

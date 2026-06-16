@@ -19,8 +19,8 @@ import { weatherState } from "@/lib/weatherState";
 import styles from "./ScrollReveal.module.css";
 
 const LINES = [
-  { text: "You scrolled to the very end. Most people don’t.", cls: "text", font: "600 18px Quicksand" },
-  { text: "If you’re still here, we should probably talk.", cls: "subtext", font: "400 14px Inter" },
+  // { text: "You scrolled to the very end. Most people don’t.", cls: "text", font: "600 18px Quicksand" },
+  { text: "If you’re still here, we should probably talk.", cls: "text", font: "600 18px Quicksand" },
 ] as const;
 const LINK_TEXT = "Say hello →";
 const LINK_FONT = "500 14px Inter";
@@ -39,7 +39,8 @@ export function ScrollReveal() {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const lettersRef = useRef<HTMLSpanElement[]>([]);
-  const baseRef = useRef<{ cx: number; cy: number }[]>([]);
+  const baseRef = useRef<{ cx: number; cy: number; line: number }[]>([]);
+  const lineCyRef = useRef<number[]>([]); // base center-y of each visual line (container coords)
   const curRef = useRef<{ y: number; rot: number; op: number }[]>([]);
 
   /* ---- reveal when scrolled to the very bottom ---- */
@@ -82,14 +83,37 @@ export function ScrollReveal() {
         baseRef.current[i] = {
           cx: r.left - cRect.left + r.width / 2,
           cy: r.top - cRect.top + r.height / 2,
+          line: 0,
         };
         curRef.current[i] = { y: 0, rot: 0, op: 1 };
       }
+
+      // Cluster letters into visual lines by their center-y (handles wrapping),
+      // so the float can stack whole lines instead of collapsing them.
+      const cys: number[] = [];
+      const order = baseRef.current
+        .map((b, i) => ({ b, i }))
+        .filter((o) => o.b)
+        .sort((a, z) => a.b.cy - z.b.cy);
+      for (const { b } of order) {
+        const last = cys[cys.length - 1];
+        if (last === undefined || b.cy - last > 8) cys.push(b.cy);
+        b.line = cys.length - 1;
+      }
+      lineCyRef.current = cys;
     };
 
     // measure after layout settles
     const m1 = requestAnimationFrame(() => requestAnimationFrame(measure));
     window.addEventListener("resize", measure);
+
+    // Mirror the canvas waterline so letters ride the exact same wave.
+    const waveAt = (x: number, t: number) =>
+      Math.sin(x * 0.012 + t * 1.6) * 3 + Math.sin(x * 0.03 + t * 2.3) * 1.6;
+    const slopeAt = (x: number, t: number) =>
+      Math.cos(x * 0.012 + t * 1.6) * 0.036 + Math.cos(x * 0.03 + t * 2.3) * 0.048;
+
+    const LINE_GAP = 24; // vertical spacing between stacked floating lines
 
     const tick = (now: number) => {
       const c = containerRef.current;
@@ -97,9 +121,25 @@ export function ScrollReveal() {
         const cRect = c.getBoundingClientRect();
         const fillY = weatherState.fillY;
         const storm = weatherState.storm;
+        const t = now / 1000;
         const els = lettersRef.current;
         const base = baseRef.current;
         const cur = curRef.current;
+        const lineCy = lineCyRef.current;
+
+        // Which lines are under the surface, and what slot each gets when it
+        // floats. Deepest (lowest on screen) line rides the waterline; the
+        // ones above stack neatly on top so lines never overlap.
+        const slotOfLine: number[] = [];
+        if (fillY !== Infinity && storm) {
+          const submerged = lineCy
+            .map((cy, l) => ({ l, vy: cRect.top + cy }))
+            .filter((o) => o.vy > fillY)
+            .sort((a, z) => z.vy - a.vy); // deepest first
+          submerged.forEach((o, slot) => {
+            slotOfLine[o.l] = slot;
+          });
+        }
 
         for (let i = 0; i < els.length; i++) {
           const el = els[i];
@@ -107,32 +147,40 @@ export function ScrollReveal() {
           const s = cur[i];
           if (!el || !b || !s) continue;
 
+          const vx = cRect.left + b.cx;
           const vy = cRect.top + b.cy;
-          const depth = fillY === Infinity ? -9999 : vy - fillY;
 
           let ty = 0;
           let rot = 0;
           let op = 1;
 
-          if (depth > -2) {
+          if (fillY !== Infinity) {
             if (storm) {
-              // float up to the surface and bob along the waterline
-              const lift = Math.min(depth + 2, 64);
-              const bob = Math.sin(now / 520 + b.cx * 0.06) * 3.2;
-              ty = -lift + bob;
-              rot = Math.sin(now / 760 + b.cx * 0.05) * 6;
-              op = 1;
+              // Buoyant: the whole submerged line floats to its slot just above
+              // the wavy waterline and tilts with the wave's slope, so it reads
+              // as a floating ribbon. Letters never sink below their rest spot.
+              const slot = slotOfLine[b.line];
+              if (slot !== undefined) {
+                const floatVY = fillY - 11 - slot * LINE_GAP + waveAt(vx, t);
+                const targetVY = Math.min(vy, floatVY);
+                ty = targetVY - vy;
+                rot = Math.atan(slopeAt(vx, t)) * (180 / Math.PI) * 1.5;
+                op = 1;
+              }
             } else {
-              // sink and fade beneath the leaf heap
-              ty = Math.min(depth * 0.45, 12);
-              rot = Math.sin(b.cx * 0.7) * 9;
-              op = Math.max(0.04, 1 - depth / 26);
+              // Leaf heap: sink and fade as the pile buries the letter.
+              const depth = vy - fillY;
+              if (depth > -2) {
+                ty = Math.min(depth * 0.5, 14);
+                rot = Math.sin(b.cx * 0.5) * 7;
+                op = Math.max(0.04, 1 - depth / 22);
+              }
             }
           }
 
-          s.y += (ty - s.y) * 0.14;
-          s.rot += (rot - s.rot) * 0.14;
-          s.op += (op - s.op) * 0.14;
+          s.y += (ty - s.y) * 0.12;
+          s.rot += (rot - s.rot) * 0.12;
+          s.op += (op - s.op) * 0.12;
           el.style.transform = `translateY(${s.y.toFixed(2)}px) rotate(${s.rot.toFixed(2)}deg)`;
           el.style.opacity = s.op.toFixed(3);
         }
@@ -181,9 +229,9 @@ export function ScrollReveal() {
       <p className={styles.text} aria-label={LINES[0].text}>
         {renderLine(LINES[0].text, LINES[0].font)}
       </p>
-      <p className={styles.subtext} aria-label={LINES[1].text}>
+      {/* <p className={styles.subtext} aria-label={LINES[1].text}>
         {renderLine(LINES[1].text, LINES[1].font)}
-      </p>
+      </p> */}
       <a
         href="mailto:luckysolanki902@gmail.com"
         className={styles.link}
