@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Quicksand, Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/shared/ThemeProvider";
+import { Weather } from "@/components/shared/Weather";
 import { Buddy } from "@/components/Buddy/Buddy";
 import { Analytics } from "@vercel/analytics/next";
 import { siteConfig, socials } from "@/lib/data";
@@ -199,6 +200,7 @@ export default function RootLayout({
           <a href="#main-content" className="skip-link">
             Skip to content
           </a>
+          <Weather />
           {children}
           <Buddy />
         </ThemeProvider>

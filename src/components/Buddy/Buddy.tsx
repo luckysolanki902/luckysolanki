@@ -50,6 +50,7 @@ import {
   type BuddyMood,
 } from "@/lib/buddy-triggers";
 import { useThemeStore } from "@/store/useThemeStore";
+import { weatherState } from "@/lib/weatherState";
 import { SECTION_IDS } from "@/lib/constants";
 import styles from "./Buddy.module.css";
 
@@ -74,58 +75,41 @@ function pixelProp(grid: string[], px: number, palette: Record<string, string>):
 const PP = 3; // prop pixel size
 const FG = "var(--buddy-bubble-text)";
 
-// Crumpled paper ball (4×4)
-const PIXEL_PAPER = pixelProp(
-  [".XX.", "XXXX", "XXXX", ".XX."],
-  PP,
-  { X: FG }
-);
-
-// Paper airplane — folded paper plane pointing right (8×7 at 3px = 24×21px)
-const PIXEL_AIRPLANE = pixelProp(
+// Surfboard — pointed board with a centre fin (12×3 at 3px = 36×9px)
+const PIXEL_SURFBOARD = pixelProp(
   [
-    ".......X",
-    "....XXXX",
-    "..XXXXFX",
-    "XXXXXFFX",
-    "..XXXXFX",
-    "...XXXXX",
-    "....XXX.",
+    ".XXXXXXXXXX.",
+    "XXXXXXXXXXXX",
+    ".....FF.....",
   ],
   PP,
-  { X: FG, F: "var(--buddy-bubble-bg)" }
+  { X: "#e8915a", F: "#a84a30" }
 );
 
-// Cup with straw (5×8 at 3px = 15×24px)
-const PIXEL_CUP = pixelProp(
+// Little boat hull — trapezoid with a rim (12×4 at 3px = 36×12px)
+const PIXEL_BOAT = pixelProp(
   [
-    "....S",
-    "....S",
-    "GGGGS",
-    "GWWWG",
-    "GWWWG",
-    "GWWWG",
-    "GWWWG",
-    ".GGG.",
+    "RRRRRRRRRRRR",
+    "BBBBBBBBBBBB",
+    ".BBBBBBBBBB.",
+    "..BBBBBBBB..",
   ],
   PP,
-  { G: FG, W: "#5b9bd5", S: "#e87060" }
+  { R: "#caa06a", B: "#8a5a3c" }
 );
 
-// Tall ladder (3×22 at 3px = 9×66px — extra height is free, buddy leaves mid-ladder)
-const PIXEL_LADDER = pixelProp(
+// Life buoy / swim ring — wraps around the buddy (12×6 at 3px = 36×18px)
+const PIXEL_SWIMRING = pixelProp(
   [
-    "X.X", "XXX", "X.X",
-    "X.X", "XXX", "X.X",
-    "X.X", "XXX", "X.X",
-    "X.X", "XXX", "X.X",
-    "X.X", "XXX", "X.X",
-    "X.X", "XXX", "X.X",
-    "X.X", "XXX", "X.X",
-    "X.X",
+    "...RRWWRR...",
+    ".RR......RR.",
+    "RW........WR",
+    "RW........WR",
+    ".RR......RR.",
+    "...RRWWRR...",
   ],
-  3,
-  { X: FG }
+  PP,
+  { R: "#e2574b", W: "#f4f1ec" }
 );
 
 // Juggle balls (2×2 each)
@@ -144,26 +128,49 @@ const PIXEL_SKATEBOARD = pixelProp(
   { X: FG, O: "#e87060" }
 );
 
+// Umbrella — canopy + ferrule + pole + curved handle (13×14 at 3px = 39×42px)
+const PIXEL_UMBRELLA = pixelProp(
+  [
+    "......T......",
+    "......C......",
+    "....CCCCC....",
+    "..CCCCCCCCC..",
+    ".CCCCCCCCCCC.",
+    "CCCCCCCCCCCCC",
+    "D.D.D.D.D.D.D",
+    "......P......",
+    "......P......",
+    "......P......",
+    "......P......",
+    ".....PP......",
+    "....PP.......",
+    "....P........",
+  ],
+  PP,
+  { C: "#d9694a", D: "#a84a30", T: FG, P: FG }
+);
+
 /* -----------------------------------------------------------
    IDLE ACTIVITIES
    ----------------------------------------------------------- */
 type IdleActivity =
   | "none"
-  | "sleep"
-  | "walk"
-  | "paperToss"
-  | "airplane"
-  | "drink"
-  | "ladder"
-  | "lookAround"
+  // land (light mode — sunny, dry)
   | "juggle"
-  | "sitDown"
-  | "skateboard";
+  | "skateboard"
+  | "lookAround"
+  | "sleep"
+  // water (dark mode — once the rain has flooded the page bottom)
+  | "swim"
+  | "boat"
+  | "surf";
 
-const ACTIVITY_POOL: IdleActivity[] = [
-  "sleep", "walk", "paperToss", "airplane",
-  "drink", "ladder", "lookAround", "juggle", "sitDown",
-];
+// Land activities — only in light mode.
+const LAND_POOL: IdleActivity[] = ["juggle", "skateboard", "lookAround", "sleep"];
+// Dry dark mode (raining, but water hasn't reached the buddy yet).
+const DARK_DRY_POOL: IdleActivity[] = ["lookAround", "sleep"];
+// Water activities — dark mode once the buddy is floating.
+const WATER_POOL: IdleActivity[] = ["swim", "boat", "surf"];
 
 /* -----------------------------------------------------------
    BUDDY PIXEL ART — 8x9 blob, 5px per pixel
@@ -978,6 +985,16 @@ export function Buddy() {
 
       {/* Character + props */}
       <div className={`${moodClass} ${activityClass}`} style={{ position: "relative" }}>
+        {/* Umbrella — opens beautifully on load + theme switch, stays up in
+            both the storm (dark) and the falling leaves (light). Keyed by
+            theme so the open animation replays on every switch. Hidden during
+            the fall-from-sky entrance so it doesn't float untethered. */}
+        {!isFalling && (
+          <div key={`umb-${theme}`} className={styles.umbrella} aria-hidden>
+            <div style={propStyle(PIXEL_UMBRELLA, PP)} />
+          </div>
+        )}
+
         {/* Ladder climber wrapper — isolates climb translateY from the ladder prop */}
         <div className={activity === "ladder" ? styles.ladderClimber : undefined}>
           <div

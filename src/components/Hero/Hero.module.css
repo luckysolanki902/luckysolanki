@@ -33,12 +33,12 @@
    ----------------------------------------------------------- */
 .photoWrapper {
   order: 1;
-  width: 80px;
+  width: 150px;
   flex-shrink: 0;
 }
 
 .photo {
-  width: 80px;
+  width: 150px;
   height: auto;
   border-radius: var(--radius-md);
   display: block;
@@ -210,7 +210,7 @@
 
   .photoWrapper {
     order: 2;
-    width: 180px;
+    width: 250px;
   }
 
   .photo {
@@ -242,10 +242,10 @@
 
 @media (min-width: 1024px) {
   .photoWrapper {
-    width: 200px;
+    width: 300px;
   }
 
   .photo {
-    width: 200px;
+    width: 300px;
   }
 }

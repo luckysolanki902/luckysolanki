@@ -647,3 +647,28 @@
   .glass { transform-origin: bottom left; }
   .ladder { transform-origin: bottom right; }
 }
+
+/* ---- Umbrella: held overhead, opens with a little flourish ---- */
+.umbrella {
+  position: absolute;
+  left: 0;
+  top: -18px;
+  width: 39px;
+  height: 42px;
+  z-index: 5; /* umbrella sits in front of the buddy */
+  pointer-events: none;
+  transform-origin: 50% 100%;
+  animation: umbrellaOpen 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.18));
+}
+
+@keyframes umbrellaOpen {
+  0%   { opacity: 0; transform: translateY(6px) scaleX(0.15) scaleY(0.35); }
+  35%  { opacity: 1; transform: translateY(0)   scaleX(0.15) scaleY(1); }
+  68%  { transform: translateY(0) scaleX(1.12) scaleY(1.04); }
+  100% { transform: translateY(0) scaleX(1) scaleY(1); }
+}
+
+@media (max-width: 600px) {
+  .umbrella { transform-origin: bottom right; }
+}

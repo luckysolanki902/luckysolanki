@@ -112,8 +112,9 @@ export const useBuddyStore = create<BuddyState & BuddyActions>((set, get) => {
       messageCount: state.messageCount + 1,
     });
 
-    // Auto-dismiss: ~60ms/char, 2.5-6s
-    const duration = Math.min(Math.max(trigger.message.length * 60, 2500), 6000);
+    // Auto-dismiss: generous reading time — ~95ms/char plus a base buffer,
+    // clamped 5–14s so even short quips linger long enough to read.
+    const duration = Math.min(Math.max(trigger.message.length * 95 + 1800, 5000), 14000);
     dismissTimer = setTimeout(() => {
       const current = get();
       if (current.queue.length > 0) {

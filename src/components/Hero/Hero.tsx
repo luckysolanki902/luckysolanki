@@ -10,6 +10,7 @@
 import Image from "next/image";
 import { SECTION_IDS } from "@/lib/constants";
 import { HoverText } from "@/components/shared/HoverText";
+import { useThemeStore } from "@/store/useThemeStore";
 import styles from "./Hero.module.css";
 
 const headingLines = ["I build the hard parts", "of product software."];
@@ -20,6 +21,7 @@ const proofPoints = [
 ];
 
 export function Hero() {
+  const theme = useThemeStore((s) => s.theme);
   const handleScrollTo = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault();
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -30,7 +32,7 @@ export function Hero() {
       <div className={styles.container}>
         <div className={styles.photoWrapper}>
             <Image
-              src="/images/lucky3.png"
+              src={theme === "dark" ? "/images/lucky-b-dark.png" : "/images/lucky-b-light.png"}
               alt="Lucky Solanki"
               width={200}
               height={248}
