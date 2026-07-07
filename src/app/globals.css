@@ -55,89 +55,53 @@ ol {
 }
 
 /* -----------------------------------------------------------
-   COLOR TOKENS — LIGHT MODE (Default)
+   COLOR — one committed pastel palette. Soft cream paper,
+   plum ink, and a box of pastel accents used sparingly.
+   Defined on :root so the site is always pretty (no theme flip).
    ----------------------------------------------------------- */
-[data-theme="light"] {
-  /* Background */
-  --bg-primary: #FAFAF9;
-  --bg-secondary: #F5F4F0;
+:root {
+  /* Backgrounds */
+  --bg-primary: #FCF9F5;   /* warm paper white */
+  --bg-secondary: #F6F1F8; /* faint lilac wash */
   --bg-elevated: #FFFFFF;
-  --bg-subtle: #EDECE8;
+  --bg-subtle: #F1ECF6;
 
-  /* Text */
-  --text-primary: #1A1A19;
-  --text-secondary: #5C5C58;
-  --text-tertiary: #8A8A85;
-  --text-inverse: #FAFAF9;
+  /* Ink — never pure black */
+  --text-primary: #3C3556;
+  --text-secondary: #6E6688;
+  --text-tertiary: #9C95B2;
+  --text-inverse: #FCF9F5;
 
-  /* Interactive */
-  --accent: #2E2E2C;
-  --accent-hover: #1A1A19;
-  --accent-subtle: #E8E7E3;
+  /* Interactive accent — a readable periwinkle-violet */
+  --accent: #6C5CD0;
+  --accent-hover: #5644BC;
+  --accent-subtle: #ECE7FA;
 
-  /* Border */
-  --border-primary: #E3E2DE;
-  --border-subtle: #EEEDE9;
-  --border-strong: #D1D0CC;
+  /* Pastel crayon box — for section accents + project cards */
+  --c-lilac: #CBB6EE;
+  --c-peri: #B3C4F3;
+  --c-mint: #B6E5CD;
+  --c-blush: #F6C3D4;
+  --c-butter: #F8E6A6;
+  --c-sky: #BFE1F6;
+  --c-rose: #EBA9C0;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(26, 26, 25, 0.04);
-  --shadow-md: 0 4px 12px rgba(26, 26, 25, 0.06);
-  --shadow-lg: 0 12px 40px rgba(26, 26, 25, 0.08);
+  /* Borders */
+  --border-primary: #ECE5F0;
+  --border-subtle: #F3EEF6;
+  --border-strong: #DED4EC;
 
-  /* Layered shadow for cards */
-  --shadow-card: 0 1px 2px rgba(26, 26, 25, 0.02),
-                 0 4px 8px rgba(26, 26, 25, 0.03),
-                 0 12px 32px rgba(26, 26, 25, 0.05);
+  /* Soft, faintly-tinted shadows */
+  --shadow-sm: 0 1px 2px rgba(90, 74, 130, 0.05);
+  --shadow-md: 0 6px 18px rgba(120, 100, 160, 0.08);
+  --shadow-lg: 0 18px 48px rgba(120, 100, 160, 0.14);
+  --shadow-card: 0 1px 2px rgba(90, 74, 130, 0.04),
+                 0 10px 30px rgba(120, 100, 160, 0.10);
 
-  /* Buddy companion */
-  --buddy-body: #2E2E2C;
-  --buddy-eye: #FAFAF9;
-  --buddy-cheek: #D4A07A;
-  --buddy-glow: rgba(46, 46, 44, 0.08);
-  --buddy-bubble-bg: #FFFFFF;
-  --buddy-bubble-border: #E3E2DE;
-  --buddy-bubble-text: #1A1A19;
-}
-
-/* -----------------------------------------------------------
-   COLOR TOKENS — DARK MODE
-   ----------------------------------------------------------- */
-[data-theme="dark"] {
-  --bg-primary: #111110;
-  --bg-secondary: #191918;
-  --bg-elevated: #1F1F1E;
-  --bg-subtle: #1A1A18;
-
-  --text-primary: #EDEDEC;
-  --text-secondary: #A0A09B;
-  --text-tertiary: #6B6B66;
-  --text-inverse: #111110;
-
-  --accent: #EDEDEC;
-  --accent-hover: #FFFFFF;
-  --accent-subtle: #1F1F1E;
-
-  --border-primary: #2A2A28;
-  --border-subtle: #1F1F1E;
-  --border-strong: #3A3A37;
-
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
-
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.15),
-                 0 4px 8px rgba(0, 0, 0, 0.2),
-                 0 12px 32px rgba(0, 0, 0, 0.3);
-
-  /* Buddy companion */
-  --buddy-body: #EDEDEC;
-  --buddy-eye: #111110;
-  --buddy-cheek: #C49070;
-  --buddy-glow: rgba(237, 237, 236, 0.06);
-  --buddy-bubble-bg: #1F1F1E;
-  --buddy-bubble-border: #2A2A28;
-  --buddy-bubble-text: #EDEDEC;
+  /* Dreamy hero wash */
+  --wash: radial-gradient(60% 80% at 15% 0%, #EFE6FB 0%, transparent 60%),
+          radial-gradient(50% 70% at 90% 10%, #E6F0FB 0%, transparent 55%),
+          radial-gradient(60% 60% at 70% 100%, #FBE9F1 0%, transparent 60%);
 }
 
 /* -----------------------------------------------------------
@@ -242,8 +206,10 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-family: var(--font-display), Georgia, serif;
   line-height: var(--leading-tight);
+  font-weight: 500;
+  letter-spacing: var(--tracking-tight);
 }
 
 /* -----------------------------------------------------------

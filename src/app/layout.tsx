@@ -1,23 +1,31 @@
 import type { Metadata } from "next";
-import { Quicksand, Inter } from "next/font/google";
-import { ThemeProvider } from "@/components/shared/ThemeProvider";
-import { Weather } from "@/components/shared/Weather";
-import { Buddy } from "@/components/Buddy/Buddy";
+import { Fraunces, Inter, Caveat } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { siteConfig, socials } from "@/lib/data";
 import "./globals.css";
 
-const quicksand = Quicksand({
-  variable: "--font-quicksand",
+// Display serif — headings, the name, section titles.
+const fraunces = Fraunces({
+  variable: "--font-display",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
+// Body — clean and quiet.
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+});
+
+// Handwriting — the playful bits: kickers, captions, little notes.
+const caveat = Caveat({
+  variable: "--font-hand",
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
   display: "swap",
 });
 
@@ -88,7 +96,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: siteConfig.name,
-  jobTitle: "Product Engineer",
+  jobTitle: "Lead Backend Engineer",
   url: siteConfig.url,
   email: socials.email,
   sameAs: [
@@ -177,33 +185,17 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var stored = JSON.parse(localStorage.getItem('portfolio-theme') || '{}');
-                  // Only use stored theme if user explicitly chose one (userOverride=true)
-                  var theme = (stored.state && stored.state.userOverride && stored.state.theme);
-                  if (!theme) {
-                    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                  }
-                  document.documentElement.setAttribute('data-theme', theme);
-                } catch (e) {}
-                // Signal CSS that JS is active — enables bot-safe animations
-                document.documentElement.classList.add('js');
-              })();
-            `,
+            __html: `document.documentElement.classList.add('js');`,
           }}
         />
       </head>
-      <body className={`${quicksand.variable} ${inter.variable}`}>
-        <ThemeProvider>
-          <a href="#main-content" className="skip-link">
-            Skip to content
-          </a>
-          <Weather />
-          {children}
-          <Buddy />
-        </ThemeProvider>
+      <body
+        className={`${fraunces.variable} ${inter.variable} ${caveat.variable}`}
+      >
+        <a href="#main-content" className="skip-link">
+          Skip to content
+        </a>
+        {children}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

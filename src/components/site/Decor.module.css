@@ -1,0 +1,68 @@
+/* Bunting flags */
+.bunting {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  height: 34px;
+  padding: 0 2%;
+  overflow: hidden;
+}
+.rope {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--border-strong);
+  border-radius: 2px;
+  transform: translateY(2px);
+  /* a gentle droop */
+  border-bottom: 0;
+}
+.flag {
+  position: relative;
+  width: 26px;
+  height: 30px;
+  background: var(--f);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+  transform-origin: top center;
+  animation: sway 4s var(--ease-standard) infinite;
+}
+.flag:nth-child(even) { animation-delay: 0.4s; height: 27px; }
+.flag:nth-child(3n) { animation-delay: 0.8s; }
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+/* Clouds */
+.clouds {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.cloud {
+  position: absolute;
+  left: 0;
+  transform: translateX(-25vw) scale(var(--s));
+  filter: drop-shadow(0 6px 12px rgba(120, 110, 160, 0.10));
+  animation: drift var(--dur) linear var(--delay) infinite;
+  will-change: transform;
+}
+@keyframes drift {
+  from { transform: translateX(-25vw) scale(var(--s)); }
+  to { transform: translateX(125vw) scale(var(--s)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flag { animation: none; }
+  .cloud { animation: none; }
+  .cloud:nth-child(odd) { transform: translateX(15vw) scale(var(--s)); }
+  .cloud:nth-child(even) { transform: translateX(65vw) scale(var(--s)); }
+}
