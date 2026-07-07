@@ -1,35 +1,15 @@
 /* ============================================================
-   page.tsx — Single page: assembles all sections.
-   Order follows the scroll: Nav → Hero → About → Work →
-   Tools → Contact → Footer
+   page.tsx — the home spread: a pop-up storybook of Lucky's
+   work. The Book shell (layout) provides the sky, clouds,
+   ribbons, and Buddy; this fills the pages.
    ============================================================ */
 
-import { Nav } from "@/components/Nav/Nav";
-import { Hero } from "@/components/Hero/Hero";
-import { About } from "@/components/About/About";
-import { Work } from "@/components/Work/Work";
-import { Tools } from "@/components/Tools/Tools";
-import { Stories } from "@/components/Stories/Stories";
-import { Contact } from "@/components/Contact/Contact";
-import { Footer } from "@/components/Footer/Footer";
-import { ScrollReveal } from "@/components/shared/ScrollReveal";
-
-export const dynamic = "force-static";
+import { Storybook } from "@/components/Storybook/Storybook";
 
 export default function Home() {
   return (
-    <>
-      <Nav />
-      <main id="main-content">
-        <Hero />
-        <About />
-        <Work />
-        <Tools />
-        <Stories />
-        <Contact />
-      </main>
-      <Footer />
-      <ScrollReveal />
-    </>
+    <main id="main-content">
+      <Storybook />
+    </main>
   );
 }

@@ -1,0 +1,28 @@
+.sky {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.cloud {
+  position: absolute;
+  left: 0;
+  transform: translateX(-30vw) scale(var(--scale));
+  filter: drop-shadow(0 8px 14px rgba(120, 110, 160, 0.10));
+  animation: drift var(--dur) linear var(--delay) infinite;
+  will-change: transform;
+}
+
+@keyframes drift {
+  from { transform: translateX(-30vw) scale(var(--scale)); }
+  to   { transform: translateX(130vw) scale(var(--scale)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cloud { animation: none; }
+  /* Freeze a few gently across the sky instead of hiding them. */
+  .cloud:nth-child(odd)  { transform: translateX(20vw) scale(var(--scale)); }
+  .cloud:nth-child(even) { transform: translateX(70vw) scale(var(--scale)); }
+}

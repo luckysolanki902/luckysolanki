@@ -1,23 +1,33 @@
 import type { Metadata } from "next";
-import { Quicksand, Inter } from "next/font/google";
+import { Fraunces, Inter, Caveat } from "next/font/google";
 import { ThemeProvider } from "@/components/shared/ThemeProvider";
-import { Weather } from "@/components/shared/Weather";
-import { Buddy } from "@/components/Buddy/Buddy";
+import { Book } from "@/components/Book/Book";
 import { Analytics } from "@vercel/analytics/next";
 import { siteConfig, socials } from "@/lib/data";
 import "./globals.css";
 
-const quicksand = Quicksand({
-  variable: "--font-quicksand",
+// Storybook display — titles, chapter headings, the cover.
+const fraunces = Fraunces({
+  variable: "--font-display",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
+// Body — everything a human reads at length. Crisp and calm.
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+});
+
+// Handwriting — margin notes, the Buddy's voice, little labels.
+const caveat = Caveat({
+  variable: "--font-hand",
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
   display: "swap",
 });
 
@@ -179,30 +189,36 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
+                var d = document.documentElement;
                 try {
                   var stored = JSON.parse(localStorage.getItem('portfolio-theme') || '{}');
-                  // Only use stored theme if user explicitly chose one (userOverride=true)
+                  // Backdrop: user override, else system (device chassis stays constant)
                   var theme = (stored.state && stored.state.userOverride && stored.state.theme);
                   if (!theme) {
                     theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
                   }
-                  document.documentElement.setAttribute('data-theme', theme);
+                  d.setAttribute('data-theme', theme);
                 } catch (e) {}
+                try {
+                  var lensStore = JSON.parse(localStorage.getItem('portfolio-lens') || '{}');
+                  var lens = (lensStore.state && lensStore.state.userSet && lensStore.state.lens) || 'hire';
+                  d.setAttribute('data-lens', lens);
+                } catch (e) { d.setAttribute('data-lens', 'hire'); }
                 // Signal CSS that JS is active — enables bot-safe animations
-                document.documentElement.classList.add('js');
+                d.classList.add('js');
               })();
             `,
           }}
         />
       </head>
-      <body className={`${quicksand.variable} ${inter.variable}`}>
+      <body
+        className={`${fraunces.variable} ${inter.variable} ${caveat.variable}`}
+      >
         <ThemeProvider>
           <a href="#main-content" className="skip-link">
             Skip to content
           </a>
-          <Weather />
-          {children}
-          <Buddy />
+          <Book>{children}</Book>
         </ThemeProvider>
         <script
           type="application/ld+json"

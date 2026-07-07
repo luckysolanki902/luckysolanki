@@ -1,21 +1,22 @@
 /* ============================================================
-   LUCKY SOLANKI — 2026 PORTFOLIO
-   globals.css — Single source of truth for all design tokens
+   LUCKY SOLANKI — "A POP-UP BOOK"
+   globals.css — the pastel paper world. Single source of truth
+   for every colour, space, and curve.
+
+   Nothing here is loud. Cream paper, soft ink, drifting skies,
+   and a handful of pastel accents that only ever whisper.
    ============================================================ */
 
 /* -----------------------------------------------------------
    RESET
    ----------------------------------------------------------- */
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 html {
-  scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
@@ -28,123 +29,121 @@ body {
   overflow-x: hidden;
 }
 
-img,
-picture,
-video,
-canvas,
-svg {
-  display: block;
-  max-width: 100%;
-}
-
-input,
-button,
-textarea,
-select {
-  font: inherit;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-ul,
-ol {
-  list-style: none;
-}
+img, picture, video, canvas, svg { display: block; max-width: 100%; }
+input, button, textarea, select { font: inherit; color: inherit; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+button { background: none; border: none; cursor: pointer; }
 
 /* -----------------------------------------------------------
-   COLOR TOKENS — LIGHT MODE (Default)
-   ----------------------------------------------------------- */
-[data-theme="light"] {
-  /* Background */
-  --bg-primary: #FAFAF9;
-  --bg-secondary: #F5F4F0;
-  --bg-elevated: #FFFFFF;
-  --bg-subtle: #EDECE8;
-
-  /* Text */
-  --text-primary: #1A1A19;
-  --text-secondary: #5C5C58;
-  --text-tertiary: #8A8A85;
-  --text-inverse: #FAFAF9;
-
-  /* Interactive */
-  --accent: #2E2E2C;
-  --accent-hover: #1A1A19;
-  --accent-subtle: #E8E7E3;
-
-  /* Border */
-  --border-primary: #E3E2DE;
-  --border-subtle: #EEEDE9;
-  --border-strong: #D1D0CC;
-
-  /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(26, 26, 25, 0.04);
-  --shadow-md: 0 4px 12px rgba(26, 26, 25, 0.06);
-  --shadow-lg: 0 12px 40px rgba(26, 26, 25, 0.08);
-
-  /* Layered shadow for cards */
-  --shadow-card: 0 1px 2px rgba(26, 26, 25, 0.02),
-                 0 4px 8px rgba(26, 26, 25, 0.03),
-                 0 12px 32px rgba(26, 26, 25, 0.05);
-
-  /* Buddy companion */
-  --buddy-body: #2E2E2C;
-  --buddy-eye: #FAFAF9;
-  --buddy-cheek: #D4A07A;
-  --buddy-glow: rgba(46, 46, 44, 0.08);
-  --buddy-bubble-bg: #FFFFFF;
-  --buddy-bubble-border: #E3E2DE;
-  --buddy-bubble-text: #1A1A19;
-}
-
-/* -----------------------------------------------------------
-   COLOR TOKENS — DARK MODE
-   ----------------------------------------------------------- */
-[data-theme="dark"] {
-  --bg-primary: #111110;
-  --bg-secondary: #191918;
-  --bg-elevated: #1F1F1E;
-  --bg-subtle: #1A1A18;
-
-  --text-primary: #EDEDEC;
-  --text-secondary: #A0A09B;
-  --text-tertiary: #6B6B66;
-  --text-inverse: #111110;
-
-  --accent: #EDEDEC;
-  --accent-hover: #FFFFFF;
-  --accent-subtle: #1F1F1E;
-
-  --border-primary: #2A2A28;
-  --border-subtle: #1F1F1E;
-  --border-strong: #3A3A37;
-
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
-
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.15),
-                 0 4px 8px rgba(0, 0, 0, 0.2),
-                 0 12px 32px rgba(0, 0, 0, 0.3);
-
-  /* Buddy companion */
-  --buddy-body: #EDEDEC;
-  --buddy-eye: #111110;
-  --buddy-cheek: #C49070;
-  --buddy-glow: rgba(237, 237, 236, 0.06);
-  --buddy-bubble-bg: #1F1F1E;
-  --buddy-bubble-border: #2A2A28;
-  --buddy-bubble-text: #EDEDEC;
-}
-
-/* -----------------------------------------------------------
-   TYPOGRAPHY TOKENS
+   PASTEL PALETTE — constant paper + ink, plus the accent box.
    ----------------------------------------------------------- */
 :root {
-  /* Type Scale (1.25 Major Third) */
+  /* Paper */
+  --paper-0: #fdf9f2;   /* the lit page */
+  --paper-1: #f7f0e3;   /* a warmer page */
+  --paper-2: #efe6d4;   /* page in shadow / edge */
+  --deckle:  #e7dcc6;   /* torn deckle edge */
+  --paper-line: rgba(120, 104, 140, 0.10);
+
+  /* Ink — never pure black; a soft plum-navy */
+  --ink:       #4b4168;
+  --ink-soft:  #7b7298;
+  --ink-faint: #a9a1c0;
+  --ink-invert:#fdf9f2;
+
+  /* Pastel accents — the whole crayon box */
+  --blush:      #f6c3d4;
+  --rose:       #eaa6bc;
+  --lilac:      #cbb6ee;
+  --periwinkle: #b3c4f3;
+  --sky:        #bfe1f6;
+  --mint:       #b6e5cd;
+  --sage:       #cfe3c4;
+  --butter:     #f8e6a6;
+  --lavender:   #e2d8f5;
+  --peachpaper: #f7dcc9;  /* a soft blush-peach, kept faint (no orange) */
+
+  /* Semantic accent (defaults; lenses can retint) */
+  --accent:        var(--lilac);
+  --accent-soft:   var(--lavender);
+  --accent-ink:    #6a4f9e;
+
+  /* Soft paper shadows (layered cut-paper look) */
+  --shadow-paper: 0 1px 1px rgba(120,100,90,0.10),
+                  0 8px 20px rgba(120,100,90,0.14);
+  --shadow-lift:  0 12px 30px rgba(120,100,90,0.20),
+                  0 3px 8px rgba(120,100,90,0.14);
+  --shadow-pop:   0 20px 44px rgba(90,74,120,0.24);
+
+  /* ---- Compatibility mappings for reused components (Buddy etc.) ---- */
+  --bg-primary: var(--paper-0);
+  --bg-secondary: var(--paper-1);
+  --bg-elevated: #ffffff;
+  --bg-subtle: var(--paper-2);
+  --text-primary: var(--ink);
+  --text-secondary: var(--ink-soft);
+  --text-tertiary: var(--ink-faint);
+  --text-inverse: var(--ink-invert);
+  --accent-hover: var(--accent-ink);
+  --accent-subtle: var(--lavender);
+  --border-primary: var(--paper-2);
+  --border-subtle: var(--paper-1);
+  --border-strong: var(--deckle);
+  --shadow-sm: var(--shadow-paper);
+  --shadow-md: var(--shadow-paper);
+  --shadow-lg: var(--shadow-lift);
+  --shadow-card: var(--shadow-paper);
+
+  /* Buddy — a soft paper cut-out */
+  --buddy-body: #6b5f96;
+  --buddy-eye: #fdf9f2;
+  --buddy-cheek: #f4a9c0;
+  --buddy-glow: rgba(203, 182, 238, 0.28);
+  --buddy-bubble-bg: #fffdf8;
+  --buddy-bubble-border: #e7dcc6;
+  --buddy-bubble-text: #4b4168;
+}
+
+/* -----------------------------------------------------------
+   THE THREE RIBBONS — each lens paints its own sky + ribbon,
+   but always stays pastel (ink never has to flip).
+   ----------------------------------------------------------- */
+[data-lens="hire"] {
+  --sky-top: #cfe0ff;
+  --sky-mid: #e9eeff;
+  --sky-low: #ffe7f1;
+  --ribbon: var(--periwinkle);
+  --ribbon-ink: #4a5aa0;
+  --lens-glow: rgba(179, 196, 243, 0.55);
+  --accent: var(--periwinkle);
+  --accent-ink: #4a5aa0;
+}
+[data-lens="commission"] {
+  --sky-top: #f1daff;
+  --sky-mid: #ffe6f4;
+  --sky-low: #fff3d9;
+  --ribbon: var(--lilac);
+  --ribbon-ink: #7a55b8;
+  --lens-glow: rgba(203, 182, 238, 0.55);
+  --accent: var(--lilac);
+  --accent-ink: #7a55b8;
+}
+[data-lens="back"] {
+  --sky-top: #b9a7e6;
+  --sky-mid: #d8c6f0;
+  --sky-low: #f6d4e2;
+  --ribbon: var(--rose);
+  --ribbon-ink: #b06084;
+  --lens-glow: rgba(234, 166, 188, 0.55);
+  --accent: var(--rose);
+  --accent-ink: #b06084;
+}
+
+/* -----------------------------------------------------------
+   TYPOGRAPHY SCALE
+   ----------------------------------------------------------- */
+:root {
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1rem;
@@ -154,480 +153,146 @@ ol {
   --text-2xl: 2rem;
   --text-3xl: 2.5rem;
   --text-4xl: 3.25rem;
+  --text-5xl: 4.5rem;
 
-  /* Line Heights */
-  --leading-tight: 1.15;
-  --leading-snug: 1.35;
+  --leading-tight: 1.12;
+  --leading-snug: 1.32;
   --leading-normal: 1.6;
-  --leading-relaxed: 1.75;
+  --leading-relaxed: 1.78;
 
-  /* Letter Spacing */
-  --tracking-tight: -0.025em;
+  --tracking-tight: -0.02em;
   --tracking-normal: 0;
-  --tracking-wide: 0.05em;
+  --tracking-wide: 0.06em;
+  --tracking-wider: 0.16em;
 }
 
 /* -----------------------------------------------------------
-   SPACING TOKENS (Base: 4px)
+   SPACING / RADIUS / LAYOUT / EASING
    ----------------------------------------------------------- */
 :root {
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.25rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
-  --space-10: 2.5rem;
-  --space-12: 3rem;
-  --space-16: 4rem;
-  --space-20: 5rem;
-  --space-24: 6rem;
+  --space-1: 0.25rem;  --space-2: 0.5rem;  --space-3: 0.75rem;
+  --space-4: 1rem;     --space-5: 1.25rem; --space-6: 1.5rem;
+  --space-8: 2rem;     --space-10: 2.5rem; --space-12: 3rem;
+  --space-16: 4rem;    --space-20: 5rem;   --space-24: 6rem;
   --space-32: 8rem;
-  --space-40: 10rem;
-}
 
-/* -----------------------------------------------------------
-   LAYOUT TOKENS
-   ----------------------------------------------------------- */
-:root {
-  --max-page: 1200px;
-  --max-content: 680px;
-  --max-wide: 1000px;
-}
-
-/* -----------------------------------------------------------
-   BORDER RADIUS TOKENS
-   ----------------------------------------------------------- */
-:root {
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-xl: 32px;
   --radius-full: 9999px;
-}
 
-/* -----------------------------------------------------------
-   EASING CURVES
-   ----------------------------------------------------------- */
-:root {
-  --ease-standard: cubic-bezier(0.25, 0.1, 0.25, 1.0);
-  --ease-out: cubic-bezier(0.0, 0.0, 0.2, 1.0);
-  --ease-in: cubic-bezier(0.4, 0.0, 1.0, 1.0);
+  --max-page: 1200px;
+  --max-content: 640px;
+
+  --ease-standard: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
   --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-paper: cubic-bezier(0.2, 0.9, 0.25, 1.05);
 }
 
 /* -----------------------------------------------------------
-   THEME TRANSITION — smooth 300ms on all CSS custom properties
-   ----------------------------------------------------------- */
-[data-theme="light"],
-[data-theme="dark"] {
-  transition:
-    background-color 300ms var(--ease-standard),
-    color 300ms var(--ease-standard),
-    border-color 300ms var(--ease-standard),
-    box-shadow 300ms var(--ease-standard);
-}
-
-/* -----------------------------------------------------------
-   BASE STYLES
+   BASE
    ----------------------------------------------------------- */
 body {
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
   font-size: var(--text-base);
   line-height: var(--leading-normal);
-  color: var(--text-primary);
-  background-color: var(--bg-primary);
+  color: var(--ink);
+  /* The dreamy sky the book floats in */
+  background:
+    linear-gradient(180deg,
+      var(--sky-top, #cfe0ff) 0%,
+      var(--sky-mid, #e9eeff) 48%,
+      var(--sky-low, #ffe7f1) 100%);
+  background-attachment: fixed;
+  transition: background 700ms var(--ease-standard);
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-family: var(--font-display), Georgia, serif;
   line-height: var(--leading-tight);
+  color: var(--ink);
+  font-weight: 500;
 }
 
 /* -----------------------------------------------------------
-   FOCUS INDICATORS (Accessibility)
+   PAPER UTILITIES — the shared vocabulary of the book.
+   ----------------------------------------------------------- */
+
+/* Handwritten margin note / label. */
+.hand {
+  font-family: var(--font-hand), var(--font-display), cursive;
+  color: var(--accent-ink);
+  letter-spacing: 0.01em;
+}
+
+/* Small letterspaced chapter/eyebrow caps. */
+.chapterLabel {
+  font-family: var(--font-display), serif;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--ink-faint);
+}
+
+/* A sheet of paper with a soft deckle edge + grain. */
+.sheet {
+  position: relative;
+  background:
+    linear-gradient(180deg, var(--paper-0), var(--paper-1));
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-paper);
+}
+.sheet::after {
+  /* faint paper grain */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0 22px, var(--paper-line) 22px 23px);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* -----------------------------------------------------------
+   FOCUS / SKIP LINK / A11Y
    ----------------------------------------------------------- */
 :focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline: 2.5px solid var(--accent-ink);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
-/* -----------------------------------------------------------
-   SKIP LINK (Accessibility)
-   ----------------------------------------------------------- */
 .skip-link {
   position: absolute;
   top: -100%;
   left: var(--space-4);
-  z-index: 200;
+  z-index: 500;
   padding: var(--space-2) var(--space-4);
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  font-family: var(--font-inter), system-ui, sans-serif;
+  background: var(--paper-0);
+  color: var(--ink);
   font-size: var(--text-sm);
-  border: 1px solid var(--border-primary);
+  border: 1px solid var(--deckle);
   border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lift);
   transition: top 200ms var(--ease-standard);
 }
+.skip-link:focus { top: var(--space-4); }
 
-.skip-link:focus {
-  top: var(--space-4);
-}
+::selection { background: var(--lilac); color: var(--ink); }
 
 /* -----------------------------------------------------------
-   REDUCED MOTION — Respect user preferences
+   REDUCED MOTION
    ----------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-}
-
-/* -----------------------------------------------------------
-   SELECTION
-   ----------------------------------------------------------- */
-::selection {
-  background-color: var(--accent);
-  color: var(--text-inverse);
-}
-
-/* -----------------------------------------------------------
-   SMOOTH SCROLLBAR (webkit browsers)
-   ----------------------------------------------------------- */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-primary);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border-strong);
-  border-radius: var(--radius-full);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-tertiary);
-}
-
-/* ============================================================
-   PRINT STYLESHEET — Cmd+P transforms the site into a resume.
-   One page. Clean typography. Tight spacing.
-   The "who built this??" moment when someone hits print.
-   ============================================================ */
-@media print {
-  /* ---- Global reset ---- */
-  *, *::before, *::after {
-    animation: none !important;
-    transition: none !important;
-    box-shadow: none !important;
-    text-shadow: none !important;
-    float: none !important;
-  }
-
-  html {
-    font-size: 10.5pt;
-    scroll-behavior: auto;
-  }
-
-  body {
-    background: white !important;
-    color: #1a1a1a !important;
-    font-family: "Inter", system-ui, -apple-system, sans-serif;
-    line-height: 1.4;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  @page {
-    margin: 0.5in 0.6in;
-    size: letter;
-  }
-
-  /* ---- Force FadeIn wrappers visible ---- */
-  [class*="fadeIn"],
-  [class*="FadeIn"] {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-
-  /* ---- Hide non-resume elements ---- */
-  nav,
-  footer {
-    display: none !important;
-  }
-
-  /* ---- Layout: collapse to single column ---- */
-  main {
-    display: block !important;
-  }
-
-  section {
-    padding: 0 !important;
-    margin: 0 !important;
-    border: none !important;
-    background: transparent !important;
-    page-break-inside: avoid;
-  }
-
-  section > div {
-    padding: 0 !important;
-    margin: 0 !important;
-    max-width: none !important;
-  }
-
-  /* ========== HERO — Name + subtitle ========== */
-  [id="hero"] {
-    margin-bottom: 8pt !important;
-    padding-bottom: 6pt !important;
-    border-bottom: 1.5pt solid #1a1a1a !important;
-  }
-
-  [id="hero"] > div {
-    display: block !important;
-    flex-direction: unset !important;
-  }
-
-  [id="hero"] h1 {
-    font-size: 18pt !important;
-    font-weight: 700;
-    line-height: 1.15 !important;
-    color: #1a1a1a !important;
-    margin: 0 !important;
-  }
-
-  /* Make heading spans inline so they flow as one line */
-  [id="hero"] h1 span {
-    display: inline !important;
-  }
-
-  [id="hero"] h1 span::after {
-    content: " ";
-  }
-
-  [id="hero"] p {
-    font-size: 9pt !important;
-    color: #444 !important;
-    margin-top: 3pt !important;
-    max-width: none !important;
-  }
-
-  /* Hide photo, CTAs */
-  [id="hero"] img,
-  [id="hero"] a {
-    display: none !important;
-  }
-
-  /* ========== ABOUT — Compact paragraphs ========== */
-  [id="about"] {
-    margin-top: 2pt !important;
-  }
-
-  [id="about"] h2 {
-    font-size: 10pt !important;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #1a1a1a !important;
-    margin: 10pt 0 3pt 0 !important;
-    padding-bottom: 2pt !important;
-    border-bottom: 0.5pt solid #ccc !important;
-  }
-
-  [id="about"] p {
-    font-size: 8.5pt !important;
-    color: #333 !important;
-    margin: 0 0 3pt 0 !important;
-    line-height: 1.4 !important;
-  }
-
-  /* Hide experience cards in print (info is in text already) */
-  [id="about"] > div > div:last-child {
-    display: none !important;
-  }
-
-  /* ========== WORK — Project list ========== */
-  [id="work"] h2 {
-    font-size: 10pt !important;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #1a1a1a !important;
-    margin: 10pt 0 3pt 0 !important;
-    padding-bottom: 2pt !important;
-    border-bottom: 0.5pt solid #ccc !important;
-  }
-
-  /* Cards → stacked blocks */
-  [id="work"] article {
-    display: block !important;
-    padding: 0 !important;
-    margin: 0 0 6pt 0 !important;
-    border: none !important;
-    background: transparent !important;
-    page-break-inside: avoid;
-  }
-
-  /* Hide images in work */
-  [id="work"] img {
-    display: none !important;
-  }
-
-  /* Hide image wrappers */
-  [id="work"] article > div:first-child {
-    display: none !important;
-  }
-
-  /* Show meta */
-  [id="work"] article > div:last-child {
-    display: block !important;
-    padding: 0 !important;
-  }
-
-  [id="work"] h3 {
-    font-size: 9.5pt !important;
-    font-weight: 600;
-    color: #1a1a1a !important;
-    margin: 0 !important;
-    display: inline !important;
-  }
-
-  [id="work"] article p {
-    font-size: 8pt !important;
-    color: #444 !important;
-    margin: 2pt 0 0 0 !important;
-    line-height: 1.35 !important;
-  }
-
-  /* ========== TOOLS — Inline comma list ========== */
-  [id="tools"] {
-    background: transparent !important;
-  }
-
-  [id="tools"] h2 {
-    font-size: 10pt !important;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #1a1a1a !important;
-    margin: 10pt 0 3pt 0 !important;
-    padding-bottom: 2pt !important;
-    border-bottom: 0.5pt solid #ccc !important;
-  }
-
-  [id="tools"] h3 {
-    font-size: 8.5pt !important;
-    font-weight: 600;
-    color: #1a1a1a !important;
-    display: inline !important;
-  }
-
-  [id="tools"] h3::after {
-    content: ": ";
-  }
-
-  [id="tools"] p {
-    font-size: 8pt !important;
-    color: #444 !important;
-    display: inline !important;
-  }
-
-  [id="tools"] > div > div:nth-child(3) {
-    display: block !important;
-  }
-
-  [id="tools"] > div > div:nth-child(3) > div {
-    display: inline !important;
-  }
-
-  [id="tools"] > div > div:nth-child(3) > div > div {
-    display: inline !important;
-  }
-
-  [id="tools"] > div > div:nth-child(3) > div > div > p::after {
-    content: " · ";
-  }
-
-  [id="tools"] > div > div:nth-child(3) > div > div:last-child > p:last-child::after {
-    content: "";
-  }
-
-  /* ========== STORIES — hide entirely ========== */
-  [id="stories"],
-  section:has(> div > p) + section:not([id]) {
-    display: none !important;
-  }
-
-  /* Hide Stories by targeting eyebrow text structure */
-  section:not([id]) {
-    display: none !important;
-  }
-
-  /* ========== CONTACT — Email + links only ========== */
-  [id="contact"] {
-    margin-top: 8pt !important;
-    padding-top: 4pt !important;
-    border-top: 0.5pt solid #ccc !important;
-  }
-
-  [id="contact"] h2 {
-    display: none !important;
-  }
-
-  [id="contact"] p {
-    display: none !important;
-  }
-
-  [id="contact"] a {
-    font-size: 8.5pt !important;
-    color: #1a1a1a !important;
-    display: inline !important;
-  }
-
-  [id="contact"] svg {
-    display: none !important;
-  }
-
-  [id="contact"] > div > div > div:last-child {
-    display: none !important;
-  }
-
-  /* ---- Inline links: show URL ---- */
-  [id="work"] a[href^="http"]::after,
-  [id="contact"] a[href^="http"]::after {
-    content: " (" attr(href) ")";
-    font-size: 7pt;
-    color: #888;
-    font-weight: 400;
-  }
-
-  a[href^="#"]::after,
-  a[href^="mailto:"]::after,
-  a[href^="/"]::after {
-    content: "" !important;
-  }
-
-  /* ---- Generic: hide margin notes, badges, buttons in print ---- */
-  button {
-    display: none !important;
-  }
-
-  /* Restore link-styled buttons that are actually <a> tags */
-  a[href] {
-    display: inline !important;
-  }
-
-  /* Hide the "current" dot */
-  [id="about"] span:empty {
-    display: none !important;
   }
 }
