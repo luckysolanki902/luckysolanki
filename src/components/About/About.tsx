@@ -24,26 +24,30 @@ export function About() {
 
         <div className={styles.body}>
             <p>
-              At{" "}
-              <strong className={styles.highlight}>Blitzit</strong>, where I
-              work on integrations, AI tooling, and backend systems that support
-              daily product use.
+              I am useful when a product needs someone who can take ownership
+              across the whole build: frontend, backend, deployment, data
+              model, payments, AI integrations, automations, and the admin
+              tooling behind the scenes.
             </p>
             <p>
-              Before that, I co-founded{" "}
-              <strong className={styles.highlight}>MaddyCustom</strong> and
-              built the platform behind a business that grew to 100K+ monthly
-              users and ₹60L annual revenue.
+              For freelance work, the best fit is a serious product surface
+              that has to ship cleanly without needing a large team around it:
+              SaaS backends, AI/MCP tools, internal dashboards, commerce
+              workflows, integrations, queues, sync, and production fixes.
             </p>
             <p>
-              I also run <strong className={styles.highlight}>Spyll</strong>, a
-              consumer app that reached 1,200+ Android downloads in its first
-              month without paid acquisition.
+              For full-time teams, I fit where engineering is close to product.
+              At <strong className={styles.highlight}>Blitzit</strong>, I lead
+              backend work across the product runtime, history, integrations,
+              jobs, sync, and AI tool surface.
             </p>
             <p>
-              That mix matters. I have shipped as a founder, as an in-house
-              engineer, and as a solo builder - which makes me comfortable
-              owning both product tradeoffs and technical execution.
+              The founder side matters too. I co-founded{" "}
+              <strong className={styles.highlight}>MaddyCustom</strong>, grew a
+              commerce platform to 100K+ monthly users and ₹60L annual revenue,
+              and built <strong className={styles.highlight}>Spyll</strong>{" "}
+              through its first real users. I have had to care about speed,
+              revenue, support, messy requirements, and what actually ships.
             </p>
           </div>
 

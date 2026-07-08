@@ -17,9 +17,11 @@ import styles from "./Hero.module.css";
 
 const headingLines = ["I build the hard parts", "of product software."];
 const proofPoints = [
-  "100K+ monthly users",
-  "13-tool MCP server",
-  "Founder + in-house experience",
+  "Frontend + backend + deployment",
+  "AI integrations + automations",
+  "MCP systems",
+  "Freelance product builds",
+  "Founder + CTO experience",
 ];
 
 const ZOOM_STEP = 0.08;
@@ -126,7 +128,7 @@ export function Hero() {
               className={styles.subtext}
               font="400 14px Inter"
             >
-              I work on integrations, AI workflows, realtime systems, payments, and internal tooling - the parts of a product that are hard to fake and expensive to get wrong. My background spans founder-led products, in-house engineering, and solo client builds.
+              I build across the whole product surface: frontend, backend, deployment, queues, payments, sync, realtime features, admin tooling, AI integrations, automations, and MCP systems. At Blitzit I own major backend systems. As a founder and freelancer, I have taken products from rough idea to shipped software.
             </HoverText>
 
           <ul className={styles.proofStrip} aria-label="Selected proof points">
