@@ -9,7 +9,7 @@ import { Hero } from "@/components/Hero/Hero";
 import { About } from "@/components/About/About";
 import { Work } from "@/components/Work/Work";
 import { Tools } from "@/components/Tools/Tools";
-import { Stories } from "@/components/Stories/Stories";
+import { BlogPreview } from "@/components/Blog/BlogPreview";
 import { Contact } from "@/components/Contact/Contact";
 import { Footer } from "@/components/Footer/Footer";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
@@ -25,7 +25,7 @@ export default function Home() {
         <About />
         <Work />
         <Tools />
-        <Stories />
+        <BlogPreview />
         <Contact />
       </main>
       <Footer />
