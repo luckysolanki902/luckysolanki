@@ -39,10 +39,14 @@ export function Nav() {
     [isHome]
   );
 
-  const scrollToTop = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+  const scrollToTop = useCallback(
+    (e: React.MouseEvent) => {
+      if (!isHome) return;
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+    [isHome]
+  );
 
   return (
     <>

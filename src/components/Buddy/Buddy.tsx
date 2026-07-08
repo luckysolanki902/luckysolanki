@@ -42,7 +42,6 @@ import {
   hoverTriggers,
   buddyHideTriggers,
   buddySighTriggers,
-  waterTriggers,
   navHoverTriggers,
   rareTriggers,
   behaviorMemoryTriggers,
@@ -105,17 +104,12 @@ type IdleActivity =
   | "none"
   | "walk"
   | "lookAround"
-  | "sleep"
-  | "playLeaves" // light: shuffle through the leaf heap and scatter it
-  | "swim"; // water: paddle around while floating
+  | "sleep";
 
-// Light mode (dry land). No props — the buddy just moves around and plays
-// with the fallen leaves.
-const LAND_POOL: IdleActivity[] = ["walk", "lookAround", "sleep", "playLeaves"];
-// Dark mode, still dry (raining, sheltering under the umbrella).
+// Light mode (dry land). No props — the buddy just moves around.
+const LAND_POOL: IdleActivity[] = ["walk", "lookAround", "sleep"];
+// Dark mode uses the same quiet idle pool; the umbrella only appears in the hero storm.
 const DARK_DRY_POOL: IdleActivity[] = ["walk", "lookAround", "sleep"];
-// Dark mode, floating on the flood. Mostly just bobs; sometimes paddles.
-const WATER_POOL: IdleActivity[] = ["swim"];
 
 /* -----------------------------------------------------------
    BUDDY PIXEL ART — 8x9 blob, 5px per pixel
@@ -275,10 +269,7 @@ export function Buddy() {
   const [walking, setWalking] = useState(false);
   const [activity, setActivity] = useState<IdleActivity>("none");
   const [closingForAction, setClosingForAction] = useState(false);
-  const [inWater, setInWater] = useState(false);
-  const inWaterRef = useRef(false);
-  const floatRef = useRef<HTMLDivElement>(null);
-  const liftRef = useRef(0);
+  const [stormActive, setStormActive] = useState(false);
   const phaseRef = useRef<"offscreen" | "falling" | "landing" | "dizzy" | "settled">("offscreen");
   const hidingRef = useRef(false);
   const activityRef = useRef<IdleActivity>("none");
@@ -321,16 +312,9 @@ export function Buddy() {
     return () => timers.forEach(clearTimeout);
   }, [setMood]);
 
-  /* ---- Pick next activity from the right pool (no repeats) ----
-     Light = dry land games. Dark = water sports once flooded,
-     otherwise just quiet idling under the umbrella. */
+  /* ---- Pick next activity from the right pool (no repeats) ---- */
   const pickActivity = useCallback((): IdleActivity => {
-    const base =
-      theme === "dark"
-        ? inWaterRef.current
-          ? WATER_POOL
-          : DARK_DRY_POOL
-        : LAND_POOL;
+    const base = theme === "dark" ? DARK_DRY_POOL : LAND_POOL;
     let pool = base.filter((a) => a !== lastPickedActivity.current);
     if (pool.length === 0) pool = base;
     const pick = pool[Math.floor(Math.random() * pool.length)];
@@ -395,30 +379,6 @@ export function Buddy() {
           break;
         }
 
-        case "playLeaves": {
-          // Shuffle into the leaf heap and kick it — the real scatter is
-          // applied to the matter.js leaves through weatherState.disturb().
-          setWalking(true);
-          const kick = () => {
-            const r = wrapperRef.current?.getBoundingClientRect();
-            if (r) weatherState.disturb(r.left + r.width / 2, r.bottom - 6, 1);
-          };
-          [300, 850, 1400, 1950].forEach((d) =>
-            setTimeout(() => { if (activityRef.current === "playLeaves") kick(); }, d)
-          );
-          setTimeout(() => { if (activityRef.current === "playLeaves") setWalking(false); }, 2300);
-          activityTimeout.current = setTimeout(finish, 2800);
-          break;
-        }
-
-        case "swim": {
-          // Paddle out across the water and drift back (no props, just bob).
-          setPosX(Math.min(window.innerWidth - 160, 300));
-          setTimeout(() => { if (activityRef.current === "swim") setPosX(0); }, 4200);
-          activityTimeout.current = setTimeout(finish, 7000);
-          break;
-        }
-
         default:
           activityTimeout.current = setTimeout(finish, 3500);
       }
@@ -428,7 +388,7 @@ export function Buddy() {
     // away (≈420ms) before doing anything else.
     const start = (act: IdleActivity) => {
       const umbrellaOut =
-        theme === "dark" && !inWaterRef.current && activityRef.current === "none";
+        theme === "dark" && stormActive && activityRef.current === "none";
       // Mark busy immediately so the poll/umbrella don't fight.
       activityRef.current = act;
       if (umbrellaOut) {
@@ -451,12 +411,6 @@ export function Buddy() {
       if (hidingRef.current) return;
       const elapsed = Date.now() - lastActivityEnd.current;
       if (elapsed < nextGap.current) return;
-      // While floating, mostly just bob on the surface — only sometimes paddle.
-      if (inWaterRef.current && Math.random() > 0.4) {
-        lastActivityEnd.current = Date.now();
-        nextGap.current = 3000 + Math.random() * 3000;
-        return;
-      }
       start(pickActivity());
     }, 1500);
 
@@ -468,63 +422,26 @@ export function Buddy() {
       setActivity("none");
       setWalking(false);
     };
-  }, [phase, pickActivity, setMood, theme]);
+  }, [phase, pickActivity, setMood, stormActive, theme]);
 
   /* ---- Stop activity when message appears ---- */
   /* Activities and messages now COEXIST — buddy can talk while doing things.
      Only buddy-click and hiding stop activities (handled elsewhere). */
 
-  /* ===========================================================
-     FLOAT ON THE RISING WATER (dark mode)
-     Reads the shared water surface every frame and lifts the
-     buddy so it sits half-submerged at the surface. Crossing a
-     threshold flips `inWater`, which switches the activity pool
-     to water sports and folds the umbrella away.
-     =========================================================== */
+  /* ---- Mirror hero storm state for the umbrella prop ---- */
   useEffect(() => {
     if (phase !== "settled") return;
-    const HALF = 20; // px of body kept under the surface
-    const MAX_LIFT = 90;
     let raf = 0;
 
     const tick = () => {
-      const el = wrapperRef.current;
-      // Skip the layout read entirely on dry land (light mode / no flood).
-      if (el && !hidingRef.current && (weatherState.storm || liftRef.current > 0)) {
-        const rect = el.getBoundingClientRect();
-        const naturalBottom = rect.bottom;
-        const surface = weatherState.surfaceY;
-        const target =
-          weatherState.storm && surface < naturalBottom
-            ? Math.min(MAX_LIFT, Math.max(0, naturalBottom - surface - HALF))
-            : 0;
-        liftRef.current += (target - liftRef.current) * 0.08;
-        if (liftRef.current < 0.2) liftRef.current = 0;
-
-        if (floatRef.current) {
-          const bob = liftRef.current > 3 ? Math.sin(performance.now() / 620) * 3 : 0;
-          const rot = liftRef.current > 3 ? Math.sin(performance.now() / 900) * 2 : 0;
-          floatRef.current.style.transform =
-            liftRef.current > 0.2
-              ? `translateY(${-(liftRef.current + bob)}px) rotate(${rot}deg)`
-              : "";
-        }
-
-        // Hysteresis so it doesn't flicker at the waterline
-        if (!inWaterRef.current && liftRef.current > 10) {
-          inWaterRef.current = true;
-          setInWater(true);
-          fire(waterTriggers); // "the page is flooding!"
-        } else if (inWaterRef.current && liftRef.current < 3) {
-          inWaterRef.current = false;
-          setInWater(false);
-        }
-      }
+      setStormActive((current) =>
+        current === weatherState.storm ? current : weatherState.storm
+      );
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [phase, fire]);
+  }, [phase]);
 
   /* ---- Hide/peek: proximity (desktop only) ---- */
   useEffect(() => {
@@ -865,7 +782,7 @@ export function Buddy() {
   /* ---- Secret buddy(N) console command ---- */
   useEffect(() => {
     const CODES: Record<number, IdleActivity> = {
-      1: "walk", 2: "lookAround", 3: "sleep", 4: "playLeaves", 5: "swim",
+      1: "walk", 2: "lookAround", 3: "sleep",
     };
     (window as unknown as Record<string, unknown>).buddy = (code?: number) => {
       if (code === undefined || code === 0) {
@@ -955,10 +872,10 @@ export function Buddy() {
       style={wrapperStyle}
       aria-live="polite"
     >
-      {/* Character + props — wrapped in a float layer that lifts on water.
+      {/* Character + props — wrapped so the chat bubble tracks movement.
           The chat bubble lives INSIDE this layer (anchored above the head)
-          so it tracks the buddy through float / walk / hide automatically. */}
-      <div ref={floatRef} className={styles.floatLayer}>
+          so it tracks the buddy through walk / hide automatically. */}
+      <div className={styles.floatLayer}>
         <div className={`${moodClass} ${activityClass}`} style={{ position: "relative" }}>
           {/* Chat bubble — absolutely anchored above the head */}
           <AnimatePresence mode="wait">
@@ -991,12 +908,11 @@ export function Buddy() {
             )}
           </AnimatePresence>
 
-          {/* Umbrella — dark-mode idle shelter only. Opens while idle, folds
-              away before any activity and the moment the buddy floats into the
-              water. Never appears in light mode. */}
+          {/* Umbrella — hero-storm idle shelter only. Opens while idle, folds
+              away before any activity. Never appears in light mode. */}
           <AnimatePresence>
             {theme === "dark" &&
-              !inWater &&
+              stormActive &&
               !closingForAction &&
               activity === "none" &&
               phase === "settled" &&
@@ -1038,7 +954,7 @@ export function Buddy() {
             </div>
           )}
 
-          {/* walk / lookAround / playLeaves / swim — pure character animation */}
+          {/* walk / lookAround — pure character animation */}
         </div>
       </div>
     </div>

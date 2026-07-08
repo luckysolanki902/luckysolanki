@@ -686,35 +686,8 @@
   filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.18));
 }
 
-/* ============================================================
-   FLOAT LAYER + WATER ACTIVITIES (dark mode)
-   ============================================================ */
-
-/* Lifted via inline transform from the float rAF loop. */
 .floatLayer {
   position: relative;
-  will-change: transform;
-}
-
-/* ---- Swim: gentle paddle bob while floating (no props) ---- */
-.actSwim .character {
-  animation: swimBob 2.2s ease-in-out infinite;
-}
-
-@keyframes swimBob {
-  0%, 100% { transform: translateY(0) rotate(-3deg); }
-  50%      { transform: translateY(-2px) rotate(3deg); }
-}
-
-/* ---- Play with leaves: little shuffle/kick ---- */
-.actPlayLeaves .character {
-  animation: leafKick 0.6s ease-in-out infinite;
-}
-
-@keyframes leafKick {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  30%      { transform: translateY(-3px) rotate(-5deg); }
-  60%      { transform: translateY(0) rotate(4deg); }
 }
 
 @media (max-width: 600px) {

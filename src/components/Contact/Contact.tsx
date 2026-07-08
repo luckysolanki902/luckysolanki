@@ -14,9 +14,9 @@ import { HoverText } from "@/components/shared/HoverText";
 import styles from "./Contact.module.css";
 
 const engagementLanes = [
-  "AI features, workflow automation, or tool use that has to hold up in production",
-  "Integrations, sync, payments, realtime features, or internal tooling",
-  "A product area that is slowing the team down and needs clear ownership",
+  "Freelance builds: SaaS backends, dashboards, automations, AI integrations, MCP tools, payments, and deployment",
+  "Full-time roles: product engineering close to backend, platform, integrations, queues, sync, and realtime systems",
+  "Founder-style ownership: unclear requirements, moving scope, production fixes, support pressure, and shipping decisions",
 ];
 
 export function Contact() {
@@ -29,11 +29,14 @@ export function Contact() {
           {/* Left column */}
           <div className={styles.left}>
             <HoverText as="h2" variant="heading" className={styles.heading} font="600 24px Quicksand">
-                If you need someone to own a difficult product surface.
+                If you need someone who can take a product from problem to shipped.
               </HoverText>
 
             <p className={styles.body}>
-                The best fit is work that sits between product judgment and technical complexity.
+                I work best where product judgment and engineering execution
+                have to stay close: frontend, backend, deployment, AI
+                integrations, automation, payments, realtime features, and the
+                admin systems that keep the product usable.
               </p>
 
             <ul className={styles.lanes} aria-label="Best-fit engagement lanes">
@@ -45,8 +48,9 @@ export function Contact() {
               </ul>
 
             <p className={styles.note}>
-                If that sounds close, email me with the problem, the current
-                stack, and where things are blocked.
+                If you are hiring, send the role and the part of the product
+                that needs ownership. For freelance work, send the problem, the
+                current stack, timeline, and what is blocked.
               </p>
 
             <a href={`mailto:${socials.email}`} className={styles.email}>

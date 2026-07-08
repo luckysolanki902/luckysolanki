@@ -88,7 +88,7 @@ const chapters = [
   {
     year: "Now",
     title: "Current focus",
-    body: `At Blitzit, I am helping build a more robust backend: unit-tested modules, plugin-based integrations, prompt-level model routing, Pinecone-backed memory, and tighter security around rate limiting and request validation. Outside work, I am studying data science and machine learning. I am also continuing to grow Spyll, which crossed 1,200+ Android downloads in its first month without paid acquisition.`,
+    body: `At Blitzit, I am helping build a more robust backend: unit-tested modules, plugin-based integrations, prompt-level model routing, Pinecone-backed memory, and tighter security around rate limiting and request validation. Outside work, I am studying data science and machine learning. I am also continuing to grow Spyll, which crossed 1,700+ Android downloads in its first month without paid acquisition.`,
     tags: ["Blitzit", "Backend", "Pinecone", "ML", "Data Science", "Spyll"],
   },
 ];
