@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Quicksand, Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/shared/ThemeProvider";
 import { Weather } from "@/components/shared/Weather";
+import { Buddy } from "@/components/Buddy/Buddy";
 import { Analytics } from "@vercel/analytics/next";
 import { siteConfig, socials } from "@/lib/data";
 import "./globals.css";
@@ -162,7 +163,7 @@ const jsonLd = {
       name: "Blitzit",
       url: "https://www.blitzit.app",
       description:
-        "AI-powered task management with MCP server, 13 AI-callable tools, and deep calendar integrations.",
+        "AI-powered task management with MCP server, 54 AI-callable tools, and deep calendar integrations.",
       applicationCategory: "ProductivityApplication",
       operatingSystem: "Web, Mac",
     },
@@ -222,6 +223,7 @@ export default function RootLayout({
           </a>
           <Weather />
           {children}
+          <Buddy />
         </ThemeProvider>
         <script
           type="application/ld+json"

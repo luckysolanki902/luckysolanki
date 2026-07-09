@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useState } from "react";
 import mermaid from "mermaid";
+import { useThemeStore } from "@/store/useThemeStore";
 import styles from "@/app/blog/blog.module.css";
 
 interface MermaidDiagramProps {
@@ -11,6 +12,7 @@ interface MermaidDiagramProps {
 
 export function MermaidDiagram({ title, code }: MermaidDiagramProps) {
   const id = useId().replace(/:/g, "");
+  const theme = useThemeStore((s) => s.theme);
   const [svg, setSvg] = useState<string | null>(null);
   const [failed, setFailed] = useState(false);
 
@@ -20,7 +22,7 @@ export function MermaidDiagram({ title, code }: MermaidDiagramProps) {
     mermaid.initialize({
       startOnLoad: false,
       securityLevel: "strict",
-      theme: "dark",
+      theme: theme === "dark" ? "dark" : "neutral",
       flowchart: {
         curve: "basis",
         htmlLabels: false,
@@ -28,7 +30,7 @@ export function MermaidDiagram({ title, code }: MermaidDiagramProps) {
     });
 
     mermaid
-      .render(`blog-diagram-${id}`, code)
+      .render(`blog-diagram-${id}-${theme}`, code)
       .then(({ svg: rendered }) => {
         if (!cancelled) setSvg(rendered);
       })
@@ -39,7 +41,7 @@ export function MermaidDiagram({ title, code }: MermaidDiagramProps) {
     return () => {
       cancelled = true;
     };
-  }, [code, id]);
+  }, [code, id, theme]);
 
   return (
     <figure className={styles.diagram}>

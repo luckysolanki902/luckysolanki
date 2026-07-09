@@ -81,14 +81,18 @@ A full Model Context Protocol server that lets AI assistants (Claude, OpenAI, et
 - **Registration**: RFC 7591 (Dynamic Client Registration)
 - **Token Storage**: SHA-256 hashed — raw tokens never stored in database
 
-### MCP Tools (13 total)
+### MCP Tools (54 total)
 
 | Category | Tools |
 |----------|-------|
-| **Task CRUD** | `create_task`, `create_multiple_tasks`, `get_task`, `update_task`, `delete_task` |
-| **Task Actions** | `list_tasks`, `move_task_to_board`, `complete_task` |
-| **Lists** | `list_lists`, `create_list` |
-| **Utility** | `get_todays_tasks`, `get_current_time`, `get_user_timezone` |
+| **Task CRUD** | `create_task`, `create_multiple_tasks`, `get_task`, `update_task`, `delete_task`, `restore_task`, `restore_tasks`, `duplicate_task` |
+| **Task Actions** | `list_tasks`, `search_tasks`, `complete_task`, `uncomplete_task`, `move_tasks_to_board`, `move_task_to_list`, `reorder_task`, `get_task_counts` |
+| **Subtasks** | `add_subtask`, `add_subtasks`, `toggle_subtask`, `remove_subtask` |
+| **Lists** | `list_lists`, `get_list`, `create_list`, `update_list`, `delete_list` |
+| **Views** | `get_todays_tasks`, `get_this_weeks_tasks`, `get_scheduled_tasks`, `get_completed_tasks` |
+| **Utility** | `get_current_time`, `get_user_timezone`, `get_user_profile` |
+| **Integrations** | `list_integrations`, `get_my_integrations`, `get_integration_status`, `connect_integration`, `disconnect_integration`, `browse_integration_collections`, `configure_integration`, `link_collection_to_list`, `unlink_collection_from_list`, `sync_integration_collection`, `list_collection_items` |
+| **Webhooks** | `get_inbound_webhook_url`, `disable_inbound_webhook`, `rotate_inbound_webhook_secret`, `create_outbound_webhook`, `list_outbound_webhooks`, `get_outbound_webhook`, `update_outbound_webhook`, `delete_outbound_webhook`, `test_outbound_webhook`, `list_webhook_deliveries`, `rotate_outbound_webhook_secret` |
 
 ### OAuth 2.1 Flow
 

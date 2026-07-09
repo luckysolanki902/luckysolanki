@@ -30,7 +30,7 @@
 |---|---------|------|-------------------------|----------|--------|-----|
 | 4 | **Blitzit** | Engineer | vue-web-app (2,843), blitzit-hq/api (141), blitzit-hq/electron-app (79) | blitzit-web.vercel.app | Active | [03-blitzit.md](03-blitzit.md) |
 
-**Key contributions**: MCP server (OAuth 2.1 + PKCE, 13 tools, JSON-RPC 2.0), Asana/ClickUp/Google Calendar bidirectional sync, BullMQ push notification infrastructure, timezone-aware scheduling (357 tests), Zapier integration.
+**Key contributions**: MCP server (OAuth 2.1 + PKCE, 54 tools, JSON-RPC 2.0), Asana/ClickUp/Google Calendar bidirectional sync, BullMQ push notification infrastructure, timezone-aware scheduling (357 tests), Zapier integration.
 
 ---
 

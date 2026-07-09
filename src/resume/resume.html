@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<!-- ============================================================
+     RESUME SOURCE OF TRUTH — edit this file, then run:
+
+         npm run resume:pdf
+
+     That regenerates public/resume.pdf (the file the site serves
+     via the ResumeCard download button). Keep it to ONE page:
+     after regenerating, open public/resume.pdf and check.
+
+     ATS rules baked in: single column, real text, standard
+     section titles (Experience / Projects / Skills / Education),
+     no tables, no images, dates on every role.
+     ============================================================ -->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Lucky Solanki — Resume</title>
+<style>
+  :root {
+    --ink: #1c1917;
+    --soft: #57534e;
+    --faint: #79716b;
+    --accent: #c2410c;
+    --paper: #faf7f0;
+    --rule: #d6d0c4;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  @page { size: A4; margin: 0; }
+  html, body { width: 210mm; }
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 8pt;
+    line-height: 1.35;
+    color: var(--ink);
+    background: var(--paper);
+    padding: 7mm 10mm 6mm;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  a { color: inherit; text-decoration: none; }
+  .mono {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 6.3pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── Header ── */
+  header { display: flex; justify-content: space-between; align-items: flex-start; }
+  .name {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 23pt;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .name em { color: var(--accent); font-style: italic; }
+  .tagline { margin-top: 1.8mm; color: var(--soft); }
+  .contact { text-align: right; line-height: 1.5; padding-top: 1mm; }
+  .contact .mono { color: var(--faint); margin-right: 1.5mm; }
+  .contact a { font-family: Menlo, Consolas, monospace; font-size: 6.8pt; border-bottom: 0.3pt solid var(--rule); }
+
+  /* ── Summary ── */
+  .summary {
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-size: 9pt;
+    line-height: 1.42;
+    margin: 3.5mm 0 0.5mm;
+    color: #292524;
+  }
+
+  /* ── Sections ── */
+  section { margin-top: 3.2mm; }
+  .section-head {
+    display: flex; align-items: baseline; gap: 3mm;
+    border-bottom: 0.6pt solid var(--ink);
+    padding-bottom: 0.8mm; margin-bottom: 2mm;
+  }
+  .section-head .mono { color: var(--accent); }
+  .section-head h2 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 10.5pt; font-weight: 400; font-style: italic;
+  }
+
+  /* ── Experience entries ── */
+  .job { margin-bottom: 2.6mm; }
+  .job:last-child { margin-bottom: 0; }
+  .job-line { display: flex; justify-content: space-between; align-items: baseline; }
+  .job-title { font-size: 8.8pt; font-weight: 700; }
+  .job-title .co {
+    font-family: Georgia, serif; font-style: italic; font-weight: 400;
+    color: var(--accent); font-size: 9pt;
+  }
+  .job-date { color: var(--faint); font-size: 7pt; white-space: nowrap; }
+  .job-sub { color: var(--faint); margin: 0.4mm 0 0.9mm; }
+  ul.bullets { list-style: none; }
+  ul.bullets li {
+    padding-left: 3.5mm; position: relative; margin-bottom: 0.7mm;
+  }
+  ul.bullets li::before {
+    content: ""; position: absolute; left: 0; top: 1.45mm;
+    width: 1.8mm; height: 0.4mm; background: var(--accent);
+  }
+  b { font-weight: 700; }
+
+  /* ── Projects ── */
+  .project { margin-bottom: 1.4mm; padding-left: 3.5mm; position: relative; }
+  .project::before {
+    content: "✦"; position: absolute; left: 0; top: 0;
+    color: var(--accent); font-size: 6.5pt;
+  }
+  .project .pname { font-family: Georgia, serif; font-style: italic; font-size: 9pt; margin-right: 1mm; }
+  .project .prole { color: var(--faint); font-size: 7pt; }
+
+  /* ── Skills ── */
+  .skill-row { display: flex; margin-bottom: 0.9mm; }
+  .skill-row .mono { color: var(--accent); flex: 0 0 24mm; padding-top: 0.5mm; }
+  .skill-row p { flex: 1; color: #292524; }
+
+  /* ── Education ── */
+  .edu { display: flex; justify-content: space-between; align-items: baseline; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1 class="name">Lucky <em>Solanki</em></h1>
+    <p class="tagline mono">Full-Stack Product Engineer&nbsp;&nbsp;/&nbsp;&nbsp;Agentic AI&nbsp;&nbsp;/&nbsp;&nbsp;Backend Platforms</p>
+  </div>
+  <div class="contact">
+    <div><span class="mono">mail</span><a href="mailto:luckysolanki902@gmail.com">luckysolanki902@gmail.com</a></div>
+    <div><span class="mono">web</span><a href="https://luckysolanki.com">luckysolanki.com</a></div>
+    <div><span class="mono">git</span><a href="https://github.com/luckysolanki902">github.com/luckysolanki902</a></div>
+    <div><span class="mono">in</span><a href="https://linkedin.com/in/luckysolanki902">linkedin.com/in/luckysolanki902</a></div>
+    <div><span class="mono">tel</span><a href="tel:+919027495997">+91 90274 95997</a></div>
+  </div>
+</header>
+
+<p class="summary">
+  Product-minded full-stack engineer with 4+ years shipping consumer and SaaS products to 100K+
+  monthly users. I build across the whole product surface — backend platforms, AI integrations, MCP
+  systems, payments, realtime sync, queues, and admin tooling. Currently leading backend at Blitzit;
+  previously co-founded and scaled two consumer products to real users and real revenue.
+</p>
+
+<section>
+  <div class="section-head"><span class="mono">01 —</span><h2>Experience</h2></div>
+
+  <div class="job">
+    <div class="job-line">
+      <span class="job-title">Lead Backend Engineer <span class="co">Blitzit</span></span>
+      <span class="job-date">Nov 2025 — Present</span>
+    </div>
+    <p class="job-sub mono">AI-native task platform (UK, remote) · Fastify · TypeScript · MongoDB · Redis · BullMQ · MCP SDK · Zod</p>
+    <ul class="bullets">
+      <li><b>Led the Blitzit 3.0 backend rewrite</b> — one platform layer giving app traffic, AI tool calls, MCP clients, provider webhooks, queues, schedulers, and sync workers the same auth, Zod validation, ownership, and domain-event rules.</li>
+      <li><b>Architected a plugin-based integration SDK</b> from scratch (Node.js event bus, shared provider contract) — cut new-integration footprint from 10+ files and 2,000+ lines to a single 300–500 line plugin, ~80% faster time-to-integrate.</li>
+      <li><b>Built an MCP server with 54 AI-callable tools</b> implementing OAuth 2.1 (PKCE) and JSON-RPC 2.0 over Streamable HTTP — exposing the product as an execution layer for LLM agents.</li>
+      <li><b>Designed a Git-style undo/redo change journal</b>: mutations from humans, AI, MCP tools, and API clients become reversible commits with content hashes — users can trust direct AI writes without losing newer manual changes.</li>
+      <li>Shipped <b>deep bidirectional sync</b> with Asana, ClickUp, Notion, and Google Calendar — conflict resolution, webhook ingestion, timezone-aware scheduling — plus a <b>BullMQ + Redis notification pipeline</b> with retries and dead-letter queues.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-line">
+      <span class="job-title">Founder &amp; Lead Engineer <span class="co">Spyll</span></span>
+      <span class="job-date">2023 — Present</span>
+    </div>
+    <p class="job-sub mono">Verified anonymous college network · Fastify · MongoDB · Socket.IO · BullMQ · Firebase · Flutter</p>
+    <ul class="bullets">
+      <li>Built and scaled a campus social app to <b>1,700+ Android downloads in the first month with zero paid marketing</b> — anonymous confession feeds, polls, reactions, realtime chat, and random connect.</li>
+      <li>Engineered the <b>trust layer</b>: verified access with peer-facing anonymity, rate limiting, moderation queues, blocking, reporting, and notifications that keep rooms safe without breaking anonymity.</li>
+      <li>Rebuilding the mobile client in <b>Flutter</b> (from React + Capacitor) for native-grade smoothness; iterating on onboarding and matching flows against retention data.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-line">
+      <span class="job-title">Co-Founder &amp; CTO <span class="co">MaddyCustom</span></span>
+      <span class="job-date">Dec 2022 — Feb 2026</span>
+    </div>
+    <p class="job-sub mono">E-commerce for vehicle customization · Next.js · MongoDB · Razorpay · Shiprocket · Meta API · AWS · Clerk</p>
+    <ul class="bullets">
+      <li>Sole engineer behind a custom-commerce platform that scaled to <b>100K+ monthly users and ₹60L annual revenue</b> — storefront, checkout, and the operations behind every custom order.</li>
+      <li>Built the <b>admin operating system</b>: inventory, order ops, production file downloads, offer engine, A/B testing, Sankey funnel analytics, customer journey views, review moderation, and role-based access.</li>
+      <li>Implemented <b>multi-gateway payment orchestration (Razorpay + PayU fallback)</b> after diagnosing upstream bank downtimes — materially cut payment failures; added Shiprocket shipping and server-side Meta tracking.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="section-head"><span class="mono">02 —</span><h2>Selected Projects</h2></div>
+
+  <div class="project">
+    <span class="pname">Avana</span><span class="prole">FREELANCE · SOLE DEVELOPER · 2025</span> —
+    AI investment research assistant for Bali real estate: <b>orchestrator-style multi-agent chat</b> (OpenAI Agents SDK), realtime WebRTC voice, document-backed answers over vector search, Xendit subscriptions, and an admin panel for documents, news scraping/approval, and knowledge ops. Two codebases shipped solo.
+  </div>
+  <div class="project">
+    <span class="pname">AutoRemov</span><span class="prole">FREELANCE · BACKEND ENGINEER · 2026</span> —
+    Backend for an image background-removal product: presigned uploads, <b>durable pg-boss job pipeline</b>, credit ledger with single-refund guarantees, Razorpay billing, MySQL→Postgres/Prisma migration, and integration tests around payments and processing.
+  </div>
+  <div class="project">
+    <span class="pname">Dailicle</span><span class="prole">FOUNDER · 2025</span> —
+    Weekly deep-research publication: reading surface, archive, subscriber emails, audio support, and publishing workflow (Next.js, MongoDB, AWS S3, CloudFront).
+  </div>
+</section>
+
+<section>
+  <div class="section-head"><span class="mono">03 —</span><h2>Skills</h2></div>
+
+  <div class="skill-row"><span class="mono">Languages</span><p>TypeScript, JavaScript, Python, Dart, SQL</p></div>
+  <div class="skill-row"><span class="mono">Frontend</span><p>React, Next.js, Vue, Flutter, React Native, Electron, Tailwind, Framer Motion, Redux, shadcn/ui, MUI</p></div>
+  <div class="skill-row"><span class="mono">Backend</span><p>Node.js, Fastify, Express, FastAPI, REST, JSON-RPC, WebSockets, Socket.IO, WebRTC, SSE, Zod validation, webhooks, event-driven architecture, workers &amp; queues</p></div>
+  <div class="skill-row"><span class="mono">AI / Agents</span><p>OpenAI Agents SDK, MCP Protocol, LLM orchestration, multi-agent handoffs, prompt-level model routing, Pinecone vector memory, RAG, vector search, AI tool surfaces</p></div>
+  <div class="skill-row"><span class="mono">Data &amp; Infra</span><p>MongoDB, PostgreSQL, Prisma, MySQL, Redis, BullMQ, pg-boss, Firebase, AWS (S3, CloudFront), Vercel, Docker, Cloudflare, OAuth 2.1/PKCE, Clerk, Razorpay, Xendit, Playwright</p></div>
+  <div class="skill-row"><span class="mono">Product</span><p>A/B testing, experimentation, funnel analytics, activation &amp; retention loops, admin tooling, server-side tracking</p></div>
+</section>
+
+<section>
+  <div class="section-head"><span class="mono">04 —</span><h2>Education</h2></div>
+  <div class="edu">
+    <p><b>Harcourt Butler Technical University (HBTU)</b> · B.Tech, Mechanical Engineering · Web Dev Head, Technical Sub-Council</p>
+    <span class="job-date">2021 — 2025</span>
+  </div>
+</section>
+
+</body>
+</html>
