@@ -10,11 +10,12 @@ import { About } from "@/components/About/About";
 import { Work } from "@/components/Work/Work";
 import { Tools } from "@/components/Tools/Tools";
 import { BlogPreview } from "@/components/Blog/BlogPreview";
+import { Testimonials } from "@/components/Testimonials/Testimonials";
 import { Contact } from "@/components/Contact/Contact";
 import { Footer } from "@/components/Footer/Footer";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 
-export const dynamic = "force-static";
+export const dynamic = "force-dynamic";
 
 export default function Home() {
   return (
@@ -26,6 +27,7 @@ export default function Home() {
         <Work />
         <Tools />
         <BlogPreview />
+        <Testimonials />
         <Contact />
       </main>
       <Footer />

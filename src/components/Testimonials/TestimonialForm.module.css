@@ -1,0 +1,203 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding: var(--space-6);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-xl);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-card);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+.field > span {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.field b {
+  font-weight: 500;
+  color: var(--text-tertiary);
+}
+
+.field em {
+  margin-left: var(--space-1);
+  font-size: var(--text-xs);
+  font-weight: 400;
+  font-style: normal;
+  color: var(--text-tertiary);
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 0.85rem var(--space-4);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  outline: none;
+  transition: border-color 180ms var(--ease-standard), box-shadow 180ms var(--ease-standard);
+}
+
+.field textarea {
+  min-height: 164px;
+  line-height: var(--leading-normal);
+  resize: vertical;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: var(--text-tertiary);
+  opacity: 0.72;
+}
+
+.field input:focus,
+.field textarea:focus {
+  border-color: var(--text-secondary);
+  box-shadow: 0 0 0 3px var(--accent-subtle);
+}
+
+.field small {
+  font-size: var(--text-xs);
+  line-height: var(--leading-normal);
+  color: var(--text-tertiary);
+}
+
+.consent {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: var(--space-3);
+  align-items: start;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+  cursor: pointer;
+}
+
+.consent input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--accent);
+}
+
+.consent span {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--text-secondary);
+}
+
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.submitRow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.submitRow button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  min-height: 48px;
+  padding: 0.75rem var(--space-5);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-full);
+  font-weight: 500;
+  color: var(--text-inverse);
+  background: var(--accent);
+  cursor: pointer;
+  transition: transform 180ms var(--ease-standard), opacity 180ms var(--ease-standard);
+}
+
+.submitRow button:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.submitRow button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.submitRow p,
+.error {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+}
+
+.error {
+  color: #a33a32;
+}
+
+.success {
+  display: flex;
+  min-height: 460px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-10);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-xl);
+  text-align: center;
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-card);
+}
+
+.successMark {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  margin-bottom: var(--space-5);
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  font-size: var(--text-xl);
+}
+
+.successEyebrow {
+  margin-bottom: var(--space-3);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.success h2 {
+  font-size: var(--text-2xl);
+}
+
+.success > p:last-child {
+  max-width: 430px;
+  margin-top: var(--space-4);
+  color: var(--text-secondary);
+}
+
+@media (min-width: 640px) {
+  .form { padding: var(--space-8); }
+  .row { grid-template-columns: 1fr 1fr; }
+  .submitRow { flex-direction: row; align-items: center; gap: var(--space-4); }
+}

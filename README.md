@@ -34,3 +34,19 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+# Testimonial workflow
+
+The shareable form lives at `/testimonial`. Submissions are stored in the
+`testimonials` collection with `status: "pending"` and never appear publicly by
+default.
+
+1. Copy `.env.example` to `.env.local` and add the MongoDB connection details.
+2. Submit the `/testimonial` form.
+3. In MongoDB Compass, open the configured database and the `testimonials`
+   collection.
+4. Change a reviewed document's `status` from `pending` to `approved`.
+
+Only documents with both `status: "approved"` and `consent: true` appear on the
+homepage on the next refresh. Set `status` to `rejected` or back to `pending`
+to hide one again.

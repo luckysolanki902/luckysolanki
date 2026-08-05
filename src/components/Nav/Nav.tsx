@@ -9,6 +9,7 @@
 
 import { useState, useCallback } from "react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS } from "@/lib/constants";
 import { useActiveSection } from "@/hooks/useActiveSection";
@@ -59,14 +60,14 @@ export function Nav() {
       >
         <div className={styles.inner}>
           {/* Logo */}
-          <a
+          <Link
             href="/"
             className={styles.logo}
             onClick={scrollToTop}
             aria-label="Go to homepage"
           >
             Lucky Solanki
-          </a>
+          </Link>
 
           {/* Desktop Links */}
           <div className={styles.desktopLinks}>

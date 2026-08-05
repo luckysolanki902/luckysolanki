@@ -1,0 +1,107 @@
+.section {
+  padding: var(--space-16) 0;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.container {
+  max-width: var(--max-page);
+  margin: 0 auto;
+  padding: 0 var(--space-5);
+}
+
+.headingRow {
+  display: grid;
+  gap: var(--space-4);
+  margin-bottom: var(--space-10);
+}
+
+.headingRow h2 {
+  max-width: 600px;
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  letter-spacing: var(--tracking-tight);
+}
+
+.headingRow p {
+  color: var(--text-tertiary);
+  font-size: var(--text-sm);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 290px;
+  padding: var(--space-6);
+  overflow: hidden;
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-sm);
+}
+
+.quoteMark {
+  height: 42px;
+  font-family: Georgia, serif;
+  font-size: 4rem;
+  line-height: 1;
+  color: var(--border-strong);
+}
+
+.card blockquote {
+  position: relative;
+  flex: 1;
+  padding: var(--space-3) 0 var(--space-8);
+  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-size: var(--text-md);
+  font-weight: 500;
+  line-height: var(--leading-relaxed);
+  color: var(--text-primary);
+}
+
+.card figcaption {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.avatar {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex: none;
+  place-items: center;
+  border-radius: 50%;
+  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-weight: 600;
+  color: var(--text-inverse);
+  background: var(--accent);
+}
+
+.card figcaption > span:last-child {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.card strong { font-size: var(--text-sm); font-weight: 500; }
+.card small { color: var(--text-tertiary); font-size: var(--text-xs); }
+.project { margin-top: 2px; font-style: italic; }
+
+@media (min-width: 768px) {
+  .section { padding: var(--space-24) 0; }
+  .container { padding: 0 var(--space-10); }
+  .headingRow { grid-template-columns: 1fr auto; align-items: end; }
+  .grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-5); }
+}
+
+@media (min-width: 1024px) {
+  .section { padding: var(--space-32) 0; }
+  .grid:has(.card:nth-child(3)) { grid-template-columns: repeat(3, 1fr); }
+}
