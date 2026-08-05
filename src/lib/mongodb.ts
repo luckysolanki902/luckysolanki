@@ -1,7 +1,7 @@
 import { Db, MongoClient } from "mongodb";
 
 const uri = process.env.MONGODB_URI;
-const databaseName = process.env.MONGODB_DATABASE || "portfolio";
+const databaseName = process.env.MONGODB_DATABASE || "luckyportfolio";
 
 declare global {
   var portfolioMongoClientPromise: Promise<MongoClient> | undefined;
@@ -9,25 +9,42 @@ declare global {
 
 let clientPromise: Promise<MongoClient> | undefined;
 
-if (uri) {
-  const client = new MongoClient(uri);
+function getClientPromise() {
+  if (!uri) return undefined;
 
-  clientPromise =
+  const cachedPromise =
     process.env.NODE_ENV === "development"
-      ? (global.portfolioMongoClientPromise ??=
-          client.connect())
-      : client.connect();
+      ? global.portfolioMongoClientPromise
+      : clientPromise;
+  if (cachedPromise) return cachedPromise;
+
+  const client = new MongoClient(uri);
+  const connectionPromise = client.connect();
+  const recoverablePromise = connectionPromise.catch((error) => {
+    if (clientPromise === recoverablePromise) clientPromise = undefined;
+    if (global.portfolioMongoClientPromise === recoverablePromise) {
+      global.portfolioMongoClientPromise = undefined;
+    }
+    throw error;
+  });
+
+  clientPromise = recoverablePromise;
+  if (process.env.NODE_ENV === "development") {
+    global.portfolioMongoClientPromise = recoverablePromise;
+  }
+  return recoverablePromise;
 }
 
 export function isDatabaseConfigured() {
-  return Boolean(clientPromise);
+  return Boolean(uri);
 }
 
 export async function getDatabase(): Promise<Db> {
-  if (!clientPromise) {
+  const promise = getClientPromise();
+  if (!promise) {
     throw new Error("MONGODB_URI is not configured.");
   }
 
-  const client = await clientPromise;
+  const client = await promise;
   return client.db(databaseName);
 }

@@ -117,27 +117,50 @@
   gap: var(--space-3);
 }
 
-.submitRow button {
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.submitButton,
+.resetButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-3);
   min-height: 48px;
   padding: 0.75rem var(--space-5);
-  border: 1px solid var(--accent);
   border-radius: var(--radius-full);
   font-weight: 500;
-  color: var(--text-inverse);
-  background: var(--accent);
   cursor: pointer;
-  transition: transform 180ms var(--ease-standard), opacity 180ms var(--ease-standard);
+  transition: transform 180ms var(--ease-standard), opacity 180ms var(--ease-standard), background 180ms var(--ease-standard);
 }
 
-.submitRow button:hover:not(:disabled) {
+.submitButton {
+  border: 1px solid var(--accent);
+  color: var(--text-inverse);
+  background: var(--accent);
+}
+
+.resetButton {
+  border: 1px solid var(--border-primary);
+  color: var(--text-secondary);
+  background: transparent;
+}
+
+.submitButton:hover:not(:disabled),
+.resetButton:hover:not(:disabled) {
   transform: translateY(-2px);
 }
 
-.submitRow button:disabled {
+.resetButton:hover:not(:disabled) {
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+}
+
+.submitButton:disabled,
+.resetButton:disabled {
   cursor: wait;
   opacity: 0.65;
 }

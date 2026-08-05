@@ -43,7 +43,7 @@ default.
 
 1. Copy `.env.example` to `.env.local` and add the MongoDB connection details.
 2. Submit the `/testimonial` form.
-3. In MongoDB Compass, open the configured database and the `testimonials`
+3. In MongoDB Compass, open the `luckyportfolio` database and the `testimonials`
    collection.
 4. Change a reviewed document's `status` from `pending` to `approved`.
 
