@@ -33,14 +33,6 @@
   color: var(--text-tertiary);
 }
 
-.field em {
-  margin-left: var(--space-1);
-  font-size: var(--text-xs);
-  font-weight: 400;
-  font-style: normal;
-  color: var(--text-tertiary);
-}
-
 .field input,
 .field textarea {
   width: 100%;

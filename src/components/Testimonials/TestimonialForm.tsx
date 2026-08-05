@@ -11,7 +11,6 @@ type TestimonialDraft = {
   name: string;
   role: string;
   company: string;
-  project: string;
   testimonial: string;
   email: string;
   consent: boolean;
@@ -43,7 +42,6 @@ export function TestimonialForm() {
         "name",
         "role",
         "company",
-        "project",
         "testimonial",
         "email",
       ];
@@ -73,7 +71,6 @@ export function TestimonialForm() {
       name: String(formData.get("name") || ""),
       role: String(formData.get("role") || ""),
       company: String(formData.get("company") || ""),
-      project: String(formData.get("project") || ""),
       testimonial: String(formData.get("testimonial") || ""),
       email: String(formData.get("email") || ""),
       consent: formData.get("consent") === "on",
@@ -110,7 +107,6 @@ export function TestimonialForm() {
       name: formData.get("name"),
       role: formData.get("role"),
       company: formData.get("company"),
-      project: formData.get("project"),
       testimonial: formData.get("testimonial"),
       email: formData.get("email"),
       consent: formData.get("consent") === "on",
@@ -177,16 +173,10 @@ export function TestimonialForm() {
         </label>
       </div>
 
-      <div className={styles.row}>
-        <label className={styles.field}>
-          <span>Company or startup <b>*</b></span>
-          <input name="company" type="text" placeholder="e.g. Acme Labs" maxLength={120} required />
-        </label>
-        <label className={styles.field}>
-          <span>Project we worked on <em>optional</em></span>
-          <input name="project" type="text" placeholder="e.g. Product launch" maxLength={160} />
-        </label>
-      </div>
+      <label className={styles.field}>
+        <span>Company or startup <b>*</b></span>
+        <input name="company" type="text" placeholder="e.g. Acme Labs" maxLength={120} required />
+      </label>
 
       <label className={styles.field}>
         <span>Your testimonial <b>*</b></span>
