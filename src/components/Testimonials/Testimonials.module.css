@@ -1,5 +1,5 @@
 .section {
-  padding: var(--space-16) 0;
+  padding: var(--space-16) 0 0;
   border-top: 1px solid var(--border-subtle);
 }
 
@@ -95,13 +95,13 @@
 .project { margin-top: 2px; font-style: italic; }
 
 @media (min-width: 768px) {
-  .section { padding: var(--space-24) 0; }
+  .section { padding: var(--space-24) 0 0; }
   .container { padding: 0 var(--space-10); }
   .headingRow { grid-template-columns: 1fr auto; align-items: end; }
   .grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-5); }
 }
 
 @media (min-width: 1024px) {
-  .section { padding: var(--space-32) 0; }
+  .section { padding: var(--space-32) 0 0; }
   .grid:has(.card:nth-child(3)) { grid-template-columns: repeat(3, 1fr); }
 }
