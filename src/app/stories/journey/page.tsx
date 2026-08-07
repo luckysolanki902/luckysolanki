@@ -24,14 +24,14 @@ export const metadata: Metadata = {
     url: "https://luckysolanki.com/stories/journey",
     siteName: "Lucky Solanki",
     type: "article",
-    images: ["/og-image.png"],
+    images: ["/og-image2.png"],
   },
   twitter: {
     card: "summary_large_image",
     title: "How I got into software - Lucky Solanki",
     description:
       "From Mechanical Engineering to founder-led product work to full-time product engineering. The condensed path.",
-    images: ["/og-image.png"],
+    images: ["/og-image2.png"],
     creator: "@luckysolanki902",
   },
 };

@@ -23,14 +23,14 @@ export const metadata: Metadata = {
     url: "https://luckysolanki.com/stories/ai",
     siteName: "Lucky Solanki",
     type: "article",
-    images: ["/og-image.png"],
+    images: ["/og-image2.png"],
   },
   twitter: {
     card: "summary_large_image",
     title: "How I use AI in practice - Lucky Solanki",
     description:
       "A practical note on how tools like GitHub Copilot and Claude Code fit into my workflow — where they earn their keep and where judgment still lives.",
-    images: ["/og-image.png"],
+    images: ["/og-image2.png"],
     creator: "@luckysolanki902",
   },
 };

@@ -41,13 +41,13 @@ export async function generateMetadata({
       siteName: siteConfig.name,
       type: "article",
       publishedTime: post.date,
-      images: ["/og-image.png"],
+      images: ["/og-image2.png"],
     },
     twitter: {
       card: "summary_large_image",
       title: `${post.title} - Lucky Solanki`,
       description: post.excerpt,
-      images: ["/og-image.png"],
+      images: ["/og-image2.png"],
       creator: "@luckysolanki902",
     },
   };

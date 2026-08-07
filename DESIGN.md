@@ -1449,7 +1449,7 @@ Cumulative Layout Shift: < 0.05
 <!-- Open Graph -->
 <meta property="og:title" content="Lucky Solanki — Engineer & Founder" />
 <meta property="og:description" content="I build products people actually use." />
-<meta property="og:image" content="/og-image.png" />
+<meta property="og:image" content="/og-image2.png" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://luckysolanki.dev" />
 
@@ -1457,7 +1457,7 @@ Cumulative Layout Shift: < 0.05
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Lucky Solanki — Engineer & Founder" />
 <meta name="twitter:description" content="I build products people actually use." />
-<meta name="twitter:image" content="/og-image.png" />
+<meta name="twitter:image" content="/og-image2.png" />
 
 <!-- Structured Data (JSON-LD) -->
 Person schema: name, jobTitle, url, sameAs (GitHub, LinkedIn)
@@ -1527,7 +1527,7 @@ lucky-2026-portfolio/
 ├── public/
 │   ├── images/
 │   │   ├── lucky.jpg
-│   │   ├── og-image.png
+│   │   ├── og-image2.png
 │   │   └── projects/
 │   │       ├── spyll.png
 │   │       ├── maddycustom.png

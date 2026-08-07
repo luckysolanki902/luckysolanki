@@ -76,7 +76,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-image2.png",
         width: 1200,
         height: 630,
         alt: "Lucky Solanki — Product Engineer",
@@ -88,7 +88,7 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description:
       "Full-stack product engineering across frontend, backend, deployment, AI integrations, automations, MCP systems, payments, realtime features, and product infrastructure.",
-    images: ["/og-image.png"],
+    images: ["/og-image2.png"],
     creator: "@luckysolanki902",
   },
   metadataBase: new URL(siteConfig.url),

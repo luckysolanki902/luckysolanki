@@ -20,14 +20,14 @@ export const metadata: Metadata = {
     url: `${siteConfig.url}/blog`,
     siteName: siteConfig.name,
     type: "website",
-    images: ["/og-image.png"],
+    images: ["/og-image2.png"],
   },
   twitter: {
     card: "summary_large_image",
     title: "Blog - Lucky Solanki",
     description:
       "Technical and founder notes from shipped products: Blitzit, MaddyCustom, Avana, Spyll, AutoRemov, and Dailicle.",
-    images: ["/og-image.png"],
+    images: ["/og-image2.png"],
     creator: "@luckysolanki902",
   },
 };
