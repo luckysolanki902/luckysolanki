@@ -37,8 +37,8 @@ export function About() {
             </p>
             <p>
               For full-time teams, I fit where engineering is close to product.
-              At <strong className={styles.highlight}>Blitzit</strong>, I lead
-              backend work across the product runtime, history, integrations,
+              At <strong className={styles.highlight}>Blitzit</strong>, I build
+              backend systems across the product runtime, history, integrations,
               jobs, sync, and AI tool surface.
             </p>
             <p>

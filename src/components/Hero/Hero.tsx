@@ -128,7 +128,7 @@ export function Hero() {
               className={styles.subtext}
               font="400 14px Inter"
             >
-              I build across the whole product surface: frontend, backend, deployment, queues, payments, sync, realtime features, admin tooling, AI integrations, automations, and MCP systems. At Blitzit I own major backend systems. As a founder and freelancer, I have taken products from rough idea to shipped software.
+              I build across the whole product surface: frontend, backend, deployment, queues, payments, sync, realtime features, admin tooling, AI integrations, automations, and MCP systems. At Blitzit I build core backend systems. As a founder and freelancer, I have taken products from rough idea to shipped software.
             </HoverText>
 
           <ul className={styles.proofStrip} aria-label="Selected proof points">

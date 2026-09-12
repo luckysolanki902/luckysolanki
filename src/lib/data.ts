@@ -47,7 +47,7 @@ export const socials = {
 export const experience: Experience[] = [
   {
     company: "Blitzit",
-    role: "Lead Backend Engineer",
+    role: "Core Backend Engineer",
     period: "Nov 2025 — Now",
     current: true,
   },
@@ -71,15 +71,15 @@ export const projects: Project[] = [
     name: "Blitzit",
     url: "https://www.blitzit.app",
     tagline: "Backend platform for an AI-native task app",
-    role: "Lead Backend Engineer",
+    role: "Core Backend Engineer",
     category: "fulltime",
     location: "United Kingdom",
     description:
-      "I led the backend rewrite that made Blitzit 3.0 much more reliable and easy to scale: Fastify services, MongoDB models, Redis/BullMQ workers, MCP tools, integration plugins, realtime sync, webhook ingestion, and a Git-style undo/redo journal for task history.",
+      "I built major parts of the backend rewrite that made Blitzit 3.0 much more reliable and easy to scale: Fastify services, MongoDB models, Redis/BullMQ workers, MCP tools, integration plugins, realtime sync, webhook ingestion, and a Git-style undo/redo journal for task history.",
     image: "/images/projects/blitzit.jpeg",
     stack: ["Fastify", "MongoDB", "Redis", "BullMQ", "MCP", "OAuth 2.1", "Zod"],
     details: [
-      "Owned the 3.0 backend shape after the older 2.0 API had grown around integrations and OAuth redirects. The rewrite gave normal app traffic, AI tool calls, MCP clients, provider webhooks, queues, schedulers, and sync workers the same auth, validation, ownership, and domain-event rules.",
+      "Helped shape the 3.0 backend after the older 2.0 API had grown around integrations and OAuth redirects. The rewrite gave normal app traffic, AI tool calls, MCP clients, provider webhooks, queues, schedulers, and sync workers the same auth, validation, ownership, and domain-event rules.",
       "Built the integration plugin architecture so new providers could plug into a shared contract instead of spreading provider-specific code across routes, workers, OAuth handlers, and sync logic.",
       "Designed the undo/redo system as a per-user change journal. Mutations from humans, Blitzy, MCP tools, and API clients become reversible commits with content hashes, so a user can trust direct AI writes without losing newer manual changes.",
     ],
