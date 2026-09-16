@@ -14,13 +14,13 @@ import { SECTION_IDS } from "@/lib/constants";
 import { HoverText } from "@/components/shared/HoverText";
 import styles from "./Hero.module.css";
 
-const headingLines = ["I build the hard parts", "of product software."];
+const headingLines = ["I build backend and AI", "infrastructure that cannot break."];
 const proofPoints = [
-  "Agent systems + MCP tools",
-  "Backend platforms + integrations",
-  "RAG + document-backed answers",
-  "Realtime voice + asynchronous jobs",
-  "Founder + product ownership",
+  "Agent systems + MCP",
+  "Integrations + realtime sync",
+  "Queues + scheduling",
+  "Reliable product backends",
+  "Founder-level product ownership",
 ];
 
 const ZOOM_STEP = 0.08;
@@ -125,7 +125,7 @@ export function Hero() {
               className={styles.subtext}
               font="400 14px Inter"
             >
-              I build the backend systems that make AI products useful: agent tool surfaces, MCP integrations, document-backed answers, queues, sync, realtime features, payments, and the operational tooling behind them. At Blitzit I build core backend systems; as a founder and freelancer, I have taken products from rough idea to shipped software.
+              I build agent systems, MCP integrations, realtime sync, queues, scheduling, and production backend architecture. At Blitzit, I build core backend systems for an AI-native product. As a founder and freelancer, I have also taken products from rough idea to shipped software.
             </HoverText>
 
           <ul className={styles.proofStrip} aria-label="Selected proof points">

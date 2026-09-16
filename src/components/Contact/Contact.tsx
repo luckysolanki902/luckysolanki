@@ -14,8 +14,8 @@ import { HoverText } from "@/components/shared/HoverText";
 import styles from "./Contact.module.css";
 
 const engagementLanes = [
-  "Freelance builds: SaaS backends, dashboards, automations, AI integrations, MCP tools, payments, and deployment",
-  "Full-time roles: product engineering close to backend, platform, integrations, queues, sync, and realtime systems",
+  "Freelance builds: SaaS backends, AI integrations, MCP tools, payments, queues, sync, and deployment",
+  "Full-time roles: backend and AI infrastructure, integrations, agent systems, queues, sync, and realtime systems",
   "Founder-style ownership: unclear requirements, moving scope, production fixes, support pressure, and shipping decisions",
 ];
 
@@ -33,10 +33,10 @@ export function Contact() {
               </HoverText>
 
             <p className={styles.body}>
-                I work best where product judgment and engineering execution
-                have to stay close: frontend, backend, deployment, AI
-                integrations, automation, payments, realtime features, and the
-                admin systems that keep the product usable.
+                I work best where product judgment and backend execution have
+                to stay close: AI integrations, MCP, automation, payments,
+                realtime features, and the operational systems that keep a
+                product dependable.
               </p>
 
             <ul className={styles.lanes} aria-label="Best-fit engagement lanes">

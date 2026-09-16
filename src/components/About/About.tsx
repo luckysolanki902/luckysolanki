@@ -24,16 +24,15 @@ export function About() {
 
         <div className={styles.body}>
             <p>
-              I am useful when a product needs someone who can take ownership
-              across the whole build: frontend, backend, deployment, data
-              model, payments, AI integrations, automations, and the admin
-              tooling behind the scenes.
+              I fit best when a product needs dependable backend systems around
+              AI: agent tools, MCP, integrations, queues, sync, scheduling,
+              and the operational surfaces that make those systems usable.
             </p>
             <p>
-              For freelance work, the best fit is a serious product surface
-              that has to ship cleanly without needing a large team around it:
-              SaaS backends, AI/MCP tools, internal dashboards, commerce
-              workflows, integrations, queues, sync, and production fixes.
+              I can still own a product end to end when needed, but backend
+              and AI infrastructure are where I bring the most leverage.
+              That includes SaaS backends, MCP tools, integration runtimes,
+              queues, realtime features, and production fixes.
             </p>
             <p>
               For full-time teams, I fit where engineering is close to product.

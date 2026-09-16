@@ -14,10 +14,10 @@ import { HoverText } from "@/components/shared/HoverText";
 import styles from "./Tools.module.css";
 
 const columns = [
-  { heading: "Frontend", items: tools.frontend },
-  { heading: "Backend", items: tools.backend },
+  { heading: "Primary backend", items: tools.backend },
   { heading: "AI / Agents", items: tools.ai },
-  { heading: "Infrastructure", items: tools.infrastructure },
+  { heading: "Distributed product systems", items: tools.infrastructure },
+  { heading: "Also comfortable with", items: tools.frontend },
 ];
 
 export function Tools() {
