@@ -12,6 +12,7 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { SECTION_IDS } from "@/lib/constants";
 import { HoverText } from "@/components/shared/HoverText";
+import { useThemeStore } from "@/store/useThemeStore";
 import styles from "./Hero.module.css";
 
 const headingLines = ["I build backend and AI", "infrastructure for products that can't afford to break."];
@@ -28,6 +29,7 @@ const ZOOM_MAX = 5;
 const ZOOM_INTERVAL_MS = 2000;
 
 export function Hero() {
+  const theme = useThemeStore((state) => state.theme);
   // ── Stepped zoom at cursor ────────────────────────────
   const [zoom, setZoom] = useState({ step: 0, zoomingIn: true });
   const [origin, setOrigin] = useState({ x: 50, y: 50 });
@@ -93,10 +95,10 @@ export function Hero() {
           onMouseLeave={handleMouseLeave}
         >
             <Image
-              src="/images/lucky.jpg"
-              alt="Lucky Solanki"
-              width={300}
-              height={400}
+              src={theme === "dark" ? "/images/lucky-b-dark.png" : "/images/lucky-b-light.png"}
+              alt="Illustrated portrait of Lucky Solanki"
+              width={1254}
+              height={1254}
               className={styles.photo}
               style={imageStyle}
               priority
