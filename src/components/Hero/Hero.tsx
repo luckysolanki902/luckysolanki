@@ -15,13 +15,14 @@ import { HoverText } from "@/components/shared/HoverText";
 import { useThemeStore } from "@/store/useThemeStore";
 import styles from "./Hero.module.css";
 
+const eyebrow = "Backend & AI Infrastructure Engineer · Shipping production software since 2022";
 const headingLines = ["I build backend and AI", "infrastructure for products that can't afford to break."];
 const proofPoints = [
-  "Agent systems + MCP",
-  "Integrations + realtime sync",
-  "Queues + scheduling",
-  "Reliable product backends",
-  "Founder-level product ownership",
+  "12 provider integrations",
+  "69-tool MCP server",
+  "Bidirectional sync + webhooks",
+  "Queues, retries, idempotency",
+  "100K+ monthly users shipped",
 ];
 
 const ZOOM_STEP = 0.08;
@@ -107,6 +108,8 @@ export function Hero() {
           </div>
 
         <div className={styles.content}>
+          <p className={styles.eyebrow}>{eyebrow}</p>
+
           <h1 className={styles.heading}>
               {headingLines.map((line, i) => (
                 <HoverText
@@ -127,7 +130,7 @@ export function Hero() {
               className={styles.subtext}
               font="400 14px Inter"
             >
-              I build agent systems, MCP integrations, realtime sync, queues, scheduling, and production backend architecture. At Blitzit, I build core backend systems for an AI-native product. As a founder and freelancer, I have also taken products from rough idea to shipped software.
+              At Blitzit I build the integration and agent layer: twelve third-party providers behind one plugin contract, and a 69-tool MCP server that lets external AI clients act on the product safely. Most of that work is really about failure — revoked tokens, deleted resources, rate limits, duplicate webhooks, two workers racing for the same write. Before this I co-founded and shipped products of my own, to 100K+ monthly users and ₹60L in annual revenue.
             </HoverText>
 
           <ul className={styles.proofStrip} aria-label="Selected proof points">

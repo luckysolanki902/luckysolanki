@@ -24,21 +24,25 @@ export function About() {
 
         <div className={styles.body}>
             <p>
-              I fit best when a product needs dependable backend systems around
-              AI: agent tools, MCP, integrations, queues, sync, scheduling,
-              and the operational surfaces that make those systems usable.
+              I fit best where a product has to talk to systems it does not
+              control: third-party APIs, OAuth grants, provider webhooks, and
+              now AI agents acting on real user data.
             </p>
             <p>
-              I can still own a product end to end when needed, but backend
-              and AI infrastructure are where I bring the most leverage.
-              That includes SaaS backends, MCP tools, integration runtimes,
-              queues, realtime features, and production fixes.
+              Most of that work is failure handling. Tokens get revoked rather
+              than expired. Resources get deleted while a sync is mid-flight.
+              Providers throttle you, deliver the same webhook twice, or return
+              one status code that means two different things. The engineering
+              is in deciding what each failure means — retry it, surface it, or
+              hand the user a fix — instead of collapsing all of it into
+              &ldquo;something went wrong&rdquo;.
             </p>
             <p>
-              For full-time teams, I fit where engineering is close to product.
-              At <strong className={styles.highlight}>Blitzit</strong>, I build
-              backend systems across the product runtime, history, integrations,
-              jobs, sync, and AI tool surface.
+              At <strong className={styles.highlight}>Blitzit</strong> that is
+              twelve provider integrations behind one plugin contract, a 69-tool
+              MCP server for external AI clients, and a shared tool layer so the
+              in-app agent and third-party clients run the same implementations
+              under the same permissions.
             </p>
             <p>
               The founder side matters too. I co-founded{" "}

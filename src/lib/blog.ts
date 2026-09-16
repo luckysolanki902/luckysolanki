@@ -5,6 +5,8 @@ import { blitzitIntegrationPluginSystem } from "@/content/blog/blitzit-integrati
 import { blitzitUndoRedoChangeJournal } from "@/content/blog/blitzit-undo-redo-change-journal";
 import { dailicleWeeklyReadingRitual } from "@/content/blog/dailicle-weekly-reading-ritual";
 import { maddycustomAdminOps } from "@/content/blog/maddycustom-admin-ops";
+import { notEveryFailureIsAnOutage } from "@/content/blog/not-every-failure-is-an-outage";
+import { oneToolLayerTwoAgents } from "@/content/blog/one-tool-layer-two-agents";
 import { retriesNeedASourceOfTruth } from "@/content/blog/retries-need-a-source-of-truth";
 import { spyllAnonymousCollegeNetwork } from "@/content/blog/spyll-anonymous-college-network";
 
@@ -54,6 +56,8 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+  oneToolLayerTwoAgents,
+  notEveryFailureIsAnOutage,
   retriesNeedASourceOfTruth,
   blitzit3PlatformRewrite,
   blitzitUndoRedoChangeJournal,

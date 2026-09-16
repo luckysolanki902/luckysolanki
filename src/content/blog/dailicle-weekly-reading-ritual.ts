@@ -11,7 +11,7 @@ export const dailicleWeeklyReadingRitual: BlogPost = {
   date: "2026-07-08",
   readTime: "7 min",
   tags: ["Founder", "Publishing"],
-  featured: true,
+
   sections: [
     {
       heading: "A reader asked if the site was alive",
