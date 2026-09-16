@@ -14,7 +14,7 @@ import { SECTION_IDS } from "@/lib/constants";
 import { HoverText } from "@/components/shared/HoverText";
 import styles from "./Hero.module.css";
 
-const headingLines = ["I build backend and AI", "infrastructure that cannot break."];
+const headingLines = ["I build backend and AI", "infrastructure for products that can't afford to break."];
 const proofPoints = [
   "Agent systems + MCP",
   "Integrations + realtime sync",
