@@ -95,14 +95,14 @@ export function Hero() {
           onMouseLeave={handleMouseLeave}
         >
             <Image
-              src={theme === "dark" ? "/images/lucky-b-dark.png" : "/images/lucky-b-light.png"}
+              src={theme === "dark" ? "/images/lucky-dark-gpt.png" : "/images/lucky-light-gpt.png"}
               alt="Illustrated portrait of Lucky Solanki"
-              width={1254}
-              height={1254}
+              width={1122}
+              height={1402}
               className={styles.photo}
               style={imageStyle}
               priority
-              sizes="(max-width: 768px) 140px, 200px"
+              sizes="(min-width: 1024px) 300px, (min-width: 768px) 180px, 150px"
             />
           </div>
 
