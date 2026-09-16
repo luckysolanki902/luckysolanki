@@ -12,16 +12,15 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { SECTION_IDS } from "@/lib/constants";
 import { HoverText } from "@/components/shared/HoverText";
-import { useThemeStore } from "@/store/useThemeStore";
 import styles from "./Hero.module.css";
 
 const headingLines = ["I build the hard parts", "of product software."];
 const proofPoints = [
-  "Frontend + backend + deployment",
-  "AI integrations + automations",
-  "MCP systems",
-  "Freelance product builds",
-  "Founder + CTO experience",
+  "Agent systems + MCP tools",
+  "Backend platforms + integrations",
+  "RAG + document-backed answers",
+  "Realtime voice + asynchronous jobs",
+  "Founder + product ownership",
 ];
 
 const ZOOM_STEP = 0.08;
@@ -29,8 +28,6 @@ const ZOOM_MAX = 5;
 const ZOOM_INTERVAL_MS = 2000;
 
 export function Hero() {
-  const theme = useThemeStore((s) => s.theme);
-
   // ── Stepped zoom at cursor ────────────────────────────
   const [zoom, setZoom] = useState({ step: 0, zoomingIn: true });
   const [origin, setOrigin] = useState({ x: 50, y: 50 });
@@ -96,10 +93,10 @@ export function Hero() {
           onMouseLeave={handleMouseLeave}
         >
             <Image
-              src={theme === "dark" ? "/images/lucky-b-dark.png" : "/images/lucky-b-light.png"}
+              src="/images/lucky.jpg"
               alt="Lucky Solanki"
-              width={200}
-              height={248}
+              width={300}
+              height={400}
               className={styles.photo}
               style={imageStyle}
               priority
@@ -128,7 +125,7 @@ export function Hero() {
               className={styles.subtext}
               font="400 14px Inter"
             >
-              I build across the whole product surface: frontend, backend, deployment, queues, payments, sync, realtime features, admin tooling, AI integrations, automations, and MCP systems. At Blitzit I build core backend systems. As a founder and freelancer, I have taken products from rough idea to shipped software.
+              I build the backend systems that make AI products useful: agent tool surfaces, MCP integrations, document-backed answers, queues, sync, realtime features, payments, and the operational tooling behind them. At Blitzit I build core backend systems; as a founder and freelancer, I have taken products from rough idea to shipped software.
             </HoverText>
 
           <ul className={styles.proofStrip} aria-label="Selected proof points">

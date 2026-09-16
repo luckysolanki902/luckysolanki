@@ -26,9 +26,9 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   keywords: [
     "Lucky Solanki",
-    "product engineer",
-    "full-stack engineer",
-    "frontend engineer",
+    "AI engineer",
+    "backend engineer",
+    "agent infrastructure engineer",
     "backend engineer",
     "deployment",
     "AI integrations",
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: siteConfig.title,
     description:
-      "Full-stack product engineering across frontend, backend, deployment, AI integrations, automations, MCP systems, payments, realtime features, and product infrastructure.",
+      "AI engineering across backend systems, MCP integrations, agent tool surfaces, document-backed assistants, queues, realtime features, and product infrastructure.",
     url: siteConfig.url,
     siteName: siteConfig.name,
     type: "website",
@@ -79,7 +79,7 @@ export const metadata: Metadata = {
         url: "/og-image2.png",
         width: 1200,
         height: 630,
-        alt: "Lucky Solanki — Product Engineer",
+        alt: "Lucky Solanki — AI Engineer",
       },
     ],
   },
@@ -87,7 +87,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteConfig.title,
     description:
-      "Full-stack product engineering across frontend, backend, deployment, AI integrations, automations, MCP systems, payments, realtime features, and product infrastructure.",
+      "AI engineering across backend systems, MCP integrations, agent tool surfaces, document-backed assistants, queues, realtime features, and product infrastructure.",
     images: ["/og-image2.png"],
     creator: "@luckysolanki902",
   },
@@ -98,7 +98,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: siteConfig.name,
-  jobTitle: "Product Engineer",
+  jobTitle: "AI Engineer",
   url: siteConfig.url,
   email: socials.email,
   sameAs: [
@@ -113,7 +113,7 @@ const jsonLd = {
     url: "https://www.blitzit.app",
   },
   knowsAbout: [
-    "Frontend Development",
+    "Applied AI",
     "Backend Architecture",
     "Deployment",
     "Product Infrastructure",
@@ -137,7 +137,7 @@ const jsonLd = {
     "WebRTC",
     "Socket.IO",
     "TypeScript",
-    "Full-Stack Development",
+    "Agent Infrastructure",
   ],
   hasCreativeWork: [
     {
@@ -163,7 +163,7 @@ const jsonLd = {
       name: "Blitzit",
       url: "https://www.blitzit.app",
       description:
-        "AI-powered task management with MCP server, 54 AI-callable tools, and deep calendar integrations.",
+        "AI-powered task management with MCP-based AI-callable product tools and calendar integrations.",
       applicationCategory: "ProductivityApplication",
       operatingSystem: "Web, Mac",
     },

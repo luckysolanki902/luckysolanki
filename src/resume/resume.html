@@ -127,7 +127,7 @@
 <header>
   <div>
     <h1 class="name">Lucky <em>Solanki</em></h1>
-    <p class="tagline mono">Full-Stack Product Engineer&nbsp;&nbsp;/&nbsp;&nbsp;Agentic AI&nbsp;&nbsp;/&nbsp;&nbsp;Backend Platforms</p>
+    <p class="tagline mono">AI Engineer&nbsp;&nbsp;/&nbsp;&nbsp;Backend Systems&nbsp;&nbsp;/&nbsp;&nbsp;Agent Infrastructure</p>
   </div>
   <div class="contact">
     <div><span class="mono">mail</span><a href="mailto:luckysolanki902@gmail.com">luckysolanki902@gmail.com</a></div>
@@ -139,10 +139,10 @@
 </header>
 
 <p class="summary">
-  Product-minded full-stack engineer with 4+ years shipping consumer and SaaS products to 100K+
-  monthly users. I build across the whole product surface — backend platforms, AI integrations, MCP
-  systems, payments, realtime sync, queues, and admin tooling. Currently a core backend engineer at
-  Blitzit; previously co-founded and scaled two consumer products to real users and real revenue.
+  AI engineer with 3+ years of commercial software experience across agent tool surfaces, MCP systems,
+  document-backed answers, integrations, queues, realtime features, payments, and admin tooling. Currently a
+  Core Backend Developer at Blitzit, where I build backend systems for an AI-native task product; also delivered
+  an investment-research assistant and co-founded products used by real customers.
 </p>
 
 <section>
@@ -150,14 +150,14 @@
 
   <div class="job">
     <div class="job-line">
-      <span class="job-title">Core Backend Engineer <span class="co">Blitzit</span></span>
+      <span class="job-title">Core Backend Developer <span class="co">Blitzit</span></span>
       <span class="job-date">Nov 2025 — Present</span>
     </div>
     <p class="job-sub mono">AI-native task platform (UK, remote) · Fastify · TypeScript · MongoDB · Redis · BullMQ · MCP SDK · Zod</p>
     <ul class="bullets">
       <li><b>Built core platform layers of the Blitzit 3.0 backend rewrite</b> — one platform layer giving app traffic, AI tool calls, MCP clients, provider webhooks, queues, schedulers, and sync workers the same auth, Zod validation, ownership, and domain-event rules.</li>
-      <li><b>Architected a plugin-based integration SDK</b> from scratch (Node.js event bus, shared provider contract) — cut new-integration footprint from 10+ files and 2,000+ lines to a single 300–500 line plugin, ~80% faster time-to-integrate.</li>
-      <li><b>Built an MCP server with 54 AI-callable tools</b> implementing OAuth 2.1 (PKCE) and JSON-RPC 2.0 over Streamable HTTP — exposing the product as an execution layer for LLM agents.</li>
+      <li><b>Built a plugin-based integration SDK</b> around a Node.js event bus and shared provider contracts, making integrations easier to add without spreading provider-specific logic across routes, workers, OAuth handlers, and sync code.</li>
+      <li><b>Built an MCP server exposing AI-callable product tools</b> through OAuth 2.1 (PKCE) and JSON-RPC 2.0 over Streamable HTTP — making product actions available to LLM agents.</li>
       <li><b>Designed a Git-style undo/redo change journal</b>: mutations from humans, AI, MCP tools, and API clients become reversible commits with content hashes — users can trust direct AI writes without losing newer manual changes.</li>
       <li>Shipped <b>deep bidirectional sync</b> with Asana, ClickUp, Notion, and Google Calendar — conflict resolution, webhook ingestion, timezone-aware scheduling — plus a <b>BullMQ + Redis notification pipeline</b> with retries and dead-letter queues.</li>
     </ul>
@@ -165,12 +165,12 @@
 
   <div class="job">
     <div class="job-line">
-      <span class="job-title">Founder &amp; Lead Engineer <span class="co">Spyll</span></span>
+      <span class="job-title">Founder &amp; Core Developer <span class="co">Spyll</span></span>
       <span class="job-date">2023 — Present</span>
     </div>
     <p class="job-sub mono">Verified anonymous college network · Fastify · MongoDB · Socket.IO · BullMQ · Firebase · Flutter</p>
     <ul class="bullets">
-      <li>Built and scaled a campus social app to <b>1,700+ Android downloads in the first month with zero paid marketing</b> — anonymous confession feeds, polls, reactions, realtime chat, and random connect.</li>
+      <li>Built a campus social product with verified access, anonymous interaction, realtime chat, and random connect.</li>
       <li>Engineered the <b>trust layer</b>: verified access with peer-facing anonymity, rate limiting, moderation queues, blocking, reporting, and notifications that keep rooms safe without breaking anonymity.</li>
       <li>Rebuilding the mobile client in <b>Flutter</b> (from React + Capacitor) for native-grade smoothness; iterating on onboarding and matching flows against retention data.</li>
     </ul>
@@ -183,9 +183,9 @@
     </div>
     <p class="job-sub mono">E-commerce for vehicle customization · Next.js · MongoDB · Razorpay · Shiprocket · Meta API · AWS · Clerk</p>
     <ul class="bullets">
-      <li>Sole engineer behind a custom-commerce platform that scaled to <b>100K+ monthly users and ₹60L annual revenue</b> — storefront, checkout, and the operations behind every custom order.</li>
+      <li>Co-founded and built major storefront, checkout, payments, shipping, operations, and admin systems for a custom-commerce product.</li>
       <li>Built the <b>admin operating system</b>: inventory, order ops, production file downloads, offer engine, A/B testing, Sankey funnel analytics, customer journey views, review moderation, and role-based access.</li>
-      <li>Implemented <b>multi-gateway payment orchestration (Razorpay + PayU fallback)</b> after diagnosing upstream bank downtimes — materially cut payment failures; added Shiprocket shipping and server-side Meta tracking.</li>
+      <li>Implemented <b>multi-gateway payment orchestration (Razorpay + PayU fallback)</b>, Shiprocket shipping, and server-side Meta tracking for a custom-commerce workflow.</li>
     </ul>
   </div>
 </section>
@@ -199,7 +199,7 @@
   </div>
   <div class="project">
     <span class="pname">AutoRemov</span><span class="prole">FREELANCE · BACKEND ENGINEER · 2026</span> —
-    Backend for an image background-removal product: presigned uploads, <b>durable pg-boss job pipeline</b>, credit ledger with single-refund guarantees, Razorpay billing, MySQL→Postgres/Prisma migration, and integration tests around payments and processing.
+    Backend for an image background-removal product: presigned uploads, <b>durable pg-boss job pipeline</b>, credit and billing flows, Razorpay billing, MySQL→Postgres/Prisma migration, and integration tests around payments and processing.
   </div>
   <div class="project">
     <span class="pname">Dailicle</span><span class="prole">FOUNDER · 2025</span> —

@@ -31,9 +31,9 @@ export interface Experience {
 
 export const siteConfig = {
   name: "Lucky Solanki",
-  title: "Lucky Solanki — Full-Stack Product Engineer",
+  title: "Lucky Solanki — AI Engineer | Backend Systems & Agent Infrastructure",
   description:
-    "Full-stack product engineer building frontend, backend, deployment, AI integrations, automations, MCP systems, payments, realtime features, admin tooling, and product infrastructure.",
+    "AI engineer building backend systems, agent tool surfaces, MCP integrations, document-backed assistants, realtime features, queues, and dependable product operations.",
   url: "https://luckysolanki.com",
 } as const;
 
@@ -47,13 +47,13 @@ export const socials = {
 export const experience: Experience[] = [
   {
     company: "Blitzit",
-    role: "Core Backend Engineer",
+    role: "Core Backend Developer",
     period: "Nov 2025 — Now",
     current: true,
   },
   {
     company: "Spyll",
-    role: "Founder & Lead Engineer",
+    role: "Founder & Core Developer",
     period: "2023 — Now",
     current: true,
   },
@@ -71,11 +71,11 @@ export const projects: Project[] = [
     name: "Blitzit",
     url: "https://www.blitzit.app",
     tagline: "Backend platform for an AI-native task app",
-    role: "Core Backend Engineer",
+    role: "Core Backend Developer",
     category: "fulltime",
     location: "United Kingdom",
     description:
-      "I built major parts of the backend rewrite that made Blitzit 3.0 much more reliable and easy to scale: Fastify services, MongoDB models, Redis/BullMQ workers, MCP tools, integration plugins, realtime sync, webhook ingestion, and a Git-style undo/redo journal for task history.",
+      "I build backend systems for an AI-native task app: Fastify services, MongoDB models, Redis/BullMQ workers, MCP tools, integration plugins, realtime sync, webhook ingestion, and a Git-style undo/redo journal for task history.",
     image: "/images/projects/blitzit.jpeg",
     stack: ["Fastify", "MongoDB", "Redis", "BullMQ", "MCP", "OAuth 2.1", "Zod"],
     details: [
@@ -111,7 +111,7 @@ export const projects: Project[] = [
     slug: "spyll",
     name: "Spyll",
     tagline: "Verified anonymous college network",
-    role: "Co-founder & Lead Engineer",
+    role: "Co-founder & CTO",
     category: "founder",
     description:
       "I co-founded Spyll as a campus social product where verified students could post anonymously, chat, vote, react, join random connects, and use the app without turning it into a mess for everyone else.",
@@ -122,7 +122,7 @@ export const projects: Project[] = [
     details: [
       "Built the backend around verified access, anonymous posting, confession feeds, polls, comments, reactions, realtime chat, random connect, blocking, reporting, and moderation queues.",
       "The interesting work sat in the trust layer: keeping the product anonymous to other students while still giving the system enough structure to rate-limit abuse, moderate posts, send useful notifications, and keep rooms safe.",
-      "Shipped the first Android version to 1,700+ downloads in the first month without paid acquisition, then started rebuilding the mobile client in Flutter for smoother native behavior.",
+      "Shipped the first Android version to 1,700+ downloads in the first month, then started rebuilding the mobile client in Flutter for smoother native behavior.",
     ],
     metrics: "1,700+ downloads in the first month",
     year: "2023",

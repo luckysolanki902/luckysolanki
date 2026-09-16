@@ -16,7 +16,7 @@ export const autoremovImageJobSystem: BlogPost = {
       heading: "The browser should not carry the job",
       paragraphs: [
         "Background removal can take time. The image can be large. The tab can close. The worker can retry. The result may be downloaded later. So the backend has to treat processing as a durable job, with Postgres holding state and object storage holding files.",
-        "The flow I built was direct-to-storage upload, job creation, credit debit, pg-boss queue, worker processing, engine call, result upload, status polling, and one-time refund on final failure.",
+    "The flow was direct-to-storage upload, job creation, credit handling, pg-boss queueing, worker processing, engine call, result upload, status polling, and a clear failure path.",
       ],
       diagram: {
         title: "AutoRemov job flow",
@@ -36,7 +36,7 @@ export const autoremovImageJobSystem: BlogPost = {
     {
       heading: "The small correctness details",
       paragraphs: [
-        "The upload route validates file types and sanitizes names. The job route validates object keys. The worker marks state changes in the database, downloads the original, calls the engine, uploads the processed file, and only refunds once when retries are exhausted. Result routes check ownership.",
+        "The upload route validates file types and sanitizes names. The job route validates object keys. The worker records state changes in the database, downloads the original, calls the engine, uploads the processed file, and follows a deliberate failure path when retries are exhausted. Result routes check ownership.",
         "A tool like this feels simple when everything works. The backend earns its keep when something fails halfway through.",
       ],
     },
@@ -49,8 +49,8 @@ export const autoremovImageJobSystem: BlogPost = {
     {
       heading: "The credit edge case",
       paragraphs: [
-        "The job creation path debits a credit for authenticated users inside a database transaction. If queueing fails after the debit, the backend marks the job failed and refunds. If the worker later exhausts retries, the backend refunds once. That once is doing a lot of work.",
-        "A paid image tool cannot double-charge because the engine timed out. It also cannot refund twice because two failure paths noticed the same problem. The ledger is the source of truth.",
+        "The job path couples credit handling, queueing, and processing state closely enough that a failure has a clear place to be handled. The credit ledger is the source of truth for that conversation.",
+        "A paid image tool cannot leave users guessing whether a timeout cost them a credit. The backend needs explicit state, a visible result, and a recovery path instead of a vague spinner.",
       ],
     },
     {

@@ -58,7 +58,7 @@ const chapters = [
   {
     year: "2023–25",
     title: "Building a business-critical platform",
-    body: `As the business grew and the team expanded to ten, I became the sole engineer responsible for the platform. The product direction kept evolving, so the system had to stay flexible enough to support new workflows without constant rewrites. The admin side eventually handled inventory, multi-domain management, offer engines, customer journey analysis, A/B testing, review moderation, personalised fulfilment flows, and multi-store shipping.`,
+    body: `As the business grew and the team expanded to ten, I led core platform work while collaborating across the product. The product direction kept evolving, so the system had to stay flexible enough to support new workflows without constant rewrites. The admin side eventually handled inventory, multi-domain management, offer engines, customer journey analysis, A/B testing, review moderation, personalised fulfilment flows, and multi-store shipping.`,
     tags: ["Full-Stack", "Next.js", "MongoDB", "Platform Engineering"],
   },
   {
@@ -75,9 +75,9 @@ const chapters = [
   },
   {
     year: "Nov 2025",
-    title: "Moving into product engineering",
-    body: `Blitzit gave me a take-home assignment, then an interview process, and I joined as a full-stack software engineer. Since then I have worked on Asana two-way sync, an MCP server, notification systems with BullMQ and Redis, and improvements across Notion and Google Calendar integrations. It formalised the kind of product engineering work I had already been doing under other titles.`,
-    tags: ["Full-Stack", "Asana", "BullMQ", "Redis", "Integrations"],
+    title: "Moving into backend and AI systems",
+    body: `Blitzit gave me a take-home assignment, then an interview process, and I joined as a Core Backend Developer. Since then I have worked on Asana two-way sync, an MCP server, notification systems with BullMQ and Redis, and improvements across Notion and Google Calendar integrations. It formalised the backend and agent-infrastructure work I had already been doing under other titles.`,
+    tags: ["Backend", "MCP", "Asana", "BullMQ", "Redis", "Integrations"],
   },
   {
     year: "Feb 2026",
@@ -88,7 +88,7 @@ const chapters = [
   {
     year: "Now",
     title: "Current focus",
-    body: `At Blitzit, I am helping build a more robust backend: unit-tested modules, plugin-based integrations, prompt-level model routing, Pinecone-backed memory, and tighter security around rate limiting and request validation. Outside work, I am studying data science and machine learning. I am also continuing to grow Spyll, which crossed 1,700+ Android downloads in its first month without paid acquisition.`,
+    body: `At Blitzit, I am helping build a more robust backend: unit-tested modules, plugin-based integrations, agent tool surfaces, queues, sync, and tighter validation around product actions. Outside work, I am studying data science and machine learning. I am also continuing to grow Spyll.`,
     tags: ["Blitzit", "Backend", "Pinecone", "ML", "Data Science", "Spyll"],
   },
 ];

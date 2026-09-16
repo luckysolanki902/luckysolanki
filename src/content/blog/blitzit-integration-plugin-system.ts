@@ -2,11 +2,11 @@ import type { BlogPost } from "@/lib/blog";
 
 export const blitzitIntegrationPluginSystem: BlogPost = {
   slug: "blitzit-integration-plugin-system",
-  title: "The integration plugin system behind Blitzit",
+  title: "An integration SDK should give the mess a room",
   subtitle:
-    "Provider work got cleaner when OAuth, credentials, webhooks, collection browsing, outbound sync, retries, and lifecycle had one shared SDK.",
+    "Provider work got calmer when OAuth, credentials, webhooks, collection browsing, outbound sync, retries, and lifecycle had one shared home.",
   excerpt:
-    "Every provider had its own habits. The plugin system gave Blitzit one way to host those differences.",
+    "Every provider has its own habits. The point was not to erase the differences, but to stop them leaking through the whole backend.",
   project: "Blitzit",
   date: "2026-07-08",
   readTime: "10 min",

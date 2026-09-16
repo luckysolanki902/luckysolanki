@@ -235,7 +235,7 @@ export const clickTriggers: Record<string, BuddyTrigger[]> = {
     { id: "click-li-2", message: "Ah, the professional networking move.", mood: "wink", priority: 6, cooldown: 15 },
   ],
   projectSpyll: [
-    { id: "click-spyll-1", message: "1,700+ downloads. Zero paid marketing. Built from a dorm room.", mood: "excited", priority: 7, cooldown: 30 },
+    { id: "click-spyll-1", message: "1,700+ first-month downloads. Built from a dorm room.", mood: "excited", priority: 7, cooldown: 30 },
     { id: "click-spyll-2", message: "Spyll is the big one. Pay attention.", mood: "wink", priority: 7, cooldown: 30 },
   ],
   projectMaddy: [
@@ -546,7 +546,7 @@ export const storyTriggers: Record<"ai" | "journey", StoryTriggers> = {
   /* ── /stories/journey — "The long way around" ───────────── */
   journey: {
     enter: [
-      { id: "jrn-enter-1", message: "Mechanical Engineering to full-stack. It's a whole arc.", mood: "think", priority: 10, cooldown: 0, once: true },
+      { id: "jrn-enter-1", message: "Mechanical Engineering to AI and backend systems. It's a whole arc.", mood: "think", priority: 10, cooldown: 0, once: true },
       { id: "jrn-enter-2", message: "The origin story. This one's actually good.", mood: "excited", priority: 10, cooldown: 0, once: true },
       { id: "jrn-enter-3", message: "Buckle up. This covers like 5 years in one scroll.", mood: "wink", priority: 10, cooldown: 0, once: true },
     ],

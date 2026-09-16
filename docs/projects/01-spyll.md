@@ -1,6 +1,6 @@
 # Spyll — India's Anonymous College Network
 
-> **Role**: Founder & Lead Developer
+> **Role**: Founder & Core Developer
 > **Timeline**: Dec 2023 → Present (actively maintained)
 > **Status**: Live
 
@@ -20,7 +20,7 @@
 
 ## One-Liner
 
-A full-stack anonymous social platform for verified college students across India — real-time chat, voice calls (WebRTC), encrypted confessions, and a post feed — live across 1,300+ colleges.
+A verified anonymous social product for college students, built around realtime chat, voice calls, posts, and safety-conscious identity flows.
 
 ---
 
@@ -178,7 +178,7 @@ Previous anonymous platforms (Omegle, Yik Yak) failed because unverified anonymi
 
 | Name | Role |
 |------|------|
-| **Lucky Solanki** | Founder & Lead Developer |
+| **Lucky Solanki** | Founder & Core Developer |
 | **Chaman Singh Narwar** | Co-founder |
 | **Vaibhav Solanki** | Co-founder |
 

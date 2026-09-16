@@ -5,6 +5,7 @@ import { blitzitIntegrationPluginSystem } from "@/content/blog/blitzit-integrati
 import { blitzitUndoRedoChangeJournal } from "@/content/blog/blitzit-undo-redo-change-journal";
 import { dailicleWeeklyReadingRitual } from "@/content/blog/dailicle-weekly-reading-ritual";
 import { maddycustomAdminOps } from "@/content/blog/maddycustom-admin-ops";
+import { retriesNeedASourceOfTruth } from "@/content/blog/retries-need-a-source-of-truth";
 import { spyllAnonymousCollegeNetwork } from "@/content/blog/spyll-anonymous-college-network";
 
 export interface BlogDiagram {
@@ -53,6 +54,7 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+  retriesNeedASourceOfTruth,
   blitzit3PlatformRewrite,
   blitzitUndoRedoChangeJournal,
   blitzitIntegrationPluginSystem,

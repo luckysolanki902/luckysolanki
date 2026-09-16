@@ -1,8 +1,8 @@
 # MaddyCustom — E-Commerce Platform for Bike Wrap Stickers
 
-> **Role**: Co-Founder & Lead Developer
-> **Timeline**: Sep 2023 → Feb 2026 (left the company)
-> **Status**: Site was live at maddycustom.com — company shifted to Shopify after departure. All complex custom logic was written by Lucky.
+> **Role**: Co-Founder & CTO
+> **Timeline**: Dec 2022 → Feb 2026
+> **Status**: The custom product was live before the company shifted to Shopify. Lucky co-founded the business and led major product and technical systems alongside collaborators.
 
 ---
 
@@ -20,7 +20,7 @@
 
 ## One-Liner
 
-A full-stack e-commerce platform for custom bike wrap stickers — with a product configurator, dual payment gateways (Razorpay + PayU), Shiprocket shipping integration, Meta Conversions API, AI-powered customer support, OTP authentication, and a complete admin panel with analytics, inventory management, and order fulfillment workflows. Revenue: ₹60 lakhs annually at peak.
+A custom-commerce platform for bike wrap stickers, with payments, shipping, analytics, customer-support tooling, authentication, and operational admin workflows. At its peak, the product recorded user-supplied business metrics of ₹60L annual revenue and 100K+ monthly users.
 
 ---
 
@@ -34,7 +34,7 @@ MaddyCustom sells custom vinyl wrap stickers for bikes (motorcycles) across Indi
 - Customer support via WhatsApp integration
 - Full order-to-delivery pipeline
 
-**Why Lucky left**: The company decided to migrate to Shopify. Lucky built all the complex custom logic (payment integrations, shipping APIs, analytics pipelines, admin tools) from scratch and wasn't interested in maintaining a Shopify store.
+**Transition**: The company later moved to Shopify. Lucky's work included major payment, shipping, analytics, and admin systems; this documentation does not claim exclusive authorship of the team product.
 
 ---
 
