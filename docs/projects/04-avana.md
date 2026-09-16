@@ -1,6 +1,6 @@
 # Avana — AI-Powered Bali Land Investment Platform
 
-> **Role**: Freelance Developer (full-stack, sole developer)
+> **Role**: Freelance · Sole Developer
 > **Timeline**: 2025 → Present
 > **Status**: Active — [avana-avana.vercel.app](https://avana-avana.vercel.app) + [avana-admin.vercel.app](https://avana-admin.vercel.app)
 
@@ -19,7 +19,7 @@
 
 ## One-Liner
 
-A full-stack AI-powered investment research platform for Bali land — with multi-agent AI chat (OpenAI Agents SDK), realtime voice conversations (OpenAI Realtime API via WebRTC), Xendit payment integration (1,431-line webhook handler), news aggregation with admin scraping, subscription management, and a complete admin panel.
+An AI investment-research assistant for Bali real estate, with document-backed answers, OpenAI Agents SDK orchestration, realtime WebRTC voice, subscriptions, onboarding, and knowledge/news administration.
 
 ---
 

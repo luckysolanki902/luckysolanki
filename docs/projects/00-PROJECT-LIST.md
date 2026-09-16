@@ -16,11 +16,11 @@
 
 | # | Project | Role | Repos (commits) | Live URL | Status | Doc |
 |---|---------|------|------------------|----------|--------|-----|
-| 1 | **Spyll** | Founder | spyll-web (556), spyll-server (106) | [spyll.in](https://spyll.in) + Mobile App | Active | [01-spyll.md](01-spyll.md) |
-| 2 | **MaddyCustom** | Co-Founder | maddycustom (499), admin-maddy-custom (499), Maddy-Custom/maddycustom-production (802), mym-admin (32) | [maddycustom.com](https://www.maddycustom.com) | Shifted to Shopify (Feb 2026) | [02-maddycustom.md](02-maddycustom.md) |
+| 1 | **Spyll** | Founder & Core Developer | spyll-web, spyll-server | [spyll.in](https://spyll.in) + Mobile App | Active | [01-spyll.md](01-spyll.md) |
+| 2 | **MaddyCustom** | Co-Founder & CTO | Storefront and admin systems | [maddycustom.com](https://www.maddycustom.com) | Shifted to Shopify (Feb 2026) | [02-maddycustom.md](02-maddycustom.md) |
 | 3 | **Dailicle** | Founder (Solo) | dailicle-web (24), dailcle-server (18) | [dailicle.com](https://dailicle.com) | Active | [05-dailicle.md](05-dailicle.md) |
 
-**Total founder commits**: ~2,536
+The project docs are curated case studies, not a leaderboard of commit counts.
 
 ---
 
@@ -28,9 +28,9 @@
 
 | # | Project | Role | Repos (Lucky's commits) | Live URL | Status | Doc |
 |---|---------|------|-------------------------|----------|--------|-----|
-| 4 | **Blitzit** | Engineer | vue-web-app (2,843), blitzit-hq/api (141), blitzit-hq/electron-app (79) | blitzit-web.vercel.app | Active | [03-blitzit.md](03-blitzit.md) |
+| 4 | **Blitzit** | Core Backend Developer | Backend systems and integrations | [blitzit.app](https://www.blitzit.app) | Active | [03-blitzit.md](03-blitzit.md) |
 
-**Key contributions**: MCP server (OAuth 2.1 + PKCE, 54 tools, JSON-RPC 2.0), Asana/ClickUp/Google Calendar bidirectional sync, BullMQ push notification infrastructure, timezone-aware scheduling (357 tests), Zapier integration.
+**Publicly discussable work**: MCP-based AI-callable product tools, integrations, OAuth, webhooks, queues, scheduling, sync, and reversible task-history design. Team repositories and internal implementation detail are not portfolio material.
 
 ---
 
@@ -38,7 +38,7 @@
 
 | # | Project | Role | Repos (commits) | Live URL | Status | Doc |
 |---|---------|------|------------------|----------|--------|-----|
-| 5 | **Avana** | Freelance Dev | avanaapp-hq/avana-main (153), avanaapp-hq/avana-admin (96) | avana-avana.vercel.app / avana-admin.vercel.app | Active | [04-avana.md](04-avana.md) |
+| 5 | **Avana** | Freelance · Sole Developer | User app and admin app | avanaapp.ai | Active | [04-avana.md](04-avana.md) |
 
 ---
 
@@ -93,4 +93,4 @@
 
 ---
 
-*All deep-dives researched via `gh api`, local codebases, and GitHub commit history.*
+*Use the public portfolio and résumé for externally shareable evidence. Private repositories and internal notes stay private.*
