@@ -1,6 +1,6 @@
 # Blitzit — AI-native task product
 
-> **Role:** Core Backend Developer
+> **Role:** Core Backend Developer & AI Engineer
 >
 > **Timeline:** November 2025 → Present
 >

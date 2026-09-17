@@ -17,7 +17,7 @@
 | # | Project | Role | Repos (commits) | Live URL | Status | Doc |
 |---|---------|------|------------------|----------|--------|-----|
 | 1 | **Spyll** | Founder & Core Developer | spyll-web, spyll-server | [spyll.in](https://spyll.in) + Mobile App | Active | [01-spyll.md](01-spyll.md) |
-| 2 | **MaddyCustom** | Co-Founder & CTO | Storefront and admin systems | [maddycustom.com](https://www.maddycustom.com) | Shifted to Shopify (Feb 2026) | [02-maddycustom.md](02-maddycustom.md) |
+| 2 | **MaddyCustom** | Co-Founder & Lead Full-Stack Developer | Storefront and admin systems | [maddycustom.com](https://www.maddycustom.com) | Shifted to Shopify (Feb 2026) | [02-maddycustom.md](02-maddycustom.md) |
 | 3 | **Dailicle** | Founder (Solo) | dailicle-web (24), dailcle-server (18) | [dailicle.com](https://dailicle.com) | Active | [05-dailicle.md](05-dailicle.md) |
 
 The project docs are curated case studies, not a leaderboard of commit counts.
@@ -28,7 +28,7 @@ The project docs are curated case studies, not a leaderboard of commit counts.
 
 | # | Project | Role | Repos (Lucky's commits) | Live URL | Status | Doc |
 |---|---------|------|-------------------------|----------|--------|-----|
-| 4 | **Blitzit** | Core Backend Developer | Backend systems and integrations | [blitzit.app](https://www.blitzit.app) | Active | [03-blitzit.md](03-blitzit.md) |
+| 4 | **Blitzit** | Core Backend Developer & AI Engineer | Backend systems and integrations | [blitzit.app](https://www.blitzit.app) | Active | [03-blitzit.md](03-blitzit.md) |
 
 **Publicly discussable work**: MCP-based AI-callable product tools, integrations, OAuth, webhooks, queues, scheduling, sync, and reversible task-history design. Team repositories and internal implementation detail are not portfolio material.
 

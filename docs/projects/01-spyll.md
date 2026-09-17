@@ -1,6 +1,6 @@
 # Spyll — India's Anonymous College Network
 
-> **Role**: Founder & Core Developer
+> **Role**: Co-Founder & Lead Full-Stack Developer
 > **Timeline**: Dec 2023 → Present (actively maintained)
 > **Status**: Live
 

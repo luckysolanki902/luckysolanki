@@ -1,6 +1,6 @@
 # MaddyCustom — E-Commerce Platform for Bike Wrap Stickers
 
-> **Role**: Co-Founder & CTO
+> **Role**: Co-Founder & Lead Full-Stack Developer
 > **Timeline**: Dec 2022 → Feb 2026
 > **Status**: The custom product was live before the company shifted to Shopify. Lucky co-founded the business and led major product and technical systems alongside collaborators.
 

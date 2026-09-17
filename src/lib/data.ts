@@ -48,19 +48,19 @@ export const socials = {
 export const experience: Experience[] = [
   {
     company: "Blitzit",
-    role: "Backend Engineer",
+    role: "Core Backend Developer & AI Engineer",
     period: "Nov 2025 — Now",
     current: true,
   },
   {
     company: "Spyll",
-    role: "Co-founder & CTO",
+    role: "Co-founder & Lead Full-Stack Developer",
     period: "2023 — Now",
     current: true,
   },
   {
     company: "MaddyCustom",
-    role: "Co-founder & CTO",
+    role: "Co-founder & Lead Full-Stack Developer",
     period: "Dec 2022 — Feb 2026",
     current: false,
   },
@@ -72,7 +72,7 @@ export const projects: Project[] = [
     name: "Blitzit",
     url: "https://www.blitzit.app",
     tagline: "Integration and agent infrastructure for an AI-native task app",
-    role: "Backend Engineer",
+    role: "Core Backend Developer & AI Engineer",
     category: "fulltime",
     location: "United Kingdom",
     description:
@@ -93,7 +93,7 @@ export const projects: Project[] = [
     slug: "maddycustom",
     name: "MaddyCustom",
     tagline: "Custom vehicle commerce and operations",
-    role: "Co-founder & CTO",
+    role: "Co-founder & Lead Full-Stack Developer",
     category: "founder",
     description:
       "I co-founded MaddyCustom and ran the technical side: storefront, admin, order operations, production downloads, analytics, payments, shipping, inventory, and the small internal tools that kept a custom-commerce team moving every day.",
@@ -113,7 +113,7 @@ export const projects: Project[] = [
     slug: "spyll",
     name: "Spyll",
     tagline: "Verified anonymous college network",
-    role: "Co-founder & CTO",
+    role: "Co-founder & Lead Full-Stack Developer",
     category: "founder",
     description:
       "I co-founded Spyll as a campus social product where verified students could post anonymously, chat, vote, react, join random connects, and use the app without turning it into a mess for everyone else.",
