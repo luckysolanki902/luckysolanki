@@ -127,7 +127,7 @@
 <header>
   <div>
     <h1 class="name">Lucky <em>Solanki</em></h1>
-    <p class="tagline mono">AI Engineer&nbsp;&nbsp;/&nbsp;&nbsp;Backend Systems&nbsp;&nbsp;/&nbsp;&nbsp;Agent Infrastructure</p>
+    <p class="tagline mono">Backend &amp; AI Infrastructure&nbsp;&nbsp;/&nbsp;&nbsp;Integrations&nbsp;&nbsp;/&nbsp;&nbsp;Agent Systems</p>
   </div>
   <div class="contact">
     <div><span class="mono">mail</span><a href="mailto:luckysolanki902@gmail.com">luckysolanki902@gmail.com</a></div>
@@ -139,10 +139,9 @@
 </header>
 
 <p class="summary">
-  AI engineer with 3+ years of commercial software experience across agent tool surfaces, MCP systems,
-  document-backed answers, integrations, queues, realtime features, payments, and admin tooling. Currently a
-  Core Backend Developer at Blitzit, where I build backend systems for an AI-native task product; also delivered
-  an investment-research assistant and co-founded products used by real customers.
+  Product-minded backend and AI infrastructure engineer with 3+ years of commercial software experience. I build
+  agent systems, MCP tools, integrations, realtime sync, queues, and reliable backend platforms. At Blitzit, I own
+  core backend and AI work for an AI-native task product; earlier, I co-founded products serving 100K+ monthly users.
 </p>
 
 <section>
@@ -150,14 +149,14 @@
 
   <div class="job">
     <div class="job-line">
-      <span class="job-title">Core Backend Developer <span class="co">Blitzit</span></span>
+      <span class="job-title">Core Backend Developer &amp; AI Engineer <span class="co">Blitzit</span></span>
       <span class="job-date">Nov 2025 — Present</span>
     </div>
     <p class="job-sub mono">AI-native task platform (UK, remote) · Fastify · TypeScript · MongoDB · Redis · BullMQ · MCP SDK · Zod</p>
     <ul class="bullets">
-      <li><b>Built core platform layers of the Blitzit 3.0 backend rewrite</b> — one platform layer giving app traffic, AI tool calls, MCP clients, provider webhooks, queues, schedulers, and sync workers the same auth, Zod validation, ownership, and domain-event rules.</li>
+      <li><b>Own core backend and AI systems in the Blitzit 3.0 rewrite</b> — app traffic, Blitzy AI actions, MCP clients, provider webhooks, queues, schedulers, and sync workers share the same auth, Zod validation, ownership, and domain-event rules.</li>
       <li><b>Built a plugin-based integration SDK</b> around a Node.js event bus and shared provider contracts, making integrations easier to add without spreading provider-specific logic across routes, workers, OAuth handlers, and sync code.</li>
-      <li><b>Built an MCP server exposing AI-callable product tools</b> through OAuth 2.1 (PKCE) and JSON-RPC 2.0 over Streamable HTTP — making product actions available to LLM agents.</li>
+      <li><b>Built a 54-tool MCP execution layer</b> through OAuth 2.1 (PKCE) and JSON-RPC 2.0 over Streamable HTTP, exposing product actions safely to Blitzy and external LLM agents.</li>
       <li><b>Designed a Git-style undo/redo change journal</b>: mutations from humans, AI, MCP tools, and API clients become reversible commits with content hashes — users can trust direct AI writes without losing newer manual changes.</li>
       <li>Shipped <b>deep bidirectional sync</b> with Asana, ClickUp, Notion, and Google Calendar — conflict resolution, webhook ingestion, timezone-aware scheduling — plus a <b>BullMQ + Redis notification pipeline</b> with retries and dead-letter queues.</li>
     </ul>
@@ -165,7 +164,7 @@
 
   <div class="job">
     <div class="job-line">
-      <span class="job-title">Founder &amp; Core Developer <span class="co">Spyll</span></span>
+      <span class="job-title">Co-Founder &amp; Lead Full-Stack Developer <span class="co">Spyll</span></span>
       <span class="job-date">2023 — Present</span>
     </div>
     <p class="job-sub mono">Verified anonymous college network · Fastify · MongoDB · Socket.IO · BullMQ · Firebase · Flutter</p>
@@ -178,12 +177,12 @@
 
   <div class="job">
     <div class="job-line">
-      <span class="job-title">Co-Founder &amp; CTO <span class="co">MaddyCustom</span></span>
+      <span class="job-title">Co-Founder &amp; Lead Full-Stack Developer <span class="co">MaddyCustom</span></span>
       <span class="job-date">Dec 2022 — Feb 2026</span>
     </div>
     <p class="job-sub mono">E-commerce for vehicle customization · Next.js · MongoDB · Razorpay · Shiprocket · Meta API · AWS · Clerk</p>
     <ul class="bullets">
-      <li>Co-founded and built major storefront, checkout, payments, shipping, operations, and admin systems for a custom-commerce product.</li>
+      <li>Co-founded and led full-stack product development across storefront, checkout, payments, shipping, operations, and admin systems for a custom-commerce product reaching <b>100K+ monthly users and ₹60L annual revenue</b>.</li>
       <li>Built the <b>admin operating system</b>: inventory, order ops, production file downloads, offer engine, A/B testing, Sankey funnel analytics, customer journey views, review moderation, and role-based access.</li>
       <li>Implemented <b>multi-gateway payment orchestration (Razorpay + PayU fallback)</b>, Shiprocket shipping, and server-side Meta tracking for a custom-commerce workflow.</li>
     </ul>
@@ -210,12 +209,10 @@
 <section>
   <div class="section-head"><span class="mono">03 —</span><h2>Skills</h2></div>
 
-  <div class="skill-row"><span class="mono">Languages</span><p>TypeScript, JavaScript, Python, Dart, SQL</p></div>
-  <div class="skill-row"><span class="mono">Frontend</span><p>React, Next.js, Vue, Flutter, React Native, Electron, Tailwind, Framer Motion, Redux, shadcn/ui, MUI</p></div>
-  <div class="skill-row"><span class="mono">Backend</span><p>Node.js, Fastify, Express, FastAPI, REST, JSON-RPC, WebSockets, Socket.IO, WebRTC, SSE, Zod validation, webhooks, event-driven architecture, workers &amp; queues</p></div>
-  <div class="skill-row"><span class="mono">AI / Agents</span><p>OpenAI Agents SDK, MCP Protocol, LLM orchestration, multi-agent handoffs, prompt-level model routing, Pinecone vector memory, RAG, vector search, AI tool surfaces</p></div>
-  <div class="skill-row"><span class="mono">Data &amp; Infra</span><p>MongoDB, PostgreSQL, Prisma, MySQL, Redis, BullMQ, pg-boss, Firebase, AWS (S3, CloudFront), Vercel, Docker, Cloudflare, OAuth 2.1/PKCE, Clerk, Razorpay, Xendit, Playwright</p></div>
-  <div class="skill-row"><span class="mono">Product</span><p>A/B testing, experimentation, funnel analytics, activation &amp; retention loops, admin tooling, server-side tracking</p></div>
+  <div class="skill-row"><span class="mono">Primary</span><p>TypeScript, Node.js, Fastify, MongoDB, PostgreSQL, Redis, BullMQ, Zod</p></div>
+  <div class="skill-row"><span class="mono">AI / Agents</span><p>MCP Protocol, OpenAI Agents SDK, LLM orchestration, multi-agent handoffs, RAG, vector search, AI tool surfaces</p></div>
+  <div class="skill-row"><span class="mono">Distributed Systems</span><p>OAuth 2.1/PKCE, webhooks, queues, event-driven architecture, idempotency, REST, JSON-RPC, WebSockets, SSE, WebRTC, realtime sync</p></div>
+  <div class="skill-row"><span class="mono">Also</span><p>React, Next.js, Flutter, Python, Docker, AWS (S3, CloudFront), Cloudflare, Prisma, Playwright, Razorpay, Xendit, admin tooling and analytics</p></div>
 </section>
 
 <section>
