@@ -1,5 +1,5 @@
 /* ============================================================
-   BUDDY ENGINE — Decision engine with global coordination,
+   BUDDY ENGINE, Decision engine with global coordination,
    priority gating, message queue, and weighted randomness.
 
    Architecture:
@@ -17,14 +17,14 @@ import type { BuddyMood, BuddyTrigger } from "./buddy-triggers";
 /* -----------------------------------------------------------
    CONSTANTS
    ----------------------------------------------------------- */
-const GLOBAL_COOLDOWN = 8000;
+const GLOBAL_COOLDOWN = 45000;
 const SILENCE_PROBABILITY = 0.25;
 const SILENCE_THRESHOLD = 5;
 const MAX_RECENT = 15;
 const QUEUE_MAX = 3;
 
 /* -----------------------------------------------------------
-   WEIGHTED PICK — filters cooldowns/once, avoids recent
+   WEIGHTED PICK, filters cooldowns/once, avoids recent
    ----------------------------------------------------------- */
 function pickWeighted(
   triggers: BuddyTrigger[],
@@ -112,7 +112,7 @@ export const useBuddyStore = create<BuddyState & BuddyActions>((set, get) => {
       messageCount: state.messageCount + 1,
     });
 
-    // Auto-dismiss: generous reading time — ~95ms/char plus a base buffer,
+    // Auto-dismiss: generous reading time, ~95ms/char plus a base buffer,
     // clamped 5–14s so even short quips linger long enough to read.
     const duration = Math.min(Math.max(trigger.message.length * 95 + 1800, 5000), 14000);
     dismissTimer = setTimeout(() => {
@@ -157,6 +157,9 @@ export const useBuddyStore = create<BuddyState & BuddyActions>((set, get) => {
         if (now < cd) return;
       }
       if (!trigger) return;
+      // Keep passive reactions from interrupting the homepage reading sequence.
+      if (typeof window !== "undefined" && window.location.pathname === "/" &&
+          /^(hover|idle|scroll|work|about|tools|leave|return|tab)-/.test(trigger.id)) return;
 
       // Silence gate: randomly skip low-priority
       if (trigger.priority < SILENCE_THRESHOLD && Math.random() < SILENCE_PROBABILITY) return;
@@ -176,7 +179,7 @@ export const useBuddyStore = create<BuddyState & BuddyActions>((set, get) => {
         return;
       }
 
-      // No message showing — global cooldown blocks low-priority
+      // No message showing, global cooldown blocks low-priority
       if (now - state.lastGlobalFire < GLOBAL_COOLDOWN && trigger.priority < SILENCE_THRESHOLD) return;
 
       displayTrigger(trigger);

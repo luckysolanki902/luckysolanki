@@ -4,7 +4,7 @@ import { TestimonialForm } from "@/components/Testimonials/TestimonialForm";
 import styles from "./testimonial.module.css";
 
 export const metadata: Metadata = {
-  title: "Share a testimonial — Lucky Solanki",
+  title: "Share a testimonial, Lucky Solanki",
   description: "Share a few words about your experience working with Lucky Solanki.",
   robots: { index: false, follow: false },
 };

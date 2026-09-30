@@ -1,362 +1,56 @@
-/* ============================================================
-   Hero.module.css
-   Mobile: content anchored to upper zone, next section peeks.
-   Desktop: side-by-side, vertically centered.
-   Psychology: F-pattern scan on mobile, information scent via
-   visible next section, scroll cue in breathing space.
-   ============================================================ */
-
-/* -----------------------------------------------------------
-   BASE (Mobile-first)
-   Content flows from top. No vertical centering.
-   Height is proportional — About section peeks below.
-   ----------------------------------------------------------- */
-.hero {
-  position: relative;
-  min-height: clamp(480px, 70svh, 680px);
-  display: flex;
-  flex-direction: column;
-  padding: calc(56px + var(--space-8)) 0 var(--space-8);
+.hero { --hero-ink: #f1eddf; --hero-pop: #eee6a9; max-width: 1440px; margin: auto; padding: 62px 64px 30px; overflow: clip; color: var(--hero-ink); }
+:global([data-theme="light"]) .hero { --hero-ink: #292d2d; --hero-pop: #5b6550; }
+.topline { display: flex; justify-content: space-between; font-size: 13px; letter-spacing: .03em; padding-bottom: 24px; color: var(--text-secondary); animation: appear 900ms 650ms both; }
+.stage { position: relative; min-height: 610px; }
+.name { position: relative; display: flex; justify-content: space-between; gap: 28px; font-size: clamp(115px, 17.9vw, 255px); line-height: .84; font-weight: 700; letter-spacing: -.025em; white-space: nowrap; margin: 0; }
+.word { display: flex; perspective: 800px; transform: translateX(var(--name-travel, 0px)); }
+.word:last-child { transform: translateX(calc(var(--name-travel, 0px) * -1)); }
+.letter { display: inline-block; animation: letter-land 1250ms cubic-bezier(.16,1,.3,1) both; transform-origin: bottom; }
+.intro { position: absolute; left: 0; top: 290px; z-index: 2; width: 27%; animation: appear 1s 600ms both; }
+.smallLabel { display: block; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; opacity: .85; margin-bottom: 18px; }
+.intro p { font-size: clamp(20px, 2.05vw, 29px); line-height: 1.32; letter-spacing: -.035em; }
+.intro em { font-style: normal; color: var(--hero-pop); }
+.description { display: block; font-size: 14px; line-height: 1.7; color: var(--text-secondary); margin-top: 20px; }
+.portrait { position: relative; width: min(38%, 450px); margin: -30px auto 0; transform: translateY(var(--portrait-drift, 0px)); }
+.photo { display: block; width: 100%; height: auto; position: relative; border-radius: 0 0 8px 8px; animation: portrait-enter 1400ms cubic-bezier(.16,1,.3,1) 250ms both; mask-image: linear-gradient(black 91%, transparent 100%); }
+.hello { position: absolute; bottom: 10%; right: -32px; transform: rotate(-8deg); background: var(--hero-pop); color: #293b42; padding: 11px 18px; border-radius: 3px; font-size: 15px; font-weight: 500; animation: label-enter 1200ms cubic-bezier(.16,1,.3,1) 950ms both; }
+:global([data-theme="light"]) .hello { background: #e7dc9e; }
+.invitation { position: absolute; right: 0; top: 320px; width: 23%; animation: appear 1s 800ms both; }
+.invitation p { font-size: 14px; line-height: 1.8; color: var(--text-secondary); }
+.invitation strong { font-weight: 500; color: var(--hero-ink); }
+.workLink { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 26px; font-size: 16px; border-bottom: 1px solid color-mix(in srgb, var(--hero-ink) 35%, transparent); padding-bottom: 16px; }
+.arrow { width: 52px; height: 52px; display: grid; place-items: center; border-radius: 50%; font-size: 29px; color: #293b42; background: var(--hero-pop); transition: transform 450ms cubic-bezier(.16,1,.3,1); }
+:global([data-theme="light"]) .arrow { color: #f1eddf; }
+.workLink:hover .arrow { transform: rotate(45deg); }
+.contactLink { display: flex; gap: 16px; font-size: 14px; margin-top: 20px; color: var(--text-secondary); }
+.bottomline { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding-top: 24px; border-top: 1px solid color-mix(in srgb, var(--hero-ink) 18%, transparent); animation: appear 1s 950ms both; }
+.bottomline p { font-size: 13px; line-height: 1.6; color: var(--text-secondary); }
+.bottomline ul { display: flex; gap: 45px; list-style: none; padding: 0; }
+.bottomline li { display: flex; align-items: baseline; gap: 7px; }
+.bottomline strong { font-size: 23px; font-weight: 500; letter-spacing: -.035em; }
+.bottomline li span { font-size: 12px; color: var(--text-secondary); }
+.scroll { display: flex; align-items: center; gap: 24px; font-size: 12px; color: var(--text-secondary); }
+.scroll span { font-size: 20px; }
+@keyframes letter-land { from { opacity: 0; transform: translateY(110px) rotateX(-85deg); } to { opacity: 1; transform: none; } }
+@keyframes portrait-enter { from { opacity: 0; transform: translateY(100px); } to { opacity: 1; transform: none; } }
+@keyframes appear { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+@keyframes label-enter { from { opacity: 0; transform: translate(35px, 15px) rotate(12deg); } to { opacity: 1; transform: rotate(-8deg); } }
+@media (min-width: 1500px) { .stage { min-height: 670px; } }
+@media (max-width: 1100px) { .hero { padding: 56px 40px 30px; } .stage { min-height: 560px; } .intro { top: 235px; } .invitation { top: 250px; width: 25%; } .portrait { margin-top: -12px; width: 38%; } .hello { font-size: 14px; right: -15px; } .bottomline ul { gap: 20px; } .bottomline li { flex-direction: column; gap: 3px; } }
+@media (max-width: 767px) {
+ .hero { padding: 44px 24px 25px; } .topline { font-size: 12px; padding-bottom: 20px; gap: 30px; } .topline span:first-child { max-width: 16ch; } .topline span:last-child { text-align: right; max-width: 16ch; }
+ .stage { min-height: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 28px 20px; } .name { grid-column: 1/-1; font-size: 16.2vw; gap: 10px; justify-content: center; }
+ .portrait { grid-column: 1/-1; grid-row: 2; margin: -40px auto 0; width: 78%; max-width: 300px; } .hello { right: -6px; bottom: 9%; font-size: 13px; }
+ .intro, .invitation { position: static; width: auto; } .intro { grid-column: 1; grid-row: 3; } .intro p { font-size: 20px; } .smallLabel { font-size: 12px; margin-bottom: 12px; } .description { font-size: 12px; margin-top: 12px; } .invitation { align-self: center; } .invitation p { font-size: 12px; } .workLink { font-size: 14px; margin-top: 16px; gap: 5px; padding-bottom: 12px; } .arrow { width: 32px; height: 32px; font-size: 22px; flex-shrink: 0; } .contactLink { font-size: 12px; margin-top: 12px; }
+ .bottomline { margin-top: 30px; flex-wrap: wrap; justify-content: center; gap: 22px; } .bottomline p { display: none; } .bottomline ul { width: 100%; justify-content: space-between; } .bottomline li { gap: 4px; } .bottomline strong { font-size: 25px; } .bottomline li span { font-size: 12px; } .scroll { font-size: 12px; }
 }
+@media (prefers-reduced-motion: reduce) { .hero *, .hero *::before { animation: none !important; transition: none !important; } .word, .word:last-child, .portrait { transform: none; } }
+@media print { .hero { padding: 30px; } .hero * { animation: none; } .stage { min-height: auto; } .name { font-size: 90px; } .portrait, .intro, .invitation { display: none; } }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  max-width: var(--max-page);
-  margin: 0 auto;
-  padding: 0 var(--space-5);
-}
+.bottomline .experience { display: flex; align-items: center; gap: 18px; color: var(--hero-ink); }
+.experience strong { font-size: 29px; font-weight: 500; letter-spacing: -.04em; white-space: nowrap; }
+.experience span { font-size: 14px; line-height: 1.6; color: var(--text-secondary); }
+@media (max-width: 767px) { .bottomline .experience { display: flex; width: 100%; justify-content: center; gap: 16px; } .experience strong { font-size: 28px; } .experience span { font-size: 13px; } }
 
-/* -----------------------------------------------------------
-   PHOTO — order 1 on mobile (above content)
-   ----------------------------------------------------------- */
-.photoWrapper {
-  order: 1;
-  position: relative;
-  width: 180px;
-  flex-shrink: 0;
-  margin-bottom: var(--space-4);
-}
-
-.photo {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* -----------------------------------------------------------
-   TEXT CONTENT — order 2 on mobile
-   ----------------------------------------------------------- */
-.content {
-  display: flex;
-  flex-direction: column;
-  order: 2;
-}
-
-/* Category label — the first line a screener reads. Says what box I'm in
-   and how long I've been in it, so the headline can stay a claim. */
-.eyebrow {
-  font-family: var(--font-inter), system-ui, sans-serif;
-  font-weight: 500;
-  font-size: var(--text-xs);
-  line-height: var(--leading-normal);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--text-tertiary);
-  margin-bottom: var(--space-3);
-  max-width: 44ch;
-}
-
-.heading {
-  font-family: var(--font-quicksand), system-ui, sans-serif;
-  font-weight: 600;
-  font-size: var(--text-2xl);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
-  color: var(--text-primary);
-}
-
-.headingLine {
-  display: block;
-}
-
-.subtext {
-  font-family: var(--font-inter), system-ui, sans-serif;
-  font-weight: 400;
-  font-size: var(--text-sm);
-  line-height: var(--leading-normal);
-  color: var(--text-secondary);
-  margin-top: var(--space-3);
-  max-width: 48ch;
-}
-
-.proofStrip {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  margin-top: var(--space-4);
-  padding: 0;
-  list-style: none;
-}
-
-.proofItem {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.38rem 0.62rem;
-  border: 1px solid var(--border-primary);
-  border-radius: 999px;
-  background: var(--bg-secondary);
-  font-family: var(--font-inter), system-ui, sans-serif;
-  font-size: var(--text-xs);
-  font-weight: 500;
-  color: var(--text-primary);
-  letter-spacing: 0.01em;
-}
-
-/* -----------------------------------------------------------
-   CTAs — primary has underline accent, secondary is plain text
-   ----------------------------------------------------------- */
-.ctas {
-  display: flex;
-  align-items: center;
-  gap: var(--space-5);
-  margin-top: var(--space-4);
-}
-
-.primaryCta {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  font-family: var(--font-inter), system-ui, sans-serif;
-  font-weight: 500;
-  font-size: var(--text-sm);
-  color: var(--text-primary);
-  transition: color 200ms var(--ease-out);
-}
-
-/* Subtle underline accent */
-.primaryCta::after {
-  content: "";
-  position: absolute;
-  bottom: -3px;
-  left: 0;
-  right: 0;
-  height: 1.5px;
-  background: var(--accent);
-  border-radius: 1px;
-  opacity: 0.5;
-  transition: opacity 200ms var(--ease-out);
-}
-
-.primaryCta:hover::after {
-  opacity: 1;
-}
-
-.arrow {
-  display: inline-block;
-  transition: transform 200ms var(--ease-out);
-}
-
-.primaryCta:hover .arrow {
-  transform: translateX(3px);
-}
-
-.secondaryCta {
-  font-family: var(--font-inter), system-ui, sans-serif;
-  font-weight: 400;
-  font-size: var(--text-sm);
-  color: var(--text-tertiary);
-  transition: color 200ms var(--ease-out);
-}
-
-.secondaryCta:hover {
-  color: var(--text-primary);
-}
-
-/* -----------------------------------------------------------
-   SCROLL CUE — bottom center, fades in late, bounces gently
-   ----------------------------------------------------------- */
-.scrollCue {
-  position: absolute;
-  bottom: var(--space-5);
-  left: 50%;
-  transform: translateX(-50%);
-  color: var(--text-tertiary);
-  opacity: 0.4;
-  cursor: pointer;
-  padding: var(--space-2);
-  animation: scroll-hint 2.5s ease-in-out infinite;
-  animation-delay: 2s;
-  transition: opacity 200ms var(--ease-out);
-}
-
-.scrollCue:hover {
-  opacity: 0.8;
-}
-
-@keyframes scroll-hint {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(4px); }
-}
-
-/* -----------------------------------------------------------
-   DESKTOP — side by side, vertically centered
-   ----------------------------------------------------------- */
-@media (min-width: 768px) {
-  .hero {
-    min-height: 85vh;
-    justify-content: center;
-    padding: calc(60px + var(--space-16)) 0 var(--space-12);
-  }
-
-  .container {
-    flex-direction: row;
-    align-items: center;
-    gap: var(--space-10);
-    padding: 0 var(--space-10);
-  }
-
-  .content {
-    order: 1;
-    flex: 1;
-  }
-
-  .photoWrapper {
-    order: 2;
-    width: 250px;
-    border-radius: var(--radius-lg);
-  }
-
-  .photo {
-    width: 100%;
-  }
-
-  .heading {
-    font-size: var(--text-4xl);
-  }
-
-  .subtext {
-    font-size: var(--text-md);
-  }
-
-  .proofItem {
-    font-size: var(--text-sm);
-  }
-
-  .primaryCta,
-  .secondaryCta {
-    font-size: var(--text-base);
-  }
-
-  .scrollCue {
-    bottom: var(--space-8);
-  }
-}
-
-@media (min-width: 1024px) {
-  .photoWrapper {
-    width: 300px;
-  }
-
-  .photo {
-    width: 100%;
-  }
-}
-
-/* The portrait settles into a translucent signature panel in the sky palette. */
-.photoFrame {
-  overflow: hidden;
-  border-radius: 16px 16px 24px 24px;
-}
-
-.signatureEntrance {
-  position: relative;
-  z-index: 1;
-  margin: -30px -4px 0;
-  animation: signature-arrive 900ms var(--ease-reveal) both;
-}
-
-.signatureCard {
-  position: relative;
-  padding: 13px 18px 10px;
-  color: var(--text-primary);
-  background: linear-gradient(130deg,
-    color-mix(in srgb, var(--bg-elevated) 78%, transparent),
-    color-mix(in srgb, var(--bg-primary) 92%, transparent));
-  border: 1px solid color-mix(in srgb, var(--text-primary) 22%, transparent);
-  border-radius: 18px;
-  backdrop-filter: blur(20px) saturate(115%);
-  -webkit-backdrop-filter: blur(20px) saturate(115%);
-  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text-primary) 12%, transparent),
-    0 12px 28px rgba(20, 30, 48, 0.14);
-  transition: transform 500ms var(--ease-spring), border-color 500ms var(--ease-out);
-}
-
-.signatureEyebrow {
-  display: block;
-  font-size: 11px;
-  line-height: 1.4;
-  color: var(--text-secondary);
-}
-
-.signatureName {
-  display: block;
-  margin-top: 2px;
-  font-family: var(--font-quicksand), sans-serif;
-  font-size: 21px;
-  font-weight: 600;
-  letter-spacing: -0.04em;
-  line-height: 1.3;
-  white-space: nowrap;
-}
-
-.signatureUnderline {
-  width: 105px;
-  height: 9px;
-  margin-top: 2px;
-  color: var(--accent);
-  opacity: 0.65;
-}
-
-.signatureUnderline path {
-  stroke: currentColor;
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-dasharray: 1;
-  animation: signature-write 1400ms var(--ease-out) 300ms both;
-}
-
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  .photoWrapper:hover .signatureCard {
-    transform: translateY(-3px);
-    border-color: color-mix(in srgb, var(--text-primary) 40%, transparent);
-  }
-}
-
-@media (min-width: 768px) {
-  .signatureEntrance { margin: -38px -4px 0; }
-  .signatureCard { padding: 18px 24px 14px; border-radius: 22px; }
-  .signatureEyebrow { font-size: 13px; }
-  .signatureName { font-size: 30px; }
-  .signatureUnderline { width: 150px; height: 11px; margin-top: 4px; }
-}
-
-@keyframes signature-arrive {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes signature-write {
-  from { stroke-dashoffset: 1; }
-  to { stroke-dashoffset: 0; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .signatureUnderline path { animation: none; }
-}
-
-@media print {
-  .photoWrapper { display: none !important; }
-}
+.resumeLink { display: inline-flex; gap: 12px; margin-top: 16px; font-size: 14px; color: var(--hero-ink); text-decoration: underline; text-underline-offset: 5px; }
+@media(max-width:767px) { .resumeLink { font-size: 13px; } .intro .description, .invitation p { font-size: 13px; } }

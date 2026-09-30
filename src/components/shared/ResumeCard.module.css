@@ -42,7 +42,7 @@
   transition: border-color 200ms var(--ease-out);
 }
 
-/* Subtle paper grain texture — removed for restraint */
+/* Subtle paper grain texture, removed for restraint */
 
 .stack:hover .card {
   border-color: var(--border-strong);
@@ -183,7 +183,7 @@
   padding: 2px var(--space-2);
 }
 
-/* Bouncing download arrow — gentle pulse */
+/* Bouncing download arrow, gentle pulse */
 @keyframes nudge-down {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(2.5px); }

@@ -1,5 +1,5 @@
 /* ============================================================
-   Weather layer — full-screen atmospheric overlay.
+   Weather layer, full-screen atmospheric overlay.
    Sits above page content but below Nav (100) and Buddy (1000).
    Never intercepts pointer events.
    ============================================================ */

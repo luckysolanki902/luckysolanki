@@ -1,5 +1,5 @@
 /* ============================================================
-   MarginNote — Superscript number that reveals a personal note.
+   MarginNote, Superscript number that reveals a personal note.
    Desktop: note floats in the right margin.
    Mobile: note expands inline below the trigger.
    ============================================================ */

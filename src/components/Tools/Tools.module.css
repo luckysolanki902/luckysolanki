@@ -1,5 +1,5 @@
 /* ============================================================
-   Tools.module.css — "What I Build With" section
+   Tools.module.css, "What I Build With" section
    Clean text grid. Scannable in 10 seconds.
    ============================================================ */
 
@@ -94,3 +94,7 @@
     grid-template-columns: repeat(4, 1fr);
   }
 }
+
+.grid { gap: 30px; margin-top: 30px; }.column { border-top: 1px solid var(--border-primary); padding-top: 22px; gap: 12px; }.columnHeading { font-size: 17px; letter-spacing: -.02em; }.columnItem { font-size: 16px; line-height: 1.7; }.also { font-size: 14px; }
+@media(min-width:1024px) { .grid { grid-template-columns: repeat(3,1fr); gap: 40px; } }
+@media(max-width:600px) { .grid { grid-template-columns: 1fr; } }

@@ -1,0 +1,56 @@
+export const journeyChapters = [
+  {
+    year: "2014–18",
+    title: "Early product instincts",
+    body: `I spent a lot of time on mobile and console adventure games, but what held my attention was usually the design: pacing, layout, feedback loops, and rules. I would finish a game and start thinking about how I would improve it. That habit of analyzing product decisions showed up before I had any formal language for it.`,
+    tags: ["Adventure Games", "Level Design"],
+  },
+  {
+    year: "2021",
+    title: "First serious build",
+    body: `In my first year of engineering, I started teaching myself the tools behind digital products. I explored Photoshop, Premiere Pro, and After Effects, then moved into Unity and C#. I built and shipped a small arcade-style game with hand-drawn assets. The main lesson was simple: I could learn unfamiliar tools quickly if I stayed with the confusion long enough.`,
+    tags: ["Unity", "C#", "Photoshop", "After Effects", "Self-Taught"],
+  },
+  {
+    year: "2022",
+    title: "Turning product work into a business",
+    body: `A friend saw commercial potential in the design work I was doing, and we started a custom bike wrap business. I handled design first, then wrote JSX automation scripts to speed up mockup generation. When the business needed a website, I learned HTML, CSS, JavaScript, React, and then Next.js, and built it myself. Supporting that site in production taught me architecture, error handling, and how to read documentation with real stakes.`,
+    tags: ["React", "Next.js", "JSX Automation", "Product Design"],
+  },
+  {
+    year: "2023–25",
+    title: "Building a business-critical platform",
+    body: `As the business grew and the team expanded to ten, I led core platform work while collaborating across the product. The product direction kept evolving, so the system had to stay flexible enough to support new workflows without constant rewrites. The admin side eventually handled inventory, multi-domain management, offer engines, customer journey analysis, A/B testing, review moderation, personalised fulfilment flows, and multi-store shipping.`,
+    tags: ["Full-Stack", "Next.js", "MongoDB", "Platform Engineering"],
+  },
+  {
+    year: "2023–25",
+    title: "Learning efficiency under constraints",
+    body: `That period taught me to care about cost, reliability, and operational simplicity at the same time. I spent weeks tuning MongoDB connection pooling for Vercel's serverless model, built payment fallback orchestration after repeated upstream bank failures, and kept infrastructure costs unusually low while traffic grew. Later, when the economics changed, the business moved to Shopify. It was the right decision, and it reinforced the difference between building what is elegant and building what is useful.`,
+    tags: ["AWS", "MongoDB", "Vercel", "Razorpay", "Infrastructure"],
+  },
+  {
+    year: "Jul 2025",
+    title: "A misaligned first role",
+    body: `After graduating, I joined Voltas as a billing engineer. It was a poor fit, but it clarified that I wanted to work in software full time. I kept coding during lunch breaks, worked on MaddyCustom after hours, and continued applying for software roles. A Mechanical Engineering degree and a thin public portfolio made that transition slower than it should have been.`,
+    tags: ["Mechanical Engineering", "Persistence"],
+  },
+  {
+    year: "Nov 2025",
+    title: "Moving into backend and AI systems",
+    body: `Blitzit gave me a take-home assignment, then an interview process, and I joined as a Core Backend Developer. Since then I have worked on Asana two-way sync, an MCP server, notification systems with BullMQ and Redis, and improvements across Notion and Google Calendar integrations. It formalised the backend and agent-infrastructure work I had already been doing under other titles.`,
+    tags: ["Backend", "MCP", "Asana", "BullMQ", "Redis", "Integrations"],
+  },
+  {
+    year: "Feb 2026",
+    title: "Stepping away from operations",
+    body: `I was no longer interested in operating a Shopify business. The part I wanted to keep was building systems, not managing storefront operations. So I stepped away from MaddyCustom. Those years gave me experience with real customers, revenue, outages, and trade-offs under pressure, and that shaped how I build now.`,
+    tags: ["Startup", "Growth"],
+  },
+  {
+    year: "Now",
+    title: "Current focus",
+    body: `At Blitzit, I am helping build a more robust backend: unit-tested modules, plugin-based integrations, agent tool surfaces, queues, sync, and tighter validation around product actions. Outside work, I am studying data science and machine learning. I am also continuing to grow Spyll.`,
+    tags: ["Blitzit", "Backend", "Pinecone", "ML", "Data Science", "Spyll"],
+  },
+];

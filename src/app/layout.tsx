@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Quicksand, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/shared/ThemeProvider";
 import { Weather } from "@/components/shared/Weather";
 import { Buddy } from "@/components/Buddy/Buddy";
@@ -7,10 +7,10 @@ import { Analytics } from "@vercel/analytics/next";
 import { siteConfig, socials } from "@/lib/data";
 import "./globals.css";
 
-const quicksand = Quicksand({
+const display = Inter({
   variable: "--font-quicksand",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -24,31 +24,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: siteConfig.title,
   description: siteConfig.description,
-  keywords: [
-    "Lucky Solanki",
-    "AI engineer",
-    "backend engineer",
-    "agent infrastructure engineer",
-    "backend engineer",
-    "deployment",
-    "AI integrations",
-    "automation engineer",
-    "workflow automation",
-    "Fastify",
-    "Node.js",
-    "product infrastructure",
-    "queue systems",
-    "MCP server developer",
-    "API integrations",
-    "realtime systems",
-    "payments",
-    "Next.js",
-    "founder",
-    "Blitzit",
-    "Spyll",
-    "portfolio",
-    "India",
-  ],
+  keywords: ["Lucky Solanki", "Backend Engineer", "AI Engineer", "Full Stack Developer", "MCP", "API Integrations", "TypeScript", "Node.js"],
   authors: [{ name: siteConfig.name, url: siteConfig.url }],
   creator: siteConfig.name,
   manifest: "/site.webmanifest",
@@ -69,17 +45,17 @@ export const metadata: Metadata = {
   openGraph: {
     title: siteConfig.title,
     description:
-      "AI engineering across backend systems, MCP integrations, agent tool surfaces, document-backed assistants, queues, realtime features, and product infrastructure.",
+      siteConfig.description,
     url: siteConfig.url,
     siteName: siteConfig.name,
     type: "website",
     locale: "en_US",
     images: [
       {
-        url: "/og-image2.png",
+        url: "/og?v=3",
         width: 1200,
         height: 630,
-        alt: "Lucky Solanki — AI Engineer",
+        alt: "Lucky Solanki, Backend and AI Engineer. Building products, systems, and the connections between them.",
       },
     ],
   },
@@ -87,8 +63,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteConfig.title,
     description:
-      "AI engineering across backend systems, MCP integrations, agent tool surfaces, document-backed assistants, queues, realtime features, and product infrastructure.",
-    images: ["/og-image2.png"],
+      siteConfig.description,
+    images: ["/og?v=3"],
     creator: "@luckysolanki902",
   },
   metadataBase: new URL(siteConfig.url),
@@ -97,8 +73,10 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": `${siteConfig.url}/#person`,
+  image: `${siteConfig.url}/og?v=3`,
   name: siteConfig.name,
-  jobTitle: "AI Engineer",
+  jobTitle: "Backend & AI Engineer",
   url: siteConfig.url,
   email: socials.email,
   sameAs: [
@@ -139,13 +117,13 @@ const jsonLd = {
     "TypeScript",
     "Agent Infrastructure",
   ],
-  hasCreativeWork: [
+  subjectOf: [
     {
       "@type": "SoftwareApplication",
       name: "Spyll",
       url: "https://spyll.in",
       description:
-        "Anonymous social platform for college students in India. Live across 1,300+ colleges.",
+        "Anonymous social platform for college students in India. Built for verified campus communities.",
       applicationCategory: "SocialNetworkingApplication",
       operatingSystem: "Web, Android",
     },
@@ -209,14 +187,23 @@ export default function RootLayout({
                   }
                   document.documentElement.setAttribute('data-theme', theme);
                 } catch (e) {}
-                // Signal CSS that JS is active — enables bot-safe animations
+                if (location.pathname === '/' && performance.getEntriesByType('navigation')[0]?.type === 'reload') {
+                  history.scrollRestoration = 'manual';
+                  history.replaceState(history.state, '', location.pathname + location.search);
+                  window.scrollTo(0, 0);
+                  window.addEventListener('load', function() {
+                    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+                    history.scrollRestoration = 'auto';
+                  }, { once: true });
+                }
+                // Signal CSS that JS is active, enables bot-safe animations
                 document.documentElement.classList.add('js');
               })();
             `,
           }}
         />
       </head>
-      <body className={`${quicksand.variable} ${inter.variable}`}>
+      <body className={`${display.variable} ${inter.variable}`}>
         <ThemeProvider>
           <a href="#main-content" className="skip-link">
             Skip to content

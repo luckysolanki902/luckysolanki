@@ -1,16 +1,16 @@
 /* ============================================================
    HoverText.module.css
-   7 unique soothing hover animations — each category distinct.
+   7 unique soothing hover animations, each category distinct.
    ============================================================ */
 
 /* ── Shared utilities ────────────────────────────────────── */
 
-/* Space / gap span — never animates, preserves inline flow */
+/* Space / gap span, never animates, preserves inline flow */
 .gap {
   display: inline;
 }
 
-/* Wraps a full word's chars — prevents mid-word line breaks */
+/* Wraps a full word's chars, prevents mid-word line breaks */
 .charWord {
   display: inline-block;
   white-space: nowrap;
@@ -35,7 +35,7 @@
 }
 
 /* ══════════════════════════════════════════════════════════
-   1. HEADING — cascading wave up
+   1. HEADING, cascading wave up
    chars float −5 px in sequence, spring easing
    ══════════════════════════════════════════════════════════ */
 
@@ -52,7 +52,7 @@
 }
 
 /* ══════════════════════════════════════════════════════════
-   2. PARAGRAPH — word colour shimmer
+   2. PARAGRAPH, word colour shimmer
    each word briefly brightens toward --text-primary
    ══════════════════════════════════════════════════════════ */
 
@@ -68,9 +68,9 @@
 }
 
 /* ══════════════════════════════════════════════════════════
-   3. CTA — soft fade through
+   3. CTA, soft fade through
    each char dips to 55% opacity then returns, cascading
-   quietly — no layout shifts, no jarring motion
+   quietly, no layout shifts, no jarring motion
    ══════════════════════════════════════════════════════════ */
 
 .ctaBreath {
@@ -85,7 +85,7 @@
 }
 
 /* ══════════════════════════════════════════════════════════
-   4. CHIP — word quick pop
+   4. CHIP, word quick pop
    words bounce up 3 px with a fast spring
    ══════════════════════════════════════════════════════════ */
 
@@ -102,7 +102,7 @@
 }
 
 /* ══════════════════════════════════════════════════════════
-   5. CARD-HEADING — char blur-snap
+   5. CARD-HEADING, char blur-snap
    each char momentarily defocuses then snaps sharp,
    combined with a tiny vertical nudge
    ══════════════════════════════════════════════════════════ */
@@ -120,7 +120,7 @@
 }
 
 /* ══════════════════════════════════════════════════════════
-   6. LABEL — char flicker
+   6. LABEL, char flicker
    chars briefly dim then re-illuminate in a fast cascade,
    like a neon sign warming up
    ══════════════════════════════════════════════════════════ */
@@ -138,8 +138,8 @@
 }
 
 /* ══════════════════════════════════════════════════════════
-   7. DETAIL — word drift down
-   words gently sink 2 px in sequence — a soft counter-motion
+   7. DETAIL, word drift down
+   words gently sink 2 px in sequence, a soft counter-motion
    to the heading's upward float
    ══════════════════════════════════════════════════════════ */
 

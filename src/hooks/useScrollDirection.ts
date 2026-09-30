@@ -1,5 +1,5 @@
 /* ============================================================
-   useScrollDirection — Detect scroll direction for mobile nav
+   useScrollDirection, Detect scroll direction for mobile nav
    Hide on scroll down, show on scroll up (Fitts's Law).
    ============================================================ */
 
@@ -16,6 +16,7 @@ export function useScrollDirection() {
   useEffect(() => {
     let lastScrollY = window.scrollY;
     let ticking = false;
+    let frame = 0;
 
     const updateScrollDirection = () => {
       const currentScrollY = window.scrollY;
@@ -33,13 +34,17 @@ export function useScrollDirection() {
 
     const onScroll = () => {
       if (!ticking) {
-        window.requestAnimationFrame(updateScrollDirection);
+        frame = window.requestAnimationFrame(updateScrollDirection);
         ticking = true;
       }
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    onScroll(); // Restore navigation state when loading an anchored or scrolled page.
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.cancelAnimationFrame(frame);
+    };
   }, []);
 
   return { scrollDirection, scrollY };

@@ -1,5 +1,5 @@
 /* ============================================================
-   useActiveSection — IntersectionObserver for nav highlighting
+   useActiveSection, IntersectionObserver for nav highlighting
    Detects which section is currently in view and updates state.
    ============================================================ */
 

@@ -1,5 +1,5 @@
 /* ============================================================
-   ResumeCard — Creative resume download card.
+   ResumeCard, Creative resume download card.
    Two-layer stacked paper illusion.
    Hover: back card fans out, front card lifts.
    Click: arrow → checkmark confirmation.

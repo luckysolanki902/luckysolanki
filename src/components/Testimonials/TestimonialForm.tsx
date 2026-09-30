@@ -188,7 +188,7 @@ export function TestimonialForm() {
           maxLength={1200}
           required
         />
-        <small>No need to make it formal—specific and honest is wonderful.</small>
+        <small>No need to make it formal, specific and honest is wonderful.</small>
       </label>
 
       <label className={styles.field}>

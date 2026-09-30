@@ -36,11 +36,11 @@ export async function getApprovedTestimonials(): Promise<PublicTestimonial[]> {
 
     return testimonials.map(({ _id, name, role, company, project, testimonial }) => ({
       id: _id.toString(),
-      name,
-      role,
-      company,
-      project,
-      testimonial,
+      name: name.replace(/\s*\u2014\s*/g, ", "),
+      role: role.replace(/\s*\u2014\s*/g, ", "),
+      company: company.replace(/\s*\u2014\s*/g, ", "),
+      project: project?.replace(/\s*\u2014\s*/g, ", "),
+      testimonial: testimonial.replace(/\s*\u2014\s*/g, ", "),
     }));
   } catch (error) {
     console.error("Unable to load approved testimonials:", error);

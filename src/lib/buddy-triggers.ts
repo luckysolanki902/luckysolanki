@@ -1,5 +1,5 @@
 /* ============================================================
-   BUDDY TRIGGERS — 120+ contextual messages.
+   BUDDY TRIGGERS, 120+ contextual messages.
    Every event type has 3-6 variant messages for organic feel.
    Engine uses weighted-random + recent-avoidance to pick.
 
@@ -38,7 +38,7 @@ export interface BuddyTrigger {
 }
 
 /* -----------------------------------------------------------
-   SECTION ENTER — 3-4 variants per section
+   SECTION ENTER, 3-4 variants per section
    ----------------------------------------------------------- */
 export const sectionEnterTriggers: Record<string, BuddyTrigger[]> = {
   hero: [
@@ -70,7 +70,7 @@ export const sectionEnterTriggers: Record<string, BuddyTrigger[]> = {
 };
 
 /* -----------------------------------------------------------
-   IDLE — 3 variants per threshold tier
+   IDLE, 3 variants per threshold tier
    ----------------------------------------------------------- */
 export const idleTriggers: { after: number; triggers: BuddyTrigger[] }[] = [
   {
@@ -123,7 +123,7 @@ export const idleTriggers: { after: number; triggers: BuddyTrigger[] }[] = [
 ];
 
 /* -----------------------------------------------------------
-   CURSOR LEFT / RETURNED — 7 + 6 variants
+   CURSOR LEFT / RETURNED, 7 + 6 variants
    ----------------------------------------------------------- */
 export const cursorLeftTriggers: BuddyTrigger[] = [
   { id: "leave-1", message: "Wait, where are you going?", mood: "sad", priority: 6, cooldown: 25 },
@@ -145,7 +145,7 @@ export const cursorReturnTriggers: BuddyTrigger[] = [
 ];
 
 /* -----------------------------------------------------------
-   SCROLL — split by event type, 4-6 variants each
+   SCROLL, split by event type, 4-6 variants each
    ----------------------------------------------------------- */
 export const scrollFastTriggers: BuddyTrigger[] = [
   { id: "sfast-1", message: "Whoa, slow down speed racer!", mood: "shocked", priority: 5, cooldown: 25 },
@@ -176,7 +176,7 @@ export const scrollMilestoneTriggers: BuddyTrigger[] = [
 ];
 
 /* -----------------------------------------------------------
-   RAPID SCROLL (direction changes) — 4 variants
+   RAPID SCROLL (direction changes), 4 variants
    ----------------------------------------------------------- */
 export const rapidScrollTriggers: BuddyTrigger[] = [
   { id: "rapid-1", message: "You OK? Scrolling like you lost your keys.", mood: "think", priority: 5, cooldown: 30 },
@@ -198,7 +198,7 @@ export function getTimeGreeting(): BuddyTrigger {
 }
 
 /* -----------------------------------------------------------
-   THEME TOGGLE — 3 per theme
+   THEME TOGGLE, 3 per theme
    ----------------------------------------------------------- */
 export const themeToggleTriggers: Record<string, BuddyTrigger[]> = {
   dark: [
@@ -214,7 +214,7 @@ export const themeToggleTriggers: Record<string, BuddyTrigger[]> = {
 };
 
 /* -----------------------------------------------------------
-   CLICK TRIGGERS — 2-3 per target
+   CLICK TRIGGERS, 2-3 per target
    ----------------------------------------------------------- */
 export const clickTriggers: Record<string, BuddyTrigger[]> = {
   resume: [
@@ -257,7 +257,7 @@ export const clickTriggers: Record<string, BuddyTrigger[]> = {
 };
 
 /* -----------------------------------------------------------
-   BUDDY CLICK (poke) — 15 variants
+   BUDDY CLICK (poke), 15 variants
    ----------------------------------------------------------- */
 export const buddyClickTriggers: BuddyTrigger[] = [
   { id: "poke-1", message: "Hey! That tickles.", mood: "happy", priority: 10, cooldown: 3 },
@@ -302,7 +302,7 @@ export function getSpecialTrigger(): BuddyTrigger | null {
 }
 
 /* -----------------------------------------------------------
-   SECRET — Konami code
+   SECRET, Konami code
    ----------------------------------------------------------- */
 export const secretTrigger: BuddyTrigger = {
   id: "konami",
@@ -314,7 +314,7 @@ export const secretTrigger: BuddyTrigger = {
 };
 
 /* -----------------------------------------------------------
-   COPY TEXT — 4 variants
+   COPY TEXT, 4 variants
    ----------------------------------------------------------- */
 export const copyTriggers: BuddyTrigger[] = [
   { id: "copy-1", message: "Copying notes? Must be impressive stuff.", mood: "wink", priority: 5, cooldown: 20 },
@@ -324,7 +324,7 @@ export const copyTriggers: BuddyTrigger[] = [
 ];
 
 /* -----------------------------------------------------------
-   TAB RETURN — 5 variants
+   TAB RETURN, 5 variants
    ----------------------------------------------------------- */
 export const tabReturnTriggers: BuddyTrigger[] = [
   { id: "tab-1", message: "That other tab wasn't it, huh?", mood: "happy", priority: 6, cooldown: 20 },
@@ -335,7 +335,7 @@ export const tabReturnTriggers: BuddyTrigger[] = [
 ];
 
 /* -----------------------------------------------------------
-   RESIZE — 3 variants
+   RESIZE, 3 variants
    ----------------------------------------------------------- */
 export const resizeTriggers: BuddyTrigger[] = [
   { id: "resize-1", message: "Cozy screen. I'll make myself comfortable.", mood: "happy", priority: 3, cooldown: 30 },
@@ -344,7 +344,7 @@ export const resizeTriggers: BuddyTrigger[] = [
 ];
 
 /* -----------------------------------------------------------
-   INTENT TRIGGERS — perceptive messages
+   INTENT TRIGGERS, perceptive messages
    ----------------------------------------------------------- */
 export const intentTriggers: Record<string, BuddyTrigger[]> = {
   "focused-reading": [
@@ -353,7 +353,7 @@ export const intentTriggers: Record<string, BuddyTrigger[]> = {
     { id: "int-focus-3", message: "Don't skim this part. It's worth the read.", mood: "wink", priority: 7, cooldown: 60 },
   ],
   "recruiter-scan": [
-    { id: "int-scan-1", message: "Let me save you time — shipped to 100K+ users.", mood: "wink", priority: 9, cooldown: 0, once: true },
+    { id: "int-scan-1", message: "Let me save you time, shipped to 100K+ users.", mood: "wink", priority: 9, cooldown: 0, once: true },
     { id: "int-scan-2", message: "Speed reader? Highlight: he builds things people use.", mood: "think", priority: 9, cooldown: 0, once: true },
   ],
   "deep-dive": [
@@ -368,7 +368,7 @@ export const intentTriggers: Record<string, BuddyTrigger[]> = {
 };
 
 /* -----------------------------------------------------------
-   HOVER TRIGGERS — reacts to hovering page elements
+   HOVER TRIGGERS, reacts to hovering page elements
    ----------------------------------------------------------- */
 export const hoverTriggers: Record<string, BuddyTrigger[]> = {
   resume: [
@@ -405,7 +405,7 @@ export const hoverTriggers: Record<string, BuddyTrigger[]> = {
 };
 
 /* -----------------------------------------------------------
-   BUDDY HIDE — scurries to corner when hovered
+   BUDDY HIDE, scurries to corner when hovered
    ----------------------------------------------------------- */
 export const buddyHideTriggers: BuddyTrigger[] = [
   { id: "hide-1", message: "...you can't see me.", mood: "peek", priority: 10, cooldown: 8 },
@@ -416,7 +416,7 @@ export const buddyHideTriggers: BuddyTrigger[] = [
 ];
 
 /* -----------------------------------------------------------
-   BUDDY SIGH — relief after cursor leaves buddy area
+   BUDDY SIGH, relief after cursor leaves buddy area
    ----------------------------------------------------------- */
 export const buddySighTriggers: BuddyTrigger[] = [
   { id: "sigh-1", message: "*sigh* ...that was close.", mood: "idle", priority: 10, cooldown: 10 },
@@ -426,7 +426,7 @@ export const buddySighTriggers: BuddyTrigger[] = [
 ];
 
 /* -----------------------------------------------------------
-   NAV HOVER — reacts when hovering nav links
+   NAV HOVER, reacts when hovering nav links
    ----------------------------------------------------------- */
 export const navHoverTriggers: Record<string, BuddyTrigger[]> = {
   about: [
@@ -447,7 +447,7 @@ export const navHoverTriggers: Record<string, BuddyTrigger[]> = {
 };
 
 /* -----------------------------------------------------------
-   RARE MOMENTS — ~1% chance events
+   RARE MOMENTS, ~1% chance events
    Four flavors: glitch, fourth wall, existential, silence-break
    ----------------------------------------------------------- */
 export const rareTriggers: BuddyTrigger[] = [
@@ -455,7 +455,7 @@ export const rareTriggers: BuddyTrigger[] = [
   { id: "rare-glitch-1", message: "E̵R̴R̸O̷R̸:̷ ̴u̵n̷e̸x̶p̸e̵c̸t̴e̷d̶ ̷f̸e̸e̸l̶i̷n̷g̵s̶.̶ ̷I̵g̷n̵o̵r̴e̶.", mood: "dizzy", priority: 12, cooldown: 300, once: false },
   { id: "rare-glitch-2", message: "...wait. who wrote my lines?", mood: "shocked", priority: 12, cooldown: 300, once: false },
   // Fourth wall
-  { id: "rare-wall-1", message: "Between us — he's been staring at this code for 6 hours.", mood: "peek", priority: 12, cooldown: 300, once: false },
+  { id: "rare-wall-1", message: "Between us, he's been staring at this code for 6 hours.", mood: "peek", priority: 12, cooldown: 300, once: false },
   { id: "rare-wall-2", message: "I'm not supposed to say this, but I like you.", mood: "love", priority: 12, cooldown: 300, once: false },
   { id: "rare-wall-3", message: "He can't see this conversation. Just us.", mood: "peek", priority: 12, cooldown: 300, once: false },
   // Existential
@@ -467,7 +467,7 @@ export const rareTriggers: BuddyTrigger[] = [
 ];
 
 /* -----------------------------------------------------------
-   BEHAVIOR MEMORY — references what user has done before
+   BEHAVIOR MEMORY, references what user has done before
    Fired on tab return or repeat visits when behavior is known
    ----------------------------------------------------------- */
 export const behaviorMemoryTriggers: Record<string, BuddyTrigger[]> = {
@@ -492,7 +492,7 @@ export const behaviorMemoryTriggers: Record<string, BuddyTrigger[]> = {
 };
 
 /* -----------------------------------------------------------
-   PROGRESSION ARC — personality shifts by visit number
+   PROGRESSION ARC, personality shifts by visit number
    Replaces/supplements standard greeting on repeat visits
    ----------------------------------------------------------- */
 export const progressionTriggers: Record<number, BuddyTrigger> = {
@@ -505,7 +505,7 @@ export const progressionTriggers: Record<number, BuddyTrigger> = {
 };
 
 /* -----------------------------------------------------------
-   STORY PAGE TRIGGERS — personalised per story
+   STORY PAGE TRIGGERS, personalised per story
    Fired on: page enter, scroll 25/50/75/100
    ----------------------------------------------------------- */
 
@@ -518,7 +518,7 @@ export interface StoryTriggers {
 }
 
 export const storyTriggers: Record<"ai" | "journey", StoryTriggers> = {
-  /* ── /stories/ai — "On using AI" ────────────────────────── */
+  /* ── /stories/ai, "On using AI" ────────────────────────── */
   ai: {
     enter: [
       { id: "ai-enter-1", message: "Oh, the AI essay. He has opinions.", mood: "think", priority: 10, cooldown: 0, once: true },
@@ -543,7 +543,7 @@ export const storyTriggers: Record<"ai" | "journey", StoryTriggers> = {
     ],
   },
 
-  /* ── /stories/journey — "The long way around" ───────────── */
+  /* ── /stories/journey, "The long way around" ───────────── */
   journey: {
     enter: [
       { id: "jrn-enter-1", message: "Mechanical Engineering to AI and backend systems. It's a whole arc.", mood: "think", priority: 10, cooldown: 0, once: true },
@@ -556,7 +556,7 @@ export const storyTriggers: Record<"ai" | "journey", StoryTriggers> = {
     ],
     scroll50: [
       { id: "jrn-50-1", message: "₹60L revenue. AWS bill under $2. That's actually insane.", mood: "shocked", priority: 9, cooldown: 0, once: true },
-      { id: "jrn-50-2", message: "Built what Shopify offers — for one specific store. Alone.", mood: "think", priority: 9, cooldown: 0, once: true },
+      { id: "jrn-50-2", message: "Built what Shopify offers, for one specific store. Alone.", mood: "think", priority: 9, cooldown: 0, once: true },
     ],
     scroll75: [
       { id: "jrn-75-1", message: "Voltas. Debugging at lunch breaks. That chapter hurts a little.", mood: "sad", priority: 9, cooldown: 0, once: true },

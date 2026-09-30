@@ -1,5 +1,5 @@
 /* ============================================================
-   Tools — "What I Build With"
+   Tools, "What I Build With"
    Plain text grid. No icons. No logos. No progress bars.
    3 columns desktop / 2 tablet / 1 mobile.
    "Also:" line for overflow.
@@ -7,17 +7,16 @@
 
 "use client";
 
-import { tools } from "@/lib/data";
+
 import { SECTION_IDS } from "@/lib/constants";
 import { SectionLabel } from "@/components/shared/SectionLabel";
 import { HoverText } from "@/components/shared/HoverText";
 import styles from "./Tools.module.css";
 
 const columns = [
-  { heading: "Primary backend", items: tools.backend },
-  { heading: "AI / Agents", items: tools.ai },
-  { heading: "Distributed product systems", items: tools.infrastructure },
-  { heading: "Also comfortable with", items: tools.frontend },
+  { heading: "Backend foundations", items: ["TypeScript, Node.js, Fastify, Python", "PostgreSQL, MongoDB, Redis", "Queues, workers, and reliable job processing"] },
+  { heading: "AI that can take action", items: ["MCP, scoped tools, and shared executors", "RAG, vector search, and realtime voice", "Memory, model routing, and evaluations"] },
+  { heading: "Products that hold together", items: ["OAuth, webhooks, and bidirectional sync", "Payments, subscriptions, and operations", "React, Next.js, Flutter, and deployment"] },
 ];
 
 export function Tools() {
@@ -27,11 +26,11 @@ export function Tools() {
         <SectionLabel label="Stack" />
 
         <HoverText as="h2" variant="heading" className={styles.heading} font="600 24px Quicksand">
-            Core stack
+            What I work with
           </HoverText>
 
         <div className={styles.grid}>
-          {columns.map((col, i) => (
+          {columns.map((col) => (
             <div key={col.heading} className={styles.column}>
                 <h3 className={styles.columnHeading}>{col.heading}</h3>
                 {col.items.map((item) => (
@@ -41,7 +40,7 @@ export function Tools() {
           ))}
         </div>
 
-        <p className={styles.also}>{`Other tools: ${tools.also}`}</p>
+        <p className={styles.also}>The project comes first. The stack follows the constraints.</p>
       </div>
     </section>
   );

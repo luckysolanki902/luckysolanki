@@ -41,13 +41,13 @@ export async function generateMetadata({
       siteName: siteConfig.name,
       type: "article",
       publishedTime: post.date,
-      images: ["/og-image2.png"],
+      images: [{ url: `/og?post=${post.slug}&v=3`, width: 1200, height: 630, alt: post.title }],
     },
     twitter: {
       card: "summary_large_image",
       title: `${post.title} - Lucky Solanki`,
       description: post.excerpt,
-      images: ["/og-image2.png"],
+      images: [{ url: `/og?post=${post.slug}&v=3`, width: 1200, height: 630, alt: post.title }],
       creator: "@luckysolanki902",
     },
   };
@@ -71,6 +71,8 @@ export default async function BlogPostPage({
     headline: post.title,
     description: post.excerpt,
     datePublished: post.date,
+    image: `${siteConfig.url}/og?post=${post.slug}&v=3`,
+    inLanguage: "en",
     author: {
       "@type": "Person",
       name: siteConfig.name,
@@ -113,8 +115,8 @@ export default async function BlogPostPage({
         </header>
 
         <div className={styles.content}>
-          {post.sections.map((section) => (
-            <section key={section.heading} className={styles.section}>
+          {post.sections.map((section, index) => (
+            <section id={`article-section-${index}`} key={section.heading} className={styles.section}>
               <h2>{section.heading}</h2>
               {section.paragraphs?.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>

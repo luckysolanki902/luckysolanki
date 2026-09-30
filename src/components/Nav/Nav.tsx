@@ -1,6 +1,6 @@
 /* ============================================================
-   Nav — Fixed navigation bar
-   Animation #4: "The Quiet Settle" — transparent → frosted bar
+   Nav, Fixed navigation bar
+   Animation #4: "The Quiet Settle", transparent → frosted bar
    Three links only (Hick's Law). Active section detection.
    Mobile: hamburger → fullscreen overlay.
    ============================================================ */
@@ -25,7 +25,8 @@ export function Nav() {
   const isHome = pathname === "/";
 
   const isScrolled = scrollY > 100;
-  const isHidden = scrollDirection === "down" && scrollY > 400;
+  const isOpening = isHome && scrollY < 180;
+  const isHidden = !isHome && scrollDirection === "down" && scrollY > 400;
 
   const handleNavClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -53,8 +54,10 @@ export function Nav() {
     <>
       <nav
         className={`${styles.nav} ${isScrolled ? styles.scrolled : ""} ${
-          isHidden ? styles.hidden : ""
+          isOpening ? styles.openingHidden : isHidden ? styles.hidden : ""
         }`}
+        inert={isOpening}
+        aria-hidden={isOpening || undefined}
         role="navigation"
         aria-label="Main navigation"
       >

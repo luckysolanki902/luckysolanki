@@ -1,5 +1,5 @@
 /* ============================================================
-   THEME STORE — Zustand + localStorage persistence
+   THEME STORE, Zustand + localStorage persistence
    Applied via data-theme attribute on <html>. All color
    transitions are pure CSS (300ms). Zero re-renders.
    Default: system preference (prefers-color-scheme).
@@ -29,7 +29,7 @@ interface ThemeStore {
 export const useThemeStore = create<ThemeStore>()(
   persist(
     (set) => ({
-      theme: "light", // safe SSR default — ThemeProvider corrects on mount
+      theme: "light", // safe SSR default, ThemeProvider corrects on mount
       userOverride: false,
       toggleTheme: () =>
         set((state) => ({

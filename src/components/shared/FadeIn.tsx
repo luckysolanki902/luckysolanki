@@ -1,5 +1,5 @@
 /* ============================================================
-   FadeIn — Reusable scroll-reveal wrapper (CSS + IntersectionObserver)
+   FadeIn, Reusable scroll-reveal wrapper (CSS + IntersectionObserver)
    Animation #1: "The Soft Rise"
    opacity 0→1, translateY 20px→0, 500ms, --ease-reveal
    Bot-safe: opacity:0 is applied only via JS class on <html>,

@@ -1,5 +1,5 @@
 /* ============================================================
-   Contact — "Let's build something together."
+   Contact, "Let's build something together."
    Peak-End Rule: this is the second memory anchor.
    Reduce friction to zero. One email link. Social links.
    ============================================================ */
@@ -14,9 +14,8 @@ import { HoverText } from "@/components/shared/HoverText";
 import styles from "./Contact.module.css";
 
 const engagementLanes = [
-  "Freelance builds: SaaS backends, AI integrations, MCP tools, payments, queues, sync, and deployment",
-  "Full-time roles: backend and AI infrastructure, integrations, agent systems, queues, sync, and realtime systems",
-  "Founder-style ownership: unclear requirements, moving scope, production fixes, support pressure, and shipping decisions",
+  "Backend and AI engineering roles",
+  "Freelance product builds and integrations",
 ];
 
 export function Contact() {
@@ -29,15 +28,10 @@ export function Contact() {
           {/* Left column */}
           <div className={styles.left}>
             <HoverText as="h2" variant="heading" className={styles.heading} font="600 24px Quicksand">
-                If you need someone who can take a product from problem to shipped.
+                Have something in mind?
               </HoverText>
 
-            <p className={styles.body}>
-                I work best where product judgment and backend execution have
-                to stay close: AI integrations, MCP, automation, payments,
-                realtime features, and the operational systems that keep a
-                product dependable.
-              </p>
+            <p className={styles.body}>Have a product to build, a system to untangle, or a role that needs hands-on ownership? I’d like to hear about it.</p>
 
             <ul className={styles.lanes} aria-label="Best-fit engagement lanes">
                 {engagementLanes.map((lane) => (
@@ -47,11 +41,7 @@ export function Contact() {
                 ))}
               </ul>
 
-            <p className={styles.note}>
-                If you are hiring, send the role and the part of the product
-                that needs ownership. For freelance work, send the problem, the
-                current stack, timeline, and what is blocked.
-              </p>
+            <p className={styles.note}>A short note about the problem, your team, and the timeline is a good place to start.</p>
 
             <a href={`mailto:${socials.email}`} className={styles.email}>
                 {socials.email}
@@ -129,7 +119,7 @@ export function Contact() {
 
           </div>
 
-          {/* Right column — resume card */}
+          {/* Right column, resume card */}
           <div className={styles.right}>
             <ResumeCard />
           </div>

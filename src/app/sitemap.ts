@@ -1,31 +1,27 @@
 import { MetadataRoute } from "next";
 import { blogPosts } from "@/lib/blog";
 
-const BASE_URL = "https://luckysolanki.com";
+const BASE_URL = "https://www.luckysolanki.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: BASE_URL,
-      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 1,
     },
     {
       url: `${BASE_URL}/stories/journey`,
-      lastModified: new Date(),
       changeFrequency: "yearly",
       priority: 0.7,
     },
     {
       url: `${BASE_URL}/stories/ai`,
-      lastModified: new Date(),
       changeFrequency: "yearly",
       priority: 0.7,
     },
     {
       url: `${BASE_URL}/blog`,
-      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
     },

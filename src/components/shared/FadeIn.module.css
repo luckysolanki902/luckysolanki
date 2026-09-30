@@ -1,5 +1,5 @@
 /* ============================================================
-   FadeIn — CSS-based scroll reveal (bot-safe)
+   FadeIn, CSS-based scroll reveal (bot-safe)
    Hides content only when JS is active (.js class on <html>).
    Bots / crawlers without JS see fully visible content.
    IntersectionObserver adds .visible when element enters view.

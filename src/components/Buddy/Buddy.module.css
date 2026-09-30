@@ -1,695 +1,82 @@
-/* ============================================================
-   Buddy.module.css — pixel companion styles
-   Idle activities, walking, hiding, moods, pixel-art props.
-   ============================================================ */
-
-/* ---- Position wrapper ---- */
-.wrapper {
-  position: fixed;
-  bottom: var(--space-5);
-  right: var(--space-5);
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
-  pointer-events: auto;
-  user-select: none;
-  transform: translateX(0);
-  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
-}
-
-.wrapper.hiding {
-  transform: translateX(55%);
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  pointer-events: none;
-}
-
-/* Ladder: elevate the whole buddy */
-.wrapper.elevated {
-  transform: translateY(-20px);
-  transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.wrapper.elevated.hiding {
-  transform: translateX(55%) translateY(-20px);
-}
-
-/* ---- Chat bubble ---- anchored above the head, INSIDE the float layer,
-   so it follows the buddy through float / walk / hide. The character box is
-   40px wide; the bubble's right edge aligns to it and the body grows leftward
-   (the buddy lives at the right viewport edge), with the tail over the head. */
-.bubble {
-  position: absolute;
-  bottom: calc(100% + 11px); /* sit just above the head */
-  right: 0; /* right edge aligned with the 40px character box */
-  z-index: 10; /* above the umbrella */
-  /* never wider than the viewport allows (kept clear of both edges) */
-  max-width: min(230px, calc(100vw - 2.5rem));
-  width: max-content;
-  padding: 10px 13px;
-  border-radius: 14px 14px 14px 6px;
-  font-size: 0.72rem;
-  line-height: 1.4;
-  letter-spacing: 0.01em;
-  color: var(--buddy-bubble-text);
-  background: var(--buddy-bubble-bg);
-  border: 1px solid var(--buddy-bubble-border);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
-  word-break: break-word;
-  transform-origin: bottom right;
-  animation: bubblePop 0.22s var(--ease-spring, cubic-bezier(0.34, 1.56, 0.64, 1));
-  pointer-events: auto;
-}
-
-/* little tail pointing straight down at the head (head center ≈ 20px from
-   the character's right edge, which is the bubble's right edge) */
-.bubble::after {
-  content: "";
-  position: absolute;
-  right: 15px;
-  bottom: -5px;
-  width: 10px;
-  height: 10px;
-  background: var(--buddy-bubble-bg);
-  border-right: 1px solid var(--buddy-bubble-border);
-  border-bottom: 1px solid var(--buddy-bubble-border);
-  transform: rotate(45deg);
-}
-
-@keyframes bubblePop {
-  0% { opacity: 0; transform: scale(0.9) translateY(6px); }
-  100% { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-.bubbleText {
-  margin: 0;
-}
-
-.bubbleClose {
-  position: absolute;
-  top: 2px;
-  right: 4px;
-  background: none;
-  border: none;
-  color: inherit;
-  opacity: 0;
-  font-size: 0.65rem;
-  cursor: pointer;
-  padding: 2px 4px;
-  line-height: 1;
-  transition: opacity 0.15s ease;
-}
-
-.bubble:hover .bubbleClose {
-  opacity: 0.4;
-}
-
-.bubbleClose:hover {
-  opacity: 0.8 !important;
-}
-
-/* ---- Character ---- */
-.character {
-  width: 40px;
-  height: 45px;
-  cursor: pointer;
-  position: relative;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
-  transition: filter 0.3s ease;
-  /* No transform transition — it fights with animations */
-}
-
-.character:hover {
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.25));
-}
-
-.character:active {
-  transform: scale(0.92);
-  transition: transform 0.1s ease;
-}
-
-/* ---- Walking bob ---- */
-.character.walking {
-  animation: walkBob 0.35s steps(2) infinite;
-}
-
-@keyframes walkBob {
-  0%   { transform: translateY(0) rotate(0deg); }
-  25%  { transform: translateY(-3px) rotate(-4deg); }
-  50%  { transform: translateY(0) rotate(0deg); }
-  75%  { transform: translateY(-3px) rotate(4deg); }
-  100% { transform: translateY(0) rotate(0deg); }
-}
-
-/* ---- Entrance: off-screen before fall ---- */
-.character.offscreen {
-  transform: translateY(-100vh);
-}
-
-/* ---- Entrance: fall from sky ---- */
-/* Character starts translated WAY off-screen so no flash at bottom */
-.character.falling {
-  animation: buddyFall 0.6s cubic-bezier(0.55, 0, 1, 0.45) forwards;
-}
-
-@keyframes buddyFall {
-  0%   { transform: translateY(-100vh); }
-  100% { transform: translateY(0); }
-}
-
-/* ---- Entrance: landing squash ---- */
-.character.landing {
-  animation: buddyLand 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-@keyframes buddyLand {
-  0%   { transform: scaleX(1.3) scaleY(0.65); }
-  40%  { transform: scaleX(0.9) scaleY(1.12); }
-  70%  { transform: scaleX(1.05) scaleY(0.95); }
-  100% { transform: scaleX(1) scaleY(1); }
-}
-
-/* ---- Entrance: dizzy wobble after crash ---- */
-.character.dizzyAnim {
-  animation: dizzyWobble 0.5s ease-in-out 3;
-}
-
-@keyframes dizzyWobble {
-  0%, 100% { transform: rotate(0deg) translateX(0); }
-  25%      { transform: rotate(-6deg) translateX(-2px); }
-  75%      { transform: rotate(6deg) translateX(2px); }
-}
-
-/* ---- Pixel grid ---- */
-.pixelGrid {
-  width: 5px;
-  height: 5px;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-/* ============================================================
-   ACTIVITY ANIMATIONS — ALL PIXEL-ART PROPS
-   ============================================================ */
-
-/* ---- Sleep ---- */
-.actSleep .character {
-  animation: sleepIdle 4s ease-in-out infinite;
-  opacity: 0.85;
-}
-
-@keyframes sleepIdle {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(1px) rotate(3deg); }
-}
-
-/* Zzz particles */
-.zzzContainer {
-  position: absolute;
-  top: -8px;
-  right: -4px;
-  pointer-events: none;
-}
-
-.zzz1, .zzz2, .zzz3 {
-  position: absolute;
-  font-size: 0.55rem;
-  font-weight: 700;
-  color: var(--buddy-bubble-text);
-  opacity: 0;
-  animation: zzzFloat 3s ease-in-out infinite;
-}
-
-.zzz1 {
-  right: 0;
-  animation-delay: 0s;
-}
-
-.zzz2 {
-  right: -6px;
-  font-size: 0.7rem;
-  animation-delay: 1s;
-}
-
-.zzz3 {
-  right: -14px;
-  font-size: 0.85rem;
-  animation-delay: 2s;
-}
-
-@keyframes zzzFloat {
-  0%   { opacity: 0; transform: translateY(0) scale(0.7); }
-  20%  { opacity: 0.7; }
-  80%  { opacity: 0.4; }
-  100% { opacity: 0; transform: translateY(-22px) translateX(6px) scale(1); }
-}
-
-/* ---- Paper Toss (pixel paper ball) ---- */
-.actPaperToss .character {
-  animation: tossWindup 0.5s ease-out forwards;
-}
-
-@keyframes tossWindup {
-  0%   { transform: rotate(0deg); }
-  40%  { transform: rotate(-12deg); }
-  100% { transform: rotate(5deg); }
-}
-
-.paper {
-  position: absolute;
-  top: 2px;
-  left: -4px;
-  pointer-events: none;
-  opacity: 0;
-  animation: paperArc 1.8s cubic-bezier(0.2, 0, 0.6, 1) 0.35s both;
-}
-
-/* Parabolic arc: rises up-left, tumbles down with gravity */
-@keyframes paperArc {
-  0%   { opacity: 0.8; transform: translate(0, 0) rotate(0deg); }
-  12%  { opacity: 0.8; transform: translate(-10px, -16px) rotate(-25deg); }
-  30%  { opacity: 0.8; transform: translate(-20px, -22px) rotate(-50deg); }
-  50%  { opacity: 0.7; transform: translate(-26px, -10px) rotate(-85deg); }
-  70%  { opacity: 0.5; transform: translate(-22px, 16px) rotate(-120deg); }
-  90%  { opacity: 0.2; transform: translate(-18px, 42px) rotate(-155deg); }
-  100% { opacity: 0;   transform: translate(-16px, 55px) rotate(-180deg); }
-}
-
-/* ---- Paper Airplane (pixel dart — VISIBLE throw) ---- */
-.actAirplane .character {
-  animation: airplaneThrow 1.6s ease forwards;
-}
-
-@keyframes airplaneThrow {
-  0%        { transform: rotate(0deg); }
-  15%       { transform: rotate(6deg) translateX(2px); }   /* wind back */
-  30%       { transform: rotate(8deg) translateX(3px); }   /* hold */
-  45%       { transform: rotate(-18deg) translateX(-5px); } /* THROW! */
-  60%       { transform: rotate(-8deg); }
-  100%      { transform: rotate(0deg); }
-}
-
-.airplane {
-  position: absolute;
-  top: 0px;
-  left: -14px;
-  pointer-events: none;
-  animation: planeHoldThenFly 3.8s ease both;
-}
-
-/* Plane appears, STAYS VISIBLE next to buddy, then flies off */
-@keyframes planeHoldThenFly {
-  0%    { opacity: 0; transform: translate(5px, 2px) scale(0.3) rotate(0deg); }
-  6%    { opacity: 0.9; transform: translate(0, 0) scale(1) rotate(0deg); }
-  /* --- HOLD STILL so user can see it --- */
-  32%   { opacity: 0.9; transform: translate(0, 0) scale(1) rotate(0deg); }
-  /* --- LAUNCH --- */
-  38%   { opacity: 0.9; transform: translate(-20px, -6px) scale(1) rotate(-3deg); }
-  55%   { opacity: 0.8; transform: translate(-80px, -25px) rotate(-5deg) scale(0.88); }
-  72%   { opacity: 0.5; transform: translate(-145px, -32px) rotate(2deg) scale(0.72); }
-  88%   { opacity: 0.2; transform: translate(-200px, -18px) rotate(8deg) scale(0.55); }
-  100%  { opacity: 0; transform: translate(-240px, -4px) rotate(14deg) scale(0.4); }
-}
-
-/* Small pixel "hand" that holds the plane before throw */
-.airplaneHand {
-  display: none; /* placeholder — hand built into character animation */
-}
-
-/* ---- Drink (pixel cup with straw) ---- */
-.actDrink .character {
-  animation: drinkSip 2.8s ease-in-out forwards;
-}
-
-@keyframes drinkSip {
-  0%        { transform: rotate(0deg) translateX(0); }
-  10%       { transform: rotate(-6deg) translateX(-3px); }
-  20%, 40%  { transform: rotate(-8deg) translateX(-4px) translateY(-1px); }
-  45%       { transform: rotate(-5deg) translateX(-3px); }
-  55%, 75%  { transform: rotate(-8deg) translateX(-4px) translateY(-1px); }
-  80%       { transform: rotate(-5deg) translateX(-3px); }
-  100%      { transform: rotate(0deg) translateX(0); }
-}
-
-.cup {
-  position: absolute;
-  bottom: 2px;
-  left: -16px;
-  pointer-events: none;
-  animation: cupPopIn 0.3s ease 0.1s both,
-             cupPopOut 0.35s ease 2.5s both;
-}
-
-@keyframes cupPopIn {
-  0%   { opacity: 0; transform: translateY(6px) scale(0); }
-  70%  { transform: translateY(-2px) scale(1.1); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes cupPopOut {
-  0%   { opacity: 1; transform: translateY(0) scale(1); }
-  100% { opacity: 0; transform: translateY(4px) scale(0.4); }
-}
-
-/* ---- Ladder (character climbs, ladder stays rooted) ---- */
-
-/* Inner wrapper isolates climb animation — ladder prop sits outside */
-.ladderClimber {
-  animation: ladderClimbUp 5.5s steps(1) forwards;
-}
-
-@keyframes ladderClimbUp {
-  0%, 7%    { transform: translateY(0); }
-  12%       { transform: translateY(-8px); }
-  17%       { transform: translateY(-16px); }
-  22%       { transform: translateY(-24px); }
-  27%       { transform: translateY(-32px); }
-  34%       { transform: translateY(-40px); }
-  65%       { transform: translateY(-40px); }
-  71%       { transform: translateY(-32px); }
-  76%       { transform: translateY(-24px); }
-  81%       { transform: translateY(-16px); }
-  86%       { transform: translateY(-8px); }
-  92%, 100% { transform: translateY(0); }
-}
-
-.ladder {
-  position: absolute;
-  top: -22px;
-  left: -12px;
-  pointer-events: none;
-  animation: ladderFade 5.5s ease forwards;
-}
-
-@keyframes ladderFade {
-  0%        { opacity: 0; }
-  4%        { opacity: 1; }
-  92%       { opacity: 1; }
-  96%       { opacity: 0.3; }
-  100%      { opacity: 0; }
-}
-
-/* ---- Look Around ---- */
-.actLookAround .character {
-  animation: lookLR 2.8s ease-in-out forwards;
-}
-
-@keyframes lookLR {
-  0%, 100% { transform: translateX(0); }
-  15%      { transform: translateX(-3px); }
-  30%      { transform: translateX(-3px); }
-  50%      { transform: translateX(3px); }
-  65%      { transform: translateX(3px); }
-  80%      { transform: translateX(0); }
-}
-
-/* ---- Juggle (pixel balls — arc up & down staggered) ---- */
-.actJuggle .character {
-  animation: juggleBody 0.5s ease-in-out infinite;
-}
-
-@keyframes juggleBody {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-1px); }
-}
-
-.juggleBalls {
-  position: absolute;
-  top: -12px;
-  left: 4px;
-  width: 32px;
-  height: 18px;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.ball1, .ball2, .ball3 {
-  position: absolute;
-}
-
-.ball1 {
-  left: 0;
-  animation: juggleArc1 0.75s ease-in-out infinite;
-}
-
-.ball2 {
-  left: 12px;
-  animation: juggleArc2 0.75s ease-in-out infinite;
-  animation-delay: -0.25s;
-}
-
-.ball3 {
-  left: 24px;
-  animation: juggleArc3 0.75s ease-in-out infinite;
-  animation-delay: -0.5s;
-}
-
-/* Staggered arcs — each ball peaks at different phase */
-@keyframes juggleArc1 {
-  0%, 100% { transform: translateY(12px); opacity: 0.5; }
-  50%      { transform: translateY(-2px); opacity: 0.9; }
-}
-
-@keyframes juggleArc2 {
-  0%, 100% { transform: translateY(12px); opacity: 0.5; }
-  50%      { transform: translateY(-2px); opacity: 0.9; }
-}
-
-@keyframes juggleArc3 {
-  0%, 100% { transform: translateY(12px); opacity: 0.5; }
-  50%      { transform: translateY(-2px); opacity: 0.9; }
-}
-
-/* ---- Sit Down ---- */
-.actSitDown .character {
-  animation: sitAnim 4s ease-in-out forwards;
-}
-
-@keyframes sitAnim {
-  0%        { transform: translateY(0) scaleY(1); }
-  15%, 75%  { transform: translateY(6px) scaleY(0.85); }
-  100%      { transform: translateY(0) scaleY(1); }
-}
-
-.sitCushion {
-  position: absolute;
-  bottom: -2px;
-  left: 4px;
-  width: 32px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--buddy-bubble-text);
-  opacity: 0.15;
-  animation: cushionAppear 0.3s ease forwards,
-             cushionHide 0.3s ease 3.2s forwards;
-}
-
-@keyframes cushionAppear {
-  0%   { opacity: 0; transform: scaleX(0.5); }
-  100% { opacity: 0.15; transform: scaleX(1); }
-}
-
-@keyframes cushionHide {
-  0%   { opacity: 0.15; }
-  100% { opacity: 0; }
-}
-
-/* ============================================================
-   MOOD ANIMATIONS
-   ============================================================ */
-.moodWave {
-  animation: wave 0.5s ease-in-out;
-}
-
-@keyframes wave {
-  0%, 100% { transform: rotate(0deg); }
-  25%      { transform: rotate(-8deg); }
-  75%      { transform: rotate(8deg); }
-}
-
-.moodHappy .character {
-  animation: happyBounce 0.4s ease-in-out;
-}
-
-@keyframes happyBounce {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-4px); }
-}
-
-.moodExcited .character {
-  animation: excitedBounce 0.3s ease-in-out 2;
-}
-
-@keyframes excitedBounce {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-6px); }
-}
-
-.moodSad .character {
-  animation: sadDroop 0.6s ease-in-out;
-}
-
-@keyframes sadDroop {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(3px); }
-}
-
-.moodSleep .character {
-  opacity: 0.8;
-  animation: sleepBreathe 4s ease-in-out infinite;
-}
-
-@keyframes sleepBreathe {
-  0%, 100% { transform: scale(1); }
-  50%      { transform: scale(1.02) translateY(-1px); }
-}
-
-.moodThink .character {
-  animation: thinkTilt 1.5s ease-in-out infinite;
-}
-
-@keyframes thinkTilt {
-  0%, 100% { transform: rotate(0deg); }
-  50%      { transform: rotate(5deg); }
-}
-
-.moodWink .character {
-  animation: winkBounce 0.3s ease;
-}
-
-@keyframes winkBounce {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-2px); }
-}
-
-.moodLove .character {
-  animation: loveFloat 0.6s ease-in-out;
-}
-
-@keyframes loveFloat {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50%      { transform: translateY(-5px) scale(1.05); }
-}
-
-.moodShocked .character {
-  animation: shockedJump 0.3s ease;
-}
-
-@keyframes shockedJump {
-  0%   { transform: translateY(0) scale(1); }
-  50%  { transform: translateY(-8px) scale(1.1); }
-  100% { transform: translateY(0) scale(1); }
-}
-
-.moodPeek .character {
-  animation: peekSide 0.6s ease-in-out;
-}
-
-@keyframes peekSide {
-  0%, 100% { transform: translateX(0); }
-  50%      { transform: translateX(5px); }
-}
-
-.moodDizzy .character {
-  animation: dizzyWobble 0.5s ease-in-out infinite;
-}
-
-.moodBlink .character {
-  /* Blink handled by switching pixel art */
-}
-
-/* ---- Skateboard (rare — ride across screen) ---- */
-.actSkateboard .character {
-  animation: skateLean 5.8s ease forwards;
-}
-
-@keyframes skateLean {
-  0%   { transform: rotate(0deg); }
-  7%   { transform: rotate(-6deg); }
-  55%  { transform: rotate(-6deg); }
-  62%  { transform: rotate(6deg); }
-  90%  { transform: rotate(6deg); }
-  100% { transform: rotate(0deg); }
-}
-
-.skateboard {
-  position: absolute;
-  bottom: -6px;
-  left: 4px;
-  pointer-events: none;
-  animation: skateboardAppear 0.25s ease both,
-             skateboardDisappear 0.3s ease 5.2s both;
-}
-
-@keyframes skateboardAppear {
-  0%   { opacity: 0; transform: translateY(4px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes skateboardDisappear {
-  0%   { opacity: 1; }
-  100% { opacity: 0; transform: translateY(4px); }
-}
-
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
-
-/* ---- Print: hide buddy ---- */
-@media print {
-  .wrapper {
-    display: none !important;
-  }
-}
-
-/* ---- Mobile ---- */
-@media (max-width: 768px) {
-  .wrapper {
-    bottom: var(--space-3);
-    right: var(--space-3);
-    gap: 4px;
-  }
-
-  .bubble {
-    max-width: 150px;
-    font-size: 0.65rem;
-    padding: 6px 10px;
-  }
-
-  .bubbleClose {
-    display: none;
-  }
-
-  .character {
-    transform: scale(0.8);
-    transform-origin: bottom right;
-  }
-
-  /* Smaller props on mobile */
-  .juggleBalls { transform: scale(0.8); transform-origin: center; }
-  .glass { transform-origin: bottom left; }
-  .ladder { transform-origin: bottom right; }
-}
-
-/* ---- Umbrella: held overhead (open/close driven by framer-motion) ---- */
-.umbrella {
-  position: absolute;
-  left: 0;
-  top: -18px;
-  width: 39px;
-  height: 42px;
-  z-index: 5; /* umbrella sits in front of the buddy */
-  pointer-events: none;
-  transform-origin: 50% 100%;
-  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.18));
-}
-
-.floatLayer {
-  position: relative;
-}
-
-@media (max-width: 600px) {
-  .umbrella { transform-origin: bottom right; }
-}
+.wrapper { position: fixed; right: 22px; bottom: 20px; z-index: 1000; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; --pip: #f3e8bd; --pip-ink: #293e43; }
+.launcher { border: 0; background: transparent; width: 76px; height: 76px; position: relative; cursor: pointer; display: grid; place-items: center; padding: 0; }
+.progress { position: absolute; inset: 0; width: 76px; height: 76px; transform: rotate(-90deg); fill: none; stroke: var(--text-primary); stroke-width: 1; }
+.progress circle:first-child { opacity: .12; }.progress circle:last-child { opacity: .5; transition: stroke-dasharray .3s; }
+.robot { position: relative; display: block; width: 48px; height: 42px; border-radius: 17px 17px 14px 14px; background: var(--pip); box-shadow: inset -3px -4px #cbbf8d, 0 6px 10px #14263522; animation: breathe 4s ease-in-out infinite; transform-origin: bottom; }
+.antenna { position: absolute; top: -9px; width: 3px; height: 10px; background: #cbbf8d; left: 23px; transform-origin: bottom; }.antenna::before { content: ''; position: absolute; width: 8px; height: 8px; border-radius: 50%; top: -3px; left: -2px; background: #dfa08e; }
+.face { position: absolute; inset: 9px 6px 8px; border-radius: 11px; background: var(--pip-ink); }
+.eyes { display: flex; gap: 10px; justify-content: center; position: absolute; top: 6px; left: 7px; transform: translate(var(--look-x,0),var(--look-y,0)); }.eyes i { display: block; width: 5px; height: 7px; background: #f8f5df; border-radius: 5px; animation: blink 6s infinite; }
+.cheeks { position: absolute; width: 5px; height: 3px; border-radius: 50%; background: #e7aa9b; bottom: 6px; left: 3px; box-shadow: 24px 0 #e7aa9b; opacity: .7; }
+.mouth { position: absolute; bottom: 5px; left: 15px; width: 6px; height: 4px; border-bottom: 1px solid #f8f5df; border-radius: 50%; }
+.hand { position: absolute; width: 8px; height: 15px; background: var(--pip); right: -6px; top: 19px; border-radius: 8px; transform-origin: bottom; }.feet { position: absolute; bottom: -4px; left: 10px; width: 9px; height: 6px; border-radius: 0 0 5px 5px; background: #cbbf8d; box-shadow: 19px 0 #cbbf8d; }
+.launcher:hover .hand, [data-open="true"] .hand { animation: wave .7s ease-in-out 3; }.launcher:hover .robot { transform: translateY(-3px) rotate(-5deg); }
+[data-mood="thinking"] .robot { animation: ponder .7s ease-in-out infinite alternate; }[data-mood="thinking"] .antenna { animation: ponder .5s infinite alternate; }
+[data-mood="happy"] .robot { animation: bounce .6s ease-in-out 3; }[data-mood="happy"] .eyes i { height: 4px; border-radius: 5px 5px 0 0; }
+[data-mood="reading"] .face { box-shadow: inset 0 -2px #84babd; }
+.sleep { display: none; position: absolute; right: 0; top: -7px; font-size: 13px; }.sleep { color: var(--text-secondary); }
+[data-mood="sleep"] .sleep { display: block; animation: drift 3s infinite; }[data-mood="sleep"] .eyes i { height: 2px; animation: none; }[data-mood="sleep"] .robot { animation-duration: 6s; transform: rotate(-8deg); }
+.hint { font-size: 9px; color: var(--text-secondary); padding-right: 6px; pointer-events: none; }
+.panel { width: min(365px, calc(100vw - 32px)); max-height: min(670px, calc(100dvh - 140px)); display: flex; flex-direction: column; border: 1px solid var(--border-primary); border-radius: 22px; background: var(--bg-primary); color: var(--text-primary); box-shadow: 0 20px 70px #15243555; overflow: hidden; animation: panel-in .3s cubic-bezier(.16,1,.3,1); }
+.panelHeader { padding: 18px; display: flex; align-items: center; gap: 11px; border-bottom: 1px solid var(--border-primary); }.pipBadge { width: 32px; height: 32px; border-radius: 11px; display: grid; place-items: center; background: var(--pip); color: var(--pip-ink); font-size: 15px; }.panelHeader strong { display: block; font-size: 15px; }.panelHeader small { font-size: 10px; color: var(--text-secondary); }.panelHeader button { margin-left: auto; border: 0; background: none; color: inherit; font-size: 25px; cursor: pointer; padding: 4px; }
+.context { display: flex; align-items: center; gap: 8px; padding: 10px 18px; font-size: 10px; background: var(--bg-secondary); color: var(--text-secondary); }.context > span:nth-child(2) { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }.context b { margin-left: auto; font-weight: 500; }
+.history { overflow-y: auto; overscroll-behavior: contain; min-height: 80px; padding: 18px; }.welcome h3 { font-size: 19px; letter-spacing: -.03em; line-height: 1.3; }.welcome p { font-size: 12px; line-height: 1.7; margin-top: 10px; color: var(--text-secondary); }.exchange + .exchange { margin-top: 22px; }.question { width: fit-content; margin: 0 0 14px auto; background: var(--bg-elevated); border: 1px solid var(--border-primary); padding: 9px 12px; border-radius: 12px 12px 3px 12px; font-size: 12px; }.answer { font-size: 12px; line-height: 1.8; white-space: pre-line; }.links { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; }.links a { display: flex; justify-content: space-between; gap: 12px; border: 1px solid var(--border-primary); border-radius: 8px; padding: 9px 11px; font-size: 11px; color: var(--accent); }.links a:hover { background: var(--bg-secondary); }
+.suggestions { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 18px; }.suggestions button { border: 1px solid var(--border-primary); background: transparent; border-radius: 999px; color: var(--text-secondary); font-size: 10px; padding: 8px 10px; cursor: pointer; }.suggestions button:hover { color: var(--text-primary); background: var(--bg-secondary); }.notice { padding: 0 18px 10px; font-size: 11px; color: var(--accent); line-height: 1.5; }.form { margin: 4px 14px 12px; display: flex; gap: 6px; padding: 7px; border-radius: 12px; background: var(--bg-secondary); border: 1px solid var(--border-primary); }.form input { min-width: 0; width: 100%; border: 0; background: transparent; color: var(--text-primary); font-size: 12px; outline-offset: 2px; padding: 6px; }.form button { width: 32px; flex-shrink: 0; border: 0; border-radius: 8px; background: var(--pip); color: var(--pip-ink); font-size: 20px; cursor: pointer; }.form button:disabled { opacity: .4; cursor: default; }.footer { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 0 14px 14px; }.footer > span { font-size: 8px; color: var(--text-tertiary); max-width: 135px; line-height: 1.5; }.footer div { display: flex; align-items: center; gap: 4px; }.footer button { border: 0; background: transparent; color: var(--text-secondary); font-size: 11px; cursor: pointer; padding: 6px; }.thinking { font-size: 11px; color: var(--text-secondary); }.thinking span { animation: blink 1s infinite; }.srOnly { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.wrapper button:focus-visible, .wrapper a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+@keyframes breathe { 50% { transform: translateY(-4px) rotate(2deg); } }@keyframes blink { 0%,44%,48%,100% { scale: 1 1; }46% { scale: 1 .1; } }@keyframes wave { 50% { transform: rotate(-45deg) translateY(-3px); } }@keyframes ponder { to { transform: rotate(7deg); } }@keyframes bounce { 50% { transform: translateY(-12px) scale(.95,1.07); } }@keyframes drift { to { transform: translateY(-15px); opacity: 0; } }@keyframes panel-in { from { opacity: 0; transform: translateY(12px) scale(.96); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .wrapper *, .wrapper *::before { animation: none !important; transition: none !important; } }
+@media (max-width: 600px) { .wrapper { right: 12px; bottom: 12px; gap: 5px; }.launcher, .progress { width: 64px; height: 64px; }.panel { max-height: calc(100dvh - 108px); }.hint { font-size: 8px; }.history { padding: 14px; } }
+
+.panel > :not(.history) { flex-shrink: 0; }
+.wrapper[data-hidden="true"] * { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) { .eyes { transform: none; } }
+@media (max-width: 600px) { .form input { font-size: 16px; } }
+
+.answerSource { display: block; margin-top: 7px; font-size: 9px; color: var(--text-tertiary); }
+
+/* Expressive poses react immediately; AI suggestions arrive independently. */
+.launcher { width: 90px; height: 90px; }
+.progress { inset: 7px; }
+.robot { width: 58px; height: 50px; border-radius: 21px 21px 17px 17px; box-shadow: inset -3px -4px #cbbf8d, 0 8px 16px #14263530; }
+.antenna { left: 28px; top: -12px; height: 13px; }
+.face { inset: 10px 7px 9px; border-radius: 13px; }
+.eyes { left: 10px; top: 7px; gap: 12px; }
+.eyes i { width: 6px; height: 9px; }
+.cheeks { left: 5px; bottom: 7px; box-shadow: 28px 0 #e7aa9b; }
+.mouth { left: 18px; bottom: 6px; width: 7px; }
+.hand { top: 23px; height: 19px; width: 9px; right: -7px; }
+.robot::before { content: ''; position: absolute; width: 9px; height: 18px; left: -7px; top: 25px; border-radius: 8px; background: var(--pip); transform: rotate(12deg); }
+.feet { left: 12px; box-shadow: 23px 0 #cbbf8d; }
+.book { display: none; position: absolute; z-index: 2; bottom: -3px; left: 8px; width: 43px; height: 19px; border: 2px solid #9bb4b6; border-radius: 3px 3px 7px 7px; background: linear-gradient(90deg,#c5d5d1 47%,#748c8e 48%,#748c8e 52%,#e3e9db 53%); transform: rotate(-5deg); }
+.motionLines { display: none; position: absolute; width: 13px; height: 1px; left: -21px; top: 22px; background: #e2dbbc; box-shadow: -4px 6px #e2dbbc; opacity: .65; }
+.wrapper[data-mood="wave"] .robot { animation: hello-hop 1s ease-in-out 2; }
+.wrapper[data-mood="wave"] .hand { top: 12px; animation: wave .35s ease-in-out 6; }
+.wrapper[data-mood="curious"] .robot { animation: curious-lean 1.1s ease-in-out 2; }
+.wrapper[data-mood="curious"] .eyes i:last-child { height: 6px; margin-top: 3px; }
+.wrapper[data-mood="curious"] .antenna { transform: rotate(22deg); }
+.wrapper[data-mood="reading"] .book { display: block; animation: page-bob 3s ease-in-out infinite; }
+.wrapper[data-mood="reading"] .eyes { top: 10px; }
+.wrapper[data-mood="reading"] .robot { animation: reading-sway 5s ease-in-out infinite; }
+.wrapper[data-mood="scrolling"] .robot { animation: scoot .38s ease-in-out infinite alternate; }
+.wrapper[data-mood="scrolling"] .motionLines { display: block; }
+.wrapper[data-mood="scrolling"] .hand { transform: rotate(-55deg); }
+.wrapper[data-mood="thinking"] .antenna::before { animation: antenna-glow .7s ease-in-out infinite alternate; }
+.wrapper[data-mood="talking"] .mouth { height: 7px; background: #f8f5df; border-radius: 3px 3px 6px 6px; animation: chatter .4s ease-in-out 10; }
+.wrapper[data-mood="talking"] .hand { animation: explain .9s ease-in-out 3; }
+.wrapper[data-mood="celebrate"] .robot { animation: hello-hop .55s ease-in-out 3; }
+.wrapper[data-mood="celebrate"] .hand { transform: rotate(-120deg); }
+.wrapper[data-mood="sleep"] .eyes i { height: 2px; }
+.bubble { position: relative; width: min(300px, calc(100vw - 32px)); border-radius: 20px 20px 5px 20px; background: rgba(243,248,252,.72); color: #263546; border: 1px solid rgba(255,255,255,.6); box-shadow: 0 12px 38px #17242d1a, inset 0 1px 0 #ffffff55; backdrop-filter: blur(20px) saturate(125%); -webkit-backdrop-filter: blur(20px) saturate(125%); animation: bubble-in .35s cubic-bezier(.2,1.2,.4,1); transform-origin: bottom right; }
+:global([data-theme="dark"]) .bubble { background: rgba(48,64,86,.68); color: #f5f4ef; border-color: rgba(225,239,255,.27); box-shadow: 0 12px 38px #17242d25, inset 0 1px 0 #ffffff12; }
+.bubbleMessage { display: block; width: 100%; padding: 18px 20px; background: none; border: 0; color: inherit; font: inherit; font-size: 14px; line-height: 1.65; text-align: left; cursor: pointer; border-radius: inherit; }
+.footer a { text-decoration: underline; text-underline-offset: 2px; }
+@keyframes hello-hop { 30% { transform: translateY(-10px) rotate(-7deg); } 65% { transform: translateY(-3px) rotate(5deg); } }
+@keyframes curious-lean { 50% { transform: translateX(-4px) rotate(-12deg); } }
+@keyframes page-bob { 50% { transform: translateY(2px) rotate(2deg); } }
+@keyframes reading-sway { 50% { transform: translateY(-3px) rotate(-4deg); } }
+@keyframes scoot { to { transform: translateX(4px) rotate(10deg); } }
+@keyframes antenna-glow { to { background: #edf4be; box-shadow: 0 0 10px #e6efbb99; } }
+@keyframes chatter { 50% { transform: scaleY(.35); } }
+@keyframes explain { 50% { transform: rotate(-65deg); } }
+@keyframes bubble-in { from { opacity: 0; transform: translateY(12px) scale(.88); } to { opacity: 1; transform: none; } }
+@media (max-width: 600px) { .launcher { width: 76px; height: 76px; }.progress { inset: 6px; }.panel { max-height: calc(100dvh - 120px); }.bubble { width: min(285px,calc(100vw - 32px)); } }
+@media (prefers-reduced-motion: reduce) { .wrapper *, .wrapper *::before { animation: none !important; transition: none !important; } }

@@ -1,5 +1,5 @@
 /* ============================================================
-   ScrollReveal — the hidden message at the very bottom of the
+   ScrollReveal, the hidden message at the very bottom of the
    page. Each letter is split with @chenglou/pretext so it can
    react to the weather collecting beneath it:
 
@@ -198,7 +198,7 @@ export function ScrollReveal() {
 
   if (!visible) return null;
 
-  // Running letter index across all three lines (plain local — recomputed
+  // Running letter index across all three lines (plain local, recomputed
   // deterministically every render, so ref slots stay stable).
   let letterIndex = 0;
 

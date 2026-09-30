@@ -44,7 +44,7 @@ interface PileLeaf {
   angle: number;
   ci: number;
 }
-/** A leaf kicked loose from the heap (buddy playing) — tiny ballistic toss */
+/** A leaf kicked loose from the heap (buddy playing), tiny ballistic toss */
 interface KickedLeaf {
   x: number;
   y: number;
@@ -154,6 +154,7 @@ export function Weather() {
     let kicked: KickedLeaf[] = [];
 
     let t = targetRef.current;
+    let atmosphere = 1;
     let p = 0;
     let gap = 0;
     let accum = 0;
@@ -325,6 +326,7 @@ export function Weather() {
       }
       accum = Math.min(1, accum + dt / FILL_MS);
 
+      atmosphere += (weatherState.atmosphere - atmosphere) * Math.min(1, dt / 600);
       const snowOpacity = t;
       const dayOpacity = 1 - t;
       const pileBottomY = height + gap;
@@ -364,7 +366,7 @@ export function Weather() {
           ctx.translate(lf.x, lf.y);
           ctx.rotate(lf.angle);
           ctx.scale(Math.max(0.18, Math.abs(lf.flip)), 1);
-          drawLeaf(lf.size, face, shade, 0.92 * dayOpacity);
+          drawLeaf(lf.size, face, shade, 0.92 * dayOpacity * atmosphere);
           ctx.restore();
         }
       }
@@ -381,7 +383,7 @@ export function Weather() {
             Object.assign(flake, makeSnowflake(false));
           }
           const edge = Math.min(1, Math.abs(flake.x / width - 0.5) * 2);
-          const alpha = flake.alpha * snowOpacity * (0.65 + edge * 0.35);
+          const alpha = flake.alpha * snowOpacity * atmosphere * (0.65 + edge * 0.35);
           ctx.save();
           ctx.translate(flake.x, flake.y);
           ctx.rotate(flake.angle);
@@ -416,7 +418,7 @@ export function Weather() {
         ctx.fill();
       }
 
-      // Leaf pile (day) — a shadowed mass crowned with a dense leafy crest.
+      // Leaf pile (day), a shadowed mass crowned with a dense leafy crest.
       if (dayOpacity > 0.02 && accumH > 0.5 && surfaceVisible) {
         const n = pileProfile.length;
         const topAt = (fx: number) => pileBottomY - accumH * profileAt(fx);
@@ -487,7 +489,7 @@ export function Weather() {
       weatherState.fillY = Infinity;
       weatherState.surfaceY = Infinity;
       weatherState.storm = false;
-      if (!motionPreference.matches) {
+      if (!motionPreference.matches && !document.hidden) {
         last = performance.now();
         resetAccumRef.current = true;
         raf = requestAnimationFrame(frame);
@@ -496,9 +498,11 @@ export function Weather() {
 
     syncMotion();
     motionPreference.addEventListener("change", syncMotion);
+    document.addEventListener("visibilitychange", syncMotion);
 
     return () => {
       motionPreference.removeEventListener("change", syncMotion);
+      document.removeEventListener("visibilitychange", syncMotion);
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
       window.removeEventListener("scroll", readScroll);

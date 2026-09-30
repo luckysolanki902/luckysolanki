@@ -1,6 +1,6 @@
 Name: Lucky Solanki
 Role: Product engineer for AI, integrations, and complex software
-URL: https://luckysolanki.com
+URL: https://www.luckysolanki.com
 
 Summary: Builds AI workflows, integrations, payments, realtime systems, and internal tooling for startups and product teams. Proven across products used by 100K+ monthly users and founder-led businesses.
 
@@ -13,9 +13,9 @@ Key proof:
 - Built integration-heavy product systems with sync, queues, and payment orchestration
 
 Important pages:
-- https://luckysolanki.com/
-- https://luckysolanki.com/stories/ai
-- https://luckysolanki.com/stories/journey
+- https://www.luckysolanki.com/
+- https://www.luckysolanki.com/stories/ai
+- https://www.luckysolanki.com/stories/journey
 
 External proof:
 - https://www.blitzit.app

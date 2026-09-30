@@ -1,5 +1,5 @@
 /* ============================================================
-   Contact.module.css — Contact section styles
+   Contact.module.css, Contact section styles
    Peak-End Rule: end strong.
    Underline draw on links.
    ============================================================ */
@@ -229,3 +229,9 @@
     align-items: center;
   }
 }
+
+.heading { font-size: clamp(3.4rem, 7.8vw, 7rem); font-weight: 500; line-height: 1; letter-spacing: -.035em; max-width: 10ch; }
+.section { padding-top: 120px; padding-bottom: 120px; border-top: 1px solid var(--border-primary); }
+.body { font-size: 15px; margin-top: 30px; }
+.laneItem { font-size: 12px; }
+.email { font-size: clamp(15px, 2.1vw, 24px); overflow-wrap: anywhere; }

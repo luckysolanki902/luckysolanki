@@ -1,962 +1,215 @@
-/* ============================================================
-   Buddy — Interactive pixel companion with idle activities.
-
-   Pure-CSS pixel art blob (box-shadow grid).
-   8 cols x 9 rows, 5px per pixel = 40x45px.
-
-   Key fix: Interval-based scheduler that polls every 1.5s.
-   Previous chain-based setTimeout died when stopActivity()
-   cleared the timeout. Now it's unkillable.
-
-   Activity props are pixel-art box-shadow grids matching
-   the buddy's visual style — no generic CSS shapes.
-   ============================================================ */
-
 "use client";
 
-import { useEffect, useRef, useState, useCallback, useMemo } from "react";
-import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import { useBuddyStore, trackBehavior, getStrongestBehavior } from "@/lib/buddy-engine";
-import { IntentDetector } from "@/lib/buddy-intent";
-import {
-  sectionEnterTriggers,
-  idleTriggers,
-  cursorLeftTriggers,
-  cursorReturnTriggers,
-  scrollFastTriggers,
-  scrollTopTriggers,
-  scrollBottomTriggers,
-  scrollMilestoneTriggers,
-  rapidScrollTriggers,
-  getTimeGreeting,
-  themeToggleTriggers,
-  clickTriggers,
-  buddyClickTriggers,
-  visitCountTriggers,
-  getSpecialTrigger,
-  secretTrigger,
-  copyTriggers,
-  tabReturnTriggers,
-  intentTriggers,
-  hoverTriggers,
-  buddyHideTriggers,
-  buddySighTriggers,
-  navHoverTriggers,
-  rareTriggers,
-  behaviorMemoryTriggers,
-  progressionTriggers,
-  storyTriggers,
-  type BuddyMood,
-} from "@/lib/buddy-triggers";
-import { useThemeStore } from "@/store/useThemeStore";
-import { weatherState } from "@/lib/weatherState";
-import { SECTION_IDS } from "@/lib/constants";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { projects, socials } from "@/lib/data";
+import { answerGuide, type GuideAnswer, type GuideContext } from "@/lib/buddy-guide";
+import { usePipBehavior } from "@/hooks/usePipBehavior";
 import styles from "./Buddy.module.css";
 
-/* -----------------------------------------------------------
-   PIXEL ART HELPERS
-   ----------------------------------------------------------- */
-
-/** Render a grid of characters into a box-shadow string */
-function pixelProp(grid: string[], px: number, palette: Record<string, string>): string {
-  const shadows: string[] = [];
-  for (let r = 0; r < grid.length; r++) {
-    for (let c = 0; c < grid[r].length; c++) {
-      const ch = grid[r][c];
-      if (ch === "." || ch === " ") continue;
-      const color = palette[ch];
-      if (color) shadows.push(`${c * px}px ${r * px}px 0 ${color}`);
-    }
-  }
-  return shadows.join(",");
+type Message = GuideAnswer & { question: string; mode?: "ai" | "local" };
+function readContext(): GuideContext {
+  const article = document.querySelector("article");
+  return { path: location.pathname, title: document.querySelector("h1")?.textContent || "Lucky’s portfolio", introduction: article?.querySelector("header p")?.textContent || "", sections: Array.from(document.querySelectorAll("article section[id]")).map((section) => ({ heading: section.querySelector("h2")?.textContent || "", text: Array.from(section.querySelectorAll("p, li")).map((p) => p.textContent).join(" "), href: `#${section.id}` })) };
 }
 
-const PP = 3; // prop pixel size
-const FG = "var(--buddy-bubble-text)";
-
-// Umbrella — canopy + ferrule + pole + curved handle (13×14 at 3px = 39×42px)
-const PIXEL_UMBRELLA = pixelProp(
-  [
-    "......T......",
-    "......C......",
-    "....CCCCC....",
-    "..CCCCCCCCC..",
-    ".CCCCCCCCCCC.",
-    "CCCCCCCCCCCCC",
-    "D.D.D.D.D.D.D",
-    "......P......",
-    "......P......",
-    "......P......",
-    "......P......",
-    ".....PP......",
-    "....PP.......",
-    "....P........",
-  ],
-  PP,
-  { C: "#d9694a", D: "#a84a30", T: FG, P: FG }
-);
-
-/* -----------------------------------------------------------
-   IDLE ACTIVITIES
-   ----------------------------------------------------------- */
-type IdleActivity =
-  | "none"
-  | "walk"
-  | "lookAround"
-  | "sleep";
-
-// Light mode (dry land). No props — the buddy just moves around.
-const LAND_POOL: IdleActivity[] = ["walk", "lookAround", "sleep"];
-// Dark mode uses the same quiet idle pool; the umbrella only appears in the hero storm.
-const DARK_DRY_POOL: IdleActivity[] = ["walk", "lookAround", "sleep"];
-
-/* -----------------------------------------------------------
-   BUDDY PIXEL ART — 8x9 blob, 5px per pixel
-   ----------------------------------------------------------- */
-function getPixelArt(mood: BuddyMood): string {
-  const body = "var(--buddy-body)";
-  const eye = "var(--buddy-eye)";
-  const cheek = "var(--buddy-cheek)";
-  const px = 5;
-
-  const bodyPositions: [number, number][] = [
-    [2, 0], [3, 0], [4, 0], [5, 0],
-    [1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [6, 1],
-    [0, 2], [1, 2], [2, 2], [3, 2], [4, 2], [5, 2], [6, 2], [7, 2],
-    [0, 3], [1, 3], [2, 3], [3, 3], [4, 3], [5, 3], [6, 3], [7, 3],
-    [0, 4], [1, 4], [2, 4], [3, 4], [4, 4], [5, 4], [6, 4], [7, 4],
-    [0, 5], [1, 5], [2, 5], [3, 5], [4, 5], [5, 5], [6, 5], [7, 5],
-    [0, 6], [1, 6], [2, 6], [3, 6], [4, 6], [5, 6], [6, 6], [7, 6],
-    [1, 7], [2, 7], [3, 7], [4, 7], [5, 7], [6, 7],
-    [1, 8], [2, 8], [5, 8], [6, 8],
-  ];
-
-  const eyePositions: [number, number][] = [];
-  const cheekPositions: [number, number][] = [];
-  const extraBody: [number, number][] = [];
-
-  switch (mood) {
-    case "idle":
-      eyePositions.push([2, 3], [3, 3], [2, 4], [3, 4]);
-      eyePositions.push([5, 3], [6, 3], [5, 4], [6, 4]);
-      break;
-    case "blink":
-    case "sleep":
-      eyePositions.push([2, 4], [3, 4]);
-      eyePositions.push([5, 4], [6, 4]);
-      break;
-    case "happy":
-    case "love":
-      eyePositions.push([2, 3], [3, 3]);
-      eyePositions.push([5, 3], [6, 3]);
-      cheekPositions.push([1, 5], [6, 5]);
-      break;
-    case "wink":
-      eyePositions.push([2, 3], [3, 3], [2, 4], [3, 4]);
-      eyePositions.push([5, 4], [6, 4]);
-      break;
-    case "sad":
-      eyePositions.push([2, 3], [3, 3], [2, 4], [3, 4]);
-      eyePositions.push([5, 3], [6, 3], [5, 4], [6, 4]);
-      break;
-    case "excited":
-      eyePositions.push([2, 2], [3, 2], [2, 3], [3, 3], [2, 4], [3, 4]);
-      eyePositions.push([5, 2], [6, 2], [5, 3], [6, 3], [5, 4], [6, 4]);
-      break;
-    case "think":
-      eyePositions.push([3, 3], [3, 4]);
-      eyePositions.push([6, 3], [6, 4]);
-      break;
-    case "shocked":
-      eyePositions.push([2, 3], [3, 3], [2, 4], [3, 4]);
-      eyePositions.push([5, 3], [6, 3], [5, 4], [6, 4]);
-      break;
-    case "wave":
-      eyePositions.push([2, 3], [3, 3], [2, 4], [3, 4]);
-      eyePositions.push([5, 3], [6, 3], [5, 4], [6, 4]);
-      extraBody.push([7, 1]);
-      break;
-    case "peek":
-      eyePositions.push([2, 3], [3, 3], [2, 4], [3, 4]);
-      eyePositions.push([5, 3], [6, 3], [5, 4], [6, 4]);
-      break;
-    case "dizzy":
-      // X X eyes — diagonal crosses
-      eyePositions.push([2, 3], [3, 4]); // left eye: \
-      eyePositions.push([3, 3], [2, 4]); // left eye: /
-      eyePositions.push([5, 3], [6, 4]); // right eye: \
-      eyePositions.push([6, 3], [5, 4]); // right eye: /
-      break;
-    default:
-      eyePositions.push([2, 3], [3, 3], [2, 4], [3, 4]);
-      eyePositions.push([5, 3], [6, 3], [5, 4], [6, 4]);
-  }
-
-  const eyeSet = new Set(eyePositions.map(([c, r]) => `${c},${r}`));
-  const cheekSet = new Set(cheekPositions.map(([c, r]) => `${c},${r}`));
-  const shadows: string[] = [];
-
-  for (const [c, r] of bodyPositions) {
-    const key = `${c},${r}`;
-    if (eyeSet.has(key) || cheekSet.has(key)) continue;
-    shadows.push(`${c * px}px ${r * px}px 0 ${body}`);
-  }
-  for (const [c, r] of eyePositions) {
-    shadows.push(`${c * px}px ${r * px}px 0 ${eye}`);
-  }
-  for (const [c, r] of cheekPositions) {
-    shadows.push(`${c * px}px ${r * px}px 0 ${cheek}`);
-  }
-  for (const [c, r] of extraBody) {
-    shadows.push(`${c * px}px ${r * px}px 0 ${body}`);
-  }
-
-  return shadows.join(",");
-}
-
-const bubbleVariants = {
-  hidden: { opacity: 0, y: 6, scale: 0.95 },
-  visible: { opacity: 1, y: 0, scale: 1 },
-  exit: { opacity: 0, y: 4, scale: 0.97, transition: { duration: 0.12 } },
-};
-
-/* -----------------------------------------------------------
-   HOVER TARGET SELECTORS
-   ----------------------------------------------------------- */
-const HOVER_SELECTORS: [string, string][] = [
-  ['a[download], a[href*="resume"]', "resume"],
-  ['a[href^="mailto:"]', "email"],
-  ['a[href*="github.com"]', "github"],
-  ['a[href*="linkedin.com"]', "linkedin"],
-  ['a[href^="/stories/"]', "story"],
-];
-
-/* -----------------------------------------------------------
-   COMPONENT
-   ----------------------------------------------------------- */
 export function Buddy() {
-  const { mood, message, fire, dismiss, setMood, getVisitCount, incrementVisit } =
-    useBuddyStore();
   const pathname = usePathname();
-  const theme = useThemeStore((s) => s.theme);
-  const prevThemeRef = useRef(theme);
-  const lastScrollY = useRef(0);
-  const lastScrollTime = useRef(Date.now());
-  const scrollDirChanges = useRef(0);
-  const lastScrollDir = useRef<"up" | "down">("down");
-  const cursorLeftTriggered = useRef(false);
-  const konamiBuffer = useRef<string[]>([]);
-  const hasInitialized = useRef(false);
-  const scrollMilestones = useRef(new Set<number>());
-  const intentDetector = useRef(new IntentDetector());
-  const currentSectionRef = useRef<string | null>(null);
+  return <Companion key={pathname} path={pathname} />;
+}
 
-  /* ---- Touch detection ---- */
-  const [isTouch, setIsTouch] = useState(false);
+function Companion({ path }: { path: string }) {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [thinking, setThinking] = useState(false);
+  const [contextLabel, setContextLabel] = useState("Welcome, explorer");
+  const [progress, setProgress] = useState(0);
+  const [input, setInput] = useState("");
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [saved, setSaved] = useState(false);
+  const [notice, setNotice] = useState("");
+  const launcher = useRef<HTMLButtonElement>(null);
+  const panel = useRef<HTMLDivElement>(null);
+  const field = useRef<HTMLInputElement>(null);
+  const history = useRef<HTMLDivElement>(null);
+  const eye = useRef<HTMLSpanElement>(null);
+  const requestRef = useRef<AbortController | null>(null);
+  const isArticle = path.startsWith("/blog/");
+  const behavior = usePipBehavior({ path, open, thinking, history: messages });
+  const close = useCallback(() => { setOpen(false); launcher.current?.focus(); }, []);
+
   useEffect(() => {
-    const mq = window.matchMedia("(pointer: coarse)");
-    setIsTouch(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setIsTouch(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
-
-  /* ---- Movement + activity state ---- */
-  const [phase, setPhase] = useState<"offscreen" | "falling" | "landing" | "dizzy" | "settled">("offscreen");
-  const [posX, setPosX] = useState(0);
-  const [hiding, setHiding] = useState(false);
-  const [walking, setWalking] = useState(false);
-  const [activity, setActivity] = useState<IdleActivity>("none");
-  const [closingForAction, setClosingForAction] = useState(false);
-  const [stormActive, setStormActive] = useState(false);
-  const phaseRef = useRef<"offscreen" | "falling" | "landing" | "dizzy" | "settled">("offscreen");
-  const hidingRef = useRef(false);
-  const activityRef = useRef<IdleActivity>("none");
-  const lastActivityEnd = useRef(Date.now());
-  const nextGap = useRef(2500 + Math.random() * 3500);
-  const hideTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const walkTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const activityTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const lastHoverFire = useRef(0);
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const prePosX = useRef(0);
-  const lastPickedActivity = useRef<IdleActivity>("none");
-  const startActivityRef = useRef<((act: IdleActivity) => void) | null>(null);
-
-  // activityRef is maintained explicitly in start/run/finish/stopActivity so
-  // it can stay "busy" during the umbrella-fold delay even while the rendered
-  // `activity` state is briefly "none".
-
-  const pixelShadow = useMemo(() => getPixelArt(mood), [mood]);
-
-  /* ---- Entrance: fall from top → land → dizzy (X X eyes) → say hi ---- */
-  useEffect(() => {
-    const timers: ReturnType<typeof setTimeout>[] = [];
-    // Start falling after brief delay
-    timers.push(setTimeout(() => { setPhase("falling"); phaseRef.current = "falling"; }, 100));
-    // Land after fall animation completes (0.6s fall)
-    timers.push(setTimeout(() => { setPhase("landing"); phaseRef.current = "landing"; }, 700));
-    // Show dizzy eyes after squash recovery
-    timers.push(setTimeout(() => {
-      setPhase("dizzy");
-      phaseRef.current = "dizzy";
-      setMood("dizzy");
-    }, 1000));
-    // Recover and settle
-    timers.push(setTimeout(() => {
-      setMood("idle");
-      setPhase("settled");
-      phaseRef.current = "settled";
-    }, 2200));
-    return () => timers.forEach(clearTimeout);
-  }, [setMood]);
-
-  /* ---- Pick next activity from the right pool (no repeats) ---- */
-  const pickActivity = useCallback((): IdleActivity => {
-    const base = theme === "dark" ? DARK_DRY_POOL : LAND_POOL;
-    let pool = base.filter((a) => a !== lastPickedActivity.current);
-    if (pool.length === 0) pool = base;
-    const pick = pool[Math.floor(Math.random() * pool.length)];
-    lastPickedActivity.current = pick;
-    return pick;
-  }, [theme]);
-
-  /* ---- Stop any running activity ---- */
-  const stopActivity = useCallback(() => {
-    if (activityTimeout.current) clearTimeout(activityTimeout.current);
-    if (walkTimeout.current) clearTimeout(walkTimeout.current);
-    activityRef.current = "none"; // immediate sync
-    setActivity("none");
-    setWalking(false);
-    if (useBuddyStore.getState().mood === "sleep") setMood("idle");
-    lastActivityEnd.current = Date.now();
-    nextGap.current = 2500 + Math.random() * 3500;
-  }, [setMood]);
-
-  /* ===========================================================
-     IDLE ACTIVITY SCHEDULER — interval-based, unkillable.
-     Polls every 1.5s. Checks if enough time has passed since
-     last activity ended. The interval never dies, even if
-     stopActivity() is called.
-     =========================================================== */
-  useEffect(() => {
-    if (phase !== "settled") return;
-
-    const finish = () => {
-      const cur = activityRef.current;
-      if (cur === "sleep" && useBuddyStore.getState().mood === "sleep") setMood("idle");
-      activityRef.current = "none";
-      setActivity("none");
-      setWalking(false);
-      lastActivityEnd.current = Date.now();
-      nextGap.current = 3500 + Math.random() * 4000;
-    };
-
-    // The actual activity once the umbrella (if any) has been put away.
-    const run = (act: IdleActivity) => {
-      activityRef.current = act;
-      setActivity(act);
-
-      switch (act) {
-        case "sleep":
-          setMood("sleep");
-          activityTimeout.current = setTimeout(finish, 6000 + Math.random() * 5000);
-          break;
-
-        case "lookAround":
-          activityTimeout.current = setTimeout(finish, 3500);
-          break;
-
-        case "walk": {
-          // Stroll out a bit and wander back.
-          setWalking(true);
-          const maxR = Math.min(260, window.innerWidth * 0.32);
-          setPosX(Math.round(40 + Math.random() * maxR));
-          setTimeout(() => { if (activityRef.current === "walk") setPosX(0); }, 2600);
-          setTimeout(() => { if (activityRef.current === "walk") setWalking(false); }, 4200);
-          activityTimeout.current = setTimeout(finish, 4600);
-          break;
-        }
-
-        default:
-          activityTimeout.current = setTimeout(finish, 3500);
-      }
-    };
-
-    // Begin an activity. In dark mode the buddy first folds the umbrella
-    // away (≈420ms) before doing anything else.
-    const start = (act: IdleActivity) => {
-      const umbrellaOut =
-        theme === "dark" && stormActive && activityRef.current === "none";
-      // Mark busy immediately so the poll/umbrella don't fight.
-      activityRef.current = act;
-      if (umbrellaOut) {
-        setClosingForAction(true); // folds the umbrella away first
-        activityTimeout.current = setTimeout(() => {
-          setClosingForAction(false);
-          run(act);
-        }, 420);
-      } else {
-        run(act);
-      }
-    };
-
-    // Expose start for the secret buddy() console command
-    startActivityRef.current = start;
-
-    // Poll every 1.5s — can't die
-    const interval = setInterval(() => {
-      if (activityRef.current !== "none") return;
-      if (hidingRef.current) return;
-      const elapsed = Date.now() - lastActivityEnd.current;
-      if (elapsed < nextGap.current) return;
-      start(pickActivity());
-    }, 1500);
-
-    return () => {
-      clearInterval(interval);
-      if (activityTimeout.current) clearTimeout(activityTimeout.current);
-      // Reset so re-mount doesn't see stale "in-progress" activity
-      activityRef.current = "none";
-      setActivity("none");
-      setWalking(false);
-    };
-  }, [phase, pickActivity, setMood, stormActive, theme]);
-
-  /* ---- Stop activity when message appears ---- */
-  /* Activities and messages now COEXIST — buddy can talk while doing things.
-     Only buddy-click and hiding stop activities (handled elsewhere). */
-
-  /* ---- Mirror hero storm state for the umbrella prop ---- */
-  useEffect(() => {
-    if (phase !== "settled") return;
-    let raf = 0;
-
-    const tick = () => {
-      setStormActive((current) =>
-        current === weatherState.storm ? current : weatherState.storm
-      );
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [phase]);
-
-  /* ---- Hide/peek: proximity (desktop only) ---- */
-  useEffect(() => {
-    if (phase !== "settled" || isTouch) return;
-    const HIDE_DIST = 70;
-    const UNHIDE_DIST = 160;
-
-    const h = (e: MouseEvent) => {
-      const el = wrapperRef.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height * 0.7;
-      const dx = e.clientX - cx;
-      const dy = e.clientY - cy;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-
-      if (!hidingRef.current && dist < HIDE_DIST) {
-        hidingRef.current = true;
-        setHiding(true);
-        prePosX.current = posX;
-        stopActivity();
-        setWalking(true);
-        setPosX(-20);
-        fire(buddyHideTriggers);
-        if (walkTimeout.current) clearTimeout(walkTimeout.current);
-        walkTimeout.current = setTimeout(() => setWalking(false), 450);
-        // Safety: auto-unhide if mouse leaves window or stops moving
-        if (hideTimeout.current) clearTimeout(hideTimeout.current);
-        hideTimeout.current = setTimeout(() => {
-          if (hidingRef.current) {
-            hidingRef.current = false;
-            setHiding(false);
-            setWalking(true);
-            setPosX(prePosX.current);
-            walkTimeout.current = setTimeout(() => setWalking(false), 600);
-          }
-        }, 6000);
-      } else if (hidingRef.current && dist > UNHIDE_DIST) {
-        if (hideTimeout.current) clearTimeout(hideTimeout.current);
-        hideTimeout.current = setTimeout(() => {
-          hidingRef.current = false;
-          setHiding(false);
-          setWalking(true);
-          setPosX(prePosX.current);
-          setTimeout(() => fire(buddySighTriggers), 500);
-          walkTimeout.current = setTimeout(() => setWalking(false), 600);
-        }, 600);
-      }
-    };
-
-    document.addEventListener("mousemove", h, { passive: true });
-    return () => {
-      document.removeEventListener("mousemove", h);
-      if (hideTimeout.current) clearTimeout(hideTimeout.current);
-    };
-  }, [phase, posX, fire, isTouch, stopActivity]);
-
-  /* ---- Init: fire greeting after entrance finishes ---- */
-  useEffect(() => {
-    if (hasInitialized.current) return;
-    hasInitialized.current = true;
-    incrementVisit();
-    const visits = getVisitCount();
-    // Wait for fall + dizzy to finish before greeting (~2.4s)
-    const t = setTimeout(() => {
-      const special = getSpecialTrigger();
-      if (special) { fire(special); return; }
-
-      // Progression arc: visit-specific greetings
-      if (visits >= 2) {
-        const maxKey = Math.min(visits, 7) as keyof typeof progressionTriggers;
-        const prog = progressionTriggers[maxKey];
-        if (prog) {
-          fire(prog);
-          // After progression greeting, fire behavior memory on next tick
-          setTimeout(() => {
-            const strongest = getStrongestBehavior();
-            if (strongest) {
-              const memTrigs = behaviorMemoryTriggers[strongest];
-              if (memTrigs) fire(memTrigs);
-            }
-          }, 5000);
-          return;
-        }
-      }
-
-      // First visit: time greeting
-      fire(getTimeGreeting());
-    }, 2600);
-    return () => clearTimeout(t);
-  }, [fire, getVisitCount, incrementVisit]);
-
-  /* ---- Blink (idle + no activity) ---- */
-  useEffect(() => {
-    let t: ReturnType<typeof setTimeout>;
-    const sched = () => {
-      t = setTimeout(() => {
-        const s = useBuddyStore.getState();
-        if (s.mood === "idle" && !s.message && activityRef.current === "none") {
-          setMood("blink");
-          setTimeout(() => {
-            if (useBuddyStore.getState().mood === "blink") setMood("idle");
-          }, 150);
-        }
-        sched();
-      }, 2500 + Math.random() * 3000);
-    };
-    sched();
-    return () => clearTimeout(t);
-  }, [setMood]);
-
-  /* ---- Rare moments — fires with ~1% probability per idle cycle ---- */
-  useEffect(() => {
-    if (phase !== "settled") return;
-    const iv = setInterval(() => {
-      const s = useBuddyStore.getState();
-      if (s.message) return;
-      if (Math.random() > 0.01) return; // 1% chance per tick (every 8s = ~1.25% per minute)
-      fire(rareTriggers);
-    }, 8000);
-    return () => clearInterval(iv);
-  }, [phase, fire]);
-
-  /* ---- Story page triggers ---- */
-  useEffect(() => {
-    const storyKey = pathname === "/stories/ai" ? "ai"
-      : pathname === "/stories/journey" ? "journey"
-      : null;
-    if (!storyKey) return;
-    const trigs = storyTriggers[storyKey];
-
-    // Page enter — delay so it fires after the standard greeting
-    const enterTimer = setTimeout(() => fire(trigs.enter), 3200);
-
-    // Scroll milestone triggers (25 / 50 / 75 / end)
-    const milestones = new Map([
-      [25, trigs.scroll25],
-      [50, trigs.scroll50],
-      [75, trigs.scroll75],
-      [95, trigs.end],
-    ]);
-    const fired = new Set<number>();
-    const onScroll = () => {
-      const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-      milestones.forEach((tList, threshold) => {
-        if (pct >= threshold && !fired.has(threshold)) {
-          fired.add(threshold);
-          fire(tList);
-        }
-      });
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      clearTimeout(enterTimer);
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, [pathname, fire]);
-
-  /* ---- Section observers ---- */
-  useEffect(() => {
-    const ids = Object.values(SECTION_IDS);
-    const observers: IntersectionObserver[] = [];
-    const triggered = new Set<string>();
-    ids.forEach((id) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const ob = new IntersectionObserver(
-        ([e]) => {
-          if (e.isIntersecting) {
-            currentSectionRef.current = id;
-            if (id === "contact") trackBehavior("contact");
-            if (!triggered.has(id) && phaseRef.current === "settled") {
-              triggered.add(id);
-              const trigs = sectionEnterTriggers[id];
-              if (trigs?.length) setTimeout(() => fire(trigs), 300);
-            }
-          }
-        },
-        { threshold: 0.3 }
-      );
-      ob.observe(el);
-      observers.push(ob);
+    const hydrate = requestAnimationFrame(() => {
+      try {
+        setSaved(!!localStorage.getItem(`pip-place:${path}`));
+        const recent = JSON.parse(sessionStorage.getItem("pip-conversation") || "[]");
+        if (Array.isArray(recent)) setMessages(recent.filter((item) => typeof item?.question === "string" && typeof item?.text === "string").slice(-8));
+      } catch { /* storage may be unavailable */ }
     });
-    return () => observers.forEach((o) => o.disconnect());
-  }, [fire]);
-
-  /* ---- Hover detection on page elements (desktop only) ---- */
-  useEffect(() => {
-    if (isTouch) return;
-    const h = (e: MouseEvent) => {
-      const t = e.target as HTMLElement;
-      const now = Date.now();
-      if (now - lastHoverFire.current < 12000) return;
-      const pc = t.closest("article");
-      if (pc?.querySelector('a[target="_blank"]')) {
-        lastHoverFire.current = now; fire(hoverTriggers.project); return;
-      }
-      for (const [sel, key] of HOVER_SELECTORS) {
-        if (t.closest(sel)) {
-          lastHoverFire.current = now;
-          const trigs = hoverTriggers[key];
-          if (trigs) fire(trigs);
-          return;
-        }
-      }
+    let frame = 0;
+    let eyeFrame = 0;
+    const motion = matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => {
+      frame = 0;
+      if (document.hidden) return;
+      const reading = document.querySelector("article");
+      const rect = isArticle ? reading?.getBoundingClientRect() : undefined;
+      const total = rect ? rect.height - innerHeight : document.documentElement.scrollHeight - innerHeight;
+      setProgress(Math.round(Math.max(0, Math.min(100, ((rect ? -rect.top : scrollY) / Math.max(1, total)) * 100))));
+      const nodes = Array.from(document.querySelectorAll(isArticle ? "article section[id]" : "main > section[id]"));
+      const current = nodes.filter((node) => node.getBoundingClientRect().top < innerHeight * .55).at(-1);
+      const label = current?.querySelector("h2")?.textContent;
+      setContextLabel(label || (isArticle ? document.querySelector("h1")?.textContent || "Reading together" : path === "/blog" ? "Pick your next read" : "Welcome, explorer"));
     };
-    document.addEventListener("mouseover", h, { passive: true });
-    return () => document.removeEventListener("mouseover", h);
-  }, [fire, isTouch]);
-
-  /* ---- Nav hover (desktop only) ---- */
-  useEffect(() => {
-    if (isTouch) return;
-    let last = 0;
-    const h = (e: MouseEvent) => {
-      const nl = (e.target as HTMLElement).closest("nav a");
-      if (!nl) return;
-      const now = Date.now();
-      if (now - last < 15000) return;
-      last = now;
-      const text = nl.textContent?.trim().toLowerCase() || "";
-      const trigs = navHoverTriggers[text];
-      if (trigs) fire(trigs);
-    };
-    document.addEventListener("mouseover", h, { passive: true });
-    return () => document.removeEventListener("mouseover", h);
-  }, [fire, isTouch]);
-
-  /* ---- Idle text triggers ---- */
-  useEffect(() => {
-    let start = Date.now();
-    let idx = 0;
-    const reset = () => { start = Date.now(); };
-    const iv = setInterval(() => {
-      const el = (Date.now() - start) / 1000;
-      if (idx < idleTriggers.length && el >= idleTriggers[idx].after) {
-        fire(idleTriggers[idx].triggers);
-        idx++;
-      }
-    }, 3000);
-    window.addEventListener("scroll", reset, { passive: true });
-    window.addEventListener("mousemove", reset, { passive: true });
-    window.addEventListener("keydown", reset, { passive: true });
-    return () => {
-      clearInterval(iv);
-      window.removeEventListener("scroll", reset);
-      window.removeEventListener("mousemove", reset);
-      window.removeEventListener("keydown", reset);
-    };
-  }, [fire]);
-
-  /* ---- Cursor leave/return (desktop) ---- */
-  useEffect(() => {
-    if (isTouch) return;
-    const leave = (e: MouseEvent) => {
-      if (e.clientY <= 0 || e.clientX <= 0 || e.clientX >= window.innerWidth || e.clientY >= window.innerHeight) {
-        if (!cursorLeftTriggered.current) { cursorLeftTriggered.current = true; fire(cursorLeftTriggers); }
-      }
-    };
-    const enter = () => {
-      if (cursorLeftTriggered.current) { cursorLeftTriggered.current = false; fire(cursorReturnTriggers); }
-    };
-    document.addEventListener("mouseleave", leave);
-    document.addEventListener("mouseenter", enter);
-    return () => { document.removeEventListener("mouseleave", leave); document.removeEventListener("mouseenter", enter); };
-  }, [fire, isTouch]);
-
-  /* ---- Scroll ---- */
-  useEffect(() => {
-    let ticking = false;
-    const h = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        const y = window.scrollY;
-        const now = Date.now();
-        const dt = now - lastScrollTime.current;
-        const dy = Math.abs(y - lastScrollY.current);
-        intentDetector.current.addScroll(y, currentSectionRef.current);
-        const intent = intentDetector.current.detect();
-        if (intent && intentTriggers[intent]) fire(intentTriggers[intent]);
-        if (dt > 0 && dy / dt > 5) fire(scrollFastTriggers);
-        if (y < 50 && lastScrollY.current > 300) fire(scrollTopTriggers);
-        if (y + window.innerHeight >= document.documentElement.scrollHeight - 100) fire(scrollBottomTriggers);
-        const pct = (y / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-        for (let i = 0; i < scrollMilestoneTriggers.length; i++) {
-          const th = (i + 1) * 25;
-          if (pct >= th && !scrollMilestones.current.has(th)) { scrollMilestones.current.add(th); fire(scrollMilestoneTriggers[i]); }
-        }
-        const dir = y > lastScrollY.current ? "down" : "up";
-        if (dir !== lastScrollDir.current) {
-          scrollDirChanges.current++;
-          if (scrollDirChanges.current > 6) { fire(rapidScrollTriggers); scrollDirChanges.current = 0; }
-        }
-        lastScrollDir.current = dir;
-        if (dt > 1000) scrollDirChanges.current = 0;
-        lastScrollY.current = y;
-        lastScrollTime.current = now;
-        ticking = false;
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    const pointer = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse" || !eye.current || !launcher.current || document.hidden || motion.matches || eyeFrame) return;
+      eyeFrame = requestAnimationFrame(() => {
+      eyeFrame = 0;
+      if (!eye.current || !launcher.current) return;
+      const r = launcher.current.getBoundingClientRect();
+      eye.current.style.setProperty("--look-x", `${Math.max(-3, Math.min(3, (event.clientX - r.left) / 140))}px`);
+      eye.current.style.setProperty("--look-y", `${Math.max(-2, Math.min(2, (event.clientY - r.top) / 140))}px`);
       });
     };
-    window.addEventListener("scroll", h, { passive: true });
-    return () => window.removeEventListener("scroll", h);
-  }, [fire]);
-
-  /* ---- Theme ---- */
-  useEffect(() => {
-    if (prevThemeRef.current !== theme) { prevThemeRef.current = theme; const t = themeToggleTriggers[theme]; if (t) fire(t); }
-  }, [theme, fire]);
-
-  /* ---- Tab visibility ---- */
-  useEffect(() => {
-    const h = () => { if (document.visibilityState === "visible") fire(tabReturnTriggers); };
-    document.addEventListener("visibilitychange", h);
-    return () => document.removeEventListener("visibilitychange", h);
-  }, [fire]);
-
-  /* ---- Copy ---- */
-  useEffect(() => {
-    const h = () => fire(copyTriggers);
-    document.addEventListener("copy", h);
-    return () => document.removeEventListener("copy", h);
-  }, [fire]);
-
-  /* ---- Konami ---- */
-  useEffect(() => {
-    const seq = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
-    const h = (e: KeyboardEvent) => {
-      konamiBuffer.current.push(e.key);
-      if (konamiBuffer.current.length > seq.length) konamiBuffer.current.shift();
-      if (konamiBuffer.current.join(",") === seq.join(",")) { fire(secretTrigger); konamiBuffer.current = []; }
+    const visibility = () => {
+      launcher.current?.parentElement?.setAttribute("data-hidden", String(document.hidden));
+      schedule();
     };
-    window.addEventListener("keydown", h);
-    return () => window.removeEventListener("keydown", h);
-  }, [fire]);
-
-  /* ---- Secret buddy(N) console command ---- */
-  useEffect(() => {
-    const CODES: Record<number, IdleActivity> = {
-      1: "walk", 2: "lookAround", 3: "sleep",
+    schedule();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    window.addEventListener("pointermove", pointer, { passive: true });
+    document.addEventListener("visibilitychange", visibility);
+    return () => {
+      cancelAnimationFrame(frame); cancelAnimationFrame(eyeFrame); cancelAnimationFrame(hydrate);
+      requestRef.current?.abort(); requestRef.current = null;
+      window.removeEventListener("scroll", schedule); window.removeEventListener("resize", schedule);
+      window.removeEventListener("pointermove", pointer);
+      document.removeEventListener("visibilitychange", visibility);
     };
-    (window as unknown as Record<string, unknown>).buddy = (code?: number) => {
-      if (code === undefined || code === 0) {
-        console.table(Object.entries(CODES).map(([k, v]) => ({ code: k, animation: v })));
+  }, [path, isArticle]);
+
+  useEffect(() => { if (open) field.current?.focus(); }, [open]);
+  useEffect(() => { if (behavior.remember && messages.length) try { sessionStorage.setItem("pip-conversation", JSON.stringify(messages.filter((message) => message.text).slice(-8))); } catch {} }, [messages, behavior.remember]);
+  useEffect(() => { history.current?.scrollTo({ top: history.current.scrollHeight, behavior: "instant" }); }, [messages, thinking]);
+  useEffect(() => {
+    if (!open) return;
+    const escape = (event: KeyboardEvent) => { if (event.key === "Escape") close(); };
+    const outside = (event: PointerEvent) => { if (!panel.current?.contains(event.target as Node) && !launcher.current?.contains(event.target as Node)) setOpen(false); };
+    document.addEventListener("keydown", escape); document.addEventListener("pointerdown", outside);
+    return () => { document.removeEventListener("keydown", escape); document.removeEventListener("pointerdown", outside); };
+  }, [open, close]);
+
+  const ask = async (rawQuestion: string) => {
+    const question = rawQuestion.trim().replace(/\s*\u2014\s*/g, ", ");
+    if (!question || requestRef.current) return;
+    const controller = new AbortController();
+    requestRef.current = controller;
+    const timeout = setTimeout(() => controller.abort(), 26000);
+    let flush: ReturnType<typeof setTimeout> | undefined;
+    let text = "";
+    let finished = false;
+    const previous = messages.slice(-4).map(({ question, text }) => ({ question: question.slice(0, 600), text: text.slice(0, 1200) }));
+    const context = readContext();
+    const visibleProject = Array.from(document.querySelectorAll<HTMLElement>("[data-project-card]")).filter((card) => { const rect = card.getBoundingClientRect(); return rect.top < innerHeight * .65 && rect.bottom > 0; }).at(-1)?.dataset.project || "";
+    const updateLast = (answer: Partial<Message>) => setMessages((items) => items.map((item, index) => index === items.length - 1 ? { ...item, ...answer } : item));
+    behavior.record("question", "chat");
+    setInput(""); setNotice(""); setThinking(true);
+    setMessages((items) => [...items.slice(-7), { question, text: "" }]);
+    try {
+      const response = await fetch("/api/buddy", {
+        method: "POST", headers: { "Content-Type": "application/json" }, signal: controller.signal,
+        body: JSON.stringify({ question, path, section: contextLabel, project: visibleProject, history: previous, activity: behavior.snapshot(), memory: behavior.remember }),
+      });
+      if (response.headers.get("content-type")?.includes("application/json")) {
+        const result = await response.json();
+        if (typeof result.text !== "string") throw new Error("No reply");
+        updateLast({ text: result.text, links: result.links, mode: "local" });
+        setNotice(result.notice || "Here’s what I found on the site.");
         return;
       }
-      const act = CODES[code];
-      if (!act) { console.log("Unknown code. Use buddy(0) for list."); return; }
-      stopActivity();
-      setTimeout(() => startActivityRef.current?.(act), 100);
-      console.log(`▶ ${act}`);
-    };
-    return () => { delete (window as unknown as Record<string, unknown>).buddy; };
-  }, [stopActivity]);
-
-  /* ---- Global click ---- */
-  useEffect(() => {
-    const h = (e: MouseEvent) => {
-      const link = (e.target as HTMLElement).closest("a");
-      if (!link) return;
-      const href = link.getAttribute("href") || "";
-      if (link.hasAttribute("download") || href.includes("resume")) { trackBehavior("resume"); fire(clickTriggers.resume); return; }
-      if (href.startsWith("mailto:")) { fire(clickTriggers.email); return; }
-      if (href.includes("github.com")) { trackBehavior("github"); fire(clickTriggers.github); return; }
-      if (href.includes("linkedin.com")) { trackBehavior("linkedin"); fire(clickTriggers.linkedin); return; }
-      if (href.includes("spyll")) { trackBehavior("project"); fire(clickTriggers.projectSpyll); }
-      else if (href.includes("maddycustom")) { trackBehavior("project"); fire(clickTriggers.projectMaddy); }
-      else if (href.includes("blitzit")) { trackBehavior("project"); fire(clickTriggers.projectBlitzit); }
-      else if (href.includes("avana")) { trackBehavior("project"); fire(clickTriggers.projectAvana); }
-      else if (href.includes("dailicle")) { trackBehavior("project"); fire(clickTriggers.projectDailicle); }
-    };
-    document.addEventListener("click", h, { capture: true });
-    return () => document.removeEventListener("click", h, { capture: true });
-  }, [fire]);
-
-  /* ---- Buddy click ---- */
-  const handleBuddyClick = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (hidingRef.current) return;
-    stopActivity();
-    if (isTouch && useBuddyStore.getState().message) { dismiss(); return; }
-    fire(buddyClickTriggers);
-  }, [fire, stopActivity, isTouch, dismiss]);
-
-  /* ---- Mobile: tap outside to dismiss ---- */
-  useEffect(() => {
-    if (!isTouch) return;
-    const h = (e: TouchEvent) => {
-      if (!useBuddyStore.getState().message) return;
-      const el = wrapperRef.current;
-      if (el && !el.contains(e.target as Node)) dismiss();
-    };
-    document.addEventListener("touchstart", h, { passive: true });
-    return () => document.removeEventListener("touchstart", h);
-  }, [isTouch, dismiss]);
-
-  /* ---- Derived classes ---- */
-  const moodClass = styles[`mood${mood.charAt(0).toUpperCase()}${mood.slice(1)}` as keyof typeof styles] || "";
-  const activityClassKey = activity !== "none"
-    ? `act${activity.charAt(0).toUpperCase()}${activity.slice(1)}`
-    : null;
-  const activityClass = activityClassKey
-    ? styles[activityClassKey as keyof typeof styles] || ""
-    : "";
-
-  const isFalling = phase === "falling";
-  const isLanding = phase === "landing";
-  const isDizzy = phase === "dizzy";
-  const isOffscreen = phase === "offscreen";
-
-  const wrapperStyle: React.CSSProperties = {
-    right: `calc(var(--space-5) + ${posX}px)`,
-    transition: walking
-      ? "right 2s cubic-bezier(0.25, 0.1, 0.25, 1)"
-      : "right 0.5s ease-out",
+      if (!response.ok || !response.body) throw new Error("No reply");
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+      const handle = (line: string) => {
+        if (!line.trim()) return;
+        const event = JSON.parse(line);
+        if (event.type === "delta" && typeof event.text === "string") {
+          text += event.text;
+          if (!flush) flush = setTimeout(() => { updateLast({ text, mode: "ai" }); flush = undefined; }, 50);
+        } else if (event.type === "done") {
+          clearTimeout(flush); flush = undefined;
+          if (!text.trim()) throw new Error("Empty reply");
+          updateLast({ text, links: event.links, mode: "ai" }); finished = true;
+        } else if (event.type === "fallback") {
+          clearTimeout(flush); flush = undefined;
+          updateLast({ text: event.text, links: event.links, mode: "local" }); setNotice(event.notice); finished = true;
+        }
+      };
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n"); buffer = lines.pop() || "";
+        lines.forEach(handle);
+      }
+      buffer += decoder.decode(); if (buffer.trim()) handle(buffer);
+      if (!finished) throw new Error("Interrupted reply");
+    } catch {
+      if (requestRef.current !== controller) return;
+      clearTimeout(flush);
+      const project = projects.find((item) => item.slug === visibleProject);
+      const localQuestion = path === "/" && project && /\b(this|current)\b/i.test(question) ? `${project.name}: ${question}` : question;
+      const answer = answerGuide(localQuestion, context, projects, socials.email);
+      updateLast({ ...answer, mode: "local" });
+      setNotice("I couldn’t connect to chat. Here’s what I found on the site.");
+    } finally {
+      clearTimeout(timeout); clearTimeout(flush);
+      if (requestRef.current === controller) { requestRef.current = null; setThinking(false); }
+    }
+  };
+  const navigate = (href: string) => {
+    if (href.startsWith("#") || (path === "/" && href.startsWith("/#"))) {
+      const id = href.slice(href.indexOf("#") + 1);
+      const target = document.getElementById(id);
+      if (target) { target.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" }); close(); }
+      else { setNotice("Switch the work filter to All to see this project."); }
+    } else if (href.startsWith("/") && !href.endsWith(".pdf")) { close(); router.push(href); }
+  };
+  const bookmark = () => {
+    try { localStorage.setItem(`pip-place:${path}`, JSON.stringify({ y: scrollY, title: contextLabel })); setSaved(true); setNotice("Place saved on this device. Come back whenever you like."); } catch { setNotice("This browser couldn’t save your place."); }
+  };
+  const resume = () => {
+    try { const place = JSON.parse(localStorage.getItem(`pip-place:${path}`) || "null"); if (Number.isFinite(place?.y)) { window.scrollTo({ top: Math.max(0, place.y), behavior: "instant" }); close(); } } catch { setNotice("That saved position is no longer available."); }
   };
 
-  /* ---- Pixel prop inline style helper ---- */
-  const propStyle = (shadow: string, pxSize: number): React.CSSProperties => ({
-    width: pxSize, height: pxSize, boxShadow: shadow, position: "absolute" as const, top: 0, left: 0,
-  });
 
-  return (
-    <div
-      ref={wrapperRef}
-      className={`${styles.wrapper} ${hiding ? styles.hiding : ""}`}
-      style={wrapperStyle}
-      aria-live="polite"
-    >
-      {/* Character + props — wrapped so the chat bubble tracks movement.
-          The chat bubble lives INSIDE this layer (anchored above the head)
-          so it tracks the buddy through walk / hide automatically. */}
-      <div className={styles.floatLayer}>
-        <div className={`${moodClass} ${activityClass}`} style={{ position: "relative" }}>
-          {/* Chat bubble — absolutely anchored above the head */}
-          <AnimatePresence mode="wait">
-            {message && !hiding && (
-              <motion.div
-                key={message}
-                className={styles.bubble}
-                variants={bubbleVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                transition={{ duration: 0.2, ease: [0, 0, 0.2, 1] }}
-              >
-                <p className={styles.bubbleText}>
-                  {message.split(/(\*[^*]+\*)/).map((part, i) =>
-                    part.startsWith("*") && part.endsWith("*")
-                      ? <em key={i}>{part.slice(1, -1)}</em>
-                      : part
-                  )}
-                </p>
-                <button
-                  className={styles.bubbleClose}
-                  onClick={(e) => { e.stopPropagation(); dismiss(); }}
-                  aria-label="Dismiss"
-                  type="button"
-                >
-                  ✕
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Umbrella — hero-storm idle shelter only. Opens while idle, folds
-              away before any activity. Never appears in light mode. */}
-          <AnimatePresence>
-            {theme === "dark" &&
-              stormActive &&
-              !closingForAction &&
-              activity === "none" &&
-              phase === "settled" &&
-              !hiding && (
-                <motion.div
-                  className={styles.umbrella}
-                  aria-hidden
-                  initial={{ opacity: 0, scaleX: 0.15, scaleY: 0.35, y: 6 }}
-                  animate={{ opacity: 1, scaleX: 1, scaleY: 1, y: 0 }}
-                  exit={{ opacity: 0, scaleX: 0.12, scaleY: 0.9, y: 2 }}
-                  transition={{ duration: 0.42, ease: [0.34, 1.56, 0.64, 1] }}
-                >
-                  <div style={propStyle(PIXEL_UMBRELLA, PP)} />
-                </motion.div>
-              )}
-          </AnimatePresence>
-
-          <div
-            className={`${styles.character} ${isOffscreen ? styles.offscreen : ""} ${walking ? styles.walking : ""} ${isFalling ? styles.falling : ""} ${isLanding ? styles.landing : ""} ${isDizzy ? styles.dizzyAnim : ""}`}
-            onClick={handleBuddyClick}
-            role="button"
-            tabIndex={0}
-            aria-label="Lucky's companion buddy"
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") { e.preventDefault(); if (!hidingRef.current) { stopActivity(); fire(buddyClickTriggers); } }
-            }}
-          >
-            <div className={styles.pixelGrid} style={{ boxShadow: pixelShadow }} />
-          </div>
-
-          {/* ===== ACTIVITY ANIMATIONS (no props — only the umbrella) ===== */}
-
-          {/* Sleep: zzz */}
-          {activity === "sleep" && (
-            <div className={styles.zzzContainer} aria-hidden>
-              <span className={styles.zzz1}>z</span>
-              <span className={styles.zzz2}>z</span>
-              <span className={styles.zzz3}>z</span>
-            </div>
-          )}
-
-          {/* walk / lookAround — pure character animation */}
-        </div>
+  return <div className={styles.wrapper} data-open={open} data-mood={thinking ? "thinking" : !open && behavior.nudge ? (behavior.nudge.mode === "reaction" ? behavior.nudge.mood : "talking") : behavior.mood}>
+    {!open && behavior.nudge && <aside className={styles.bubble} aria-label="A suggestion from Pip" role="status">
+      <button className={styles.bubbleMessage} onClick={behavior.dismiss} aria-label={`Dismiss message: ${behavior.nudge.text}`}>{behavior.nudge.text}</button>
+    </aside>}
+    {open && <div id="pip-guide" ref={panel} className={styles.panel} role="dialog" aria-label="Pip, portfolio guide">
+      <header className={styles.panelHeader}><span className={styles.pipBadge}>P</span><div><strong>Pip</strong><small>Your little portfolio guide</small></div><button onClick={close} aria-label="Close guide">×</button></header>
+      <div className={styles.context}><span aria-hidden="true">{isArticle ? "▤" : "⌁"}</span><span>{contextLabel}</span>{isArticle && <b>{progress}%</b>}</div>
+      <div ref={history} className={styles.history} role="log" aria-label="Conversation" aria-live="polite">
+        {!messages.length && <div className={styles.welcome}><h3>{isArticle ? "Want a hand with this article?" : "What would you like to know?"}</h3><p>{isArticle ? "Ask about a section, get a short summary, or save your place." : "Ask about Lucky’s work, experience, or how he built a project."}</p></div>}
+        {messages.map((message, index) => <div className={styles.exchange} key={index}><p className={styles.question}>{message.question}</p><p className={styles.answer}>{message.text}</p>{message.mode && <small className={styles.answerSource}>{message.mode === "ai" ? "AI reply" : "From the site"}</small>}{message.links && <div className={styles.links}>{message.links.map((link) => <a key={link.href + link.label} href={link.href} onClick={(event) => { if (link.href.startsWith("#") || (link.href.startsWith("/") && !link.href.endsWith(".pdf"))) { event.preventDefault(); navigate(link.href); } }}>{link.label}<span aria-hidden="true">↗</span></a>)}</div>}</div>)}
+        {thinking && !messages.at(-1)?.text && <p className={styles.thinking}>One moment <span>•••</span></p>}
       </div>
-    </div>
-  );
+      <div className={styles.suggestions}>{(isArticle ? ["Give me the gist", "Article outline"] : path === "/blog" ? ["AI integration projects", "Backend experience"] : ["I’m hiring", "Show me AI work"]).map((question) => <button key={question} onClick={() => ask(question)} disabled={thinking}>{question} ↗</button>)}{isArticle && <><button onClick={bookmark}>Save my place</button>{saved && <button onClick={resume}>Resume reading</button>}</>}</div>
+      {notice && <p className={styles.notice} role="status">{notice}</p>}
+      <form className={styles.form} onSubmit={(event) => { event.preventDefault(); ask(input); }}><label className={styles.srOnly} htmlFor="pip-question">Ask about Lucky’s work or this article</label><input ref={field} id="pip-question" value={input} onChange={(event) => setInput(event.target.value)} maxLength={600} placeholder={isArticle ? "Ask about this article…" : "Ask about Lucky’s work…"} autoComplete="off" /><button disabled={!input.trim() || thinking} aria-label="Ask guide">↑</button></form>
+      <footer className={styles.footer}><span>AI guide · <a href="/privacy">How memory works</a></span><div><button onClick={() => { requestRef.current?.abort(); requestRef.current = null; setThinking(false); void behavior.forget(); setMessages([]); try { sessionStorage.removeItem("pip-conversation"); } catch {} }}>Forget my visits</button></div></footer>
+      {behavior.memoryStatus && <p className={styles.notice} role="status">{behavior.memoryStatus}</p>}
+
+    </div>}
+    <button ref={launcher} className={styles.launcher} aria-label={open ? "Close Pip guide" : "Open Pip, your portfolio guide"} aria-expanded={open} aria-controls="pip-guide" onPointerEnter={() => behavior.react("wave")} onClick={() => { behavior.dismiss(); behavior.record("chat_open", path); behavior.react("wave"); setOpen(!open); }}>
+      <svg className={styles.progress} viewBox="0 0 76 76" aria-hidden="true"><circle cx="38" cy="38" r="35"/><circle cx="38" cy="38" r="35" pathLength="100" strokeDasharray={`${progress} 100`}/></svg>
+      <span className={styles.robot} aria-hidden="true"><span className={styles.antenna}/><span className={styles.hand}/><span className={styles.face}><span ref={eye} className={styles.eyes}><i/><i/></span><span className={styles.cheeks}/><span className={styles.mouth}/></span><span className={styles.feet}/><span className={styles.book}/><span className={styles.motionLines}/></span>
+      <span className={styles.sleep} aria-hidden="true">z z</span>
+    </button>
+    {!open && <span className={styles.hint}>{behavior.mood === "sleep" ? "Taking a tiny nap" : isArticle ? `${progress}% · Reading with you` : "Ask Pip"}</span>}
+  </div>;
 }

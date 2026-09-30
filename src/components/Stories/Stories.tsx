@@ -1,5 +1,5 @@
 /* ============================================================
-   Stories — Two optional deep-reads before the Contact section.
+   Stories, Two optional deep-reads before the Contact section.
    Quiet cards. No pressure. Just context for those who want it.
    ============================================================ */
 

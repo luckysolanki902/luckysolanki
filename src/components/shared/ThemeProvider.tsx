@@ -1,5 +1,5 @@
 /* ============================================================
-   ThemeProvider — Applies theme to <html> data-theme attribute.
+   ThemeProvider, Applies theme to <html> data-theme attribute.
    Default: system preference (prefers-color-scheme).
    Persisted in localStorage via Zustand.
    ============================================================ */
@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { useThemeStore } from "@/store/useThemeStore";
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const { theme, userOverride } = useThemeStore();
+  const { theme } = useThemeStore();
 
   // On mount: if user has never explicitly picked a theme, resolve from system
   useEffect(() => {
@@ -24,7 +24,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       useThemeStore.setState({ theme: systemTheme, userOverride: false });
       document.documentElement.setAttribute("data-theme", systemTheme);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Sync data-theme attribute whenever theme changes

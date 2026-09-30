@@ -1,5 +1,5 @@
 /* ============================================================
-   /stories layout — Wraps story pages with Nav + Footer.
+   /stories layout, Wraps story pages with Nav + Footer.
    Keeps the reading column centred and calm.
    ============================================================ */
 

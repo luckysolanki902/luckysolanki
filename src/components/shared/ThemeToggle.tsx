@@ -1,6 +1,6 @@
 /* ============================================================
-   ThemeToggle — Sun/Moon icon toggle.
-   Animation #8: "The Turn" — rotate 180deg with icon crossfade.
+   ThemeToggle, Sun/Moon icon toggle.
+   Animation #8: "The Turn", rotate 180deg with icon crossfade.
    ============================================================ */
 
 "use client";

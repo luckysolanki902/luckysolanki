@@ -1,5 +1,5 @@
 /* ============================================================
-   Work.module.css — Alternating side-by-side project cards.
+   Work.module.css, Alternating side-by-side project cards.
    Image left on even, image right on odd.
    Animation #5: "The Lift" on screenshot hover.
    Animation #6: "The Underline Draw" on link hover.
@@ -65,7 +65,7 @@
 }
 
 /* -----------------------------------------------------------
-   PROJECT CARD — Mobile: stacked. Desktop: side-by-side.
+   PROJECT CARD, Mobile: stacked. Desktop: side-by-side.
    ----------------------------------------------------------- */
 .card {
   display: flex;
@@ -156,7 +156,7 @@
 }
 
 /* -----------------------------------------------------------
-   LOCATION BADGE — frosted glass pill on image corner
+   LOCATION BADGE, frosted glass pill on image corner
    ----------------------------------------------------------- */
 .locationTag {
   position: absolute;
@@ -173,7 +173,7 @@
   border: 1px solid rgba(255, 255, 255, 0.13);
   border-radius: 999px;
   font-family: var(--font-inter), system-ui, sans-serif;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.025em;
   color: rgba(255, 255, 255, 0.88);
@@ -377,7 +377,7 @@
 }
 
 /* -----------------------------------------------------------
-   RESPONSIVE — Tablet: side-by-side kicks in
+   RESPONSIVE, Tablet: side-by-side kicks in
    ----------------------------------------------------------- */
 @media (min-width: 768px) {
   .section {
@@ -423,3 +423,77 @@
     gap: var(--space-12);
   }
 }
+
+/* Featured work reads as a sequence of large, tangible panels. */
+.heading { font-size: clamp(2.6rem, 5.7vw, 5rem); line-height: 1.02; letter-spacing: -.035em; max-width: 13ch; }
+.projects { gap: 80px; margin-top: 42px; }
+.featuredStack, .filteredProjects { display: flex; flex-direction: column; gap: 28px; }
+.card { position: relative; max-width: none; padding: 24px; border: 1px solid var(--border-primary); border-radius: 24px; background: var(--bg-secondary); box-shadow: var(--shadow-lg); }
+.projectCaption { display: flex; justify-content: space-between; grid-column: 1 / -1; font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--text-tertiary); padding-bottom: 12px; border-bottom: 1px solid var(--border-primary); }
+.cardName { font-size: clamp(2rem, 3.8vw, 3.3rem); font-weight: 500; letter-spacing: -.035em; }
+.cardNameRow { align-items: flex-start; flex-direction: column; gap: 12px; }
+.cardRole { padding: 0; background: none; white-space: normal; font-size: 14px; }
+.cardTagline { font-size: 17px; color: var(--text-primary); line-height: 1.4; margin-top: 18px; }
+.cardDescription { font-size: 15px; line-height: 1.7; }
+.cardMetrics { padding-top: 16px; border-top: 1px solid var(--border-primary); font-size: 15px; }
+.cardStack { font-size: 14px; line-height: 1.65; }
+.cardLink { font-size: 14px; }
+.imageWrapper { border-radius: 14px; }
+.image { aspect-ratio: 16 / 10; object-fit: contain; object-position: center; filter: none; transition: transform 650ms var(--ease-reveal); }
+.detailsToggle { font-size: 14px; padding: 10px 0; color: var(--text-primary); }
+.detailsPanel { grid-column: 1 / -1; }
+.moreWork { display: flex; flex-direction: column; gap: 28px; }
+.moreLabel { font-family: var(--font-quicksand), sans-serif; font-size: clamp(1.8rem, 3vw, 2.8rem); letter-spacing: -.035em; margin-bottom: 10px; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) { .imageLink:hover .image { transform: scale(1.025); } }
+@media (min-width: 768px) {
+  .card, .cardReversed { grid-template-columns: 1.2fr 1fr; gap: 26px 40px; padding: 30px; }
+  .cardReversed { grid-template-columns: 1fr 1.2fr; }
+  .cardReversed .imageWrapper { order: initial; grid-column: 2; grid-row: 2; }
+  .cardReversed .cardMeta { order: initial; grid-column: 1; grid-row: 2; }
+  .cardMeta { min-width: 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .featuredStack { gap: clamp(96px, 20svh, 240px); padding-bottom: 72px; }
+  .projectScene { position: relative; }
+  .featuredStack[data-deck="on"] .projectScene { position: sticky; top: var(--deck-top, 88px); }
+  .featured { min-height: min(610px, calc(100svh - 180px)); transform-origin: center top;  }
+  .featuredStack:has(.expanded) .projectScene, .featuredStack[data-deck="off"] .projectScene { position: relative; top: 0; }
+  .featuredStack:has(.expanded) .featured, .featuredStack[data-deck="off"] .featured { transform: none; }
+}
+@media print {
+  .projectScene { position: static !important; }
+  .featured { transform: none !important; min-height: auto; }
+  .projectCaption { display: none; }
+}
+
+.image { object-fit: contain; background: color-mix(in srgb, var(--bg-primary) 85%, black); }
+.card[data-project="maddycustom"] { background: color-mix(in srgb, var(--bg-secondary) 94%, #B98C91); }
+.card[data-project="spyll"] { background: color-mix(in srgb, var(--bg-secondary) 94%, #76AFA9); }
+.story { display: grid; gap: 20px; }
+.story h4 { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--accent); margin-bottom: 8px; }
+.flow { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.flow li { font-size: 14px; padding: 14px 10px; background: var(--bg-primary); border: 1px solid var(--border-primary); border-radius: 8px; line-height: 1.4; }
+.flow li span { display: block; font-size: 12px; color: var(--text-tertiary); margin-bottom: 8px; }
+.moreWork .image { aspect-ratio: 16 / 10; }
+
+@media (min-width: 1024px) and (min-height: 680px) and (max-height: 819px) {
+  .featured { padding: 24px; gap: 18px 32px; }
+  .featured .cardName { font-size: 36px; }
+  .featured .cardTagline { font-size: 15px; margin-top: 12px; }
+  .featured .cardDescription { font-size: 16px; line-height: 1.65; }
+  .featured .cardMetrics { font-size: 14px; padding-top: 12px; }
+}
+
+/* Only the deck surface moves. Its contents stay visible and ready. */
+.featured { backface-visibility: hidden; }
+.imageWrapper:hover .image { filter: none; }
+
+/* The engineering detail gets the full width, separate from the overview. */
+.ownershipLabel,.outcomeLabel { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--text-secondary); }
+.ownershipLabel { margin-top: 20px; }.cardDescription { margin-top: 7px; font-size: 16px; }.outcomeLabel { margin-bottom: 8px; }
+.detailsToggle { border: 1px solid var(--border-primary); border-radius: 9px; padding: 12px 16px; margin-top: 22px; min-height: 44px; background: color-mix(in srgb, var(--bg-primary) 40%, transparent); }
+.detailsToggle::after { display: none; }.detailsToggle:hover { background: var(--bg-primary); }.detailsToggle:focus-visible,.filterChip:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.detailsPanel { grid-column: 1 / -1; border-left: 0; border-top: 1px solid var(--border-primary); padding: 28px 0 0; margin: 0; gap: 20px; }.detailsPanel p { max-width: 85ch; font-size: 16px; }.story { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--border-primary); }.flow { grid-column: 1 / -1; grid-template-columns: repeat(4,minmax(0,1fr)); }.story h4 { color: var(--text-secondary); }.story p { font-size: 15px; }
+@media(max-width:767px) { .story { grid-template-columns: 1fr; }.flow { grid-template-columns: repeat(2,minmax(0,1fr)); }.card { padding: 22px; }.detailsToggle { width: 100%; text-align: left; }.cardDescription { font-size: 16px; }.cardStack { line-height: 1.7; } }
+.featuredStack:has(:focus-visible) .projectScene { position: relative; top: 0; }
+.featuredStack:has(:focus-visible) .featured { transform: none !important; }

@@ -1,5 +1,5 @@
 /* ============================================================
-   Nav.module.css — Navigation styles
+   Nav.module.css, Navigation styles
    Fixed bar: transparent → frosted glass on scroll.
    Mobile: fullscreen overlay with centered stacked links.
    ============================================================ */
@@ -217,4 +217,11 @@
   .inner {
     padding: 0 var(--space-10);
   }
+}
+
+/* Leave the opening composition uninterrupted; reveal after 180px of scroll. */
+.nav.openingHidden {
+  transform: translateY(-100%);
+  visibility: hidden;
+  pointer-events: none;
 }

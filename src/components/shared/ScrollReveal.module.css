@@ -1,5 +1,5 @@
 /* ============================================================
-   ScrollReveal.module.css — Hidden bottom-of-page message.
+   ScrollReveal.module.css, Hidden bottom-of-page message.
    Fades in gently. Minimal. Feels like a secret.
    ============================================================ */
 
@@ -49,7 +49,7 @@
   color: var(--text-primary);
 }
 
-/* ---- Per-letter spans (pretext split) — float / bury ---- */
+/* ---- Per-letter spans (pretext split), float / bury ---- */
 .letter {
   display: inline-block;
   will-change: transform, opacity;

@@ -1,5 +1,5 @@
 /* ============================================================
-   BUDDY INTENT — Behavior pattern detection layer.
+   BUDDY INTENT, Behavior pattern detection layer.
    Turns raw scroll/timing signals into user-intent labels.
 
    Detects:

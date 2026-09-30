@@ -1,5 +1,5 @@
 /* ============================================================
-   page.tsx — Single page: assembles all sections.
+   page.tsx, Single page: assembles all sections.
    Order follows the scroll: Nav → Hero → About → Work →
    Tools → Contact → Footer
    ============================================================ */
@@ -13,6 +13,7 @@ import { BlogPreview } from "@/components/Blog/BlogPreview";
 import { Testimonials } from "@/components/Testimonials/Testimonials";
 import { Contact } from "@/components/Contact/Contact";
 import { Footer } from "@/components/Footer/Footer";
+import { PortfolioMotion } from "@/components/shared/PortfolioMotion";
 import { ScrollReveal } from "@/components/shared/ScrollReveal";
 
 export const dynamic = "force-dynamic";
@@ -23,8 +24,8 @@ export default function Home() {
       <Nav />
       <main id="main-content">
         <Hero />
-        <About />
         <Work />
+        <About />
         <Tools />
         <BlogPreview />
         <Testimonials />
@@ -32,6 +33,7 @@ export default function Home() {
       </main>
       <Footer />
       <ScrollReveal />
+      <PortfolioMotion />
     </>
   );
 }

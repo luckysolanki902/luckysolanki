@@ -1,6 +1,6 @@
 /* ============================================================
    Story page: How I use AI in practice
-   Tone: practical, sober, specific. One voice — no tool ranking.
+   Tone: practical, sober, specific. One voice, no tool ranking.
    ============================================================ */
 
 import type { Metadata } from "next";
@@ -12,25 +12,25 @@ export const dynamic = "force-static";
 export const metadata: Metadata = {
   title: "How I use AI in practice - Lucky Solanki",
   description:
-    "A practical note on how tools like GitHub Copilot and Claude Code fit into my workflow — where they earn their keep and where judgment still lives.",
+    "A practical note on how tools like GitHub Copilot and Claude Code fit into my workflow, where they earn their keep and where judgment still lives.",
   alternates: {
-    canonical: "https://luckysolanki.com/stories/ai",
+    canonical: "https://www.luckysolanki.com/stories/ai",
   },
   openGraph: {
     title: "How I use AI in practice - Lucky Solanki",
     description:
-      "A practical note on how tools like GitHub Copilot and Claude Code fit into my workflow — where they earn their keep and where judgment still lives.",
-    url: "https://luckysolanki.com/stories/ai",
+      "A practical note on how tools like GitHub Copilot and Claude Code fit into my workflow, where they earn their keep and where judgment still lives.",
+    url: "https://www.luckysolanki.com/stories/ai",
     siteName: "Lucky Solanki",
     type: "article",
-    images: ["/og-image2.png"],
+    images: ["/og?v=3"],
   },
   twitter: {
     card: "summary_large_image",
     title: "How I use AI in practice - Lucky Solanki",
     description:
-      "A practical note on how tools like GitHub Copilot and Claude Code fit into my workflow — where they earn their keep and where judgment still lives.",
-    images: ["/og-image2.png"],
+      "A practical note on how tools like GitHub Copilot and Claude Code fit into my workflow, where they earn their keep and where judgment still lives.",
+    images: ["/og?v=3"],
     creator: "@luckysolanki902",
   },
 };
@@ -48,7 +48,7 @@ export default function AIPage() {
           <h1 className={styles.heading}>How I use AI in practice.</h1>
           <p className={styles.lede}>
             Tools like GitHub Copilot and Claude Code have changed every phase
-            of how I work — not just how fast I type, but how quickly I can
+            of how I work, not just how fast I type, but how quickly I can
             think through a problem and move to something working.
           </p>
         </header>
@@ -57,7 +57,7 @@ export default function AIPage() {
           <p>
             If AI only saved keystrokes, I would not care much about it. The
             bigger shift is cognitive. Context gathering, codebase traversal,
-            option comparison, first-pass architecture — all of that moves
+            option comparison, first-pass architecture, all of that moves
             faster now. What used to be an afternoon of chasing documentation
             and tracing dependencies can take twenty minutes.
           </p>
@@ -66,7 +66,7 @@ export default function AIPage() {
             core thing well: read context, reason about it, generate useful
             output. Between the two, I have settled into preferring GitHub
             Copilot as my primary tool. It lives inside VS Code, the editor I
-            already think in — I do not context-switch, I do not break flow, it
+            already think in, I do not context-switch, I do not break flow, it
             is just there. The pricing is also meaningfully better for the
             volume of work I push through it every day.
           </p>
@@ -84,7 +84,7 @@ export default function AIPage() {
             over-engineered.
           </p>
           <p>
-            The whole loop — from problem to shipped code — moves differently
+            The whole loop, from problem to shipped code, moves differently
             now. Refactors that used to cost hours become short feedback
             cycles. I can explore an option I would have skipped before just
             because the cost of trying it is so low. That changes what I build,
@@ -96,7 +96,7 @@ export default function AIPage() {
           <p>
             I build integrations, realtime features, and payment flows. These
             are systems where &quot;often correct&quot; is not good enough. A sync
-            conflict, a race condition, a missing idempotency key — the AI will
+            conflict, a race condition, a missing idempotency key, the AI will
             generate plausible code for all of these and sometimes generate it
             wrong. Every output gets read. Every pattern gets checked against
             how the actual system behaves.
@@ -105,7 +105,7 @@ export default function AIPage() {
             The tools are fast and frequently right. But I still decide what
             ships. I still read the error and trace the system. I still catch
             the case where a generated pattern is technically valid but wrong
-            for the product. That work has not changed — only the speed at
+            for the product. That work has not changed, only the speed at
             which everything around it moves.
           </p>
           <p>

@@ -1,8 +1,8 @@
 /* ============================================================
-   HoverBlock — Hover animation wrapper for mixed JSX content.
+   HoverBlock, Hover animation wrapper for mixed JSX content.
    Used when children can't be split into chars/words
    (e.g. paragraphs with <strong>, <a>, or other inline elements).
-   Animation: the whole block subtly lifts and brightens — a
+   Animation: the whole block subtly lifts and brightens, a
    "reading lamp" effect distinct from all text-split variants.
    ============================================================ */
 

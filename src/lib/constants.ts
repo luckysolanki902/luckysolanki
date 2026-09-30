@@ -1,5 +1,5 @@
 /* ============================================================
-   CONSTANTS — Site-wide constants and section IDs
+   CONSTANTS, Site-wide constants and section IDs
    ============================================================ */
 
 export const SECTION_IDS = {

@@ -1,6 +1,6 @@
 /* ============================================================
-   SectionLabel — "ABOUT", "WORK", "TOOLS", "CONTACT"
-   Animation #7: "The Slide" — slide in from left
+   SectionLabel, "ABOUT", "WORK", "TOOLS", "CONTACT"
+   Animation #7: "The Slide", slide in from left
    Inter 500, 12px, uppercase, --tracking-wide, --text-tertiary
    ============================================================ */
 

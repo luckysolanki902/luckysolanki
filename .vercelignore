@@ -1,0 +1,14 @@
+# Keep credentials and local work artifacts out of deployments.
+.env*
+.git
+node_modules
+.next
+.vercel
+/tmp
+/dump
+/resume.pdf
+/tests
+*.tsbuildinfo
+.DS_Store
+
+.claude

@@ -1,5 +1,5 @@
 /* ============================================================
-   About — "A trailer, not the movie."
+   About, "A trailer, not the movie."
    Short punchy paragraphs. Max 2 lines each.
    Experience cards with current vs past differentiation.
    ============================================================ */
@@ -23,36 +23,11 @@ export function About() {
           </HoverText>
 
         <div className={styles.body}>
-            <p>
-              I fit best where a product has to talk to systems it does not
-              control: third-party APIs, OAuth grants, provider webhooks, and
-              now AI agents acting on real user data.
-            </p>
-            <p>
-              Most of that work is failure handling. Tokens get revoked rather
-              than expired. Resources get deleted while a sync is mid-flight.
-              Providers throttle you, deliver the same webhook twice, or return
-              one status code that means two different things. The engineering
-              is in deciding what each failure means — retry it, surface it, or
-              hand the user a fix — instead of collapsing all of it into
-              &ldquo;something went wrong&rdquo;.
-            </p>
-            <p>
-              At <strong className={styles.highlight}>Blitzit</strong> that is
-              twelve provider integrations behind one plugin contract, a 69-tool
-              MCP server for external AI clients, and a shared tool layer so the
-              in-app agent and third-party clients run the same implementations
-              under the same permissions.
-            </p>
-            <p>
-              The founder side matters too. I co-founded{" "}
-              <strong className={styles.highlight}>MaddyCustom</strong>, grew a
-              commerce platform to 100K+ monthly users and ₹60L annual revenue,
-              and built <strong className={styles.highlight}>Spyll</strong>{" "}
-              through its first real users. I have had to care about speed,
-              revenue, support, messy requirements, and what actually ships.
-            </p>
-          </div>
+          <p>I work on the parts that make a product dependable: APIs, integrations, background jobs, and AI agents acting on real user data.</p>
+          <p>At <strong className={styles.highlight}>Blitzit</strong>, I build the shared tools and permission model used by integrations and AI clients. That includes the less visible work: handling revoked access, retries, conflicts, and reversible changes.</p>
+          <p>Co-founding <strong className={styles.highlight}>MaddyCustom</strong> and <strong className={styles.highlight}>Spyll</strong> taught me to connect engineering decisions to customers, support, revenue, and what a small team can actually ship.</p>
+          <p>I like owning a problem from the first conversation through the API, the interface, and the things that happen after launch.</p>
+        </div>
 
         {/* Experience Cards */}
         <div className={styles.cards}>
