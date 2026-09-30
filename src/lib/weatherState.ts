@@ -1,8 +1,7 @@
 /* ============================================================
    weatherState — tiny mutable bridge between the Weather canvas
-   and the Buddy. Updated every animation frame by Weather; read
-   in a rAF loop by Buddy so the buddy can float on the rising
-   water without forcing React re-renders.
+   and companion/footer effects, without forcing React re-renders.
+   Winter snow is solid: legacy water/umbrella signals stay inactive.
    ============================================================ */
 
 export const weatherState = {
@@ -10,16 +9,15 @@ export const weatherState = {
   surfaceY: Infinity,
   /**
    * Top Y (viewport px) of whatever is collecting at the page bottom — the
-   * water in dark mode or the leaf heap in light mode. Infinity when not in
+   * snowbank in dark mode or the leaf heap in light mode. Infinity when not in
    * view. Footer letters use this to float (water) or get buried (leaves).
    */
   fillY: Infinity,
-  /** True while the thunderstorm (dark) weather is active. */
+  /** Legacy storm signal; false for both snow and autumn weather. */
   storm: false,
   /**
-   * Disturb the simulation at a viewport point — splashes water (dark) or
-   * scatters the leaf heap (light). Registered by the Weather component;
-   * no-op until then. The Buddy calls this to play with leaves / make a splash.
+   * Disturb the leaf heap at a viewport point in light mode. Registered by the Weather component;
+   * no-op until then and during snowfall.
    */
   disturb: (_x: number, _y: number, _power: number): void => {},
 };

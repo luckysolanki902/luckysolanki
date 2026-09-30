@@ -1,21 +1,6 @@
-/* ============================================================
-   Weather — theme + scroll reactive atmosphere (pure canvas).
-
-   Dark mode  → thunderstorm: slanted rain, lightning, and water
-                that collects at the bottom of the PAGE, filling
-                the longer you stay (resets on reload / nav / theme
-                switch). Rain dimples the surface with ripples.
-   Light mode → warm sky journeying sunrise → sunset with scroll,
-                and autumn leaves that tumble down and gather into
-                a soft pile at the page bottom. When the buddy plays
-                with the heap it bursts a few leaves into the air.
-
-   One full-screen canvas (pointer-events: none) painted above
-   content but below Nav/Buddy. Theme changes crossfade smoothly
-   and reset the accumulation. The water surface is published to
-   weatherState so the Buddy can float on it.
-   Respects prefers-reduced-motion (renders nothing).
-   ============================================================ */
+/* Theme atmosphere: slow snowfall in winter twilight; autumn leaves in
+   light mode. Snow settles into a low, still bank at the page bottom.
+   The canvas never intercepts input and respects reduced motion. */
 
 "use client";
 
@@ -25,12 +10,17 @@ import { weatherState } from "@/lib/weatherState";
 import styles from "./Weather.module.css";
 
 /* ---- types ---- */
-interface Drop {
+interface Snowflake {
   x: number;
   y: number;
-  len: number;
+  radius: number;
+  phase: number;
+  drift: number;
+  angle: number;
+  spin: number;
+  near: boolean;
+  sprite: number;
   vy: number;
-  thickness: number;
   alpha: number;
 }
 interface Leaf {
@@ -66,13 +56,6 @@ interface KickedLeaf {
   ci: number;
   life: number;
 }
-interface Ripple {
-  x: number;
-  age: number;
-  speed: number;
-  width: number;
-}
-
 /* ---- colour helpers ---- */
 type RGB = [number, number, number];
 const mix = (a: RGB, b: RGB, k: number): RGB => [
@@ -106,7 +89,7 @@ function skyAt(p: number): Sky {
   return { top: mix(NOON.top, DUSK.top, k), bottom: mix(NOON.bottom, DUSK.bottom, k) };
 }
 
-const FILL_MS = 70000; // time to fully fill the puddle / leaf pile
+const FILL_MS = 70000; // time to fully fill the snowbank / leaf pile
 
 export function Weather() {
   const theme = useThemeStore((s) => s.theme);
@@ -123,7 +106,7 @@ export function Weather() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     const el = canvasRef.current;
     if (!el) return;
@@ -132,15 +115,42 @@ export function Weather() {
     const canvas = el;
     const ctx = context;
 
+    // Snow falls in irregular aggregates, not luminous circles or icon stars.
+    // Cache several silhouettes so individual flakes have different outlines.
+    function snowSprite(index: number, blurred: boolean) {
+      const sprite = document.createElement("canvas");
+      sprite.width = sprite.height = 80;
+      const brush = sprite.getContext("2d")!;
+      brush.translate(40, 40);
+      brush.filter = blurred ? "blur(3px)" : "blur(0.8px)";
+      // Overlapping rounded ice aggregates produce an asymmetric, fluffy edge.
+      // Avoid radial polygons: their pointed silhouettes read as little stars.
+      for (let grain = 0; grain < 7; grain++) {
+        const x = Math.sin(grain * 2.39 + index * 1.7) * 10;
+        const y = Math.cos(grain * 1.83 + index * 0.9) * 8;
+        const radius = 8 + (Math.sin(grain * 3.1 + index) + 1) * 3;
+        const frost = brush.createRadialGradient(x, y, 0, x, y, radius);
+        frost.addColorStop(0, "rgba(249, 252, 255, .9)");
+        frost.addColorStop(0.65, "rgba(241, 247, 253, .85)");
+        frost.addColorStop(1, "rgba(234, 243, 252, 0)");
+        brush.fillStyle = frost;
+        brush.beginPath();
+        brush.ellipse(x, y, radius, radius * 0.78, grain * 0.7, 0, Math.PI * 2);
+        brush.fill();
+      }
+      return sprite;
+    }
+    const snowSprites = Array.from({ length: 8 }, (_, i) => snowSprite(i, false));
+    const softSprites = Array.from({ length: 8 }, (_, i) => snowSprite(i, true));
+
     let width = 0;
     let height = 0;
     let dpr = 1;
 
-    let drops: Drop[] = [];
+    let snowflakes: Snowflake[] = [];
     let leaves: Leaf[] = [];
     let pileLeaves: PileLeaf[] = [];
     let pileProfile: number[] = [];
-    let ripples: Ripple[] = [];
     let kicked: KickedLeaf[] = [];
 
     let t = targetRef.current;
@@ -149,18 +159,21 @@ export function Weather() {
     let accum = 0;
     let maxAccum = 120;
 
-    let flash = 0;
-    let nextStrike = 1500 + Math.random() * 4000;
-    let strikeQueue = 0;
-
-    function makeDrop(initial: boolean): Drop {
+    function makeSnowflake(initial: boolean): Snowflake {
+      const depth = Math.random();
+      const near = depth > 0.85;
       return {
-        x: Math.random() * (width + 200) - 100,
-        y: initial ? Math.random() * height : -20 - Math.random() * height * 0.3,
-        len: 12 + Math.random() * 22,
-        vy: 9 + Math.random() * 9,
-        thickness: 0.6 + Math.random() * 1.1,
-        alpha: 0.12 + Math.random() * 0.28,
+        x: Math.random() * (width + 80) - 40,
+        y: initial ? Math.random() * height : -10 - Math.random() * 60,
+        radius: near ? 7 + Math.random() * 4 : depth < 0.2 ? 1.8 + Math.random() : 3.5 + Math.random() * 3,
+        vy: 0.55 + depth * 1.1,
+        phase: Math.random() * Math.PI * 2,
+        drift: 0.4 + Math.random() * 0.8,
+        angle: Math.random() * Math.PI * 2,
+        spin: (Math.random() - 0.5) * 0.018,
+        near,
+        sprite: Math.floor(Math.random() * snowSprites.length),
+        alpha: near ? 0.35 + Math.random() * 0.2 : 0.5 + depth * 0.35,
       };
     }
 
@@ -243,7 +256,7 @@ export function Weather() {
 
     /* ---- shared disturb hook: buddy plays with the heap → leaves burst ---- */
     weatherState.disturb = (x: number, _y: number, power: number) => {
-      if (weatherState.storm) return; // only the leaf pile reacts
+      if (targetRef.current > 0.5) return; // only the leaf pile reacts
       const n = 5 + ((Math.random() * 4) | 0);
       const baseY = (typeof window !== "undefined" ? window.innerHeight : height) + 0;
       for (let i = 0; i < n; i++) {
@@ -279,7 +292,7 @@ export function Weather() {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       const area = width * height;
-      drops = Array.from({ length: Math.min(420, Math.round(area / 4200)) }, () => makeDrop(true));
+      snowflakes = Array.from({ length: Math.min(130, Math.max(35, Math.round(area / 9000))) }, () => makeSnowflake(true));
       leaves = Array.from({ length: Math.min(70, Math.round(area / 26000)) }, () => makeLeaf(true));
       maxAccum = Math.min(150, height * 0.16);
       buildPile();
@@ -306,27 +319,22 @@ export function Weather() {
 
       if (resetAccumRef.current) {
         accum = 0;
-        ripples = [];
         kicked = [];
         buildPile();
         resetAccumRef.current = false;
       }
       accum = Math.min(1, accum + dt / FILL_MS);
 
-      const stormOpacity = t;
+      const snowOpacity = t;
       const dayOpacity = 1 - t;
       const pileBottomY = height + gap;
-      const accumH = accum * maxAccum;
+      const accumH = accum * (maxAccum * dayOpacity + Math.min(38, height * 0.05) * snowOpacity);
       const surfaceVisible = pileBottomY - accumH < height + 40;
 
-      weatherState.storm = stormOpacity > 0.5;
-      weatherState.surfaceY =
-        stormOpacity > 0.5 && accumH > 0.5 && surfaceVisible ? pileBottomY - accumH : Infinity;
-      // Fill top for the footer letters — water (dark) or leaf heap (light).
-      weatherState.fillY =
-        accumH > 0.5 && surfaceVisible && (stormOpacity > 0.5 || dayOpacity > 0.5)
-          ? pileBottomY - accumH
-          : Infinity;
+      // Snow is solid ground: no storm umbrella or floating-water behavior.
+      weatherState.storm = false;
+      weatherState.surfaceY = Infinity;
+      weatherState.fillY = accumH > 0.5 && surfaceVisible ? pileBottomY - accumH : Infinity;
 
       ctx.clearRect(0, 0, width, height);
 
@@ -361,114 +369,51 @@ export function Weather() {
         }
       }
 
-      /* ===================== STORM (dark) ==================== */
-      if (stormOpacity > 0.01) {
-        const depth = 0.35 + 0.65 * p;
-        const g = ctx.createLinearGradient(0, 0, 0, height);
-        g.addColorStop(0, rgba([26, 32, 52], 0.55 * stormOpacity * depth));
-        g.addColorStop(0.45, rgba([20, 24, 38], 0.2 * stormOpacity));
-        g.addColorStop(1, rgba([18, 20, 30], 0));
-        ctx.fillStyle = g;
-        ctx.fillRect(0, 0, width, height);
-
-        const strikeGap = 4800 - 2600 * p;
-        nextStrike -= dt;
-        if (nextStrike <= 0 && strikeQueue === 0) {
-          strikeQueue = 1 + (Math.random() < 0.5 ? 1 : 0);
-          nextStrike = strikeGap + Math.random() * strikeGap;
-        }
-        if (strikeQueue > 0 && flash < 0.05) {
-          flash = 0.55 + Math.random() * 0.45;
-          strikeQueue -= 1;
-        }
-      }
-
-      if (flash > 0) {
-        flash -= 0.06 * dtScale;
-        if (flash < 0) flash = 0;
-        const f = flash * stormOpacity;
-        const lg = ctx.createLinearGradient(0, 0, 0, height);
-        lg.addColorStop(0, rgba([200, 214, 245], 0.6 * f));
-        lg.addColorStop(0.6, rgba([170, 186, 225], 0.12 * f));
-        lg.addColorStop(1, rgba([170, 186, 225], 0));
-        ctx.fillStyle = lg;
-        ctx.fillRect(0, 0, width, height);
-      }
-
-      /* ---- rain ---- */
-      if (stormOpacity > 0.01) {
-        const WIND = 1.8;
-        ctx.lineCap = "round";
-        for (const d of drops) {
-          d.y += d.vy * dtScale;
-          d.x += WIND * dtScale;
-          if (d.y - d.len > height || d.x > width + 100) {
-            Object.assign(d, makeDrop(false));
+      /* ---- Layered snowfall: irregular clumps tumble and drift at different depths. ---- */
+      if (snowOpacity > 0.01) {
+        const wind = Math.sin(now * 0.00013) * 0.45 + Math.sin(now * 0.00031) * 0.18;
+        for (const flake of snowflakes) {
+          flake.phase += dt * 0.0007;
+          flake.angle += flake.spin * dtScale;
+          flake.y += flake.vy * dtScale;
+          flake.x += (wind + Math.sin(flake.phase) * flake.drift) * dtScale;
+          if (flake.y - flake.radius > height || flake.x > width + 40 || flake.x < -40) {
+            Object.assign(flake, makeSnowflake(false));
           }
-          const a = d.alpha * stormOpacity * (0.7 + flash * 0.6);
-          ctx.strokeStyle = rgba([190, 205, 230], a);
-          ctx.lineWidth = d.thickness;
-          ctx.beginPath();
-          ctx.moveTo(d.x, d.y);
-          ctx.lineTo(d.x - (WIND / d.vy) * d.len, d.y - d.len);
-          ctx.stroke();
+          const edge = Math.min(1, Math.abs(flake.x / width - 0.5) * 2);
+          const alpha = flake.alpha * snowOpacity * (0.65 + edge * 0.35);
+          ctx.save();
+          ctx.translate(flake.x, flake.y);
+          ctx.rotate(flake.angle);
+          // Each aggregate gently rolls, keeping its irregular silhouette visible.
+          ctx.scale(0.7 + Math.abs(Math.cos(flake.phase)) * 0.3, 1);
+          ctx.globalAlpha = alpha;
+          const sprite = (flake.near ? softSprites : snowSprites)[flake.sprite];
+          const size = flake.radius * 3;
+          ctx.drawImage(sprite, -size / 2, -size / 2, size, size);
+          ctx.restore();
         }
       }
 
-      /* ============ ACCUMULATION (page bottom) ============== */
-      // Water puddle (storm)
-      if (stormOpacity > 0.02 && accumH > 0.5 && surfaceVisible) {
+      /* ---- A low, still snowbank with broad, soft contours. ---- */
+      if (snowOpacity > 0.02 && accumH > 0.5 && surfaceVisible) {
         const surfaceY = pileBottomY - accumH;
-        const tsec = now / 1000;
-        const wave = (x: number) =>
-          Math.sin(x * 0.012 + tsec * 1.6) * 3 + Math.sin(x * 0.03 + tsec * 2.3) * 1.6;
-
-        ctx.save();
+        const crest = (x: number) => surfaceY + accumH * (
+          0.12 + Math.sin(x / width * Math.PI * 3 + 0.5) * 0.08
+          + Math.sin(x / width * Math.PI * 5) * 0.04
+        );
         ctx.beginPath();
-        ctx.moveTo(0, surfaceY + wave(0));
-        for (let x = 12; x < width; x += 12) ctx.lineTo(x, surfaceY + wave(x));
-        ctx.lineTo(width, surfaceY + wave(width));
+        ctx.moveTo(0, crest(0));
+        for (let x = 8; x < width; x += 8) ctx.lineTo(x, crest(x));
+        ctx.lineTo(width, crest(width));
         ctx.lineTo(width, pileBottomY + 4);
         ctx.lineTo(0, pileBottomY + 4);
         ctx.closePath();
-        const wg = ctx.createLinearGradient(0, surfaceY, 0, pileBottomY);
-        wg.addColorStop(0, rgba([120, 150, 195], 0.5 * stormOpacity));
-        wg.addColorStop(1, rgba([34, 52, 92], 0.62 * stormOpacity));
-        ctx.fillStyle = wg;
+        const snow = ctx.createLinearGradient(0, surfaceY, 0, pileBottomY);
+        snow.addColorStop(0, rgba([222, 231, 244], 0.92 * snowOpacity));
+        snow.addColorStop(1, rgba([162, 181, 206], 0.96 * snowOpacity));
+        ctx.fillStyle = snow;
         ctx.fill();
-        ctx.strokeStyle = rgba([200, 220, 250], 0.35 * stormOpacity);
-        ctx.lineWidth = 1.2;
-        ctx.beginPath();
-        ctx.moveTo(0, surfaceY + wave(0));
-        for (let x = 12; x < width; x += 12) ctx.lineTo(x, surfaceY + wave(x));
-        ctx.lineTo(width, surfaceY + wave(width));
-        ctx.stroke();
-        ctx.restore();
-
-        // rain dimples the surface
-        if (Math.random() < 0.5) {
-          ripples.push({
-            x: Math.random() * width,
-            age: 0,
-            speed: 0.5 + Math.random() * 0.6,
-            width: 14 + Math.random() * 26,
-          });
-        }
-        for (let i = ripples.length - 1; i >= 0; i--) {
-          const rp = ripples[i];
-          rp.age += (dt / 1000) * rp.speed;
-          if (rp.age >= 1) {
-            ripples.splice(i, 1);
-            continue;
-          }
-          const ry = surfaceY + wave(rp.x);
-          const rw = rp.width * rp.age;
-          ctx.strokeStyle = rgba([210, 226, 250], (1 - rp.age) * 0.4 * stormOpacity);
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.ellipse(rp.x, ry, rw, rw * 0.28, 0, 0, Math.PI * 2);
-          ctx.stroke();
-        }
       }
 
       // Leaf pile (day) — a shadowed mass crowned with a dense leafy crest.
@@ -536,9 +481,24 @@ export function Weather() {
       raf = requestAnimationFrame(frame);
     }
 
-    raf = requestAnimationFrame(frame);
+    function syncMotion() {
+      cancelAnimationFrame(raf);
+      ctx.clearRect(0, 0, width, height);
+      weatherState.fillY = Infinity;
+      weatherState.surfaceY = Infinity;
+      weatherState.storm = false;
+      if (!motionPreference.matches) {
+        last = performance.now();
+        resetAccumRef.current = true;
+        raf = requestAnimationFrame(frame);
+      }
+    }
+
+    syncMotion();
+    motionPreference.addEventListener("change", syncMotion);
 
     return () => {
+      motionPreference.removeEventListener("change", syncMotion);
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
       window.removeEventListener("scroll", readScroll);
