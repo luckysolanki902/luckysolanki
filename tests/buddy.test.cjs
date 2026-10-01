@@ -16,11 +16,13 @@ function loadModules({ events = [], upstreamError = false, limited = false } = {
     const loadedModule = { exports: {} }; cache.set(file, loadedModule);
     const source = ts.transpileModule(fs.readFileSync(file, 'utf8'), { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS, esModuleInterop: true } }).outputText;
     const localRequire = (id) => {
+      if (id === '@/lib/testimonials') return { getApprovedTestimonials: async () => [{ id: 'public-1', name: 'Test Collaborator', role: 'Founder', company: 'Example', testimonial: 'Lucky was dependable and took feedback seriously.' }] };
       if (id === 'openai') return FakeOpenAI;
       if (id === '@/lib/pip-memory') return { loadVisitorMemory: async () => null, rememberQuestion: async () => {} };
       if (id === '@/lib/buddy-limit') return { limitBuddyRequests: async () => { if (limited) { const { BuddyRequestError } = load(path.resolve('src/lib/buddy-request.ts')); throw new BuddyRequestError('Chat limit reached.', 429); } } };
       if (id.startsWith('@/') || id.startsWith('.')) {
         const target = id.startsWith('@/') ? path.resolve('src', id.slice(2)) : path.resolve(path.dirname(file), id);
+        if (target.endsWith('.json')) return JSON.parse(fs.readFileSync(target, 'utf8'));
         return load(target + '.ts');
       }
       return require(id);
@@ -44,11 +46,11 @@ test('validates bounded JSON, same-origin and questions', async () => {
 });
 test('context is conditional and only includes trusted public sources', () => {
   const { buildBuddyContext } = loadModules().load('src/lib/buddy-context.ts');
-  const blog = JSON.parse(buildBuddyContext('/blog/one-tool-layer-two-agents', 'What sharing actually means', '', 'Explain this'));
-  assert.equal(blog.currentPage.article.slug, 'one-tool-layer-two-agents');
-  assert.ok(blog.currentPage.article.sections.length > 3);
+  const blog = JSON.parse(buildBuddyContext('/work/blitzit', 'What sharing actually means', '', 'Explain this'));
+  assert.equal(blog.currentPage.story.slug, 'blitzit');
+  assert.ok(blog.currentPage.story.outline.length > 3);
   const home = JSON.parse(buildBuddyContext('/', 'Work', 'blitzit', 'hello'));
-  assert.equal(home.currentPage.project, 'Blitzit'); assert.equal(home.currentPage.article, undefined);
+  assert.equal(home.currentPage.project, 'Blitzit'); assert.equal(home.currentPage.story, undefined);
   assert.equal(home.projects.length, 6);
 });
 test('placeholder key returns an honest local fallback without API calls', async () => {
@@ -93,7 +95,7 @@ test('funnel represents actual actions and redacts obvious secrets', () => {
   const { funnelStage, redactQuestion } = loadModules().load('src/lib/pip-behavior.ts');
   assert.equal(funnelStage([{ path: '/', activeSeconds: 15, events: [{ kind: 'project', target: 'blitzit' }] }]), 'viewing_work');
   assert.equal(funnelStage([{ path: '/', activeSeconds: 15, events: [{ kind: 'contact', target: 'contact' }] }]), 'contact_clicked');
-  assert.equal(funnelStage([{ path: '/blog/example', activeSeconds: 25, events: [] }]), 'exploring_details');
+  assert.equal(funnelStage([{ path: '/work/blitzit', activeSeconds: 25, events: [] }]), 'exploring_details');
   assert.doesNotMatch(redactQuestion('My key sk-test123 and email person@example.com'), /sk-test|person@example/);
 });
 test('signed visitor cookies cannot be forged or borrowed from an arbitrary id', () => {
@@ -123,19 +125,6 @@ test('local reactions are immediate, bounded, and independent of AI quotas', () 
 });
 
 
-test('illustrative tool flow cannot commit without permission or undo an unchanged task', () => {
- const { advanceTrace } = loadModules().load('src/lib/system-walkthrough.ts');
- assert.equal(advanceTrace('ready','commit'), 'ready');
- assert.equal(advanceTrace('ready','undo'), 'ready');
- const blocked = ['run','deny','commit'].reduce(advanceTrace,'ready');
- assert.equal(blocked,'blocked');
- const committed = ['run','allow','commit'].reduce(advanceTrace,'ready');
- assert.equal(committed,'committed');
- assert.equal(advanceTrace(committed,'undo'),'undone');
- assert.equal(['run','allow','commit'].reduce(advanceTrace,'undone'),'committed');
-});
-
-
 test('responsive decks expose tall card footers before pinning and animate within the viewport', () => {
   const { deckPinTop, deckProgress } = loadModules().load('src/lib/project-deck.ts');
   assert.equal(deckPinTop(900, 610, 0), 88);
@@ -149,4 +138,46 @@ test('responsive decks expose tall card footers before pinning and animate withi
     assert.equal(deckProgress(viewport, 88, top), 1);
     assert.equal(deckProgress(viewport, -1000, top), 1);
   }
+});
+
+
+test('experience advances on the December anniversary, not January', () => {
+  const { getExperienceYears } = loadModules().load('src/lib/experience.ts');
+  assert.equal(getExperienceYears(new Date('2026-11-30T23:59:59Z')), 3);
+  assert.equal(getExperienceYears(new Date('2026-12-01T00:00:00Z')), 4);
+  assert.equal(getExperienceYears(new Date('2027-01-01T00:00:00Z')), 4);
+  assert.equal(getExperienceYears(new Date('2021-01-01T00:00:00Z')), 0);
+});
+
+test('new work stories have distinct real media and evidence-aware GPT context', () => {
+  const { load } = loadModules();
+  const { workMedia } = load('src/lib/work-media.ts');
+  for (const images of Object.values(workMedia)) {
+    assert.ok(images.length >= 10);
+    assert.equal(new Set(images.map(image => image.src)).size, images.length);
+    for (const image of images) assert.ok(fs.existsSync(path.join('public', image.src)));
+  }
+  const { buildBuddyContext } = load('src/lib/buddy-context.ts');
+  const context = JSON.parse(buildBuddyContext('/', 'work', 'maddycustom', 'What can the assistant do?'));
+  assert.deepEqual(context.workExperience.map(item => item.name), ['Blitzit', 'MaddyCustom']);
+  assert.ok(context.workExperience[1].features.some(item => item.id === 'assistant' && /order/.test(item.how)));
+  assert.ok(context.screenshots.some(item => item.id === 'assistant'));
+  const { sanitizeSnapshot } = load('src/lib/pip-behavior.ts');
+  const id = '12345678-1234-1234-1234-123456789012';
+  const snapshot = sanitizeSnapshot({session:id,pageId:id,path:'/work/blitzit',events:[{at:Date.now(),kind:'screenshot_open',target:'blitzit:memory'}]});
+  assert.equal(snapshot.events[0].kind, 'screenshot_open');
+  const { reactionFor } = load('src/lib/pip-reactions.ts');
+  assert.match(reactionFor('story:blitzit:voice').text, /separate reasoning agent/);
+});
+
+ test('feedback reaches GPT and the offline answer from approved public records', async () => {
+  process.env.OPENAI_API_KEY = 'test-key-not-real-'.repeat(4);
+  const {load, calls} = loadModules({events:[{type:'response.output_text.delta',text:'Feedback'},{type:'response.completed'}]});
+  await (await load('src/app/api/buddy/route.ts').POST(request({question:'What feedback has Lucky received?',path:'/',memory:false}))).text();
+  assert.match(calls[0].instructions, /Lucky was dependable and took feedback seriously/);
+  assert.match(calls[0].instructions, /fullWorkStories/);
+  process.env.OPENAI_API_KEY = 'sk-proj....';
+  const result = await (await load('src/app/api/buddy/route.ts').POST(request({question:'what are the feedbacks given to lucky',path:'/'}))).json();
+  assert.match(result.text, /Test Collaborator/);
+  assert.equal(result.links[0].href, '/#testimonials');
 });

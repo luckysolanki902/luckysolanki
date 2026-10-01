@@ -132,7 +132,7 @@ const jsonLd = {
       name: "MaddyCustom",
       url: "https://maddycustom.vercel.app",
       description:
-        "E-commerce platform for custom vehicle wraps and stickers. 100K+ monthly users, ₹60L annual revenue.",
+        "E-commerce platform for custom vehicle wraps and stickers. 100K+ monthly users, ~$62.4K USD annual revenue.",
       applicationCategory: "ShoppingApplication",
       operatingSystem: "Web",
     },

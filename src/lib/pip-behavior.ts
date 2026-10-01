@@ -8,8 +8,8 @@ export type PipSnapshot = {
 export type PipTrigger = "welcome" | "project" | "reading" | "compare" | "finished" | "contact" | "return";
 export type PipMood = "idle" | "wave" | "reading" | "curious" | "thinking" | "scrolling" | "celebrate" | "sleep" | "talking";
 export type PipNudge = { text: string; prompt: string; label: string; mood: PipMood; mode?: "ai" | "local" | "reaction" };
-export const eventKinds = new Set(["page", "section", "project", "project_details", "project_link", "blog_link", "resume", "contact", "chat_open", "question", "nudge_shown", "nudge_dismissed", "nudge_accepted", "tab_return"]);
-export const validPath = (value: unknown): value is string => typeof value === "string" && /^\/(?:blog(?:\/[a-z0-9-]+)?|stories\/(?:ai|journey)|testimonial|privacy)?$/.test(value);
+export const eventKinds = new Set(["page", "section", "project", "project_details", "project_link", "blog_link", "story_link", "story_section", "screenshot_open", "resume", "contact", "chat_open", "question", "nudge_shown", "nudge_dismissed", "nudge_accepted", "tab_return"]);
+export const validPath = (value: unknown): value is string => typeof value === "string" && /^\/(?:work(?:\/(?:blitzit|maddycustom))?|blog(?:\/[a-z0-9-]+)?|stories\/(?:ai|journey)|testimonial|privacy)?$/.test(value);
 export const validId = (value: unknown): value is string => typeof value === "string" && /^[a-f0-9-]{36}$/.test(value);
 export const cleanLabel = (value: unknown, max = 120) => typeof value === "string" ? value.replace(/[\u0000-\u001f]/g, "").replace(/\u2014/g, ", ").slice(0, max) : "";
 export const redactQuestion = (value: string) => cleanLabel(value, 600).replace(/sk-[\w.-]+/g, "[redacted key]").replace(/[\w.+-]+@[\w.-]+\.[a-z]{2,}/gi, "[email]").replace(/(?:\+?\d[\d ()-]{8,}\d)/g, "[number]");
@@ -31,7 +31,7 @@ export function funnelStage(pages: Pick<PipSnapshot, "path" | "events" | "active
   if (events.some((event) => event.kind === "contact")) return "contact_clicked";
   if (events.some((event) => event.kind === "resume")) return "resume_opened";
   if (events.some((event) => event.kind === "question")) return "conversation";
-  if (pages.some((page) => page.path.startsWith("/blog/") && page.activeSeconds >= 20) || events.some((event) => event.kind === "project_details")) return "exploring_details";
+  if (pages.some((page) => page.path.startsWith("/work/") && page.activeSeconds >= 20) || events.some((event) => ["project_details", "screenshot_open", "story_section"].includes(event.kind))) return "exploring_details";
   if (events.some((event) => event.kind === "project")) return "viewing_work";
   return "arrived";
 }

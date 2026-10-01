@@ -193,7 +193,7 @@ Legacy admin panel, replaced by admin-maddy-custom.
 | Metric | Value |
 |--------|-------|
 | Total commits | ~1,832 (499 + 499 + 802 + 32) |
-| Annual revenue | ₹60 lakhs (~$7.2K USD) at peak |
+| Annual revenue | ₹60 lakhs (approximately $62.4K USD at the October 1, 2026 reference rate of 96.1389 INR/USD) at peak |
 | Active period | Sep 2023 → Feb 2026 (2.5 years) |
 | Codebases | 4 (storefront v1, production v2, admin panel, legacy admin) |
 | API endpoints | 40+ (payments, shipping, analytics, meta, inventory, etc.) |

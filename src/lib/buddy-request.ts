@@ -29,7 +29,7 @@ export async function readSiteJson(request: Request): Promise<Record<string, unk
 export async function readBuddyRequest(request: Request): Promise<BuddyRequest> {
   const body = await readSiteJson(request);
   if (!body || typeof body !== "object" || Array.isArray(body) || typeof body.question !== "string" || !body.question.trim() || body.question.length > 600) throw new BuddyRequestError("Ask a question of up to 600 characters.", 400);
-  const path = typeof body.path === "string" && /^\/(?:blog(?:\/[a-z0-9-]+)?|stories\/(?:ai|journey)|testimonial)?$/.test(body.path) ? body.path : "/";
+  const path = typeof body.path === "string" && /^\/(?:work(?:\/(?:blitzit|maddycustom))?|blog(?:\/[a-z0-9-]+)?|stories\/(?:ai|journey)|testimonial)?$/.test(body.path) ? body.path : "/";
   const history = Array.isArray(body.history) ? body.history.slice(-4).filter((item: unknown): item is { question: string; text: string } => Boolean(item && typeof item === "object" && "question" in item && typeof item.question === "string" && "text" in item && typeof item.text === "string")).map((item: { question: string; text: string }) => ({ question: item.question.slice(0, 600), text: item.text.slice(0, 1800) })) : [];
   return { question: body.question.trim(), path, section: typeof body.section === "string" ? body.section.slice(0, 180) : "", project: typeof body.project === "string" ? body.project.slice(0, 80) : "", history, activity: body.activity, memory: body.memory !== false };
 }

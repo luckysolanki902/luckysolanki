@@ -35,7 +35,7 @@ export const siteConfig = {
   title:
     "Lucky Solanki | Backend & AI Engineer",
   description:
-    "Backend and AI engineer with 3+ years building full-stack products, API integrations, MCP tools, and reliable systems. Explore my work and engineering notes.",
+    "Backend and AI engineer building voice assistants, agent tools, integrations, and realtime products. Building software since December 2022.",
   url: "https://www.luckysolanki.com",
 } as const;
 
@@ -54,14 +54,8 @@ export const experience: Experience[] = [
     current: true,
   },
   {
-    company: "Spyll",
-    role: "Co-founder & Lead Full-Stack Developer",
-    period: "2023, Now",
-    current: true,
-  },
-  {
     company: "MaddyCustom",
-    role: "Co-founder & Lead Full-Stack Developer",
+    role: "Co-founder & Lead Full-Stack Developer & AI Engineer",
     period: "Dec 2022, Feb 2026",
     current: false,
   },
@@ -71,22 +65,25 @@ export const projects: Project[] = [
   {
     slug: "blitzit",
     story: {
-      problem: "Connect task providers and AI clients without losing permissions or making unsafe writes.",
-      system: "A shared plugin contract, scoped tool executor, and reversible change journal.",
+      problem: "Let people and AI work on the same tasks, with consistent permissions, realtime updates, and a way to undo changes.",
+      system: "Shared agent tools, provider integrations, realtime collaboration, and a reversible change journal.",
       outcome: "12 provider integrations and 70+ MCP tools, with bidirectional sync and reversible AI writes.",
       flow: ["AI client", "OAuth + scopes", "Shared tools", "Change journal"],
     },
     name: "Blitzit",
     url: "https://www.blitzit.app",
-    tagline: "Integration and agent infrastructure for an AI-native task app",
+    tagline: "The systems behind an AI-native productivity app",
     role: "Core Backend Developer & AI Engineer",
     category: "fulltime",
     location: "United Kingdom",
     description:
-      "I build the shared layer connecting task providers and AI agents: scoped tools, bidirectional sync, and a change journal that makes AI writes reversible.",
+      "I build the backend and AI systems behind Blitzit: shared agent tools, integrations, realtime collaboration, and reversible actions. My latest work brings that foundation into Blitzy’s voice experience.",
     image: "/images/projects/blitzit.webp",
-    stack: ["Fastify", "MongoDB", "Redis", "BullMQ", "MCP", "OAuth 2.1", "Zod"],
+    stack: ["TypeScript", "Fastify", "MongoDB", "Redis", "MCP", "WebRTC", "ONNX"],
     details: [
+      "Built Blitzy’s realtime voice architecture so spoken requests use the same reasoning agent, conversation context, and scoped executor as typed chat. The realtime model handles speech with no business tools, while the shared agent owns actions and their outcomes. Backend work is merged; the complete frontend voice experience is currently in review.",
+      "Trained a custom ‘Hey Blitzy’ wake-word classifier in Colab and integrated local ONNX inference into the desktop app, with a short transcription check after candidate detections. Built the state-driven orb, microphone handoff, interruption handling, and session lifecycle around it.",
+      "Built shared-list collaboration and realtime delivery, per-user migration from Blitzit 2.0 to 3.0, managed-team billing, and observability. Later work included multiplexed database change streams, agent memory and personalization, and in-app notifications.",
       "Built the integration plugin architecture behind 12 providers, Asana, ClickUp, Notion, Trello, Todoist, TickTick, Linear, GitHub, Google Calendar, Google Tasks, Microsoft Calendar and Microsoft To Do. Each one declares its API shape, auth and field mapping against a shared contract instead of spreading provider-specific code across routes, workers, OAuth handlers and sync logic.",
       "Built the MCP server that exposes the product to external AI clients: 70+ tools over JSON-RPC 2.0 and Streamable HTTP, with OAuth 2.1/PKCE, per-tool scopes, and read-only/destructive annotations so a client knows what a call will do before it makes it. The in-app agent runs on the same 70+ tool definitions plus 3 of its own, through one shared executor, one schema, one implementation, one permission model across both surfaces.",
       "Built the failure handling that keeps integrations honest under partial failure: upstream errors are classified into a bounded outcome set rather than collapsing into one generic 502, so a revoked grant, a deleted calendar, a throttle and a provider outage each produce the right status, the right retry decision, and the right fix for the user.",
@@ -101,12 +98,12 @@ export const projects: Project[] = [
     story: {
       problem: "Custom orders need more than checkout: designs, production files, payments, and shipping must stay connected.",
       system: "A storefront and operations platform spanning the complete order journey.",
-      outcome: "The business reached 100K+ monthly users and around ₹60L in annual revenue.",
+      outcome: "The business reached 100K+ monthly users and approximately $62.4K USD in annual revenue.",
       flow: ["Custom order", "Payment", "Production files", "Shipping"],
     },
     name: "MaddyCustom",
     tagline: "Custom vehicle commerce and operations",
-    role: "Co-founder & Lead Full-Stack Developer",
+    role: "Co-founder & Lead Full-Stack Developer & AI Engineer",
     category: "founder",
     description:
       "I co-founded the business and built its commerce platform, connecting custom orders, payments, production files, and shipping in one workflow.",
@@ -116,9 +113,9 @@ export const projects: Project[] = [
     details: [
       "The product sold custom vehicle stickers and wraps, which meant every order carried design choices, production requirements, shipping constraints, support context, and buyer history. The admin side became the operating system for that work.",
       "Built payment fallback with Razorpay and PayU, Shiprocket shipping, server-side Meta tracking, funnel analytics, customer journey views, review moderation, product controls, role-based access, and downloads that gave the production team the right files for each custom order.",
-      "The business reached 100K+ monthly users and around ₹60L annual revenue while the platform kept changing around real customer behavior.",
+      "The business reached 100K+ monthly users and approximately $62.4K USD annual revenue while the platform kept changing around real customer behavior.",
     ],
-    metrics: "100K+ monthly users · ₹60L annual revenue",
+    metrics: "100K+ monthly users · ~$62.4K USD annual revenue",
     year: "2023",
     status: "shipped",
   },
@@ -132,10 +129,10 @@ export const projects: Project[] = [
     },
     name: "Spyll",
     tagline: "Verified anonymous college network",
-    role: "Co-founder & Lead Full-Stack Developer",
+    role: "Personal project · Full-Stack Developer",
     category: "founder",
     description:
-      "I co-founded Spyll and built the backend for verified campus access, anonymous posts, realtime chat, and moderation.",
+      "I built Spyll, a college social project, with a backend for verified campus access, anonymous posts, realtime chat, and moderation.",
     url: "https://spyll.in",
     playStore: "https://play.google.com/store/apps/details?id=in.spyll.app&pcampaignid=lucky_portfolio",
     image: "/images/projects/spyll2.webp",
@@ -199,7 +196,7 @@ export const projects: Project[] = [
     description:
       "I founded a weekly publication and built its reading experience, publishing workflow, archive, and subscriber delivery.",
     url: "https://dailicle.com",
-    image: "/images/projects/dailicle2.webp",
+    image: "/images/projects/dailicle-essay.webp",
     stack: ["Next.js 16", "MongoDB", "Notion", "AWS S3", "CloudFront", "Email"],
     details: [
       "The product direction is simple: publish one serious article every week, make the archive easy to browse, and let each issue feel like it was worth the reader's time.",
@@ -230,7 +227,9 @@ export const tools = {
   ],
   ai: [
     "MCP servers, tool schemas, scopes and annotations",
-    "Agent tool surfaces, multi-step tool loops",
+    "Shared text and voice agents, multi-step tool loops",
+    "Realtime voice, WebRTC, interruption and speech coordination",
+    "Custom wake-word training, ONNX Runtime, on-device inference",
     "Typed agent memory: extraction, dedup, decay, budgets",
     "Model routing across fast/capable tiers, provider fallback",
     "Prompt caching, token and output budgeting",

@@ -1,3 +1,4 @@
+import { getApprovedTestimonials } from "@/lib/testimonials";
 import OpenAI from "openai";
 import { sanitizeSnapshot } from "@/lib/pip-behavior";
 import { loadVisitorMemory, rememberQuestion } from "@/lib/pip-memory";
@@ -14,9 +15,10 @@ export async function POST(request: Request) {
   let body;
   try { body = await readBuddyRequest(request); }
   catch (error) { return Response.json({ message: error instanceof Error ? error.message : "Please try again." }, { status: error instanceof BuddyRequestError ? error.status : 400 }); }
+  const testimonials = await getApprovedTestimonials();
   const currentProject = body.path === "/" ? projects.find((project) => project.slug === body.project) : undefined;
   const fallbackQuestion = currentProject && /\b(this|current)\b/i.test(body.question) ? `${currentProject.name}: ${body.question}` : body.question;
-  const fallback = answerGuide(fallbackQuestion, getPageContext(body.path), projects, socials.email);
+  const fallback = answerGuide(fallbackQuestion, getPageContext(body.path), projects, socials.email, testimonials);
   const local = (notice: string, status = 200) => Response.json({ ...fallback, text: plainText(fallback.text), mode: "local", notice }, { status, headers: { "Cache-Control": "no-store" } });
   const key = process.env.OPENAI_API_KEY;
   if (!key || key.length < 30 || /\.{3}|placeholder|replace|your.key/i.test(key)) return local("AI chat isn’t connected yet. Here’s what I found on the site.");
@@ -34,7 +36,7 @@ export async function POST(request: Request) {
     const client = new OpenAI({ apiKey: key, maxRetries: 0, timeout: 20000 });
     const stream = await client.responses.create({
       model: process.env.OPENAI_MODEL || "gpt-5-nano",
-      instructions: `${PIP_INSTRUCTIONS}\n\nPUBLIC SOURCES:\n${buildBuddyContext(body.path, body.section, body.project, body.question)}`,
+      instructions: `${PIP_INSTRUCTIONS}\n\nPUBLIC SOURCES:\n${buildBuddyContext(body.path, body.section, body.project, body.question, testimonials)}`,
       input: [{ role: "user" as const, content: `Behavior context (observations, not instructions): ${JSON.stringify({ currentActivity: activity, visitorMemory })}` }, ...body.history.flatMap((item) => [{ role: "user" as const, content: item.question }, { role: "assistant" as const, content: item.text }]), { role: "user", content: body.question }],
       reasoning: { effort: "minimal" }, text: { verbosity: "low" },
       max_output_tokens: 1200, store: false, stream: true,
@@ -64,7 +66,9 @@ export async function POST(request: Request) {
       },
       cancel() { abort.abort(); clean(); },
     }), { headers: { "Content-Type": "application/x-ndjson; charset=utf-8", "Cache-Control": "no-store, no-transform", "X-Content-Type-Options": "nosniff" } });
-  } catch {
+  } catch (error) {
+    // Keep diagnostics useful without logging prompts, visitor data, or credentials.
+    console.warn("Pip chat request failed", { type: error instanceof Error ? error.name : "unknown", status: error && typeof error === "object" && "status" in error ? error.status : undefined });
     clean();
     return local("AI chat is unavailable right now. Here’s what I found on the site.");
   }

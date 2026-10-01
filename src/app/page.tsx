@@ -9,7 +9,7 @@ import { Hero } from "@/components/Hero/Hero";
 import { About } from "@/components/About/About";
 import { Work } from "@/components/Work/Work";
 import { Tools } from "@/components/Tools/Tools";
-import { BlogPreview } from "@/components/Blog/BlogPreview";
+import { StoryPreview } from "@/components/WorkStories/StoryPreview";
 import { Testimonials } from "@/components/Testimonials/Testimonials";
 import { Contact } from "@/components/Contact/Contact";
 import { Footer } from "@/components/Footer/Footer";
@@ -27,7 +27,7 @@ export default function Home() {
         <Work />
         <About />
         <Tools />
-        <BlogPreview />
+        <StoryPreview />
         <Testimonials />
         <Contact />
       </main>

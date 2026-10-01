@@ -74,12 +74,12 @@ export function usePipBehavior(options: Options) {
     const pose = (value: PipMood) => {
       if (!alive) return;
       clearTimeout(poseTimer); setMood(value);
-      poseTimer = setTimeout(() => { if (alive) setMood(path.startsWith("/blog/") ? "reading" : "idle"); }, value === "wave" || value === "celebrate" ? 2400 : 1000);
+      poseTimer = setTimeout(() => { if (alive) setMood(path.startsWith("/work/") ? "reading" : "idle"); }, value === "wave" || value === "celebrate" ? 2400 : 1000);
     };
     reactRef.current = pose;
     const say = (key: string, action = false) => {
       const line = reactionFor(key);
-      if (!line || !alive || document.hidden || current.current.open || current.current.thinking || (document.activeElement?.matches("input,textarea,[contenteditable=true]") || document.activeElement?.closest("#systems"))) return false;
+      if (!line || !alive || document.hidden || document.querySelector("dialog[open]") || current.current.open || current.current.thinking || (document.activeElement?.matches("input,textarea,[contenteditable=true]"))) return false;
       if (!reactions.allow(key, Date.now(), action)) return false;
       speechVersion++; localUntil = Date.now() + 6500;
       clearTimeout(bubbleTimer); setNudge(line); pose(line.mood);
@@ -109,8 +109,8 @@ export function usePipBehavior(options: Options) {
     dismissRef.current = dismissBubble;
     const offer = async (trigger: PipTrigger) => {
       const signature = `${trigger}:${trigger === "project" ? data.project : trigger === "reading" ? data.section : path}`;
-      if (!alive || current.current.open || current.current.thinking || document.hidden || Date.now() < localUntil || requestRef.current || shown.has(signature) || Date.now() - lastNudge < 45000 || shown.size >= 6) return;
-      if ((document.activeElement?.matches("input,textarea,[contenteditable=true]") || document.activeElement?.closest("#systems"))) return;
+      if (!alive || current.current.open || current.current.thinking || document.hidden || document.querySelector("dialog[open]") || Date.now() < localUntil || requestRef.current || shown.has(signature) || Date.now() - lastNudge < 45000 || shown.size >= 6) return;
+      if ((document.activeElement?.matches("input,textarea,[contenteditable=true]"))) return;
       shown.add(signature); store(key, [...shown]); lastNudge = Date.now(); store(`pip-last:${session}`, lastNudge);
       const atSection = data.section, atProject = data.project, requestedVersion = speechVersion;
       const controller = new AbortController(); requestRef.current = controller;
@@ -122,7 +122,7 @@ export function usePipBehavior(options: Options) {
         if (response.ok) result = await response.json();
       } catch { /* A small relevant local hint still works if AI is unavailable. */ }
       finally { clearTimeout(timeout); if (requestRef.current === controller) requestRef.current = null; }
-      if (!alive || requestedVersion !== speechVersion || controller.signal.aborted || document.hidden || current.current.open || result.show === false) return;
+      if (!alive || requestedVersion !== speechVersion || controller.signal.aborted || document.hidden || document.querySelector("dialog[open]") || current.current.open || result.show === false) return;
       if (atProject !== data.project || atSection !== data.section) return;
       clearTimeout(bubbleTimer); setNudge(result); pose(result.mood); recordEvent("nudge_shown", `${trigger}:${result.mode || "local"}`);
       bubbleTimer = setTimeout(() => { if (alive) setNudge(null); }, 20000);
@@ -131,13 +131,13 @@ export function usePipBehavior(options: Options) {
       frame = 0;
       if (document.hidden || performance.now() - lastMeasure < 100) return;
       lastMeasure = performance.now();
-      const sectionNodes = Array.from(document.querySelectorAll<HTMLElement>(path.startsWith("/blog/") ? "article section[id]" : "main section[id]"));
-      const section = sectionNodes.filter((node) => { const r = node.getBoundingClientRect(); return r.top < innerHeight * .55 && r.bottom > 0; }).at(-1)?.id || (path.startsWith("/blog") ? "article-intro" : "hero");
-      const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-project-card]"));
-      const project = cards.filter((node) => { const r = node.getBoundingClientRect(); return r.top < innerHeight * .6 && r.bottom > 0; }).at(-1)?.dataset.project || "";
+      const sectionNodes = Array.from(document.querySelectorAll<HTMLElement>(path.startsWith("/work/") ? "article section[id]" : "main section[id]"));
+      const section = sectionNodes.filter((node) => { const r = node.getBoundingClientRect(); return r.top < innerHeight * .55 && r.bottom > 0; }).at(-1)?.id || (path.startsWith("/work") ? "article-intro" : "hero");
+      const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-project-card], [data-work-experience]"));
+      const project = cards.filter((node) => { const r = node.getBoundingClientRect(); return r.top < innerHeight * .6 && r.bottom > 0; }).at(-1)?.dataset.project || (path.startsWith("/work/") ? path.slice(6) : "");
       if (section !== data.section) { data.section = section; sectionSince = Date.now(); recordEvent("section", section); }
       if (project !== data.project) { data.project = project; projectSince = Date.now(); if (project) recordEvent("project", project); }
-      const article = path.startsWith("/blog/") ? document.querySelector("article")?.getBoundingClientRect() : undefined;
+      const article = path.startsWith("/work/") ? document.querySelector("article")?.getBoundingClientRect() : undefined;
       data.progress = Math.round(Math.max(0, Math.min(100, (article ? -article.top / Math.max(1, article.height - innerHeight) : scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight)) * 100)));
     };
     const wake = () => { if (Date.now() - lastInput > 45000) pose("wave"); lastInput = Date.now(); };
@@ -156,15 +156,22 @@ export function usePipBehavior(options: Options) {
       wake();
       const target = event.target instanceof Element ? event.target : null;
       const link = target?.closest("a");
-      const card = target?.closest<HTMLElement>("[data-project-card]");
+      const card = target?.closest<HTMLElement>("[data-project-card], [data-work-experience]");
+      const screenshot = target?.closest<HTMLElement>("[data-story-image]");
+      if (screenshot) {
+        recordEvent("screenshot_open", `${path.split("/").pop()}:${screenshot.dataset.storyImage}`);
+        speechVersion++; requestRef.current?.abort(); clearTimeout(bubbleTimer); setNudge(null); pose("curious");
+      }
       if (link) {
         const href = link.getAttribute("href") || "";
         if (href.includes("resume.pdf")) { recordEvent("resume", "resume"); pose("celebrate"); say("resume", true); }
         else if (href.startsWith("mailto:") || href === "#contact" || href === "/#contact") { recordEvent("contact", "contact"); pose("wave"); say(href.startsWith("mailto:") ? "email" : "contact", true); }
         else if (href.includes("github.com")) say("github", true);
         else if (href.includes("linkedin.com")) say("linkedin", true);
+        else if (href.startsWith("/work/")) { recordEvent("story_link", href); pose("reading"); }
+        else if (path.startsWith("/work/") && href.startsWith("#")) { recordEvent("story_section", href); pose("reading"); }
         else if (card) { recordEvent("project_link", card.dataset.project); pose("curious"); }
-        else if (href.startsWith("/blog/")) recordEvent("blog_link", href);
+
       }
       if (card && target?.closest("button[aria-expanded]")) { recordEvent("project_details", card.dataset.project); pose("curious"); const button = target.closest("button"); queueMicrotask(() => { if (button?.getAttribute("aria-expanded") === "true") say("details", true); }); }
     };
@@ -178,24 +185,25 @@ export function usePipBehavior(options: Options) {
       }
       if (Date.now() - lastInput > 45000 && !current.current.open) setMood("sleep");
       maxProgress = Math.max(maxProgress, data.progress);
-      const place = data.project || data.section;
+      const storyMoment = path.startsWith("/work/") ? `story:${data.project}:${data.section}` : "";
+      const place = (reactionFor(storyMoment) ? storyMoment : "") || data.project || data.section;
       if (place && !visitedPlaces.has(place) && Date.now() - (data.project ? projectSince : sectionSince) > 900) {
         if (say(place)) visitedPlaces.add(place);
       }
-      if (path.startsWith("/blog/") && data.activeSeconds > 2 && !visitedPlaces.has("reading")) {
+      if (path.startsWith("/work/") && data.activeSeconds > 2 && !visitedPlaces.has("reading")) {
         if (say("reading")) visitedPlaces.add("reading");
       }
       if (data.progress >= 95 && !visitedPlaces.has("bottom")) { if (say("bottom")) visitedPlaces.add("bottom"); }
-      else if (path.startsWith("/blog/") && data.progress >= 50 && !visitedPlaces.has("halfway")) { if (say("halfway")) visitedPlaces.add("halfway"); }
+      else if (path.startsWith("/work/") && data.progress >= 50 && !visitedPlaces.has("halfway")) { if (say("halfway")) visitedPlaces.add("halfway"); }
       if (data.section === "hero" && Date.now() - lastInput > 30000 && Date.now() - lastInput < 34000) say("idle");
       const active = data.activeSeconds;
       if (active < 8) return;
       if (!shown.size) void offer("welcome");
       else if (!shown.has(`contact:${path}`) && data.section === "contact" && Date.now() - sectionSince > 7000) void offer("contact");
-      else if (!shown.has(`finished:${path}`) && path.startsWith("/blog/") && data.progress >= 90 && active > 20) void offer("finished");
+      else if (!shown.has(`finished:${path}`) && path.startsWith("/work/") && data.progress >= 90 && active > 20) void offer("finished");
       else if (!shown.has(`compare:${path}`) && new Set(data.events.filter((event) => event.kind === "project").map((event) => event.target)).size >= 3) void offer("compare");
       else if (!shown.has(`project:${data.project}`) && data.project && Date.now() - projectSince > 14000) void offer("project");
-      else if (path.startsWith("/blog/") && Date.now() - sectionSince > 18000) void offer("reading");
+      else if (path.startsWith("/work/") && Date.now() - sectionSince > 18000) void offer("reading");
     };
     const visibility = () => {
       if (document.hidden) { hiddenAt = Date.now(); void flush(false, true); requestRef.current?.abort(); }
@@ -203,7 +211,7 @@ export function usePipBehavior(options: Options) {
     };
     const copy = () => { say("copy", true); };
     const unsubscribeTheme = useThemeStore.subscribe((state, previous) => { if (state.theme !== previous.theme) say(state.theme, true); });
-    const hello = setTimeout(() => { say(path.startsWith("/blog/") ? "reading" : "welcome"); }, 1800);
+    const hello = setTimeout(() => { say(path.startsWith("/work/") ? "reading" : "welcome"); }, 1800);
     document.addEventListener("copy", copy);
     const leave = () => { void flush(false, true); };
     recordEvent("page", path);

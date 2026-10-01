@@ -34,7 +34,7 @@ export function PortfolioMotion() {
         return { stack, scenes: members, cards: members.map((scene) => scene.querySelector<HTMLElement>("[data-project-card]")!), stacked: false, tops: [] };
       });
       needsMeasure = true;
-      main!.querySelectorAll<HTMLElement>("section:not(#hero) h2, [data-reveal], #about p, #about [class*='card'], #tools [class*='column'], #blog a, #contact [class*='email']").forEach((el) => {
+      main!.querySelectorAll<HTMLElement>("section:not(#hero) h2, [data-reveal], #about p, #about [class*='card'], #tools [class*='column'], #work-stories a, #contact [class*='email']").forEach((el) => {
         if (observed.has(el) || el.closest("#work, #about")) return;
         observed.add(el);
         // Content already in view never disappears during hydration or filtering.

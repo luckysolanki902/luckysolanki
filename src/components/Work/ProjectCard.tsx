@@ -27,8 +27,10 @@ export function ProjectCard({ project, index, featured = false }: ProjectCardPro
 
   return (
     <article id={`project-${project.slug}`} data-project={project.slug} data-project-card className={`${styles.card} ${isReversed ? styles.cardReversed : ""} ${featured ? styles.featured : ""} ${isExpanded ? styles.expanded : ""}`}>
-      <div className={styles.projectCaption}><span>Selected work / {String(index + 1).padStart(2, "0")}</span><span>{project.year}</span></div>
+      <div className={styles.projectCaption}><span>{project.category === "freelance" ? "Freelance" : "Personal project"} / {String(index + 1).padStart(2, "0")}</span><span>{project.year}</span></div>
       <div className={styles.imageWrapper}>
+        <div className={styles.device}>
+        <span className={styles.camera} aria-hidden="true" />
         {project.image ? (
           project.url ? (
             <a href={project.url} target="_blank" rel="noopener noreferrer" className={styles.imageLink}>
@@ -62,6 +64,8 @@ export function ProjectCard({ project, index, featured = false }: ProjectCardPro
             <span className={styles.placeholderTagline}>{project.tagline}</span>
           </div>
         )}
+        </div>
+        <div className={styles.imageCaption}><span>{project.name} / Product view</span><span aria-hidden="true">↗</span></div>
         {project.location && (
           <div className={styles.locationTag} aria-label={`Client based in ${project.location}`}>
             <span className={styles.locationDot} />
@@ -114,7 +118,7 @@ export function ProjectCard({ project, index, featured = false }: ProjectCardPro
               aria-expanded={isExpanded}
               aria-controls={`details-${project.slug}`}
             >
-              {isExpanded ? "Close project notes −" : "Explore the engineering +"}
+              {isExpanded ? "Close project notes −" : "What I built +"}
             </button>
 
           </>

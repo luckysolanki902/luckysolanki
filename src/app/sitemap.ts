@@ -1,5 +1,5 @@
 import { MetadataRoute } from "next";
-import { blogPosts } from "@/lib/blog";
+import { workStories } from "@/lib/work-stories";
 
 const BASE_URL = "https://www.luckysolanki.com";
 
@@ -21,13 +21,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
-      url: `${BASE_URL}/blog`,
+      url: `${BASE_URL}/work`,
       changeFrequency: "monthly",
       priority: 0.8,
     },
-    ...blogPosts.map((post) => ({
-      url: `${BASE_URL}/blog/${post.slug}`,
-      lastModified: new Date(post.date),
+    ...workStories.map((post) => ({
+      url: `${BASE_URL}/work/${post.slug}`,
       changeFrequency: "yearly" as const,
       priority: 0.75,
     })),

@@ -54,3 +54,7 @@
 
 .resumeLink { display: inline-flex; gap: 12px; margin-top: 16px; font-size: 14px; color: var(--hero-ink); text-decoration: underline; text-underline-offset: 5px; }
 @media(max-width:767px) { .resumeLink { font-size: 13px; } .intro .description, .invitation p { font-size: 13px; } }
+
+/* The softer autumn treatment lets the portrait and typography share the same light. */
+:global([data-theme="light"]) .hero { --hero-ink: #615a55; --hero-pop: #787e68; }
+:global([data-theme="light"]) .portrait { opacity: .86; }

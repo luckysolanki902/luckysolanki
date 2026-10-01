@@ -1,16 +1,16 @@
 import type { PipMood, PipNudge } from "./pip-behavior";
 
 const lines: Record<string, [string, PipMood]> = {
-  welcome: ["Hey, I’m Pip. I’ll keep you company while you look around.", "wave"],
-  systems: ["Try the read-only caller. The useful bit is what the system refuses to change.", "curious"],
-  work: ["This is the good part. A few things Lucky has shipped.", "celebrate"],
+  welcome: ["Hey! Take a look around. I’m here if you need anything.", "wave"],
+  systems: ["AI features, backend work, or a whole product. This is where Lucky can help.", "curious"],
+  work: ["Two work stories, then the projects. Pick whichever interests you.", "celebrate"],
   about: ["A little more about the person behind the projects.", "curious"],
   tools: ["The toolkit. Picked for the job, not just the logo.", "curious"],
-  blog: ["Notes from the build. Including the bits that went sideways.", "reading"],
+  "work-stories": ["Notes from the build. Including the bits that went sideways.", "reading"],
   testimonials: ["I’ll let the people he’s worked with do the talking.", "wave"],
   contact: ["Made it to the hello corner. No fancy introduction needed.", "wave"],
-  blitzit: ["Blitzit. The interesting bits are behind the interface: tools, sync, and undo.", "curious"],
-  maddycustom: ["MaddyCustom. From the storefront to the order going out the door.", "celebrate"],
+  blitzit: ["Blitzit has a lot behind it. Voice, shared tools, sync, and a way to undo AI changes.", "curious"],
+  maddycustom: ["MaddyCustom connects the storefront, a shopping assistant, and the team fulfilling each order.", "celebrate"],
   spyll: ["Spyll. A campus network where students can speak anonymously.", "curious"],
   avana: ["Avana. Turning real estate research into a conversation.", "curious"],
   autoremov: ["AutoRemov. Remove the background, keep the job running reliably.", "curious"],
@@ -29,6 +29,13 @@ const lines: Record<string, [string, PipMood]> = {
   dark: ["Snow weather. I brought my tiny earmuffs.", "wave"],
   light: ["A little sunshine. That’s nice.", "celebrate"],
   reading: ["I’ll read along. Ask me if a bit needs unpacking.", "reading"],
+  "story:blitzit:voice": ["The voice model talks. A separate reasoning agent handles the work. That split matters here.", "curious"],
+  "story:blitzit:wake-word": ["The wake word was trained in Colab. The orb you see is rendered from the actual component.", "curious"],
+  "story:blitzit:undo": ["Stopping speech and undoing a saved change are different jobs. This section explains the second one.", "reading"],
+  "story:blitzit:memory": ["Memory needs an edit and delete button too. You can see those controls in the screenshot.", "reading"],
+  "story:maddycustom:assistant": ["The product cards come from the catalogue. The assistant carries the search context into follow-ups.", "curious"],
+  "story:maddycustom:payments": ["Here’s what happens around a payment, including retries and verification.", "reading"],
+  "story:maddycustom:operations": ["This is the part customers rarely see: getting the right design made and shipped.", "reading"],
   halfway: ["Halfway down. I’m keeping your place.", "reading"],
 };
 export function reactionFor(key: string): PipNudge | null {

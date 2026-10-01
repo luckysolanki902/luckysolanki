@@ -10,7 +10,7 @@ import styles from "./Buddy.module.css";
 type Message = GuideAnswer & { question: string; mode?: "ai" | "local" };
 function readContext(): GuideContext {
   const article = document.querySelector("article");
-  return { path: location.pathname, title: document.querySelector("h1")?.textContent || "Lucky’s portfolio", introduction: article?.querySelector("header p")?.textContent || "", sections: Array.from(document.querySelectorAll("article section[id]")).map((section) => ({ heading: section.querySelector("h2")?.textContent || "", text: Array.from(section.querySelectorAll("p, li")).map((p) => p.textContent).join(" "), href: `#${section.id}` })) };
+  return { path: location.pathname, title: document.querySelector("h1")?.textContent || "Lucky’s portfolio", introduction: article?.querySelector("header p")?.textContent || "", sections: Array.from(document.querySelectorAll("article section[id]")).map((section) => ({ heading: section.querySelector("h2, h3")?.textContent || "", text: Array.from(section.querySelectorAll("p, li")).map((p) => p.textContent).join(" "), href: `#${section.id}` })) };
 }
 
 export function Buddy() {
@@ -34,7 +34,7 @@ function Companion({ path }: { path: string }) {
   const history = useRef<HTMLDivElement>(null);
   const eye = useRef<HTMLSpanElement>(null);
   const requestRef = useRef<AbortController | null>(null);
-  const isArticle = path.startsWith("/blog/");
+  const isArticle = path.startsWith("/work/");
   const behavior = usePipBehavior({ path, open, thinking, history: messages });
   const close = useCallback(() => { setOpen(false); launcher.current?.focus(); }, []);
 
@@ -58,8 +58,8 @@ function Companion({ path }: { path: string }) {
       setProgress(Math.round(Math.max(0, Math.min(100, ((rect ? -rect.top : scrollY) / Math.max(1, total)) * 100))));
       const nodes = Array.from(document.querySelectorAll(isArticle ? "article section[id]" : "main > section[id]"));
       const current = nodes.filter((node) => node.getBoundingClientRect().top < innerHeight * .55).at(-1);
-      const label = current?.querySelector("h2")?.textContent;
-      setContextLabel(label || (isArticle ? document.querySelector("h1")?.textContent || "Reading together" : path === "/blog" ? "Pick your next read" : "Welcome, explorer"));
+      const label = current?.querySelector("h2, h3")?.textContent;
+      setContextLabel(label || (isArticle ? document.querySelector("h1")?.textContent || "Reading together" : path === "/work" ? "Pick your next read" : "Welcome, explorer"));
     };
     const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
     const pointer = (event: PointerEvent) => {
@@ -112,7 +112,7 @@ function Companion({ path }: { path: string }) {
     let finished = false;
     const previous = messages.slice(-4).map(({ question, text }) => ({ question: question.slice(0, 600), text: text.slice(0, 1200) }));
     const context = readContext();
-    const visibleProject = Array.from(document.querySelectorAll<HTMLElement>("[data-project-card]")).filter((card) => { const rect = card.getBoundingClientRect(); return rect.top < innerHeight * .65 && rect.bottom > 0; }).at(-1)?.dataset.project || "";
+    const visibleProject = Array.from(document.querySelectorAll<HTMLElement>("[data-project-card], [data-work-experience]")).filter((card) => { const rect = card.getBoundingClientRect(); return rect.top < innerHeight * .65 && rect.bottom > 0; }).at(-1)?.dataset.project || (isArticle ? path.split("/")[2] : "");
     const updateLast = (answer: Partial<Message>) => setMessages((items) => items.map((item, index) => index === items.length - 1 ? { ...item, ...answer } : item));
     behavior.record("question", "chat");
     setInput(""); setNotice(""); setThinking(true);
@@ -198,7 +198,7 @@ function Companion({ path }: { path: string }) {
         {messages.map((message, index) => <div className={styles.exchange} key={index}><p className={styles.question}>{message.question}</p><p className={styles.answer}>{message.text}</p>{message.mode && <small className={styles.answerSource}>{message.mode === "ai" ? "AI reply" : "From the site"}</small>}{message.links && <div className={styles.links}>{message.links.map((link) => <a key={link.href + link.label} href={link.href} onClick={(event) => { if (link.href.startsWith("#") || (link.href.startsWith("/") && !link.href.endsWith(".pdf"))) { event.preventDefault(); navigate(link.href); } }}>{link.label}<span aria-hidden="true">↗</span></a>)}</div>}</div>)}
         {thinking && !messages.at(-1)?.text && <p className={styles.thinking}>One moment <span>•••</span></p>}
       </div>
-      <div className={styles.suggestions}>{(isArticle ? ["Give me the gist", "Article outline"] : path === "/blog" ? ["AI integration projects", "Backend experience"] : ["I’m hiring", "Show me AI work"]).map((question) => <button key={question} onClick={() => ask(question)} disabled={thinking}>{question} ↗</button>)}{isArticle && <><button onClick={bookmark}>Save my place</button>{saved && <button onClick={resume}>Resume reading</button>}</>}</div>
+      <div className={styles.suggestions}>{(isArticle ? ["Give me the gist", "Article outline"] : path === "/work" ? ["AI integration projects", "Backend experience"] : ["I’m hiring", "Show me AI work"]).map((question) => <button key={question} onClick={() => ask(question)} disabled={thinking}>{question} ↗</button>)}{isArticle && <><button onClick={bookmark}>Save my place</button>{saved && <button onClick={resume}>Resume reading</button>}</>}</div>
       {notice && <p className={styles.notice} role="status">{notice}</p>}
       <form className={styles.form} onSubmit={(event) => { event.preventDefault(); ask(input); }}><label className={styles.srOnly} htmlFor="pip-question">Ask about Lucky’s work or this article</label><input ref={field} id="pip-question" value={input} onChange={(event) => setInput(event.target.value)} maxLength={600} placeholder={isArticle ? "Ask about this article…" : "Ask about Lucky’s work…"} autoComplete="off" /><button disabled={!input.trim() || thinking} aria-label="Ask guide">↑</button></form>
       <footer className={styles.footer}><span>AI guide · <a href="/privacy">How memory works</a></span><div><button onClick={() => { requestRef.current?.abort(); requestRef.current = null; setThinking(false); void behavior.forget(); setMessages([]); try { sessionStorage.removeItem("pip-conversation"); } catch {} }}>Forget my visits</button></div></footer>

@@ -1,0 +1,162 @@
+[
+  {
+    "heading": "Two models, one owner of the work",
+    "paragraphs": [
+      "It is easy to describe this as a talker and a thinker. That description only helps if their authority is clear. If both can interpret a request, select tools, and decide what succeeded, there are two opportunities to change the meaning of what the user asked.",
+      "The implementation evolved through that boundary. Earlier voice work gave the talker a small delegation surface. The latest revision removes business tools from the realtime session entirely. Its tool list is empty, and tool choice is disabled. It receives bounded text to speak, rather than instructions to independently complete a task.",
+      "The ordinary agent owns the turn: reading context, choosing tools, applying guards, and producing an outcome. Voice is another way into that agent and another way out. The MCP layer is a related but separate concern: external clients share product tools and the executor, while voice and typed chat share the in-app agent itself."
+    ]
+  },
+  {
+    "heading": "Use the words the user actually said",
+    "paragraphs": [
+      "The voice adapter prefers the literal final transcript over an interpreted delegation request. This matters because an apparently helpful rewrite can quietly add authority. “What should I do today?” and “Reorganize my tasks for today” concern the same data, but authorize different behavior.",
+      "The controller waits for a completed transcription and checks that it contains speech. Failed transcription, empty input, partial text, and raw voice activity events do not start product work. Input IDs are remembered so a repeated completion event does not create a second turn.",
+      "This is deliberately a narrower boundary than “the microphone got loud.” Typing, background noise, and unfinished words are not enough to interrupt an answer or execute an action. The boundary cannot make transcription perfect, but it prevents uncertain intermediate events from becoming independent commands."
+    ]
+  },
+  {
+    "heading": "Context has to be fresh, and absence is not emptiness",
+    "paragraphs": [
+      "A voice conversation can continue while the user changes lists or views. Capturing the current page once at call startup is not enough. The adapter reads client context again for each turn, so references such as “this list” can be resolved against the current product state.",
+      "There is a second distinction that is easy to miss: a task collection that has not been loaded is unknown, not empty. The agent should read the actual relevant data before telling someone their day is clear. Missing local context must not become a confident answer about stored tasks.",
+      "The same principle applies to scope. If the contextual read fails, that failure should not widen a request about one list into a workspace-wide action. Context is part of correctness, not just a prompt enhancement. It determines which objects a request is allowed to mean."
+    ]
+  },
+  {
+    "heading": "Advice must not silently become a write",
+    "paragraphs": [
+      "The shared agent classifies read-only turns using the user’s words. For those turns it exposes only tools annotated as reads. There is also a check at execution time that rejects a write, even if an inappropriate call gets proposed.",
+      "Both layers matter. Filtering the tool list helps the model choose a suitable next step. The executor check enforces the boundary when a model response does not follow that expectation. A prompt alone cannot substitute for the second layer.",
+      "Explicit action requests still use the normal workflow. I am not trying to turn every request into a confirmation dialogue. The aim is to distinguish asking for a recommendation from asking the app to change something, then keep that distinction consistent in voice and text."
+    ]
+  },
+  {
+    "heading": "Generation finishing is not the same as audio finishing",
+    "paragraphs": [
+      "A particularly important coordination detail is the difference between a model finishing a response and the speaker finishing playback. Generated audio may still be buffered after the response completion event arrives. Starting the next utterance at that point can create overlap or an abrupt cut.",
+      "I put spoken output behind one coordinator. It tracks the current owner, response identity, and playback lifecycle. The output lane remains occupied until playback stops or is explicitly cleared. An old completion event cannot release a newer utterance’s lane.",
+      "The coordinator also separates activity cues from final outcomes. A result replaces pending progress speech, and owner checks prevent late events from an earlier turn from speaking over the current one. This is ordinary concurrency control applied to a conversation, where the user hears every ordering mistake."
+    ]
+  },
+  {
+    "heading": "The final sentence needs its own contract",
+    "paragraphs": [
+      "The agent can produce a detailed display response and a short spoken outcome. Those serve different needs. Reading the first streamed sentence aloud is unreliable because it may describe an intention, a partial result, or a step that later failed.",
+      "The voice adapter waits for the dedicated completion outcome. It does not invent one by clipping accumulated display text. A missing outcome is represented explicitly rather than treated as successful completion. That makes the boundary testable and gives the surrounding system a real failure to handle.",
+      "Speech generation then receives that bounded result with no business tools available. It presents the result of the shared workflow. It does not get another opportunity to select different tasks or silently retry a failed mutation."
+    ]
+  },
+  {
+    "heading": "Stopping a conversation is also a backend problem",
+    "paragraphs": [
+      "Cancellation crosses several kinds of work: queued turns, an active agent run, tool execution, persistence, and audio playback. Stopping the speaker does not automatically undo a write that already completed. Treating those as one boolean would make the interface misleading.",
+      "The voice path uses cancellation signals and ownership checks to discard work that has not started and stop eligible active work. Tool-driven mutations participate in the existing change journal, which gives completed changes a separate undo path. Cancellation and reversal remain different operations.",
+      "Session replacement and attachment also need atomic handling when requests reach different server instances. Late callbacks must belong to the session that created them. A new call should not inherit an old call’s cleanup, quota accounting, or final response."
+    ]
+  },
+  {
+    "heading": "Separate the reusable audio features from the custom name",
+    "paragraphs": [
+      "The runtime pipeline has three model stages. Audio becomes mel-spectrogram frames, those frames become speech embeddings, and a small classifier scores the recent embedding window for the wake phrase. The custom model learns the name; it does not need to learn an entire speech representation from scratch.",
+      "The application feeds 16 kHz mono audio through that pipeline. Processing uses 80 ms chunks, keeps context between chunks, and accumulates a window of sixteen 96-value embeddings before asking the classifier for a score. Buffering and sample scaling must match the training assumptions.",
+      "I kept the streaming pipeline separate from the runtime that loads ONNX sessions. Its model functions are injected, so chunk boundaries, reset behavior, and feature-window construction can be tested without loading the actual models. This makes audio preprocessing a piece of testable application code rather than an opaque callback."
+    ]
+  },
+  {
+    "heading": "Colab was a training environment, not the product runtime",
+    "paragraphs": [
+      "The training scripts prepare synthetic speech, background material, room impulse responses, and the model configuration in Colab. The custom classifier is deliberately small: a DNN configuration with a 32-unit layer size. An always-listening feature has a different cost profile from an occasional large-model request.",
+      "Getting that environment reproducible required practical compatibility work. The committed setup pins the Torch and torchaudio versions expected by the audio tooling and installs the speech synthesis dependencies used by the sample generator. A notebook that runs once is useful; a script that explains how it ran is much easier to maintain.",
+      "Training targets in a configuration are not measured outcomes. A requested false-positive rate or a number of training steps says what the run is aiming for. It does not establish the rate of false wakes in an office, through laptop speakers, or during a meeting. I keep those distinctions explicit when reading the results."
+    ]
+  },
+  {
+    "heading": "The name was outside the pronunciation dictionary",
+    "paragraphs": [
+      "Blitzy is a product name, and the speech generation path did not have a reliable dictionary entry for it. That matters before a single weight is trained. If the generated positives pronounce the name incorrectly, the model can learn the synthetic mistake very successfully.",
+      "The training wrapper adds explicit pronunciations for the intended name and relevant variants. It also normalizes punctuation for dictionary lookup, so a pause after “hey” does not send an otherwise known word down a different pronunciation path.",
+      "This is the kind of model work that looks like ordinary data plumbing. It is still central to the result. The classifier only sees the examples it receives. A clean training loop cannot rescue contradictory labels or a generator that is saying a different word."
+    ]
+  },
+  {
+    "heading": "Evaluate through the pipeline that will run in the app",
+    "paragraphs": [
+      "The evaluation script uses the application’s keyword spotter and ONNX models, rather than only reporting the training framework’s score. It generates speech with macOS voices at different speaking speeds and feeds it through the streaming path. That helps catch mismatches between training-time assumptions and application-time buffering.",
+      "The committed evaluation covers 29 synthetic voices at two speeds, with positive phrases and confusable negatives. It is useful for comparing variants and exposing a failure such as “hey busy.” It is not a field study of real accents, microphone distances, room acoustics, or overlapping speakers.",
+      "A strong clean-speech result can be encouraging without becoming a claim of universal accuracy. Before treating this as a broadly validated wake system, I would want recordings from real devices and environments, false wakes measured over listening hours, and misses measured across people who did not contribute to tuning."
+    ]
+  },
+  {
+    "heading": "The second check has an explicit privacy boundary",
+    "paragraphs": [
+      "After the local model produces a candidate, the app transcribes the short audio window that triggered it. The verification hint includes both the intended name and confusable words: Blitzy, busy, Bixby, baby, and buddy. Supplying only the desired spelling would risk nudging the transcriber toward confirming what the first model already guessed.",
+      "The normalized transcript is then checked for a word that sounds like the name. This gives the system a second opportunity to reject a near-miss before opening a conversation. It is a filter after local detection, not continuous cloud transcription of the microphone.",
+      "That distinction also matters when describing privacy. Continuous keyword spotting runs on the device, but a candidate causes a roughly two-second clip to leave the device for verification before the call starts. Calling the entire feature fully offline would be inaccurate. The implementation boundary should guide the explanation shown to a user."
+    ]
+  },
+  {
+    "heading": "A timeout is a product decision",
+    "paragraphs": [
+      "The verifier has a 2.5-second timeout. In the current implementation, a timeout or verification error accepts the local wake instead of discarding it. This favors availability: a slow verification request should not make a genuine wake disappear. The tradeoff is that some false candidates can also open a call.",
+      "That acceptance is permission to open the voice interface, not permission to execute a business action. Commands still go through the voice input validation and shared agent workflow. A wake-started call that hears no speech also ends automatically after a short inactivity window.",
+      "There are other reasonable policies, including requiring the verification to succeed. I would choose between them using observed missed wakes, accidental opens, and the consequences of opening the interface. The important thing is to make the failure behavior deliberate and test it, rather than let a rejected promise decide the experience."
+    ]
+  },
+  {
+    "heading": "The microphone needs a clear owner",
+    "paragraphs": [
+      "Starting and stopping are asynchronous. The user can disable listening while permission is being requested, or close the companion while a verification request is still in flight. Generation checks let those late completions recognize that they no longer belong to the active listener.",
+      "The detector releases only the media tracks it owns. The wake listener and the realtime call must hand off microphone use cleanly, then rearm listening after the call ends. A late verifier must not reopen a companion that the user just closed.",
+      "These details are part of the feature, not cleanup to add after training. This article reflects the October 1, 2026 implementation, with the complete frontend voice work still in review. The custom model and training notes establish what I built; real-world acoustic evaluation remains a separate bar for how confidently it can be described."
+    ]
+  },
+  {
+    "heading": "The animation has a job",
+    "paragraphs": [
+      "A voice assistant has fewer visible clues than a normal interface. When a button changes a task, the user can usually see the button, the task, and the result together. During a spoken request, they may be looking elsewhere. A small animated companion becomes the most immediate sign of what the system thinks is happening.",
+      "For Blitzy, I wanted that companion to feel friendly without turning every moment into a performance. The orb carries the brand’s face on a rotating surface of dots. It can blink, listen, think, read, work, and speak. Each behavior is tied to a state in the voice system.",
+      "The useful question was not how many effects I could put on a sphere. It was whether someone could tell the difference between “ready for you,” “heard you,” “working,” and “finished speaking.” A pretty animation that blurs those states would make the assistant harder to trust."
+    ]
+  },
+  {
+    "heading": "Start with a state model, then draw it",
+    "paragraphs": [
+      "The voice model distinguishes off, connecting, listening, user speaking, thinking, acting, speaking, muted, ended, and error. Those are not interchangeable shades of busy. Connecting means there may not be a usable conversation yet. Listening means the session is ready. Acting means product work is actually underway.",
+      "I separated the orb’s numeric model from its canvas renderer. The model describes rotation, breathing, audio response, brightness, saturation, a scan band, and a working ring. The renderer turns those values into a frame. That keeps a large amount of the behavior inspectable without mounting the visual component.",
+      "It also gives state changes a consistent vocabulary. Rather than unrelated animations competing for attention, each state chooses a target set of parameters. Transitions blend toward those targets. The same face remains present while its behavior changes."
+    ]
+  },
+  {
+    "heading": "A microphone meter does not prove the assistant heard you",
+    "paragraphs": [
+      "Raw microphone levels respond to everything the device captures. A keyboard, a chair, a fan, or another person can make the meter move. Feeding that value directly into an expressive character suggests recognition that has not actually happened.",
+      "The orb model gates input energy by the user-speaking state. Output energy is similarly used only while the assistant is speaking. Listening readiness still has a calm visual treatment, but a random loud sound is not automatically presented as a conversational response.",
+      "This is a small but important distinction between a signal and its meaning. Volume is a measurement. A recognized speaking state is the application’s interpretation. The interface should make it clear which one it is showing, especially when a user may rely on the animation instead of reading a transcript."
+    ]
+  },
+  {
+    "heading": "The sphere turns, but the face keeps looking at you",
+    "paragraphs": [
+      "The surface uses points distributed around a sphere with a Fibonacci construction. That gives an even-looking arrangement without building a large mesh. The canvas renderer projects the points into two dimensions and adjusts their appearance to create depth.",
+      "The eyes behave differently from the dots. They remain positioned toward the viewer while the surface rotates beneath them. If the whole face rotated away with the sphere, the companion would repeatedly stop being readable. Keeping the face stable lets the motion add life without losing the expression.",
+      "A blink and a small upward gaze during thinking provide personality. They are modest details, and their timing belongs to the visual system rather than the agent prompt. The assistant does not need to generate a new instruction to decide how every eyelid moves."
+    ]
+  },
+  {
+    "heading": "Smooth transitions should not depend on the refresh rate",
+    "paragraphs": [
+      "Blending a fixed percentage toward a target on every frame makes an animation behave differently at different frame rates. A display that produces more frames completes more blend steps in the same wall-clock time. That can change both the speed and the feel of the character.",
+      "The orb blends using elapsed time and an exponential approach to the target. Rotation also advances according to elapsed time. These choices make the state transitions more consistent when frames are uneven or the display refresh rate changes.",
+      "There is no need for a physics engine to get that behavior. The underlying model is a small collection of numbers with carefully chosen transitions. Keeping the mechanism simple makes it easier to reason about an abrupt state change, such as speech being interrupted or the microphone becoming muted."
+    ]
+  },
+  {
+    "heading": "The cheapest frame is the one you do not draw",
+    "paragraphs": [
+      "A desktop app can stay open for hours. A decorative canvas that keeps rendering while hidden can accumulate a real cost even if each frame is cheap. I use viewport intersection and document visibility to stop the animation loop when the orb is offscreen or the document is hidden.",
+      "When rendering resumes, timing is reset so the paused interval does not become one giant animation step. The canvas also follows theme changes, and its pixel density is bounded rather than growing without limit on a high-density display.",
+      "Reduced motion takes a different path: a still frame for the current state, with redraws when relevant state or appearance changes. The state remains available without requiring continuous motion. I would still measure frame cost and power use on representative hardware before claiming a specific performance result."
+    ]
+  }
+]

@@ -24,8 +24,8 @@ export function About() {
 
         <div className={styles.body}>
           <p>I work on the parts that make a product dependable: APIs, integrations, background jobs, and AI agents acting on real user data.</p>
-          <p>At <strong className={styles.highlight}>Blitzit</strong>, I build the shared tools and permission model used by integrations and AI clients. That includes the less visible work: handling revoked access, retries, conflicts, and reversible changes.</p>
-          <p>Co-founding <strong className={styles.highlight}>MaddyCustom</strong> and <strong className={styles.highlight}>Spyll</strong> taught me to connect engineering decisions to customers, support, revenue, and what a small team can actually ship.</p>
+          <p>At <strong className={styles.highlight}>Blitzit</strong>, my work spans AI agents, integrations, realtime collaboration, and the move to a new platform. Most recently, I built Blitzy’s voice architecture, a custom wake word, and an orb that shows what the assistant is doing.</p>
+          <p>Co-founding <strong className={styles.highlight}>MaddyCustom</strong> taught me to connect engineering decisions to customers, support, revenue, and what a small team can actually ship.</p>
           <p>I like owning a problem from the first conversation through the API, the interface, and the things that happen after launch.</p>
         </div>
 

@@ -235,8 +235,8 @@ export const clickTriggers: Record<string, BuddyTrigger[]> = {
     { id: "click-li-2", message: "Ah, the professional networking move.", mood: "wink", priority: 6, cooldown: 15 },
   ],
   projectSpyll: [
-    { id: "click-spyll-1", message: "1,700+ first-month downloads. Built from a dorm room.", mood: "excited", priority: 7, cooldown: 30 },
-    { id: "click-spyll-2", message: "Spyll is the big one. Pay attention.", mood: "wink", priority: 7, cooldown: 30 },
+    { id: "click-spyll-1", message: "Spyll is Lucky’s college social project, with verified access and anonymous conversations.", mood: "excited", priority: 7, cooldown: 30 },
+    { id: "click-spyll-2", message: "Spyll brings posts, chats, and moderation into one campus app.", mood: "wink", priority: 7, cooldown: 30 },
   ],
   projectMaddy: [
     { id: "click-maddy-1", message: "100K users on a bootstrapped budget. Wild.", mood: "shocked", priority: 7, cooldown: 30 },
@@ -555,7 +555,7 @@ export const storyTriggers: Record<"ai" | "journey", StoryTriggers> = {
       { id: "jrn-25-2", message: "A C# game from scratch in first year of engineering. Casual.", mood: "excited", priority: 9, cooldown: 0, once: true },
     ],
     scroll50: [
-      { id: "jrn-50-1", message: "₹60L revenue. AWS bill under $2. That's actually insane.", mood: "shocked", priority: 9, cooldown: 0, once: true },
+      { id: "jrn-50-1", message: "A commerce platform, its operations tools, and an AI shopping assistant. Built around a real business.", mood: "shocked", priority: 9, cooldown: 0, once: true },
       { id: "jrn-50-2", message: "Built what Shopify offers, for one specific store. Alone.", mood: "think", priority: 9, cooldown: 0, once: true },
     ],
     scroll75: [

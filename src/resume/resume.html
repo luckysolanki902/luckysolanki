@@ -30,7 +30,7 @@
   html, body { width: 210mm; }
   body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 8pt;
+    font-size: 8.3pt;
     line-height: 1.35;
     color: var(--ink);
     background: var(--paper);
@@ -41,7 +41,7 @@
   a { color: inherit; text-decoration: none; }
   .mono {
     font-family: "SF Mono", Menlo, Consolas, monospace;
-    font-size: 6.3pt;
+    font-size: 6.8pt;
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
@@ -58,7 +58,7 @@
   .tagline { margin-top: 1.8mm; color: var(--soft); }
   .contact { text-align: right; line-height: 1.5; padding-top: 1mm; }
   .contact .mono { color: var(--faint); margin-right: 1.5mm; }
-  .contact a { font-family: Menlo, Consolas, monospace; font-size: 6.8pt; border-bottom: 0.3pt solid var(--rule); }
+  .contact a { font-family: Menlo, Consolas, monospace; font-size: 7pt; border-bottom: 0.3pt solid var(--rule); }
 
   /* ── Summary ── */
   .summary {
@@ -138,53 +138,30 @@
   </div>
 </header>
 
-<p class="summary">
-  Product-minded backend and AI infrastructure engineer with 3+ years of commercial software experience. I build
-  agent systems, MCP tools, integrations, realtime sync, queues, and reliable backend platforms. At Blitzit, I own
-  core backend and AI work for an AI-native task product; earlier, I co-founded products serving 100K+ monthly users.
-</p>
+<p class="summary">Backend and AI engineer building software since December 2022. I connect product interactions to reliable systems: voice agents, scoped tools, integrations, realtime collaboration, payments, and operations. Core backend and AI work at Blitzit; previously co-founded and led engineering at MaddyCustom.</p>
 
 <section>
   <div class="section-head"><span class="mono">01 ·</span><h2>Experience</h2></div>
 
   <div class="job">
-    <div class="job-line">
-      <span class="job-title">Core Backend Developer &amp; AI Engineer <span class="co">Blitzit</span></span>
-      <span class="job-date">Nov 2025 · Present</span>
-    </div>
-    <p class="job-sub mono">AI-native task platform (UK, remote) · Fastify · TypeScript · MongoDB · Redis · BullMQ · MCP SDK · Zod</p>
+    <div class="job-line"><span class="job-title">Core Backend Developer &amp; AI Engineer <span class="co">Blitzit</span></span><span class="job-date">Nov 2025 - Present</span></div>
+    <p class="job-sub mono">AI productivity platform · UK, remote · TypeScript · Fastify · MongoDB · Redis · BullMQ</p>
     <ul class="bullets">
-      <li><b>Own core backend and AI systems in the Blitzit 3.0 rewrite</b> · app traffic, Blitzy AI actions, MCP clients, provider webhooks, queues, schedulers, and sync workers share the same auth, Zod validation, ownership, and domain-event rules.</li>
-      <li><b>Built a plugin-based integration SDK</b> around a Node.js event bus and shared provider contracts, making integrations easier to add without spreading provider-specific logic across routes, workers, OAuth handlers, and sync code.</li>
-      <li><b>Built a 54-tool MCP execution layer</b> through OAuth 2.1 (PKCE) and JSON-RPC 2.0 over Streamable HTTP, exposing product actions safely to Blitzy and external LLM agents.</li>
-      <li><b>Designed a Git-style undo/redo change journal</b>: mutations from humans, AI, MCP tools, and API clients become reversible commits with content hashes · users can trust direct AI writes without losing newer manual changes.</li>
-      <li>Shipped <b>deep bidirectional sync</b> with Asana, ClickUp, Notion, and Google Calendar · conflict resolution, webhook ingestion, timezone-aware scheduling · plus a <b>BullMQ + Redis notification pipeline</b> with retries and dead-letter queues.</li>
+      <li><b>Built core backend and AI systems for Blitzit 3.0</b>, spanning task APIs, auth, recurrence, notifications, collaboration, billing, and resumable migration from the legacy platform.</li>
+      <li><b>Built a provider SDK for 12 integrations and an MCP surface with 70+ tools</b>, OAuth 2.1/PKCE, typed schemas, and shared execution for in-app agents and external clients. Integrated bidirectional sync, webhooks, retry decisions, and provider-specific recovery.</li>
+      <li><b>Designed a reversible change journal</b> for human and AI mutations, with content checks to prevent undo from silently replacing newer edits. Built shared-list permissions and realtime delivery; optimized change-stream connection use.</li>
+      <li><b>Built Blitzy’s voice architecture</b>: realtime speech delegates actions to the existing reasoning agent, preserving scoped tools and context. Implemented transcript handling, interruption, and coordinated audio output. Backend merged; complete frontend experience in review.</li>
+      <li><b>Trained a custom “Hey Blitzy” wake-word model in Colab</b> and integrated local ONNX inference, candidate transcription verification, microphone handoff, and a state-driven orb with audio-reactive animation and offscreen rendering controls.</li>
     </ul>
   </div>
-
   <div class="job">
-    <div class="job-line">
-      <span class="job-title">Co-Founder &amp; Lead Full-Stack Developer <span class="co">Spyll</span></span>
-      <span class="job-date">2023 · Present</span>
-    </div>
-    <p class="job-sub mono">Verified anonymous college network · Fastify · MongoDB · Socket.IO · BullMQ · Firebase · Flutter</p>
+    <div class="job-line"><span class="job-title">Co-Founder &amp; Lead Full-Stack Developer &amp; AI Engineer <span class="co">MaddyCustom</span></span><span class="job-date">Dec 2022 - Feb 2026</span></div>
+    <p class="job-sub mono">Custom vehicle commerce · Next.js · MongoDB · Razorpay · PayU · Shiprocket · AWS · Clerk</p>
     <ul class="bullets">
-      <li>Built a campus social product with verified access, anonymous interaction, realtime chat, and random connect.</li>
-      <li>Engineered the <b>trust layer</b>: verified access with peer-facing anonymity, rate limiting, moderation queues, blocking, reporting, and notifications that keep rooms safe without breaking anonymity.</li>
-      <li>Rebuilding the mobile client in <b>Flutter</b> (from React + Capacitor) for native-grade smoothness; iterating on onboarding and matching flows against retention data.</li>
-    </ul>
-  </div>
-
-  <div class="job">
-    <div class="job-line">
-      <span class="job-title">Co-Founder &amp; Lead Full-Stack Developer <span class="co">MaddyCustom</span></span>
-      <span class="job-date">Dec 2022 · Feb 2026</span>
-    </div>
-    <p class="job-sub mono">E-commerce for vehicle customization · Next.js · MongoDB · Razorpay · Shiprocket · Meta API · AWS · Clerk</p>
-    <ul class="bullets">
-      <li>Co-founded and led full-stack product development across storefront, checkout, payments, shipping, operations, and admin systems for a custom-commerce product reaching <b>100K+ monthly users and ₹60L annual revenue</b>.</li>
-      <li>Built the <b>admin operating system</b>: inventory, order ops, production file downloads, offer engine, A/B testing, Sankey funnel analytics, customer journey views, review moderation, and role-based access.</li>
-      <li>Implemented <b>multi-gateway payment orchestration (Razorpay + PayU fallback)</b>, Shiprocket shipping, and server-side Meta tracking for a custom-commerce workflow.</li>
+      <li><b>Led engineering across the custom storefront and admin platform</b> for a business reaching 100K+ monthly users and approximately $62.4K USD annual revenue. Connected catalogue variants, custom offers, checkout, inventory, production, and fulfillment.</li>
+      <li><b>Built health-aware payment provider selection and fallback</b> across Razorpay and PayU, server-side verification, guarded post-payment handling, split-order totals, and shipping lifecycle integration.</li>
+      <li><b>Built the team’s operations tools</b>: production-template downloads, design search, order management, packaging, tax exports, review moderation, and department access.</li>
+      <li><b>Built first-party funnel and customer-journey analytics</b>, UTM attribution, period comparisons, repeat-buyer analysis, and server-side conversion tracking. Built a multi-agent shopping assistant with typed catalogue and order tools, product cards, follow-up pagination, policy retrieval, and human handoff.</li>
     </ul>
   </div>
 </section>
@@ -192,6 +169,7 @@
 <section>
   <div class="section-head"><span class="mono">02 ·</span><h2>Selected Projects</h2></div>
 
+  <div class="project"><span class="pname">Spyll</span><span class="prole">PERSONAL PROJECT · 2023 ONWARDS</span> · College social product with verified access, anonymous posts and polls, Socket.IO chat, Redis-backed random matching, moderation, and queued notifications.</div>
   <div class="project">
     <span class="pname">Avana</span><span class="prole">FREELANCE · SOLE DEVELOPER · 2025</span> ·
     AI investment research assistant for Bali real estate: <b>orchestrator-style multi-agent chat</b> (OpenAI Agents SDK), realtime WebRTC voice, document-backed answers over vector search, Xendit subscriptions, and an admin panel for documents, news scraping/approval, and knowledge ops. Two codebases shipped solo.
@@ -210,7 +188,7 @@
   <div class="section-head"><span class="mono">03 ·</span><h2>Skills</h2></div>
 
   <div class="skill-row"><span class="mono">Primary</span><p>TypeScript, Node.js, Fastify, MongoDB, PostgreSQL, Redis, BullMQ, Zod</p></div>
-  <div class="skill-row"><span class="mono">AI / Agents</span><p>MCP Protocol, OpenAI Agents SDK, LLM orchestration, multi-agent handoffs, RAG, vector search, AI tool surfaces</p></div>
+  <div class="skill-row"><span class="mono">AI / Agents</span><p>MCP, OpenAI Agents SDK, realtime voice, tool execution, RAG, ONNX Runtime, wake-word training</p></div>
   <div class="skill-row"><span class="mono">Distributed Systems</span><p>OAuth 2.1/PKCE, webhooks, queues, event-driven architecture, idempotency, REST, JSON-RPC, WebSockets, SSE, WebRTC, realtime sync</p></div>
   <div class="skill-row"><span class="mono">Also</span><p>React, Next.js, Flutter, Python, Docker, AWS (S3, CloudFront), Cloudflare, Prisma, Playwright, Razorpay, Xendit, admin tooling and analytics</p></div>
 </section>

@@ -378,7 +378,7 @@ export function Weather() {
         const skyKey = p.toFixed(3);
         if (skyKey !== previousSky) {
           previousSky = skyKey;
-          skyRef.current?.style.setProperty("--sunset", (p * .75).toFixed(3));
+          skyRef.current?.style.setProperty("--sunset", (p * .55).toFixed(3));
           skyRef.current?.style.setProperty("--sun-travel", `${(p * 48).toFixed(2)}vh`);
         }
         const breeze = Math.sin(now * .00013) * .22 + .18;

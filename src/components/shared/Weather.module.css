@@ -36,8 +36,8 @@
   overflow: hidden;
   pointer-events: none;
   background:
-    radial-gradient(ellipse at 15% 8%, #dce3d780, transparent 60%),
-    linear-gradient(165deg, #ede9db, #faf3e7 48%, #f2d7b5);
+    radial-gradient(ellipse at 45% 0%, #fbe7dd80, transparent 58%),
+    linear-gradient(180deg, #fff6f1, #fafaf9 62%, #fafaf9);
   opacity: 0;
   transition: opacity 650ms ease;
 }
@@ -46,8 +46,8 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 80% 85%, #efb98c80, transparent 55%),
-    linear-gradient(180deg, #b9b2c3 0%, #e3c6bd 38%, #f2d5b8 73%, #f6e4cf);
+    radial-gradient(ellipse at 80% 28%, #f5c5af40, transparent 60%),
+    linear-gradient(180deg, #f9d6c5 0%, #fcebe1 38%, #faf7f3 73%, #fafaf9);
   opacity: var(--sunset);
 }
 .sun {
@@ -56,15 +56,15 @@
   aspect-ratio: 1;
   right: -9%;
   top: 2%;
-  background: radial-gradient(circle, #fff8dc99 0%, #ffe9b85c 17%, #f5c38926 35%, transparent 68%);
+  background: radial-gradient(circle, #ffffff70 0%, #ffe6dc30 20%, #f8c7b414 38%, transparent 68%);
   transform: translate3d(0, var(--sun-travel), 0);
 }
 .haze {
   position: absolute;
   inset: -10%;
   background:
-    linear-gradient(164deg, transparent 25%, #fff9eb40 34%, transparent 42%),
-    linear-gradient(171deg, transparent 52%, #fff9eb55 61%, transparent 68%);
+    linear-gradient(164deg, transparent 25%, #ffffff40 34%, transparent 42%),
+    linear-gradient(171deg, transparent 52%, #ffffff55 61%, transparent 68%);
   transform: translate3d(0, calc(var(--sun-travel) * -.15), 0);
 }
 @media (prefers-reduced-motion: reduce) {
