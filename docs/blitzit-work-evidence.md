@@ -61,3 +61,15 @@ Sources in frontend: `apps/desktop-renderer/src/features/voice-agent/orb/orb-mod
 - Published screenshots preserve the original app pixels, with presentation framing supplied by CSS. The orb preview renders the original canvas component locally; the separate orb design study is explicitly labeled. See work-story-image-provenance.md for sources and demo-data limitations.
 - Product-specific metrics stay in the work section. Hero experience is calculated from December 2022.
 - Backend voice is merged; frontend PR 411 was still in review on October 1, 2026. No general-availability or measured accuracy claim is made.
+
+## Backend ownership and architecture, verified October 1, 2026
+
+The backend history starts with Lucky Solanki's `c5e0380` (March 11, 2026): Fastify 5, TypeScript, MongoDB, Redis, and event bus. Followed by models `cd7e77a`, auth `9d12d67`, core CRUD `0a4eb9d`, RxDB sync `3fb68fe`, recurrence `a9fd217`, and integration SDK `f07cc70`. These support the explicit claim that Lucky designed and built the entire 3.0 backend from scratch. They do not imply sole authorship of all frontend work or every subsequent contribution.
+
+- `src/server.ts`: composition root for domain routes, infrastructure plugins, integration registry, and lifecycle wiring.
+- `src/modules/`: domain-oriented routes, schemas, services. MongoDB models are separate.
+- `src/plugins/event-bus.ts`: typed in-process EventEmitter, task attribution, listener error reporting, lifecycle cleanup. Not durable messaging or an event-sourced database.
+- `src/modules/tasks/service.ts`: task creation saves state and records journal/activity before emitting `task.created`.
+- `src/integrations/sdk/event-handler.ts`: checks provider capability and connection usability; skips integration-origin changes to avoid sync loops.
+- `src/lib/process-role.ts`, `src/lifecycle/background-work.ts`: producers and local listeners in every role, consumers/schedulers role-scoped. BullMQ and Socket.IO's Redis adapter carry cross-process work; domain events are not independently fanned out across processes.
+- Initial authorship verified with Git. Architecture read from the current checkout without modifying source files. No exactly-once, automatic crash replay, latency, or throughput claim is made.

@@ -1,0 +1,61 @@
+{
+  "file": "public/resume.pdf",
+  "pages": 1,
+  "bytes": 260380,
+  "encrypted": false,
+  "tagged": true,
+  "images": 0,
+  "source_has_no_tables": true,
+  "no_unicode_dashes": true,
+  "text_bounds": [
+    {
+      "top_pt": 29.65,
+      "bottom_pt": 805.8,
+      "height_pt": 841.91998
+    }
+  ],
+  "links": [
+    "mailto:luckysolanki902@gmail.com",
+    "tel:+919027495997",
+    "https://www.luckysolanki.com/",
+    "https://github.com/luckysolanki902",
+    "https://linkedin.com/in/luckysolanki902",
+    "https://www.luckysolanki.com/work/blitzit",
+    "https://www.luckysolanki.com/work/maddycustom",
+    "https://avanaapp.ai/",
+    "https://spyll.in/"
+  ],
+  "extractors": {
+    "pypdf": {
+      "missing_source_tokens": {},
+      "source_token_recovery_percent": 100.0,
+      "standard_headings_present": true,
+      "employment_and_project_order_correct": true,
+      "email_preserved": true,
+      "phone_preserved": true,
+      "dates_preserved": true,
+      "core_facts_preserved": true
+    },
+    "poppler": {
+      "missing_source_tokens": {},
+      "source_token_recovery_percent": 100.0,
+      "standard_headings_present": true,
+      "employment_and_project_order_correct": true,
+      "email_preserved": true,
+      "phone_preserved": true,
+      "dates_preserved": true,
+      "core_facts_preserved": true
+    },
+    "pdfplumber": {
+      "missing_source_tokens": {},
+      "source_token_recovery_percent": 100.0,
+      "standard_headings_present": true,
+      "employment_and_project_order_correct": true,
+      "email_preserved": true,
+      "phone_preserved": true,
+      "dates_preserved": true,
+      "core_facts_preserved": true
+    }
+  },
+  "scope": "Local format and text extraction checks. Not a Greenhouse, Workday, Lever, or AI shortlisting service result. No job description supplied; job-match scoring not performed."
+}

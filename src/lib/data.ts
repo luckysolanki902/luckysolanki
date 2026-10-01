@@ -66,7 +66,7 @@ export const projects: Project[] = [
     slug: "blitzit",
     story: {
       problem: "Let people and AI work on the same tasks, with consistent permissions, realtime updates, and a way to undo changes.",
-      system: "Shared agent tools, provider integrations, realtime collaboration, and a reversible change journal.",
+      system: "Blitzit 3.0’s backend, built from scratch: domain modules, a typed event bus, separate API and worker roles, shared AI tools, and a reversible change journal.",
       outcome: "12 provider integrations and 70+ MCP tools, with bidirectional sync and reversible AI writes.",
       flow: ["AI client", "OAuth + scopes", "Shared tools", "Change journal"],
     },
@@ -77,10 +77,11 @@ export const projects: Project[] = [
     category: "fulltime",
     location: "United Kingdom",
     description:
-      "I build the backend and AI systems behind Blitzit: shared agent tools, integrations, realtime collaboration, and reversible actions. My latest work brings that foundation into Blitzy’s voice experience.",
+      "I designed and built the entire Blitzit 3.0 backend from scratch, from its modular architecture and typed event bus to the APIs, integrations, and shared AI tool layer. My latest work brings that foundation into Blitzy’s voice experience.",
     image: "/images/projects/blitzit.webp",
     stack: ["TypeScript", "Fastify", "MongoDB", "Redis", "MCP", "WebRTC", "ONNX"],
     details: [
+      "Designed and built the entire Blitzit 3.0 backend from scratch in Fastify and TypeScript. Established MongoDB models, domain modules, validation, auth, and a typed in-process event bus. Separated API and worker runtime roles, keeping producers and event listeners active while offloading BullMQ consumers and schedulers.",
       "Built Blitzy’s realtime voice architecture so spoken requests use the same reasoning agent, conversation context, and scoped executor as typed chat. The realtime model handles speech with no business tools, while the shared agent owns actions and their outcomes. Backend work is merged; the complete frontend voice experience is currently in review.",
       "Trained a custom ‘Hey Blitzy’ wake-word classifier in Colab and integrated local ONNX inference into the desktop app, with a short transcription check after candidate detections. Built the state-driven orb, microphone handoff, interruption handling, and session lifecycle around it.",
       "Built shared-list collaboration and realtime delivery, per-user migration from Blitzit 2.0 to 3.0, managed-team billing, and observability. Later work included multiplexed database change streams, agent memory and personalization, and in-app notifications.",
@@ -97,7 +98,7 @@ export const projects: Project[] = [
     slug: "maddycustom",
     story: {
       problem: "Custom orders need more than checkout: designs, production files, payments, and shipping must stay connected.",
-      system: "A storefront and operations platform spanning the complete order journey.",
+      system: "A custom-coded storefront, backend, admin platform, and AI assistant spanning the complete order journey.",
       outcome: "The business reached 100K+ monthly users and approximately $62.4K USD in annual revenue.",
       flow: ["Custom order", "Payment", "Production files", "Shipping"],
     },
@@ -106,7 +107,7 @@ export const projects: Project[] = [
     role: "Co-founder & Lead Full-Stack Developer & AI Engineer",
     category: "founder",
     description:
-      "I co-founded the business and built its commerce platform, connecting custom orders, payments, production files, and shipping in one workflow.",
+      "I co-founded MaddyCustom and coded its original commerce platform from scratch: storefront, backend business logic, admin operations, and AI shopping assistant. It was built with Next.js and MongoDB, not Shopify.",
     url: "https://maddycustom.vercel.app",
     image: "/images/projects/maddycustom.webp",
     stack: ["Next.js 15", "MongoDB", "Razorpay", "Shiprocket", "Meta API", "Clerk"],

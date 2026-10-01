@@ -1,0 +1,76 @@
+Lucky Solanki
+Backend & AI Engineer · 3+ years of experience
+luckysolanki902@gmail.com
+
++91 90274 95997
+
+luckysolanki.com
+
+github.com/luckysolanki902
+
+linkedin.com/in/luckysolanki902
+
+I build the backend and the AI that works on top of it. Built Blitzit 3.0 from the backend up; co-founded MaddyCustom
+and coded its commerce platform. Ownership across architecture, agents, and daily operations.
+Experience
+
+Blitzit
+
+Nov 2025 - Present · UK, remote
+
+Core Backend Developer & AI Engineer
+
+Work story
+
+Built the entire Blitzit 3.0 backend from scratch: Fastify/TypeScript domain modules, MongoDB models, and a
+typed event bus. Separated API and worker roles to move background processing off public requests.
+Unified 12 providers behind one integration SDK and 70+ MCP tools. Shared schemas, OAuth, permissions,
+and execution across in-app agents and external AI clients, with bidirectional sync, queued retries, and loop
+prevention.
+Designed Blitzy’s two-agent voice system: realtime speech delegates to the existing reasoning agent and
+scoped tools, preserving one source of truth. Built interruption and audio coordination. Voice backend merged;
+frontend in review.
+Made AI actions reversible: a per-user change journal checks for conflicts before undo, protecting newer edits.
+Shared-list permissions enforce the same access boundaries for people and agents.
+Trained the “Hey Blitzy” wake-word model in Colab with on-device ONNX inference, candidate verification,
+microphone handoff, and an audio-reactive orb that makes listening, thinking, and acting visible.
+Owned the platform beyond AI: auth, recurrence, notifications, billing, realtime sync, and resumable legacy
+migration. Shared change-stream cursors and separate connections address database connection pressure.
+
+MaddyCustom
+
+Dec 2022 - Feb 2026
+
+Co-founder & Lead Full-Stack Developer & AI Engineer
+
+Work story
+
+Coded the original commerce platform from scratch, not Shopify: storefront, backend logic, and admin for a
+business reporting 100K+ monthly users and ~$62.4K USD annual revenue.
+Built an AI assistant that finds products and tracks orders: OpenAI Agents SDK, catalogue tools, policy
+retrieval, and human handoff. Product cards, pagination, and conversation memory ground follow-ups in store data.
+Designed checkout to handle gateway failures and repeat callbacks: Razorpay/PayU fallback, payment
+verification, and guarded processing. Connected split orders, inventory, production files, and Shiprocket delivery in
+the admin.
+Made customer drop-offs visible: first-party funnel events, deduplication, UTM attribution, and repeat-buyer
+analysis. Owned Next.js/MongoDB operations tools, role-based access, caching, and database pooling.
+Selected Projects & Freelance
+Avana · Freelance, sole developer · 2025
+Delivered an AI research product end to end: retrieval-augmented generation (RAG), WebRTC voice, Xendit
+subscriptions, and knowledge-base administration.
+AutoRemov · Freelance, backend engineer · 2026
+Built durable pg-boss image-processing workers, uploads, job recovery, credits, and payments. Migrated MySQL to
+PostgreSQL/Prisma with integration tests.
+Spyll · Personal project · 2023 · Shipped a college social app to 1,700+ first-month downloads, with verified access,
+anonymous posting, realtime chat, matching, and moderation.
+
+Technical Skills
+Backend TypeScript, Node.js, Fastify, Python, REST APIs, PostgreSQL, MongoDB, Redis, BullMQ, Prisma
+AI & systems OpenAI Agents SDK, LLM tool calling, MCP, RAG, WebRTC, ONNX, OAuth 2.1, WebSockets
+Product & delivery React, Next.js, Flutter, Docker, AWS S3/CloudFront, Vercel, integration testing
+
+Education
+Harcourt Butler Technical University
+B.Tech, Mechanical Engineering · Web Dev Head, Technical Sub-Council
+
+2021 - 2025
