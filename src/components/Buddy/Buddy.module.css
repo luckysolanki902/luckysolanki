@@ -34,9 +34,9 @@
 .answerSource { display: block; margin-top: 7px; font-size: 9px; color: var(--text-tertiary); }
 
 /* Expressive poses react immediately; AI suggestions arrive independently. */
-.launcher { width: 135px; height: 135px; grid-template-columns: minmax(0, 1fr); }
-.progress { width: 114px; height: 114px; inset: 10.5px; }
-.robot { scale: 1.5; transform-origin: center; width: 58px; height: 50px; border-radius: 21px 21px 17px 17px; box-shadow: inset -3px -4px #cbbf8d, 0 8px 16px #14263530; }
+.launcher { width: 101.25px; height: 101.25px; grid-template-columns: minmax(0, 1fr); }
+.progress { width: 85.5px; height: 85.5px; inset: 7.875px; }
+.robot { scale: 1.125; transform-origin: center; width: 58px; height: 50px; border-radius: 21px 21px 17px 17px; box-shadow: inset -3px -4px #cbbf8d, 0 8px 16px #14263530; }
 .antenna { left: 28px; top: -12px; height: 13px; }
 .face { inset: 10px 7px 9px; border-radius: 13px; }
 .eyes { left: 10px; top: 7px; gap: 12px; }
@@ -78,5 +78,5 @@
 @keyframes chatter { 50% { transform: scaleY(.35); } }
 @keyframes explain { 50% { transform: rotate(-65deg); } }
 @keyframes bubble-in { from { opacity: 0; transform: translateY(12px) scale(.88); } to { opacity: 1; transform: none; } }
-@media (max-width: 600px) { .launcher { width: 44px; height: 44px; }.progress { width: 32px; height: 32px; inset: 6px; }.robot { scale: .5; }.panel { max-height: calc(100dvh - 120px); }.bubble { width: min(143px,calc(100vw - 32px)); } }
+@media (max-width: 600px) { .launcher { width: 55px; height: 55px; }.progress { width: 40px; height: 40px; inset: 7.5px; }.robot { scale: .625; }.panel { max-height: calc(100dvh - 120px); }.bubble { width: min(143px,calc(100vw - 32px)); } }
 @media (prefers-reduced-motion: reduce) { .wrapper *, .wrapper *::before { animation: none !important; transition: none !important; } }

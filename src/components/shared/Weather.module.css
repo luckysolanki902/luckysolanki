@@ -25,3 +25,51 @@
     display: none !important;
   }
 }
+
+/* The sunset sits behind the page, so it never washes over text or cards. */
+.autumnSky {
+  --sunset: 0;
+  --sun-travel: 0vh;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 15% 8%, #dce3d780, transparent 60%),
+    linear-gradient(165deg, #ede9db, #faf3e7 48%, #f2d7b5);
+  opacity: 0;
+  transition: opacity 650ms ease;
+}
+:global([data-theme="light"]) .autumnSky { opacity: 1; }
+.sunset {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 80% 85%, #efb98c80, transparent 55%),
+    linear-gradient(180deg, #b9b2c3 0%, #e3c6bd 38%, #f2d5b8 73%, #f6e4cf);
+  opacity: var(--sunset);
+}
+.sun {
+  position: absolute;
+  width: clamp(300px, 48vw, 760px);
+  aspect-ratio: 1;
+  right: -9%;
+  top: 2%;
+  background: radial-gradient(circle, #fff8dc99 0%, #ffe9b85c 17%, #f5c38926 35%, transparent 68%);
+  transform: translate3d(0, var(--sun-travel), 0);
+}
+.haze {
+  position: absolute;
+  inset: -10%;
+  background:
+    linear-gradient(164deg, transparent 25%, #fff9eb40 34%, transparent 42%),
+    linear-gradient(171deg, transparent 52%, #fff9eb55 61%, transparent 68%);
+  transform: translate3d(0, calc(var(--sun-travel) * -.15), 0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .autumnSky { transition: none; }
+  .sun, .haze { transform: none; }
+  .sunset { opacity: .2; }
+}
+@media print { .autumnSky { display: none; } }

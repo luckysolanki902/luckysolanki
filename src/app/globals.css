@@ -141,7 +141,7 @@ ol {
 
 /* Overcast blue hour: cloud texture, diffused light, and a misty horizon.
    Static atmospheric layers remain visible with reduced motion enabled. */
-[data-theme="dark"] body {
+body {
   isolation: isolate;
 }
 
