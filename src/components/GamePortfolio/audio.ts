@@ -1,8 +1,8 @@
 /** Original, locally synthesized score. No network requests or sampled melodies. */
 export type SoundEffect = "discover" | "step" | "jump" | "land";
 export class RoomAudio {
-  sound = true;
-  music = true;
+  sound = false;
+  music = false;
   arcade = false;
   paused = false;
   private buffers = new Map<string, AudioBuffer>();
@@ -18,7 +18,7 @@ export class RoomAudio {
   private disposed = false;
 
   unlock = () => {
-    if (this.disposed || (document.hidden || !document.hasFocus())) return;
+    if ((!this.sound && !this.music) || this.disposed || (document.hidden || !document.hasFocus())) return;
     try {
       this.context ??= new AudioContext();
       if (!this.musicBus) {

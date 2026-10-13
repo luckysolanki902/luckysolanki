@@ -8,6 +8,7 @@ import { siteConfig } from "@/lib/data";
 import { JournalFrame } from "@/components/Journal/JournalFrame";
 
 import { workMedia } from "@/lib/work-media";
+import { EngineeringBrief } from "@/components/WorkStories/EngineeringBrief";
 import { StoryContents } from "@/components/WorkStories/StoryContents";
 import { StoryImage } from "@/components/WorkStories/StoryImage";
 import styles from "../work-story.module.css";
@@ -88,7 +89,7 @@ export default async function WorkStoryPage({
               ← Back to work
             </Link>
             <p className={styles.eyebrow}>
-              {story.name} / Work story / {Math.ceil(words / 220)} min read
+              {story.name} / 1-minute brief · {Math.ceil(words / 220)}-minute deep dive
             </p>
             <h1>{story.heading}</h1>
             <p className={styles.lede}>{story.introduction}</p>
@@ -98,6 +99,7 @@ export default async function WorkStoryPage({
               <span>{story.period}</span>
             </div>
           </header>
+          <EngineeringBrief slug={slug}/>
           <div className={styles.cover}>
             <StoryImage image={media[0]} priority />
           </div>
@@ -107,6 +109,7 @@ export default async function WorkStoryPage({
               minutes={Math.ceil(words / 220)}
               screenshotCount={media.length}
               chapters={[
+                { id: "brief", label: "The one-minute brief" },
                 { id: "starting-point", label: "The product & my role" },
                 ...story.features.map((f) => ({
                   id: f.id,

@@ -13,7 +13,7 @@ test('themes, logos, reviews and short origin render',async({page})=>{
  await page.emulateMedia({colorScheme:'dark'});await page.goto('/');
  await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
  await expect(page.getByText('Piyush Tiwari',{exact:true})).toBeVisible();
- await page.locator('#work summary').first().click();await expect(page.getByAltText('Blitzit 3.0 task board with sample tasks')).toBeVisible();
+ await expect(page.getByAltText('Blitzit 3.0 task board with sample tasks')).toBeVisible();
  await page.locator('#work').scrollIntoViewIfNeeded();await page.screenshot({path:'output/design/implemented/work-expanded.png'});
  await page.getByRole('button',{name:'Switch to day mode'}).click();await expect(page.locator('html')).toHaveAttribute('data-theme','light');await page.goto('/stories/journey');
  await expect(page.locator('html')).toHaveAttribute('data-theme','light');
@@ -30,12 +30,15 @@ test('direct arcade entry and paused conversations preserve board geometry',asyn
  await tip.getByRole('button',{name:'Got it'}).click();await expect(tip).toHaveCount(0);expect(await page.locator('#task-arena').boundingBox()).toEqual(box);
  await page.keyboard.down('ArrowRight');await page.waitForTimeout(2400);await page.keyboard.up('ArrowRight');await expect(tip).toContainText('Hold Space');
  await page.screenshot({path:'output/design/arcade/conversation-fixed.png'});
- await tip.getByRole('button',{name:'Got it'}).click();await page.getByRole('button',{name:'Game menu',exact:true}).click();await expect(page.getByRole('button',{name:'BGM on',exact:true})).toBeVisible();await page.waitForTimeout(400);await page.screenshot({path:'output/design/arcade/menu-settings.png'});await page.setViewportSize({width:390,height:844});await page.screenshot({path:'output/design/arcade/menu-mobile.png'});expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(390);
+ await tip.getByRole('button',{name:'Got it'}).click();await page.getByRole('button',{name:'Game menu',exact:true}).click();await expect(page.getByRole('button',{name:'BGM off',exact:true})).toBeVisible();await page.waitForTimeout(400);await page.screenshot({path:'output/design/arcade/menu-settings.png'});await page.setViewportSize({width:390,height:844});await page.screenshot({path:'output/design/arcade/menu-mobile.png'});expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(390);
 });
 
 test('audio suspends on page focus loss without changing preferences',async({page})=>{
  await page.addInitScript(()=>{const Native=window.AudioContext;const contexts:AudioContext[]=[];(window as unknown as {audioTest:AudioContext[]}).audioTest=contexts;window.AudioContext=class extends Native{constructor(options?:AudioContextOptions){super(options);contexts.push(this);}};});
  await page.goto('/');await expect(page.locator('#playable-room')).toHaveAttribute('data-ready','true');await page.getByLabel('Interactive room',{exact:true}).click();
+ await expect(page.getByRole('button',{name:'Turn background music on'})).toHaveAttribute('aria-pressed','false');
+ await expect.poll(()=>page.evaluate(()=>(window as unknown as {audioTest:AudioContext[]}).audioTest.length)).toBe(0);
+ await page.getByRole('button',{name:'Turn background music on'}).click();
  await expect.poll(()=>page.evaluate(()=>(window as unknown as {audioTest:AudioContext[]}).audioTest[0]?.state)).toBe('running');
  await page.evaluate(()=>{Object.defineProperty(document,'hasFocus',{configurable:true,value:()=>false});window.dispatchEvent(new Event('blur'));});
  await expect.poll(()=>page.evaluate(()=>(window as unknown as {audioTest:AudioContext[]}).audioTest[0]?.state)).toBe('suspended');
