@@ -1,3 +1,4 @@
+import { ProjectShowcase } from "./ProjectShowcase";
 import { ThemeControl } from "./ThemeControl";
 import { GithubActivity } from "./GithubActivity";
 import type { PublicTestimonial } from "@/lib/testimonials";
@@ -6,7 +7,7 @@ import Link from "next/link";
 import { ArrowUpRight, Github, Mail, Plus, FileText, Linkedin } from "lucide-react";
 import { GamePortfolio } from "./GamePortfolio";
 import { TechStack } from "./TechStack";
-import { projects, experience, socials } from "@/lib/data";
+import { experience, socials } from "@/lib/data";
 import { notes } from "@/components/Journal/JournalFrame";
 import styles from "./Portfolio.module.css";
 
@@ -70,16 +71,7 @@ export function Portfolio({ testimonials = [] }: { testimonials?: PublicTestimon
           </details>)}
         </div>
       </section>
-      <section id="projects" className={styles.section}>
-        <div className={styles.sectionHeading}><div><span className={styles.eyebrow}>03 / SELECTED WORK</span><h2>Selected projects.</h2></div><a href={socials.github}>More on GitHub ↗</a></div>
-        <div className={styles.projects}>{projects.filter(p => !["blitzit", "maddycustom"].includes(p.slug)).map((p,i) => <article key={p.slug} id={p.slug} className={styles.project}>
-          {p.image && <div className={styles.projectImage}><Image src={p.image} alt={`${p.name} product interface`} width={680} height={400}/><span>0{i + 1}</span></div>}
-          <div className={styles.projectHeading}><h3>{p.name}</h3><span>{p.category === "freelance" ? "Client work" : "Independent"} · {p.year}</span></div>
-          <p>{p.tagline}</p><div className={styles.tags}>{p.stack.slice(0,4).map(s => <span key={s}>{s}</span>)}</div>
-          <details className={styles.projectDetails}><summary>What I built <Plus size={14}/></summary><p>{p.description}</p>{p.details?.slice(0,1).map(d => <p key={d}>{d}</p>)}</details>
-          {p.url && <a className={styles.visit} href={p.url} target="_blank" rel="noreferrer">Visit project <ArrowUpRight size={14}/></a>}
-        </article>)}</div>
-      </section>
+      <ProjectShowcase/>
       <section id="notes" className={styles.section}>
         <div className={styles.sectionHeading}><div><span className={styles.eyebrow}>04 / NOTES FROM THE DESK</span><h2>Written along the way.</h2></div><Link href="/blog">All notes ↗</Link></div>
         <div className={styles.notes}>{notes.filter(n => n.kind !== "Engineering" && n.kind !== "Building a business").map((n,i) => <Link href={n.href} key={n.href}><span className={styles.noteNumber}>0{i+1}</span><div><h3>{n.title}</h3><p>{n.text}</p></div><ArrowUpRight size={18}/></Link>)}</div>
