@@ -161,6 +161,5 @@
 
 .hiringStrip { display:flex;flex-wrap:wrap;gap:12px 28px;padding:22px 0 0;border-top:1px solid var(--line);font-size:13px;color:var(--muted);margin-top:30px;line-height:1.6; }.hiringStrip span:first-child { color:var(--text); }.hiringStrip i {display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:8px;}.hiringStrip a {color:var(--accent)}.contact p {max-width:58ch;line-height:1.7;}.contact p+p {font-size:14px;margin-top:12px;}
 
-.codeNote{max-width:75ch;color:var(--muted);line-height:1.8}.codeLinks{display:flex;flex-wrap:wrap;gap:16px 30px;margin-top:24px;color:var(--accent);font-size:14px}
 
 .reviewToggle{display:block;margin:16px 0 0;padding:0;border:0;background:transparent;color:var(--accent);font:inherit;font-size:14px;cursor:pointer}.reviewToggle:focus-visible{outline:2px solid var(--accent);outline-offset:5px}.site .transparentLogo{background:transparent;border:0;box-shadow:none}
