@@ -1,39 +1,12 @@
-/* ============================================================
-   page.tsx, Single page: assembles all sections.
-   Order follows the scroll: Nav → Hero → About → Work →
-   Tools → Contact → Footer
-   ============================================================ */
-
-import { Nav } from "@/components/Nav/Nav";
-import { Hero } from "@/components/Hero/Hero";
-import { About } from "@/components/About/About";
-import { Work } from "@/components/Work/Work";
-import { Tools } from "@/components/Tools/Tools";
-import { StoryPreview } from "@/components/WorkStories/StoryPreview";
-import { Testimonials } from "@/components/Testimonials/Testimonials";
-import { Contact } from "@/components/Contact/Contact";
-import { Footer } from "@/components/Footer/Footer";
-import { PortfolioMotion } from "@/components/shared/PortfolioMotion";
-import { ScrollReveal } from "@/components/shared/ScrollReveal";
-
-export const dynamic = "force-dynamic";
-
-export default function Home() {
-  return (
-    <>
-      <Nav />
-      <main id="main-content">
-        <Hero />
-        <Work />
-        <About />
-        <Tools />
-        <StoryPreview />
-        <Testimonials />
-        <Contact />
-      </main>
-      <Footer />
-      <ScrollReveal />
-      <PortfolioMotion />
-    </>
-  );
+import { isDatabaseConfigured } from "@/lib/mongodb";
+import { publishedTestimonials } from "@/lib/published-testimonials";
+import { getApprovedTestimonials } from "@/lib/testimonials";
+import { Portfolio } from "@/components/GamePortfolio/Portfolio";
+import { Pixelify_Sans, Space_Grotesk } from "next/font/google";
+const pixel = Pixelify_Sans({ subsets: ["latin"], variable: "--font-pixel", display: "swap" });
+const display = Space_Grotesk({ subsets: ["latin"], variable: "--font-display", display: "swap" });
+export const revalidate = 300;
+export default async function Home() {
+  const testimonials = isDatabaseConfigured() ? await getApprovedTestimonials() : publishedTestimonials;
+  return <div className={`${pixel.variable} ${display.variable}`}><Portfolio testimonials={testimonials}/></div>;
 }

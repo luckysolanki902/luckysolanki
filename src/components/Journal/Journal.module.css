@@ -1,0 +1,255 @@
+.world {
+  --text-primary: #303c32;
+  --text-secondary: #656950;
+  --text-tertiary: #74765f;
+  --bg-primary: #f6efd9;
+  --bg-secondary: #ece3c8;
+  --border-primary: #c9bea0;
+  --accent: #3e7158;
+  min-height: 100svh;
+  color: var(--text-primary);
+  background:
+    linear-gradient(#233a3299, #20302bdd),
+    url("/game/room-night.webp") center/cover fixed;
+  padding: 0 36px 35px;
+}
+.navigation {
+  max-width: 1220px;
+  margin: auto;
+  min-height: 78px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  color: #eee8d2;
+  font-family: var(--font-pixel), monospace;
+  font-size: 18px;
+}
+.navigation a {
+  padding: 12px 0;
+}
+.paper {
+  max-width: 1220px;
+  margin: auto;
+  background: #f6efd9;
+  border: 2px solid #9b8057;
+  box-shadow:
+    4px 5px 0 #c8b998,
+    7px 9px 0 #755a3c,
+    0 25px 75px #111b2470;
+  animation: openBook 0.55s ease-out both;
+  transform-origin: 20% top;
+}
+.paper h1,
+.paper h2,
+.paper h3 {
+  color: #303c32;
+}
+.footer {
+  max-width: 1220px;
+  margin: 30px auto 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+  color: #eee8d2;
+  font-size: 12px;
+}
+.index {
+  padding: 65px 9% 40px;
+}
+.titleBlock {
+  position: relative;
+  border-bottom: 1px solid #c4b694;
+  padding-bottom: 40px;
+}
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: #77765d;
+}
+.titleBlock h1 {
+  font:
+    clamp(48px, 7vw, 80px)/1.1 var(--font-pixel),
+    monospace;
+  margin: 18px 0;
+}
+.titleBlock p {
+  font-size: 18px;
+  line-height: 1.7;
+  color: #697059;
+}
+.bookmark {
+  position: absolute;
+  right: 0;
+  top: -67px;
+  background: #467b63;
+  color: #eee8ce;
+  width: 53px;
+  height: 122px;
+  padding-top: 60px;
+  text-align: center;
+  font-family: var(--font-pixel), monospace;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 86%, 0 100%);
+}
+.note {
+  display: grid;
+  grid-template-columns: 35px 1fr 64px 20px;
+  gap: 20px;
+  align-items: center;
+  padding: 30px 0;
+  border-bottom: 1px solid #c4b694;
+  transition: transform 0.2s ease;
+}
+.note:hover {
+  transform: translateX(5px);
+}
+.number {
+  align-self: start;
+  padding-top: 3px;
+  font-family: var(--font-pixel), monospace;
+  color: #688065;
+}
+.note small {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 10px;
+  color: #70735b;
+}
+.note h2 {
+  font:
+    27px/1.2 var(--font-pixel),
+    monospace;
+  margin: 7px 0;
+}
+.note p {
+  font-size: 14px;
+  color: #68705b;
+  line-height: 1.7;
+}
+.symbol {
+  font:
+    36px var(--font-pixel),
+    monospace;
+  color: #477660;
+  border: 2px solid #a2aa80;
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  box-shadow: 3px 3px 0 #d0c59f;
+}
+.colophon {
+  font-size: 12px;
+  color: #787960;
+  margin-top: 30px;
+  line-height: 1.7;
+}
+.readingTrail {
+  position: fixed;
+  z-index: 60;
+  top: 0;
+  left: 0;
+  height: 4px;
+  width: 100%;
+  pointer-events: none;
+}
+.readingTrail span {
+  display: block;
+  height: 100%;
+  background: #d5bc77;
+  transform-origin: left;
+  transform: scaleX(0);
+}
+@supports (animation-timeline: scroll()) {
+  .readingTrail span {
+    animation: progress linear both;
+    animation-timeline: scroll(root);
+  }
+}
+@keyframes progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes openBook {
+  from {
+    transform: perspective(1400px) rotateX(3deg) translateY(14px);
+    opacity: 0.5;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+.world a:focus-visible {
+  outline: 2px solid #8fa16a;
+  outline-offset: 5px;
+}
+@media (max-width: 700px) {
+  .world {
+    padding: 0 12px 25px;
+    background-attachment: scroll;
+  }
+  .navigation {
+    font-size: 14px;
+    min-height: 66px;
+    gap: 12px;
+  }
+  .navigation a:last-child {
+    display: none;
+  }
+  .index {
+    padding: 40px 22px 30px;
+  }
+  .bookmark {
+    top: -42px;
+    width: 36px;
+    height: 90px;
+    padding-top: 40px;
+  }
+  .titleBlock h1 {
+    font-size: 49px;
+  }
+  .titleBlock p {
+    font-size: 16px;
+  }
+  .note {
+    grid-template-columns: 22px 1fr 16px;
+    gap: 10px;
+    padding: 26px 0;
+  }
+  .symbol {
+    display: none;
+  }
+  .note h2 {
+    font-size: 24px;
+  }
+  .note p {
+    font-size: 14px;
+  }
+  .footer {
+    font-size: 11px;
+    gap: 18px;
+  }
+  .footer > span {
+    width: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .paper,
+  .readingTrail span {
+    animation: none;
+  }
+  .note {
+    transition: none;
+  }
+}
+/* Reading surfaces follow the same system/user theme as the portfolio. */
+:global([data-theme="dark"]) .world { --text-primary:#e5e6dc; --text-secondary:#b2b9aa; --text-tertiary:#a4af9a; --bg-primary:#1c231f; --bg-secondary:#263028; --border-primary:#46513f; --accent:#e2be8b; }
+:global([data-theme="dark"]) .paper { background:var(--bg-primary); border-color:#58614d; box-shadow:4px 5px 0 #303b2e,7px 9px 0 #101810,0 25px 75px #0005; }
+:global([data-theme="dark"]) .paper :is(h1,h2,h3) { color:var(--text-primary); }
+:global([data-theme="dark"]) .paper :is(p,li,small) { color:var(--text-secondary); }
+:global([data-theme="dark"]) .paper a { color:var(--accent); }
+:global([data-theme="light"]) .world { background:linear-gradient(#f3eacfdd,#eee9dbe8),url('/game/room-day.webp') center/cover fixed; }
+:global([data-theme="light"]) :is(.navigation,.footer) { color:#43533c; }

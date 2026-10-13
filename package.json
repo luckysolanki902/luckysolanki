@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "resume:pdf": "node scripts/generate-resume-pdf.mjs",
-    "test:buddy": "node --test tests/buddy.test.cjs"
+    "test:buddy": "node --test tests/buddy.test.cjs",
+    "test:game": "playwright test"
   },
   "dependencies": {
     "@chenglou/pretext": "^0.0.7",
@@ -23,6 +24,7 @@
     "zustand": "^5.0.11"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

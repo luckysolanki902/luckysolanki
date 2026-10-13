@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/shared/ThemeProvider";
-import { Weather } from "@/components/shared/Weather";
-import { Buddy } from "@/components/Buddy/Buddy";
 import { Analytics } from "@vercel/analytics/next";
 import { siteConfig, socials } from "@/lib/data";
 import "./globals.css";
@@ -187,15 +185,6 @@ export default function RootLayout({
                   }
                   document.documentElement.setAttribute('data-theme', theme);
                 } catch (e) {}
-                if (location.pathname === '/' && performance.getEntriesByType('navigation')[0]?.type === 'reload') {
-                  history.scrollRestoration = 'manual';
-                  history.replaceState(history.state, '', location.pathname + location.search);
-                  window.scrollTo(0, 0);
-                  window.addEventListener('load', function() {
-                    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-                    history.scrollRestoration = 'auto';
-                  }, { once: true });
-                }
                 // Signal CSS that JS is active, enables bot-safe animations
                 document.documentElement.classList.add('js');
               })();
@@ -208,9 +197,7 @@ export default function RootLayout({
           <a href="#main-content" className="skip-link">
             Skip to content
           </a>
-          <Weather />
           {children}
-          <Buddy />
         </ThemeProvider>
         <script
           type="application/ld+json"

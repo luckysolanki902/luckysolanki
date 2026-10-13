@@ -1,0 +1,23 @@
+import {test,expect} from '@playwright/test';
+test('room dialogue stays inside scene and tiles join; pause has animated scene',async({page})=>{
+ await page.setViewportSize({width:1440,height:1000});await page.goto('/');
+ const blocks=page.locator('[aria-label^="Jump to break brick"]');
+ const a=await blocks.nth(0).boundingBox(),b=await blocks.nth(1).boundingBox();expect(Math.abs(a!.x+a!.width-b!.x)).toBeLessThan(1);
+ await page.getByRole('button',{name:'Jump to hit the laptop bonus block'}).click();
+ const guide=page.getByRole('complementary',{name:'Room game guide'});await expect(guide).toBeVisible();
+ const room=await page.locator('[aria-label="Interactive room"]').boundingBox(),box=await guide.boundingBox();
+ expect(box!.y).toBeGreaterThanOrEqual(room!.y);expect(box!.y+box!.height).toBeLessThanOrEqual(room!.y+room!.height);
+ await page.screenshot({path:'output/design/arcade/room-dialogue.png'});
+ await page.getByRole('button',{name:'Dismiss room guide'}).click();
+ await page.getByRole('button',{name:'Enter green pipe arcade'}).click();
+ await expect(page.locator('#task-arena')).toHaveAttribute('data-mode','playing');
+ await page.getByRole('button',{name:'Pause',exact:true}).click();
+ await expect(page.getByRole('heading',{name:'Paused.'})).toBeVisible();
+ await page.screenshot({path:'output/design/arcade/pause-pixel.png'});
+ await page.setViewportSize({width:390,height:844});await page.screenshot({path:'output/design/arcade/pause-pixel-mobile.png'});
+ await page.getByRole('button',{name:'Resume →'}).click();await expect(page.locator('#task-arena')).toHaveAttribute('data-mode','playing');
+ const hud=page.getByRole('banner',{name:'Arcade HUD'});await expect(hud).toBeVisible();
+ const h=await hud.boundingBox();expect(h!.x+h!.width).toBeLessThanOrEqual(390);
+ await page.screenshot({path:'output/design/arcade/hud-mobile.png'});
+ await page.setViewportSize({width:1440,height:1000});await page.screenshot({path:'output/design/arcade/hud-desktop.png'});
+});

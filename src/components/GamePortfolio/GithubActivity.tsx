@@ -1,0 +1,9 @@
+"use client";
+import { useEffect,useState } from 'react';
+import styles from './Portfolio.module.css';
+type Activity={days:{date:string;level:number;count:number}[];total:number};
+export function GithubActivity(){
+ const [data,setData]=useState<Activity|null>(null),[failed,setFailed]=useState(false);
+ useEffect(()=>{const controller=new AbortController();const load=()=>fetch('/api/github-activity',{signal:controller.signal}).then(r=>{if(!r.ok)throw Error();return r.json();}).then(d=>{setData(d);setFailed(false);}).catch(()=>{if(!controller.signal.aborted)setFailed(true);});void load();const timer=setInterval(()=>{if(!document.hidden)void load();},3600000);return()=>{controller.abort();clearInterval(timer);};},[]);
+ return <section className={styles.section} aria-label="GitHub activity"><div className={styles.sectionHeading}><div><span className={styles.eyebrow}>BUILDING, ONE DAY AT A TIME</span><h2>On GitHub.</h2></div><a href="https://github.com/luckysolanki902">View GitHub ↗</a></div><div className={styles.heatmapScroll}>{data?<div className={styles.heatmap} aria-label={`${data.total.toLocaleString()} contributions over the last year`}>{Array.from({length:new Date(data.days[0].date+'T00:00:00Z').getUTCDay()},(_,i)=><i key={`empty-${i}`} style={{visibility:'hidden'}}/>)}{data.days.map(d=><i key={d.date} data-level={d.level} title={`${d.date}: ${d.count} contributions`} aria-label={`${d.date}: ${d.count} contributions`}/>)}</div>:<p className={styles.heatmapFallback}>{failed?'The calendar is unavailable right now. Your GitHub profile is still one click away.':'Loading the contribution calendar…'}</p>}</div><p className={styles.activityCaption}>{data?`${data.total.toLocaleString()} contributions in the last year · Public GitHub calendar · Refreshes hourly`:'Public contribution activity from GitHub'}</p></section>;
+}

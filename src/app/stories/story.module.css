@@ -287,3 +287,9 @@
     padding: 0;
   }
 }
+
+.page { padding:55px 0 65px; min-height:0; }
+.container { max-width:760px; padding:0 35px; }
+.heading,.chapterTitle { font-family:var(--font-pixel),monospace; }
+.heading { font-size:clamp(38px,6vw,62px); letter-spacing:-.025em; }
+@media(max-width:600px){.page{padding:35px 0 45px}.container{padding:0 22px}.heading{font-size:38px}}

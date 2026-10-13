@@ -1,21 +1,12 @@
-/* ============================================================
-   /stories layout, Wraps story pages with Nav + Footer.
-   Keeps the reading column centred and calm.
-   ============================================================ */
-
-import { Nav } from "@/components/Nav/Nav";
-import { Footer } from "@/components/Footer/Footer";
-
+import { JournalFrame } from "@/components/Journal/JournalFrame";
 export default function StoriesLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <>
-      <Nav />
+    <JournalFrame>
       <main id="main-content">{children}</main>
-      <Footer />
-    </>
+    </JournalFrame>
   );
 }
