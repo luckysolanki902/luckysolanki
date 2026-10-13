@@ -1,3 +1,4 @@
+import { ReviewQuote } from "./ReviewQuote";
 import { ProjectShowcase } from "./ProjectShowcase";
 import { ThemeControl } from "./ThemeControl";
 import { GithubActivity } from "./GithubActivity";
@@ -45,7 +46,7 @@ export function Portfolio({ testimonials = [] }: { testimonials?: PublicTestimon
         <div className={styles.sectionHeading}><div><span className={styles.eyebrow}>01 / ENGINEERING IN PRACTICE</span><h2>Work experience.</h2></div><p></p></div>
         <div className={styles.timeline}>
           {experience.map((job, i) => <details key={job.company} className={styles.job} open={i === 0}>
-            <summary><span className={styles.timelineDot}/><span className={styles.jobLogo}><Image src={i === 0 ? "/icons/blitzit.png" : "/icons/maddycustom.ico"} width={32} height={32} alt="" unoptimized/></span><span className={styles.jobTitle}><strong>{job.company}{job.current && <em>Now</em>}</strong><span>{job.role}</span><span className={styles.jobProof}>{i === 0 ? "Backend from scratch · Recoverable sync · Reversible AI actions" : "Custom commerce platform · 100K+ monthly users at the business"}</span></span><span className={styles.date}>{i === 0 ? "Nov 2025 — Present" : "Dec 2022 — Feb 2026"}</span><Plus size={17} className={styles.expand}/></summary>
+            <summary><span className={styles.timelineDot}/><span className={`${styles.jobLogo} ${i === 0 ? styles.transparentLogo : ""}`}><Image src={i === 0 ? "/icons/blitzit.png" : "/icons/maddycustom.ico"} width={32} height={32} alt="" unoptimized/></span><span className={styles.jobTitle}><strong>{job.company}{job.current && <em>Now</em>}</strong><span>{job.role}</span><span className={styles.jobProof}>{i === 0 ? "Backend from scratch · Recoverable sync · Reversible AI actions" : "Custom commerce platform · 100K+ monthly users at the business"}</span></span><span className={styles.date}>{i === 0 ? "Nov 2025 — Present" : "Dec 2022 — Feb 2026"}</span><Plus size={17} className={styles.expand}/></summary>
             <div className={styles.jobBody}>
 
               <p className={styles.workLead}>{i === 0 ? "Building the Blitzit 3.0 backend: I designed and built the foundation from scratch, then added integrations, realtime collaboration and AI that can act on the product." : "I co-founded MaddyCustom and built its original commerce platform from scratch: the storefront, backend, admin tools and AI shopping assistant."}</p>
@@ -69,7 +70,7 @@ export function Portfolio({ testimonials = [] }: { testimonials?: PublicTestimon
           </details>)}
         </div>
       </section>
-      {testimonials.length > 0 && <section className={styles.section} id="reviews"><div className={styles.sectionHeading}><div><span className={styles.eyebrow}>FROM PEOPLE I’VE WORKED WITH</span><h2>In their words.</h2></div></div><div className={styles.reviews}>{testimonials.map(t=><figure key={t.id}><blockquote>{t.testimonial.length > 280 ? `${t.testimonial.slice(0, t.testimonial.lastIndexOf(" ", 240))}…` : t.testimonial}</blockquote>{t.testimonial.length > 280 && <details className={styles.fullReview}><summary>Read full recommendation</summary><p>{t.testimonial}</p></details>}<figcaption><strong>{t.name}</strong><span>{t.role} · {t.company}</span></figcaption></figure>)}</div></section>}
+      {testimonials.length > 0 && <section className={styles.section} id="reviews"><div className={styles.sectionHeading}><div><span className={styles.eyebrow}>FROM PEOPLE I’VE WORKED WITH</span><h2>In their words.</h2></div></div><div className={styles.reviews}>{testimonials.map(t=><figure key={t.id}><ReviewQuote text={t.testimonial}/><figcaption><strong>{t.name}</strong><span>{t.role} · {t.company}</span></figcaption></figure>)}</div></section>}
       <section id="skills" className={styles.section}>
         <div className={styles.sectionHeading}><div><span className={styles.eyebrow}>02 / THE TOOLKIT</span><h2>Tech I work with.</h2></div><p>Tools behind the work.</p></div>
         <TechStack/>

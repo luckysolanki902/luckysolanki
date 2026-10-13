@@ -163,4 +163,4 @@
 
 .codeNote{max-width:75ch;color:var(--muted);line-height:1.8}.codeLinks{display:flex;flex-wrap:wrap;gap:16px 30px;margin-top:24px;color:var(--accent);font-size:14px}
 
-.fullReview{margin:18px 0;font-size:14px}.fullReview summary{color:var(--accent);cursor:pointer}.fullReview p{color:var(--muted);line-height:1.8;margin-top:16px}
+.reviewToggle{display:block;margin:16px 0 0;padding:0;border:0;background:transparent;color:var(--accent);font:inherit;font-size:14px;cursor:pointer}.reviewToggle:focus-visible{outline:2px solid var(--accent);outline-offset:5px}.site .transparentLogo{background:transparent;border:0;box-shadow:none}
