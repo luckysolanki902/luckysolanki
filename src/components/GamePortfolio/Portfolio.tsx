@@ -40,7 +40,7 @@ export function Portfolio({ testimonials = [] }: { testimonials?: PublicTestimon
           </div>
 
         </div>
-        <div className={styles.hiringStrip}><span><i/> Open to work · Available immediately</span><span>Lucknow, India · UTC+5:30</span><a href="#contact">Remote, hybrid or in-office ↗</a></div>
+        <div className={styles.hiringStrip}><span><i/> Open to work</span><span>Lucknow, India · UTC+5:30</span></div>
       </section>
       <section id="work" className={styles.section}>
         <div className={styles.sectionHeading}><div><span className={styles.eyebrow}>01 / ENGINEERING IN PRACTICE</span><h2>Work experience.</h2></div><p></p></div>
@@ -90,7 +90,7 @@ export function Portfolio({ testimonials = [] }: { testimonials?: PublicTestimon
         </div>
       </section>
       <GithubActivity/>
-      <section id="contact" className={`${styles.section} ${styles.contact}`}><div><span className={styles.eyebrow}>05 / THE NEXT CONVERSATION</span><h2>Let’s build the next thing.</h2><p>Open to backend and applied AI engineering roles. Available immediately.</p><p>Based in Lucknow, India (UTC+5:30). Remote, hybrid and in-office all work. Open to relocation to Europe or the Americas.</p></div><a href={`mailto:${socials.email}`}><Mail size={18}/> Say hello <ArrowUpRight size={17}/></a></section>
+      <section id="contact" className={`${styles.section} ${styles.contact}`}><div><span className={styles.eyebrow}>05 / THE NEXT CONVERSATION</span><h2>Let’s build the next thing.</h2><p>Open to backend and applied AI engineering roles.</p><p>Based in Lucknow, India (UTC+5:30).</p></div><a href={`mailto:${socials.email}`}><Mail size={18}/> Say hello <ArrowUpRight size={17}/></a></section>
       <footer className={styles.footer}><span>Lucky Solanki <span className={styles.pixelStar}>·</span> From games to systems.</span><div><a href={socials.github}><Github size={14}/> GitHub</a><a href={socials.linkedin}>LinkedIn ↗</a><a href="/resume.pdf">Résumé ↗</a></div></footer>
     </main>
   </div>;
