@@ -13,6 +13,12 @@ import { experience, socials } from "@/lib/data";
 import { notes } from "@/components/Journal/JournalFrame";
 import styles from "./Portfolio.module.css";
 
+function XLogo({ size = 18 }: { size?: number }) {
+  return <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.64 7.584H.47l8.6-9.835L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
+  </svg>;
+}
+
 export function Portfolio({ testimonials = [] }: { testimonials?: PublicTestimonial[] }) {
   return <div className={styles.site}>
     <SmoothScroll/>
@@ -37,7 +43,7 @@ export function Portfolio({ testimonials = [] }: { testimonials?: PublicTestimon
           <div className={styles.heroAside}>
             <a href="#work" className={styles.currentWork}><span/> Currently at Blitzit <ArrowUpRight size={13}/></a>
             <p className={styles.introduction}>The backend behind a better product.<br/>At Blitzit, I built the 3.0 backend foundation, recoverable integrations and a shared action layer for text, voice and MCP.</p>
-            <div className={styles.actions}><a href="#work">See my work <span>↓</span></a><a href="/resume.pdf"><FileText size={15}/> Résumé</a><div className={styles.heroSocials}><a href={socials.github} aria-label="Lucky on GitHub"><Github size={18}/></a><a href={socials.linkedin} aria-label="Lucky on LinkedIn"><Linkedin size={18}/></a><a href={`mailto:${socials.email}`} aria-label="Email Lucky"><Mail size={18}/></a></div></div>
+            <div className={styles.actions}><a href="#work">See my work <span>↓</span></a><a href="/resume.pdf"><FileText size={15}/> Résumé</a><div className={styles.heroSocials}><a href={socials.github} aria-label="Lucky on GitHub"><Github size={18}/></a><a href={socials.linkedin} aria-label="Lucky on LinkedIn"><Linkedin size={18}/></a><a href={socials.x} aria-label="Lucky on X (@luckysolanki902)"><XLogo/></a><a href={`mailto:${socials.email}`} aria-label="Email Lucky"><Mail size={18}/></a></div></div>
           </div>
 
         </div>
@@ -95,7 +101,7 @@ export function Portfolio({ testimonials = [] }: { testimonials?: PublicTestimon
       </section>
       <GithubActivity/>
       <section id="contact" className={`${styles.section} ${styles.contact}`}><div><span className={styles.eyebrow}>05 / THE NEXT CONVERSATION</span><h2>Let’s build the next thing.</h2><p>Open to backend and applied AI engineering roles.</p><p>Based in Lucknow, India (UTC+5:30).</p></div><a href={`mailto:${socials.email}`}><Mail size={18}/> Say hello <ArrowUpRight size={17}/></a></section>
-      <footer className={styles.footer}><span>Lucky Solanki <span className={styles.pixelStar}>·</span> The backend behind a better product.</span><div><a href={socials.github}><Github size={14}/> GitHub</a><a href={socials.linkedin}>LinkedIn ↗</a><a href="/resume.pdf">Résumé ↗</a></div></footer>
+      <footer className={styles.footer}><span>Lucky Solanki <span className={styles.pixelStar}>·</span> The backend behind a better product.</span><div><a href={socials.github}><Github size={14}/> GitHub</a><a href={socials.linkedin}>LinkedIn ↗</a><a href={socials.x} aria-label="Lucky on X (@luckysolanki902)"><XLogo size={14}/> X</a><a href="/resume.pdf">Résumé ↗</a></div></footer>
     </main>
   </div>;
 }
