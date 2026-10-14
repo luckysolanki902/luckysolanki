@@ -28,6 +28,8 @@ export interface Experience {
   role: string;
   period: string;
   current: boolean;
+  url?: string;
+  site?: string;
 }
 
 export const siteConfig = {
@@ -52,12 +54,16 @@ export const experience: Experience[] = [
     role: "Core Backend Developer & AI Engineer",
     period: "Nov 2025, Now",
     current: true,
+    url: "https://www.blitzit.app",
+    site: "blitzit.app",
   },
   {
     company: "MaddyCustom",
     role: "Co-founder & Lead Full-Stack Developer & AI Engineer",
     period: "Dec 2022, Feb 2026",
     current: false,
+    url: "https://maddycustom.vercel.app",
+    site: "maddycustom.vercel.app",
   },
 ];
 

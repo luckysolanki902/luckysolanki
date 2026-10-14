@@ -163,3 +163,17 @@
 
 
 .reviewToggle{display:block;margin:16px 0 0;padding:0;border:0;background:transparent;color:var(--accent);font:inherit;font-size:14px;cursor:pointer}.reviewToggle:focus-visible{outline:2px solid var(--accent);outline-offset:5px}.site .transparentLogo{background:transparent;border:0;box-shadow:none}
+
+/* "Now" badge: a live-status pill that reads in both themes. */
+.jobTitle em{display:inline-flex;align-items:center;gap:5px;font:700 8px/1 monospace;letter-spacing:.14em;text-transform:uppercase;color:#cfead6;background:#223029;border:1px solid #3856441f;border-radius:999px;padding:4px 8px 4px 7px;}
+.jobTitle em::before{content:"";width:5px;height:5px;border-radius:50%;background:#5fc98a;box-shadow:0 0 0 2px #5fc98a33;}
+:global([data-theme="light"]) .site .jobTitle em{color:#1f6b3f;background:#dff0e3;border-color:#bfe0c9;}
+:global([data-theme="light"]) .site .jobTitle em::before{background:#2f9e5e;box-shadow:0 0 0 2px #2f9e5e33;}
+
+/* Work experience links: the brief + a live-site link, on one row. */
+.jobLinks{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;margin-top:16px;}
+.jobLinks a{margin-top:0;}
+.visitSite{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--accent);border:1px solid var(--line);border-radius:999px;padding:6px 13px 6px 11px;transition:border-color .2s,background .2s;}
+.visitSite:hover{border-color:var(--accent);background:#ffffff08;}
+:global([data-theme="light"]) .site .visitSite{color:#845526;border-color:#e0cdb0;}
+:global([data-theme="light"]) .site .visitSite:hover{border-color:#845526;background:#8455260d;}

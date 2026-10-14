@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Github, Mail, Plus, FileText, Linkedin } from "lucide-react";
 import { GamePortfolio } from "./GamePortfolio";
+import { SmoothScroll } from "./SmoothScroll";
 import { TechStack } from "./TechStack";
 import { experience, socials } from "@/lib/data";
 import { notes } from "@/components/Journal/JournalFrame";
@@ -14,6 +15,7 @@ import styles from "./Portfolio.module.css";
 
 export function Portfolio({ testimonials = [] }: { testimonials?: PublicTestimonial[] }) {
   return <div className={styles.site}>
+    <SmoothScroll/>
     <header className={styles.nav}>
       <a href="#home" className={styles.brand}>ls<span>·</span></a>
       <nav aria-label="Portfolio navigation">{["Work", "Skills", "Projects", "Notes", "Contact"].map(label => <a key={label} href={`#${label.toLowerCase()}`}>{label}</a>)}</nav>
@@ -25,7 +27,6 @@ export function Portfolio({ testimonials = [] }: { testimonials?: PublicTestimon
         <div className={styles.room}>
           <div className={styles.roomLabel}><span><i/> A LITTLE OF WHERE IT STARTED</span><span>01 — THE ROOM</span></div>
           <GamePortfolio compact/>
-          <div className={styles.roomCaption}><span>Built a few games. Kept building.</span><small>Click to explore · ← → / A D move · ↑ / W jump · ↓ / S enter</small></div>
         </div>
         <div className={styles.heroContent}>
           <div className={styles.hello}>
@@ -65,7 +66,10 @@ export function Portfolio({ testimonials = [] }: { testimonials?: PublicTestimon
               ]).map(([title,body]) => <li key={title}><strong>{title}.</strong> {body}</li>)}</ul>
               <small>{i === 0 ? "Voice backend merged; complete frontend voice experience in review." : "Traffic and approximate revenue describe the business, not impact attributed to software alone. These details cover the original custom platform."}</small>
               <figure className={styles.workScreenshot}><Image src={i === 0 ? "/images/projects/blitzit/board-original.webp" : "/images/projects/maddycustom/storefront-original.webp"} alt={i === 0 ? "Blitzit 3.0 task board with sample tasks" : "MaddyCustom original custom storefront"} width={1200} height={675}/><figcaption>{i === 0 ? "Blitzit 3.0 · sample task data" : "MaddyCustom · original custom-built storefront"}</figcaption></figure>
-              <Link href={`/work/${i === 0 ? "blitzit" : "maddycustom"}`}>One-minute brief & engineering story <ArrowUpRight size={14}/></Link>
+              <div className={styles.jobLinks}>
+                <Link href={`/work/${i === 0 ? "blitzit" : "maddycustom"}`}>One-minute brief & engineering story <ArrowUpRight size={14}/></Link>
+                {job.url && <a href={job.url} target="_blank" rel="noreferrer" className={styles.visitSite}><ArrowUpRight size={14}/> {job.site}</a>}
+              </div>
             </div>
           </details>)}
         </div>
