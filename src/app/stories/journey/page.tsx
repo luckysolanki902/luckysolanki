@@ -10,7 +10,7 @@ import styles from "../story.module.css";
 
 export const dynamic = "force-static";
 
-export const metadata = pageMetadata({ title: "From games to systems | Lucky Solanki", description: "From a Unity game and mechanical engineering to co-founding MaddyCustom and building backend and AI systems.", path: "/stories/journey", card: "journey", article: true });
+export const metadata = pageMetadata({ title: "How I got into software | Lucky Solanki", description: "From a Unity game and mechanical engineering to co-founding MaddyCustom and building backend and AI systems.", path: "/stories/journey", card: "journey", article: true });
 
 import { journeyChapters as chapters } from "@/lib/journey";
 

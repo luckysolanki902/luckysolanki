@@ -1,6 +1,6 @@
 # Lucky Solanki
 
-> Backend & AI engineer. From games to systems.
+> Backend & AI engineer. The backend behind a better product.
 
 Lucky Solanki builds backend foundations, recoverable integrations, realtime systems and AI agents. Based in Lucknow, India. The portfolio includes engineering case studies, client recommendations and a playable arcade.
 

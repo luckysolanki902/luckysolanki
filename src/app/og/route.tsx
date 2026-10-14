@@ -10,7 +10,7 @@ const pages: Record<string, { heading: string; label: string }> = {
   work: { heading: "The work behind the interface.", label: "ENGINEERING STORIES" },
   notes: { heading: "Notes from the build.", label: "FIELD NOTES" },
   ai: { heading: "AI tools. Human judgment.", label: "APPLIED AI / FIELD NOTES" },
-  journey: { heading: "From games to systems.", label: "THE LONG WAY INTO SOFTWARE" },
+  journey: { heading: "How I got into software.", label: "THE LONG WAY INTO SOFTWARE" },
 };
 
 export async function GET(request: Request) {
@@ -28,7 +28,7 @@ export async function GET(request: Request) {
       <div style={{display:"flex",flexDirection:"column",justifyContent:"space-between",padding:"58px 64px",width:"100%",position:"relative"}}>
         <div style={{display:"flex",fontSize:19,letterSpacing:3,color:"#386757"}}>{page.label}</div>
         <div style={{display:"flex",flexDirection:"column",maxWidth:820}}><div style={{fontSize:72,fontWeight:700,letterSpacing:-3,lineHeight:1.08}}>{page.heading}</div><div style={{fontSize:25,color:"#62665e",marginTop:28}}>Lucky Solanki · Backend & AI engineer</div></div>
-        <div style={{display:"flex",justifyContent:"space-between",fontSize:21,borderTop:"1px solid #d4d4c9",paddingTop:22}}><span>luckysolanki.com</span><span style={{color:"#386757"}}>From games to systems.</span></div>
+        <div style={{display:"flex",justifyContent:"space-between",fontSize:19,borderTop:"1px solid #d4d4c9",paddingTop:22}}><span>luckysolanki.com</span><span style={{color:"#386757"}}>The backend behind a better product.</span></div>
       </div>
     </div>,
     { width: 1200, height: 630, headers: { "Cache-Control": "public, max-age=86400, s-maxage=86400" } },

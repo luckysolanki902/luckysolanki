@@ -35,7 +35,7 @@ export function Portfolio({ testimonials = [] }: { testimonials?: PublicTestimon
           </div>
           <div className={styles.heroAside}>
             <a href="#work" className={styles.currentWork}><span/> Currently at Blitzit <ArrowUpRight size={13}/></a>
-            <p className={styles.introduction}>I build backends that carry the product.<br/>At Blitzit, I built the 3.0 backend foundation, recoverable integrations and a shared action layer for text, voice and MCP.</p>
+            <p className={styles.introduction}>The backend behind a better product.<br/>At Blitzit, I built the 3.0 backend foundation, recoverable integrations and a shared action layer for text, voice and MCP.</p>
             <div className={styles.actions}><a href="#work">See my work <span>↓</span></a><a href="/resume.pdf"><FileText size={15}/> Résumé</a><div className={styles.heroSocials}><a href={socials.github} aria-label="Lucky on GitHub"><Github size={18}/></a><a href={socials.linkedin} aria-label="Lucky on LinkedIn"><Linkedin size={18}/></a><a href={`mailto:${socials.email}`} aria-label="Email Lucky"><Mail size={18}/></a></div></div>
           </div>
 
@@ -91,7 +91,7 @@ export function Portfolio({ testimonials = [] }: { testimonials?: PublicTestimon
       </section>
       <GithubActivity/>
       <section id="contact" className={`${styles.section} ${styles.contact}`}><div><span className={styles.eyebrow}>05 / THE NEXT CONVERSATION</span><h2>Let’s build the next thing.</h2><p>Open to backend and applied AI engineering roles.</p><p>Based in Lucknow, India (UTC+5:30).</p></div><a href={`mailto:${socials.email}`}><Mail size={18}/> Say hello <ArrowUpRight size={17}/></a></section>
-      <footer className={styles.footer}><span>Lucky Solanki <span className={styles.pixelStar}>·</span> From games to systems.</span><div><a href={socials.github}><Github size={14}/> GitHub</a><a href={socials.linkedin}>LinkedIn ↗</a><a href="/resume.pdf">Résumé ↗</a></div></footer>
+      <footer className={styles.footer}><span>Lucky Solanki <span className={styles.pixelStar}>·</span> The backend behind a better product.</span><div><a href={socials.github}><Github size={14}/> GitHub</a><a href={socials.linkedin}>LinkedIn ↗</a><a href="/resume.pdf">Résumé ↗</a></div></footer>
     </main>
   </div>;
 }
