@@ -868,11 +868,6 @@ export function GamePortfolio({ compact = false }: { compact?: boolean }) {
             Skip animation <ChevronRight size={15} />
           </button>
         )}
-        {!open && started && phase === "room" && (
-          <div className={styles.exploreHint}>
-            A room to explore. A few things I’ve built.
-          </div>
-        )}
 
         {open && (
           <section
@@ -1217,15 +1212,6 @@ export function GamePortfolio({ compact = false }: { compact?: boolean }) {
 
       <footer className={styles.footer}>
         {compact && <nav className={styles.roomLinks} aria-label="Room shortcuts"><a href="#work">Work</a><a href="#skills">Skills</a><a href="#projects">Projects</a><button onClick={() => window.dispatchEvent(new Event("arcade-guide"))}>Play arcade ↗</button></nav>}
-        <div className={styles.controls}>
-          <span className={styles.keyboardControls}>
-            <kbd>←</kbd>
-            <kbd>← → / A D</kbd> walk <kbd>↑ / W</kbd> jump <kbd>E</kbd> explore
-          </span>
-          <span className={styles.touchHint}>
-            Tap to walk · Tap an object to explore
-          </span>
-        </div>
         <nav className={styles.bottomNav} aria-label="Room destinations">
           <button onClick={() => navigate("skills")} aria-current={open && section === "skills" ? "page" : undefined}><Wrench size={18} /><span>Skills</span></button>
           <button

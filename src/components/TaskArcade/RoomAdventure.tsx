@@ -8,9 +8,9 @@ import { requestJump } from '../GamePortfolio/character';
 import styles from './RoomAdventure.module.css';
 const BLOCK_X=[970,1034,1098],BLOCK_Y=540,PIPE_X=1630;
 const guide=[
- ['A little detour?','There are three blocks above the boy. Focus the room, move with ← → or A / D and jump with ↑ / W. On touch, tap a brick to jump beneath it.'],
+ ['A little detour?','There are three blocks above the boy. Tap a brick to break it.'],
  ['Two bricks. One surprise.','Break the two terracotta bricks. The golden block releases a laptop. Walk into the laptop to pick it up.'],
- ['A shortcut to the arcade.','The green pipe on the right is always open. Jump onto the rim and press Enter or ↓ / S, or tap the pipe to enter.'],
+ ['A shortcut to the arcade.','The green pipe on the right is always open. Tap the pipe to drop into the arcade.'],
  ['One more room.','The pipe leads to Ship it: a task-fighting coding arcade. You can return to the portfolio at any time.'],
 ];
 export function RoomAdventure({getCharacter,audio,onEnter,suspended}:{getCharacter:()=>Character;audio:RoomAudio|null;onEnter:()=>void;suspended:boolean}){

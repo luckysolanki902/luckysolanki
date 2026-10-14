@@ -10,18 +10,18 @@ const KEY_SPLIT=/(\{ \}|Space|←|→|↑|↓|◀|▶|▲|\b[ADWS]\b)/g;
 const isKeyToken=(s:string)=>/^(\{ \}|Space|←|→|↑|↓|◀|▶|▲|[ADWS])$/.test(s);
 const renderTip=(text:string)=>text.split(KEY_SPLIT).map((part,i)=>part===''?null:isKeyToken(part)?<kbd key={i} className={styles.key}>{part}</kbd>:<span key={i}>{part}</span>);
 const names=['Backlog','This week','Today','Done'];
-const tips=['← → / A D move. ↑ / W jump. ↓ / S drop faster in the air.',
- 'Hold Space to send code. Clear different columns within 12 seconds for up to ×3 points.',
- 'Jump with ↑ / W. Unsupported stacks shake for 0.8 seconds before falling—move away!',
- 'The recurring manager favors emptier columns. Keep hitting to defeat them. Dodge the red deadline marker: it locks your position before dropping.',
- 'Walk into gold coins in Done for +25 each. There is no permanently safe column.',
- 'Overdue piles raise pressure across the board. Clear tasks to lower it. At 100%, the run ends.'];
-const mobileTips=['Drag the slider to move. Tap ▲ to jump.',
- 'Hold the { } button to send code. Clear a different column within 12 seconds for up to ×3 points.',
- 'Tap ▲ to jump clear. Unsupported stacks shake for 0.8 seconds before they fall—move away!',
- 'The recurring manager favors emptier columns. Keep tapping { } to defeat them. Dodge the red deadline marker: it locks your position before dropping.',
- 'Walk into gold coins in Done for +25 each. There is no permanently safe column.',
- 'Overdue piles raise pressure across the board. Clear tasks to lower it. At 100%, the run ends.'];
+const tips=['Move with ← → or A D. Press Space to fire code and clear tasks.',
+ 'Clear a different column within 12 seconds for a combo—up to ×3.',
+ 'Overdue stacks shake, then fall. Move out of that column in time.',
+ 'Keep firing at the manager to beat it. Dodge the red deadline marker.',
+ 'Walk into gold coins in Done for +25 each.',
+ 'Overdue tasks raise pressure. Clear tasks to lower it—100% ends the run.'];
+const mobileTips=['Drag the slider to move. Hold { } to fire code and clear tasks.',
+ 'Clear a different column within 12 seconds for a combo—up to ×3.',
+ 'Overdue stacks shake, then fall. Slide out of that column in time.',
+ 'Keep firing at the manager to beat it. Dodge the red deadline marker.',
+ 'Walk into gold coins in Done for +25 each.',
+ 'Overdue tasks raise pressure. Clear tasks to lower it—100% ends the run.'];
 export function TaskArcade({audio,onExit}:{audio:RoomAudio|null;onExit:()=>void}) {
  const game=useRef<State>(createGame());
  const [view,setView]=useState<State>(()=>createGame(1));
@@ -52,7 +52,7 @@ export function TaskArcade({audio,onExit}:{audio:RoomAudio|null;onExit:()=>void}
    if(e.key==='Tab')return;
    if(e.key==='Escape'){e.preventDefault();pause();return;}
    const key=e.code==='Space'?'space':e.key.toLowerCase();
-   if(['arrowleft','arrowright','arrowup','arrowdown','a','d','w','s','space'].includes(key)){
+   if(['arrowleft','arrowright','a','d','space'].includes(key)){
     if(modeRef.current!=='playing'||tutorial.current>=0||(e.target as HTMLElement).closest('button'))return;
     e.preventDefault();keys.current.add(key);
    }
@@ -65,11 +65,10 @@ export function TaskArcade({audio,onExit}:{audio:RoomAudio|null;onExit:()=>void}
    if((modeRef.current==='playing'&&tutorial.current<0)||modeRef.current==='dead'){
     const active=(...values:string[])=>values.some(k=>keys.current.has(k)||touch.current.has(k));
     const km=Number(active('arrowright','d'))-Number(active('arrowleft','a'));
-    input.current={move:km!==0?km:touchMove.current,jump:active('arrowup','w','jump'),fire:active('space','fire'),drop:active('arrowdown','s')};
+    input.current={move:km!==0?km:touchMove.current,jump:false,fire:active('space','fire'),drop:false};
     stepGame(game.current,input.current,dt);
     if(input.current.move)learned.current.move=true;
     if(input.current.fire)learned.current.fire=true;
-    if(input.current.jump)learned.current.jump=true;
     const stage=nextTutorial.current;
     if((stage===1&&learned.current.move&&game.current.time>2)||(stage===2&&(game.current.time>8||game.current.tasks.some(t=>t.overdue)))||(stage===3&&!!game.current.manager)||(stage===4&&(game.current.rewards.length>0||game.current.time>20))||(stage===5&&(game.current.pressure>0||game.current.time>25))){
       setView({...game.current});tutorial.current=stage;setTip(stage);nextTutorial.current++;keys.current.clear();touch.current.clear();resetSlider();audio?.configure({paused:true});
@@ -104,7 +103,7 @@ export function TaskArcade({audio,onExit}:{audio:RoomAudio|null;onExit:()=>void}
     <div className={styles.boardShell}>
      <div className={styles.pressureHud}><label>BACKLOG PRESSURE <b>{Math.floor(view.pressure)}%</b><meter min={0} max={100} low={35} high={70} optimum={0} value={view.pressure}/></label>{view.combo>1&&<span>×{view.combo} COLUMN COMBO</span>}</div>
      <div className={styles.columns}>{names.map((name,i)=><div key={name}><span className={styles.dot} style={{background:['#e0bc91','#c9b5ed','#b6c5fb','#8fd9ad'][i]}}/>{name}<small>{i===3?view.completed:view.tasks.filter(t=>t.lane===i).length}</small></div>)}</div>
-     <div id="task-arena" tabIndex={0} className={`${styles.arena} ${mode==='dead'?styles.dead:''}`} data-mode={mode} data-score={view.score} style={{aspectRatio:`${ARENA.width}/${ARENA.height}`}} aria-label="Game area. Left/right or A/D to move, up or W to jump, down or S to drop, Space to fire.">
+     <div id="task-arena" tabIndex={0} className={`${styles.arena} ${mode==='dead'?styles.dead:''}`} data-mode={mode} data-score={view.score} style={{aspectRatio:`${ARENA.width}/${ARENA.height}`}} aria-label="Game area. Left/right or A/D to move, Space to fire code at tasks.">
        <div className={styles.laneLines}/>
        {view.deadline&&<div className={styles.deadlineMarker} style={{left:`${view.deadline.x/10}%`}} aria-label="Manager deadline attack: move away"><span>{view.time<view.deadline.releaseAt?'! MOVE !':'↓ DEADLINE'}</span>{view.time>=view.deadline.releaseAt&&<b style={{top:`${view.deadline.y/6.2}%`}}>!</b>}</div>}<div className={styles.floor}/>
        {view.warning&&<div className={styles.warning} style={{left:`${view.warning.lane*25}%`}}>↓ incoming task</div>}
@@ -126,7 +125,7 @@ export function TaskArcade({audio,onExit}:{audio:RoomAudio|null;onExit:()=>void}
     <span className={styles.sliderHint} data-side="r" aria-hidden="true">▶</span>
     <span className={`${styles.sliderThumb} ${moveVal!==0?styles.sliderThumbActive:''}`} style={{left:`${50+moveVal*38}%`}} aria-hidden="true"><i/><i/></span>
    </div>
-   <div className={styles.actionCluster}>{touchControl('fire','Send code','{ }',styles.fireBtn)}{touchControl('jump','Jump','▲',styles.jumpBtn)}</div>
+   <div className={styles.actionCluster}>{touchControl('fire','Send code','{ }',styles.fireBtn)}</div>
   </div>
 
   {(mode==='paused'||(mode==='dead'&&view.deathTime>.85))&&<div className={styles.scrim}><section className={`${styles.gamePanel} ${mode==='dead'?styles.defeatPanel:''}`} aria-label={mode==='dead'?'Run complete':'Game paused'}>
@@ -141,8 +140,8 @@ export function TaskArcade({audio,onExit}:{audio:RoomAudio|null;onExit:()=>void}
      <button type="button" className={`${styles.iconBtn} ${showHelp?styles.iconOn:''}`} aria-expanded={showHelp} onClick={()=>setShowHelp(v=>!v)} aria-label="Controls help"><HelpCircle size={19} aria-hidden="true"/><small>Keys</small></button>
     </div>
     {showHelp&&<div className={styles.controlsHelp}>
-     <div className={styles.helpDesktop}><span>{renderTip('← →')} / {renderTip('A D')} move</span><span>{renderTip('↑')} / {renderTip('W')} jump</span><span>{renderTip('↓')} / {renderTip('S')} drop</span><span>{renderTip('Space')} code</span></div>
-     <div className={styles.helpMobile}><span>drag slider — move</span><span>{renderTip('▲')} jump</span><span>hold {renderTip('{ }')} code</span></div>
+     <div className={styles.helpDesktop}><span>{renderTip('← →')} / {renderTip('A D')} move</span><span>{renderTip('Space')} fire code</span></div>
+     <div className={styles.helpMobile}><span>drag slider — move</span><span>hold {renderTip('{ }')} fire code</span></div>
     </div>}
    </div>}
    <div className={styles.panelActions}><button onClick={onExit}>Back to portfolio</button><button onClick={()=>{if(mode==='dead')begin();else setStatus('playing');focusArena();}}>{mode==='dead'?'Try again ↻':'Resume →'}</button></div><small className={styles.panelFootnote}>{mode==='dead'?'A fresh start. A smaller backlog.':'Your world is waiting.'}</small></div>
