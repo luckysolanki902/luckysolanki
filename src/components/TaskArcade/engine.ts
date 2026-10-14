@@ -17,6 +17,10 @@ function random(s:State){s.seed=(1664525*s.seed+1013904223)>>>0;return s.seed/42
 function burst(s:State,x:number,y:number,color:string,n=10){for(let i=0;i<n;i++)s.particles.push({x,y,vx:(random(s)-.5)*220,vy:-60-random(s)*160,life:.6+random(s)*.3,color});}
 // Include airborne cards when reserving space, so a pending stack cannot overflow.
 export function laneLoad(s:State,lane:number){return s.tasks.filter(t=>t.lane===lane).length;}
+// Done is a reward lane, not backlog capacity. Incoming cards reserve slots too.
+export function backlogPressure(s:State){
+ return [0,1,2].reduce((used,lane)=>used+Math.min(LANE_CAPACITY,laneLoad(s,lane)),0)/(3*LANE_CAPACITY)*100;
+}
 export function nextLane(s:State):number {
  const loads=[0,1,2].map(lane=>laneLoad(s,lane));
  const lowest=Math.min(...loads);
@@ -31,15 +35,15 @@ export function nextLane(s:State):number {
 }
 export function spawnTask(s:State,lane=nextLane(s)):Task {
  const total=Math.min(4,Math.floor(random(s)*(Math.min(4,s.level)+1)));
- const task={id:++s.serial,lane,x:lane*250+33,y:-80,w:184,h:72,title:TASK_TITLES[Math.floor(random(s)*TASK_TITLES.length)],total,left:total,settled:false,flash:0};s.tasks.push(task);return task;
+ const task={id:++s.serial,lane,x:lane*250+33,y:-80,w:184,h:72,title:TASK_TITLES[Math.floor(random(s)*TASK_TITLES.length)],total,left:total,settled:false,flash:0};s.tasks.push(task);s.pressure=backlogPressure(s);return task;
 }
 export function hitTask(s:State,t:Task){
  if(t.left>0){t.left--;s.score+=10;t.flash=.18;s.events.push('subtask');burst(s,t.x+t.w/2,t.y+30,'#8ae3cb',4);return;}
  s.combo=t.lane!==s.lastClearLane&&s.time-s.lastClearAt<12?Math.min(3,s.combo+1):1;
- s.lastClearLane=t.lane;s.lastClearAt=s.time;s.pressure=Math.max(0,s.pressure-5);
+ s.lastClearLane=t.lane;s.lastClearAt=s.time;
  s.score+=50*s.combo;s.completed++;s.player.celebrateAt=s.time;s.events.push('complete');burst(s,t.x+t.w/2,t.y+30,'#c1a2ff',12);
  s.rewards.push({id:++s.serial,title:t.title,x:805+random(s)*140,y:Math.max(40,Math.min(ARENA.floor-100,t.y+30)),age:0,fromX:t.x+t.w/2,fromY:t.y+30,vy:0,landed:false});
- s.tasks=s.tasks.filter(task=>task.id!==t.id);
+ s.tasks=s.tasks.filter(task=>task.id!==t.id);s.pressure=backlogPressure(s);
  const level=Math.min(10,1+Math.floor(s.completed/4)+Math.floor(s.time/25));if(level>s.level){s.level=level;s.events.push('level');}
 }
 function overlaps(x:number,y:number,w:number,h:number,t:Task){return x<t.x+t.w&&x+w>t.x&&y<t.y+t.h&&y+h>t.y;}
@@ -51,8 +55,7 @@ export function stepGame(s:State,input:Input,delta:number){
  const difficulty=Math.min(10,1+Math.floor(s.completed/4)+Math.floor(s.time/25));
  if(difficulty>s.level){s.level=difficulty;s.events.push('level');}
  s.cooldown=Math.max(0,s.cooldown-dt);
- const neglect=[0,1,2].reduce((sum,lane)=>sum+Math.max(0,s.tasks.filter(t=>t.lane===lane&&(t.overdue||t.settled)).length-2),0);
- s.pressure=Math.max(0,Math.min(100,s.pressure+(neglect?neglect*.85:-2)*dt));
+ s.pressure=backlogPressure(s);
  if(s.time-s.lastClearAt>12)s.combo=1;
  if(s.pressure>=100){s.dead=true;s.deathReason='pressure';s.events.push('game-over');return;}
  // Recheck the stack from the floor upward: losing one support releases

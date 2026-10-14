@@ -16,14 +16,24 @@ test('manager reserves emptier lanes, has more health, and never adds to a full 
  s.manager!.lane=0;s.manager!.nextThrow=0;stepGame(s,idle,1/60);
  expect(laneLoad(s,0)).toBe(7);expect(s.manager!.lane).toBe(2);
 });
-test('neglected columns end a camping run, while clearing relieves pressure and rewards rotation',()=>{
- const s=createGame(2);s.nextSpawn=1000;s.nextManager=1000;s.player.x=625;stack(s,0,7);stack(s,1,7);
- for(let i=0;i<1800&&!s.dead;i++)stepGame(s,{...idle,fire:true},1/60);
+test('pressure measures occupied capacity, including incoming tasks, without time drift',()=>{
+ const s=createGame(2);s.nextSpawn=1000;s.nextManager=1000;s.player.x=875;
+ stack(s,0,6);stack(s,1,6);
+ expect(s.pressure).toBeCloseTo(12/21*100);
+ for(let i=0;i<600;i++)stepGame(s,idle,1/60);
+ expect(s.pressure).toBeCloseTo(12/21*100);
+ stack(s,0,1);stack(s,1,1);expect(s.pressure).toBeCloseTo(100*2/3);
+ const incoming=spawnTask(s,2);expect(incoming.settled).toBe(false);
+ expect(s.pressure).toBeCloseTo(15/21*100);
+ incoming.left=0;hitTask(s,incoming);expect(s.pressure).toBeCloseTo(14/21*100);
+ stack(s,2,7);stepGame(s,idle,1/60);
  expect(s.dead).toBe(true);expect(s.deathReason).toBe('pressure');expect(s.pressure).toBe(100);
- const active=createGame(4);active.pressure=50;
- for(const lane of [0,1,2]){const t=spawnTask(active,lane);t.left=0;hitTask(active,t);}
- expect(active.pressure).toBe(35);expect(active.score).toBe(300);expect(active.combo).toBe(3);
- const same=spawnTask(active,2);same.left=0;hitTask(active,same);expect(active.combo).toBe(1);
+});
+test('clearing frees only its own slot and rewards column rotation',()=>{
+ const s=createGame(4);stack(s,0,6);stack(s,1,6);
+ for(const lane of [0,1,2]){const t=spawnTask(s,lane);t.left=0;hitTask(s,t);}
+ expect(s.pressure).toBeCloseTo(12/21*100);expect(s.score).toBe(300);expect(s.combo).toBe(3);
+ const same=spawnTask(s,2);same.left=0;hitTask(s,same);expect(s.combo).toBe(1);
 });
 test('manager deadline locks before falling, can be dodged, and punishes standing still',()=>{
  for(const dodge of [false,true]){

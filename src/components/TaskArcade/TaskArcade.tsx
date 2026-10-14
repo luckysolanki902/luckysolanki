@@ -84,7 +84,7 @@ export function TaskArcade({audio,onExit}:{audio:RoomAudio|null;onExit:()=>void}
   </header>
   <div className={`${styles.gameLayout}`}>
     <div className={styles.boardShell}>
-     <div className={styles.pressureHud}><label>BACKLOG PRESSURE <b>{Math.floor(view.pressure)}%</b><meter min={0} max={100} low={35} high={70} optimum={0} value={view.pressure}/></label>{view.combo>1&&<span>×{view.combo} COLUMN COMBO</span>}</div>
+     <div className={styles.pressureHud}><label title="Occupied task slots across Backlog, This week and Today, including incoming tasks.">BACKLOG PRESSURE <b>{Math.round(view.pressure)}%</b><meter min={0} max={100} low={35} high={70} optimum={0} value={view.pressure}/></label>{view.combo>1&&<span>×{view.combo} COLUMN COMBO</span>}</div>
      <div className={styles.columns}>{names.map((name,i)=><div key={name}><span className={styles.dot} style={{background:['#e0bc91','#c9b5ed','#b6c5fb','#8fd9ad'][i]}}/>{name}<small>{i===3?view.completed:view.tasks.filter(t=>t.lane===i).length}</small></div>)}</div>
      <div id="task-arena" tabIndex={0} className={`${styles.arena} ${mode==='dead'?styles.dead:''}`} data-mode={mode} data-score={view.score} style={{aspectRatio:`${ARENA.width}/${ARENA.height}`}} aria-label="Game area. Left/right or A/D to move, Space to fire code at tasks.">
        <div className={styles.laneLines}/>
