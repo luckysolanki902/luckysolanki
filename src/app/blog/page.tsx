@@ -1,10 +1,6 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { NotesIndex } from "@/components/Journal/JournalFrame";
-export const metadata: Metadata = {
-  title: "Field notes | Lucky Solanki",
-  description:
-    "Notes on building products, backend systems, and finding my way into software.",
-};
+export const metadata = pageMetadata({ title: "Field notes | Lucky Solanki", description: "Engineering decisions, product lessons and notes on backend systems, applied AI and learning by building.", path: "/blog", card: "notes" });
 export default function BlogPage() {
   return <NotesIndex />;
 }

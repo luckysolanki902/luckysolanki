@@ -3,37 +3,13 @@
    Tone: practical, sober, specific. One voice, no tool ranking.
    ============================================================ */
 
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import styles from "../story.module.css";
 
 export const dynamic = "force-static";
 
-export const metadata: Metadata = {
-  title: "How I use AI in practice - Lucky Solanki",
-  description:
-    "A practical note on how tools like GitHub Copilot and Claude Code fit into my workflow, where they earn their keep and where judgment still lives.",
-  alternates: {
-    canonical: "https://www.luckysolanki.com/stories/ai",
-  },
-  openGraph: {
-    title: "How I use AI in practice - Lucky Solanki",
-    description:
-      "A practical note on how tools like GitHub Copilot and Claude Code fit into my workflow, where they earn their keep and where judgment still lives.",
-    url: "https://www.luckysolanki.com/stories/ai",
-    siteName: "Lucky Solanki",
-    type: "article",
-    images: ["/og?v=3"],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "How I use AI in practice - Lucky Solanki",
-    description:
-      "A practical note on how tools like GitHub Copilot and Claude Code fit into my workflow, where they earn their keep and where judgment still lives.",
-    images: ["/og?v=3"],
-    creator: "@luckysolanki902",
-  },
-};
+export const metadata = pageMetadata({ title: "How I use AI in practice | Lucky Solanki", description: "Where AI tools help in software development, where they fall short, and why engineering judgment still matters.", path: "/stories/ai", card: "ai", article: true });
 
 export default function AIPage() {
   return (

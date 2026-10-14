@@ -1,3 +1,4 @@
+import { shareImage, shareAlt } from "@/lib/seo";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/shared/ThemeProvider";
@@ -50,10 +51,10 @@ export const metadata: Metadata = {
     locale: "en_US",
     images: [
       {
-        url: "/og?v=3",
+        url: shareImage,
         width: 1200,
         height: 630,
-        alt: "Lucky Solanki, Backend and AI Engineer. Building products, systems, and the connections between them.",
+        alt: shareAlt,
       },
     ],
   },
@@ -62,7 +63,7 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description:
       siteConfig.description,
-    images: ["/og?v=3"],
+    images: [{ url: shareImage, alt: shareAlt }],
     creator: "@luckysolanki902",
   },
   metadataBase: new URL(siteConfig.url),
@@ -72,7 +73,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   "@id": `${siteConfig.url}/#person`,
-  image: `${siteConfig.url}/og?v=3`,
+  image: `${siteConfig.url}${shareImage}`,
   name: siteConfig.name,
   jobTitle: "Backend & AI Engineer",
   url: siteConfig.url,
@@ -110,7 +111,6 @@ const jsonLd = {
     "React",
     "Node.js",
     "MongoDB",
-    "WebRTC",
     "Socket.IO",
     "TypeScript",
     "Agent Infrastructure",
@@ -201,7 +201,7 @@ export default function RootLayout({
         </ThemeProvider>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [jsonLd, { "@type": "WebSite", "@id": `${siteConfig.url}/#website`, url: siteConfig.url, name: siteConfig.name, description: siteConfig.description, inLanguage: "en", publisher: { "@id": `${siteConfig.url}/#person` } }] }) }}
         />
         <Analytics />
       </body>

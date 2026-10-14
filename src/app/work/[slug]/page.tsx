@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -26,31 +27,7 @@ export async function generateMetadata({
   const story = getWorkStory(slug);
   if (!story) return {};
   const title = `${story.name}: ${story.heading} | Lucky Solanki`;
-  return {
-    title,
-    description: story.introduction,
-    alternates: { canonical: `${siteConfig.url}/work/${slug}` },
-    openGraph: {
-      title,
-      description: story.introduction,
-      url: `${siteConfig.url}/work/${slug}`,
-      type: "article",
-      images: [
-        {
-          url: story.image,
-          width: workMedia[slug][0].width,
-          height: workMedia[slug][0].height,
-          alt: story.heading,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description: story.introduction,
-      images: [story.image],
-    },
-  };
+  return pageMetadata({ title, description: story.introduction, path: `/work/${slug}`, card: slug, article: true });
 }
 export default async function WorkStoryPage({
   params,

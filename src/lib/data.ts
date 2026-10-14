@@ -35,7 +35,7 @@ export const siteConfig = {
   title:
     "Lucky Solanki | Backend & AI Engineer",
   description:
-    "Backend and AI engineer building voice assistants, agent tools, integrations, and realtime products. Building software since December 2022.",
+    "Backend & AI engineer building recoverable integrations, realtime systems and AI agents. Explore Lucky Solanki’s work, engineering stories and hidden arcade.",
   url: "https://www.luckysolanki.com",
 } as const;
 

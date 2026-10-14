@@ -4,37 +4,13 @@
    No drama. Just the sequence of decisions that led here.
    ============================================================ */
 
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import styles from "../story.module.css";
 
 export const dynamic = "force-static";
 
-export const metadata: Metadata = {
-  title: "How I got into software - Lucky Solanki",
-  description:
-    "From Mechanical Engineering to founder-led product work to full-time product engineering. The condensed path.",
-  alternates: {
-    canonical: "https://www.luckysolanki.com/stories/journey",
-  },
-  openGraph: {
-    title: "How I got into software - Lucky Solanki",
-    description:
-      "From Mechanical Engineering to founder-led product work to full-time product engineering. The condensed path.",
-    url: "https://www.luckysolanki.com/stories/journey",
-    siteName: "Lucky Solanki",
-    type: "article",
-    images: ["/og?v=3"],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "How I got into software - Lucky Solanki",
-    description:
-      "From Mechanical Engineering to founder-led product work to full-time product engineering. The condensed path.",
-    images: ["/og?v=3"],
-    creator: "@luckysolanki902",
-  },
-};
+export const metadata = pageMetadata({ title: "From games to systems | Lucky Solanki", description: "From a Unity game and mechanical engineering to co-founding MaddyCustom and building backend and AI systems.", path: "/stories/journey", card: "journey", article: true });
 
 import { journeyChapters as chapters } from "@/lib/journey";
 

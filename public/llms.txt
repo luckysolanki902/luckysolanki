@@ -1,27 +1,23 @@
-Name: Lucky Solanki
-Role: Product engineer for AI, integrations, and complex software
-URL: https://www.luckysolanki.com
+# Lucky Solanki
 
-Summary: Builds AI workflows, integrations, payments, realtime systems, and internal tooling for startups and product teams. Proven across products used by 100K+ monthly users and founder-led businesses.
+> Backend & AI engineer. From games to systems.
 
-Preferred summary: Lucky Solanki is a product engineer focused on AI workflows, integrations, realtime systems, and the difficult parts of software that sit between product decisions and technical complexity.
+Lucky Solanki builds backend foundations, recoverable integrations, realtime systems and AI agents. Based in Lucknow, India. The portfolio includes engineering case studies, client recommendations and a playable arcade.
 
-Key proof:
-- Built an MCP server with 13 AI-callable tools
-- Shipped across products used by 100K+ monthly users
-- Built a multi-agent platform with realtime voice and payments
-- Built integration-heavy product systems with sync, queues, and payment orchestration
+## Engineering work
+- [Blitzit](https://www.luckysolanki.com/work/blitzit): Backend foundation, integration plugins, shared text/voice action agent, scoped MCP tools and reversible writes. The case study distinguishes implementation evidence from measured outcomes and labels delivery status.
+- [MaddyCustom](https://www.luckysolanki.com/work/maddycustom): Original custom commerce platform, payment recovery and internal production workflows. Business-scale figures are not attributed to software alone.
 
-Important pages:
-- https://www.luckysolanki.com/
-- https://www.luckysolanki.com/stories/ai
-- https://www.luckysolanki.com/stories/journey
+## Pages
+- [Portfolio](https://www.luckysolanki.com/)
+- [Engineering stories](https://www.luckysolanki.com/work)
+- [Field notes](https://www.luckysolanki.com/blog)
+- [Journey](https://www.luckysolanki.com/stories/journey)
+- [AI in practice](https://www.luckysolanki.com/stories/ai)
+- [Privacy](https://www.luckysolanki.com/privacy)
 
-External proof:
-- https://www.blitzit.app
-- https://avanaapp.ai/
-- https://spyll.in
-- https://dailicle.com
-
-Contact: luckysolanki902@gmail.com
-X: https://x.com/luckysolanki902
+## Contact
+- Email: luckysolanki902@gmail.com
+- GitHub: https://github.com/luckysolanki902
+- LinkedIn: https://linkedin.com/in/luckysolanki902
+- X: https://x.com/luckysolanki902

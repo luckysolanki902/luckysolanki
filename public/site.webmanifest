@@ -15,7 +15,9 @@
       "purpose": "maskable"
     }
   ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "display": "standalone"
+  "theme_color": "#171918",
+  "background_color": "#171918",
+  "display": "standalone",
+  "start_url": "/",
+  "description": "Lucky Solanki \u2014 Backend & AI engineer. From games to systems."
 }

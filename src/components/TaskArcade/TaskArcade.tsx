@@ -81,7 +81,7 @@ export function TaskArcade({audio,onExit}:{audio:RoomAudio|null;onExit:()=>void}
   <header className={styles.header} aria-label="Arcade HUD">
    <button ref={exitButton} className={styles.exitControl} onClick={onExit} aria-label="← Portfolio"><span aria-hidden="true">↩</span><small>PORTFOLIO</small></button>
    <div className={styles.gameTitle}><span className={styles.titleMark} aria-hidden="true">{`{ }`}</span><div><strong>SHIP IT<span>!</span></strong><small>SURVIVE THE BACKLOG</small></div></div>
-   <div className={styles.scores}><span><small>SCORE</small><b>{String(view.score).padStart(5,'0')}</b></span><span><small>HI-SCORE</small><b>{String(Math.max(best,view.score)).padStart(5,'0')}</b></span><span><small>COINS</small><b>{view.coins}</b></span><span className={styles.levelStat}><small>LEVEL</small><b>{String(view.level).padStart(2,'0')}</b><i aria-hidden="true">{Array.from({length:10},(_,i)=><em key={i} className={i<view.level?styles.levelFilled:''}/>)}</i></span></div>
+   <div className={styles.scores}><span><small>SCORE</small><b>{view.score.toLocaleString('en-US')}</b></span><span><small>BEST</small><b>{Math.max(best,view.score).toLocaleString('en-US')}</b></span><span><small>COINS</small><b>{view.coins}</b></span><span className={styles.levelStat}><small>LEVEL</small><b>{view.level}</b><i aria-hidden="true">{Array.from({length:10},(_,i)=><em key={i} className={i<view.level?styles.levelFilled:''}/>)}</i></span></div>
    <button className={styles.pauseControl} aria-label={mode==='paused'?'Resume':'Game menu'} onClick={()=>{setStatus(mode==='playing'?'paused':'playing');focusArena();}} disabled={mode==='dead'}><span aria-hidden="true">{mode==='paused'?'▶':'☰'}</span><small>{mode==='paused'?'RESUME':'MENU'}</small></button>
   </header>
   <div className={`${styles.gameLayout}`}>
@@ -98,10 +98,11 @@ export function TaskArcade({audio,onExit}:{audio:RoomAudio|null;onExit:()=>void}
        {view.rewards.map(r=>{const t=Math.min(1,r.age/.45),x=r.fromX+(r.x-r.fromX)*t,y=r.fromY+(r.y-r.fromY)*t;return <span key={r.id} className={styles.coin} style={styleAt(x,y)} aria-label="Gold coin, collect for 25 points"/>;})}
        {view.particles.map((p,i)=><i key={i} className={styles.particle} style={{...styleAt(p.x,p.y),background:p.color,opacity:Math.min(1,p.life*2)}}/>)}
        <div className={styles.player} style={{...styleAt(view.player.x,view.player.y),transform:`translate(-50%,-95.8%) scaleX(${view.player.facing})`,backgroundPosition:`${frame%8/7*100}% ${Math.floor(frame/8)/2*100}%`}} aria-label="Lucky coding with a laptop"/>
+    {mode==='playing'&&tip>=0&&<aside className={styles.tutorialDialogue} aria-label="Play tip"><div className={styles.tutorialPortrait} aria-hidden="true"/><div className={styles.tutorialWords}><span>LUCKY <small>· {tip+1} / {tips.length}</small></span><p key={tip}><span className={styles.desktopTip}>{tips[tip]}</span><span className={styles.mobileTip}>{mobileTips[tip]}</span></p><button onClick={()=>{acknowledge();}}>Got it ▸</button></div><button className={styles.tutorialClose} aria-label="Dismiss play tip" onClick={()=>{acknowledge();}}>×</button></aside>}
        {mode==='dead'&&view.deathTime<.8&&<div className={styles.impactWord}>STACK OVERFLOW.</div>}
      </div>
     </div>
-    {mode==='playing'&&tip>=0&&<aside className={styles.tutorialDialogue} aria-label="Play tip"><div className={styles.tutorialPortrait} aria-hidden="true"/><div className={styles.tutorialWords}><span>LUCKY <small>· {tip+1} / {tips.length}</small></span><p key={tip}><span className={styles.desktopTip}>{tips[tip]}</span><span className={styles.mobileTip}>{mobileTips[tip]}</span></p><button onClick={()=>{acknowledge();}}>Got it ▸</button></div><button className={styles.tutorialClose} aria-label="Dismiss play tip" onClick={()=>{acknowledge();}}>×</button></aside>}
+
   </div>
   <div className={styles.touchControls}>{touchControl('left','Move left','←')}{touchControl('right','Move right','→')}{touchControl('jump','Jump','↑')}{touchControl('fire','Fire code','{ }')}</div>
 
