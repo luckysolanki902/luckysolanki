@@ -170,7 +170,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-theme="light" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -180,9 +180,7 @@ export default function RootLayout({
                   var stored = JSON.parse(localStorage.getItem('portfolio-theme') || '{}');
                   // Only use stored theme if user explicitly chose one (userOverride=true)
                   var theme = (stored.state && stored.state.userOverride && stored.state.theme);
-                  if (!theme) {
-                    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                  }
+                  if (theme !== 'dark' && theme !== 'light') theme = 'light';
                   document.documentElement.setAttribute('data-theme', theme);
                 } catch (e) {}
                 // Signal CSS that JS is active, enables bot-safe animations

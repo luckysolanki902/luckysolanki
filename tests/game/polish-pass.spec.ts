@@ -11,11 +11,11 @@ test('collapsing stacks wait before dropping',()=>{
 });
 test('themes, logos, reviews and short origin render',async({page})=>{
  await page.emulateMedia({colorScheme:'dark'});await page.goto('/');
- await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+ await expect(page.locator('html')).toHaveAttribute('data-theme','light');
  await expect(page.getByText('Piyush Tiwari',{exact:true})).toBeVisible();
  await expect(page.getByAltText('Blitzit 3.0 task board with sample tasks')).toBeVisible();
  await page.locator('#work').scrollIntoViewIfNeeded();await page.screenshot({path:'output/design/implemented/work-expanded.png'});
- await page.getByRole('button',{name:'Switch to day mode'}).click();await expect(page.locator('html')).toHaveAttribute('data-theme','light');await page.goto('/stories/journey');
+ await page.emulateMedia({colorScheme:'light'});await page.emulateMedia({colorScheme:'dark'});await expect(page.locator('html')).toHaveAttribute('data-theme','light');await page.goto('/stories/journey');
  await expect(page.locator('html')).toHaveAttribute('data-theme','light');
  await page.goto('/');await page.getByRole('button',{name:'Switch to night mode'}).click();await page.goto('/stories/journey');await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await page.waitForTimeout(800);await page.screenshot({path:'output/design/implemented/story-dark.png'});
  await page.goto('/');await page.getByRole('button',{name:'Switch to day mode'}).click();await page.waitForTimeout(1000);await expect(page.locator('html')).toHaveAttribute('data-theme','light');await page.screenshot({path:'output/design/implemented/day-mode.png'});
