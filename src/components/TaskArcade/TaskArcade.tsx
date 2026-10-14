@@ -27,7 +27,7 @@ export function TaskArcade({audio,onExit}:{audio:RoomAudio|null;onExit:()=>void}
  const [view,setView]=useState<State>(()=>createGame(1));
  const [mode,setMode]=useState<'playing'|'paused'|'dead'>('playing');
  const modeRef=useRef(mode);
- const [tip,setTip]=useState(0),[best,setBest]=useState(0),[sound,setSound]=useState(audio?.sound??false),[music,setMusic]=useState(audio?.music??false),[showHelp,setShowHelp]=useState(false);
+ const [tip,setTip]=useState(0),[best,setBest]=useState(0),[sound,setSound]=useState(audio?.sound??true),[music,setMusic]=useState(audio?.music??true),[showHelp,setShowHelp]=useState(false);
  const tutorial=useRef(0),nextTutorial=useRef(1);
  const acknowledge=()=>{tutorial.current=-1;setTip(-1);audio?.configure({paused:false});document.getElementById('task-arena')?.focus({preventScroll:true});};
  const learned=useRef({move:false,fire:false,jump:false});

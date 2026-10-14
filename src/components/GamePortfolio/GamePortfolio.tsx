@@ -79,8 +79,8 @@ export function GamePortfolio({ compact = false }: { compact?: boolean }) {
   const [phase, setPhase] = useState<Phase>("room");
   const [section, setSection] = useState<Destination>("work");
   const [reduced, setReduced] = useState(false);
-  const [sound, setSound] = useState(false);
-  const [music, setMusic] = useState(false);
+  const [sound, setSound] = useState(true);
+  const [music, setMusic] = useState(true);
   const [arcadeOpen, setArcadeOpen] = useState(false);
   const arcadeOpenRef = useRef(false);
   const dialogueOpenRef = useRef(false);
@@ -147,8 +147,8 @@ export function GamePortfolio({ compact = false }: { compact?: boolean }) {
     audio.current = engine;
     try {
       const saved = JSON.parse(localStorage.getItem("lucky-audio") || "{}");
-      engine.sound = typeof saved?.sound === "boolean" ? saved.sound : false;
-      engine.music = typeof saved?.music === "boolean" ? saved.music : false;
+      engine.sound = typeof saved?.sound === "boolean" ? saved.sound : true;
+      engine.music = typeof saved?.music === "boolean" ? saved.music : true;
     } catch { /* Use defaults if storage is unavailable or invalid. */ }
     const initializeAudio = requestAnimationFrame(() => {
       setSound(engine.sound);
