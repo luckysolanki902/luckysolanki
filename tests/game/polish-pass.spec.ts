@@ -28,9 +28,9 @@ test('direct arcade entry and paused conversations preserve board geometry',asyn
  const tip=page.getByRole('complementary',{name:'Play tip'});await expect(tip).toBeVisible();
  const box=await page.locator('#task-arena').boundingBox();const actor=page.getByLabel('Lucky coding with a laptop');const style=await actor.getAttribute('style');await page.waitForTimeout(500);expect(await actor.getAttribute('style')).toBe(style);
  await tip.getByRole('button',{name:'Got it'}).click();await expect(tip).toHaveCount(0);expect(await page.locator('#task-arena').boundingBox()).toEqual(box);
- await page.keyboard.down('ArrowRight');await page.waitForTimeout(2400);await page.keyboard.up('ArrowRight');await expect(tip).toContainText('Hold Space');
+ await page.keyboard.down('ArrowRight');await page.waitForTimeout(2400);await page.keyboard.up('ArrowRight');await expect(tip).toHaveCount(0);
  await page.screenshot({path:'output/design/arcade/conversation-fixed.png'});
- await tip.getByRole('button',{name:'Got it'}).click();await page.getByRole('button',{name:'Game menu',exact:true}).click();await expect(page.getByRole('button',{name:'BGM off',exact:true})).toBeVisible();await page.waitForTimeout(400);await page.screenshot({path:'output/design/arcade/menu-settings.png'});await page.setViewportSize({width:390,height:844});await page.screenshot({path:'output/design/arcade/menu-mobile.png'});expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(390);
+ await page.getByRole('button',{name:'Game menu',exact:true}).click();await expect(page.getByRole('button',{name:/^Music (on|off)$/})).toBeVisible();await page.waitForTimeout(400);await page.screenshot({path:'output/design/arcade/menu-settings.png'});await page.setViewportSize({width:390,height:844});await page.screenshot({path:'output/design/arcade/menu-mobile.png'});expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(390);
 });
 
 test('audio suspends on page focus loss without changing preferences',async({page})=>{

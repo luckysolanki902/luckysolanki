@@ -10,27 +10,16 @@ const KEY_SPLIT=/(\{ \}|Space|←|→|↑|↓|◀|▶|▲|\b[ADWS]\b)/g;
 const isKeyToken=(s:string)=>/^(\{ \}|Space|←|→|↑|↓|◀|▶|▲|[ADWS])$/.test(s);
 const renderTip=(text:string)=>text.split(KEY_SPLIT).map((part,i)=>part===''?null:isKeyToken(part)?<kbd key={i} className={styles.key}>{part}</kbd>:<span key={i}>{part}</span>);
 const names=['Backlog','This week','Today','Done'];
-const tips=['Move with ← → or A D. Press Space to fire code and clear tasks.',
- 'Clear a different column within 12 seconds for a combo—up to ×3.',
- 'Overdue stacks shake, then fall. Move out of that column in time.',
- 'Keep firing at the manager to beat it. Dodge the red deadline marker.',
- 'Walk into gold coins in Done for +25 each.',
- 'Overdue tasks raise pressure. Clear tasks to lower it—100% ends the run.'];
-const mobileTips=['Drag the slider to move. Hold { } to fire code and clear tasks.',
- 'Clear a different column within 12 seconds for a combo—up to ×3.',
- 'Overdue stacks shake, then fall. Slide out of that column in time.',
- 'Keep firing at the manager to beat it. Dodge the red deadline marker.',
- 'Walk into gold coins in Done for +25 each.',
- 'Overdue tasks raise pressure. Clear tasks to lower it—100% ends the run.'];
+const controls='Move with ← → or A D. Press Space to fire code and clear tasks.';
+const mobileControls='Drag the slider to move. Hold { } to fire code and clear tasks.';
 export function TaskArcade({audio,onExit}:{audio:RoomAudio|null;onExit:()=>void}) {
  const game=useRef<State>(createGame());
  const [view,setView]=useState<State>(()=>createGame(1));
  const [mode,setMode]=useState<'playing'|'paused'|'dead'>('playing');
  const modeRef=useRef(mode);
  const [tip,setTip]=useState(0),[best,setBest]=useState(0),[sound,setSound]=useState(audio?.sound??true),[music,setMusic]=useState(audio?.music??true),[showHelp,setShowHelp]=useState(false);
- const tutorial=useRef(0),nextTutorial=useRef(1);
+ const tutorial=useRef(0);
  const acknowledge=()=>{tutorial.current=-1;setTip(-1);audio?.configure({paused:false});document.getElementById('task-arena')?.focus({preventScroll:true});};
- const learned=useRef({move:false,fire:false,jump:false});
  const input=useRef<Input>({move:0,jump:false,fire:false});
  const keys=useRef(new Set<string>()),touch=useRef(new Set<string>());
  const touchMove=useRef(0);
@@ -40,7 +29,7 @@ export function TaskArcade({audio,onExit}:{audio:RoomAudio|null;onExit:()=>void}
  const applySlide=(clientX:number)=>{const el=sliderRef.current;if(!el)return;const r=el.getBoundingClientRect();const usable=Math.max(1,(r.width-r.height)/2);let v=(clientX-(r.left+r.width/2))/usable;v=Math.max(-1,Math.min(1,v));setMoveVal(v);const a=Math.abs(v);touchMove.current=a>0.1?Math.sign(v)*Math.min(1,(a-0.1)/0.75):0;};
  const exitButton=useRef<HTMLButtonElement>(null);
  const setStatus=useCallback((next:typeof mode)=>{modeRef.current=next;setMode(next);input.current={move:0,jump:false,fire:false};keys.current.clear();touch.current.clear();resetSlider();if(audio){audio.configure({paused:next!=='playing'||tutorial.current>=0});}},[audio,resetSlider]);
- const begin=()=>{tutorial.current=-1;setTip(-1);nextTutorial.current=tips.length;game.current=createGame();setView({...game.current});audio?.unlock();audio?.cue('restart');setStatus('playing');};
+ const begin=()=>{tutorial.current=-1;setTip(-1);game.current=createGame();setView({...game.current});audio?.unlock();audio?.cue('restart');setStatus('playing');};
  const toggle=(kind:'sound'|'music')=>{if(!audio)return;audio.configure({[kind]:!audio[kind]});setSound(audio.sound);setMusic(audio.music);try{localStorage.setItem('lucky-audio',JSON.stringify({sound:audio.sound,music:audio.music}));}catch{}audio.unlock();audio.sync();};
  useEffect(()=>{
   const previous=document.activeElement as HTMLElement|null;
@@ -67,12 +56,6 @@ export function TaskArcade({audio,onExit}:{audio:RoomAudio|null;onExit:()=>void}
     const km=Number(active('arrowright','d'))-Number(active('arrowleft','a'));
     input.current={move:km!==0?km:touchMove.current,jump:false,fire:active('space','fire'),drop:false};
     stepGame(game.current,input.current,dt);
-    if(input.current.move)learned.current.move=true;
-    if(input.current.fire)learned.current.fire=true;
-    const stage=nextTutorial.current;
-    if((stage===1&&learned.current.move&&game.current.time>2)||(stage===2&&(game.current.time>8||game.current.tasks.some(t=>t.overdue)))||(stage===3&&!!game.current.manager)||(stage===4&&(game.current.rewards.length>0||game.current.time>20))||(stage===5&&(game.current.pressure>0||game.current.time>25))){
-      setView({...game.current});tutorial.current=stage;setTip(stage);nextTutorial.current++;keys.current.clear();touch.current.clear();resetSlider();audio?.configure({paused:true});
-    }
     for(const event of game.current.events)audio?.cue(event);
     if(game.current.dead&&modeRef.current!=='dead'){
       setStatus('dead');const score=game.current.score;
@@ -113,7 +96,7 @@ export function TaskArcade({audio,onExit}:{audio:RoomAudio|null;onExit:()=>void}
        {view.rewards.map(r=>{const t=Math.min(1,r.age/.45),x=r.fromX+(r.x-r.fromX)*t,y=r.fromY+(r.y-r.fromY)*t;return <span key={r.id} className={styles.coin} style={styleAt(x,y)} aria-label="Gold coin, collect for 25 points"/>;})}
        {view.particles.map((p,i)=><i key={i} className={styles.particle} style={{...styleAt(p.x,p.y),background:p.color,opacity:Math.min(1,p.life*2)}}/>)}
        <div className={styles.player} style={{...styleAt(view.player.x,view.player.y),transform:`translate(-50%,-95.8%) scaleX(${view.player.facing})`,backgroundPosition:`${frame%8/7*100}% ${Math.floor(frame/8)/2*100}%`}} aria-label="Lucky coding with a laptop"/>
-    {mode==='playing'&&tip>=0&&<aside className={styles.tutorialDialogue} aria-label="Play tip"><div className={styles.tutorialPortrait} aria-hidden="true"/><div className={styles.tutorialWords}><span>LUCKY <small>· {tip+1} / {tips.length}</small></span><p key={tip}><span className={styles.desktopTip}>{renderTip(tips[tip])}</span><span className={styles.mobileTip}>{renderTip(mobileTips[tip])}</span></p><button onClick={()=>{acknowledge();}}>Got it ▸</button></div><button className={styles.tutorialClose} aria-label="Dismiss play tip" onClick={()=>{acknowledge();}}>×</button></aside>}
+    {mode==='playing'&&tip>=0&&<aside className={styles.tutorialDialogue} aria-label="Play tip"><div className={styles.tutorialPortrait} aria-hidden="true"/><div className={styles.tutorialWords}><span>LUCKY <small>· CONTROLS</small></span><p key={tip}><span className={styles.desktopTip}>{renderTip(controls)}</span><span className={styles.mobileTip}>{renderTip(mobileControls)}</span></p><button onClick={()=>{acknowledge();}}>Got it ▸</button></div><button className={styles.tutorialClose} aria-label="Dismiss play tip" onClick={()=>{acknowledge();}}>×</button></aside>}
        {mode==='dead'&&view.deathTime<.8&&<div className={styles.impactWord}>STACK OVERFLOW.</div>}
      </div>
     </div>
@@ -136,7 +119,7 @@ export function TaskArcade({audio,onExit}:{audio:RoomAudio|null;onExit:()=>void}
     <div className={styles.iconControls}>
      <button type="button" className={`${styles.iconBtn} ${sound?styles.iconOn:''}`} aria-pressed={sound} onClick={()=>toggle('sound')} aria-label={sound?'Sound on':'Sound off'}>{sound?<Volume2 size={19} aria-hidden="true"/>:<VolumeX size={19} aria-hidden="true"/>}<small>Sound</small></button>
      <button type="button" className={`${styles.iconBtn} ${music?styles.iconOn:''}`} aria-pressed={music} onClick={()=>toggle('music')} aria-label={music?'Music on':'Music off'}>{music?<Music size={19} aria-hidden="true"/>:<Music2 size={19} aria-hidden="true"/>}<small>BGM</small></button>
-     <button type="button" className={styles.iconBtn} onClick={()=>{nextTutorial.current=1;learned.current={move:false,fire:false,jump:false};tutorial.current=0;setTip(0);setStatus('playing');}} aria-label="Replay guide"><RotateCcw size={18} aria-hidden="true"/><small>Guide</small></button>
+     <button type="button" className={styles.iconBtn} onClick={()=>{tutorial.current=0;setTip(0);setStatus('playing');}} aria-label="Replay guide"><RotateCcw size={18} aria-hidden="true"/><small>Guide</small></button>
      <button type="button" className={`${styles.iconBtn} ${showHelp?styles.iconOn:''}`} aria-expanded={showHelp} onClick={()=>setShowHelp(v=>!v)} aria-label="Controls help"><HelpCircle size={19} aria-hidden="true"/><small>Keys</small></button>
     </div>
     {showHelp&&<div className={styles.controlsHelp}>
