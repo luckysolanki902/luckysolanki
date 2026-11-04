@@ -4,11 +4,10 @@ Updated November 4, 2026.
 
 ## November 2026 redesign
 
-- Typography moved from Arial to static Inter (loaded from @fontsource on jsDelivr), so Chrome embeds CID TrueType fonts rather than Type 3 glyphs and text stays extractable.
-- New header with contact block on the right, a three-sentence positioning summary, and a one-line highlights strip (100K+ monthly users, 12 providers, 70+ MCP tools, 1,700+ first-month downloads). Each figure sits on the same line as its label so extractors keep them together.
-- Bullets rewritten to lead with the outcome and the decision, with less implementation jargon. Every claim still maps to `docs/blitzit-work-evidence.md` and `docs/maddycustom-work-evidence.md`; no new metrics were introduced.
-- Uppercase section headings use letter spacing; Poppler extraction was re-checked and reads them as whole words.
-- Still one A4 page, single reading column, no tables or images. Poppler extraction is in `output/pdf/lucky-solanki-resume.txt`.
+- Classic professional format: centered name and contact line, black ink only, Charter serif (embedded as CID TrueType), uppercase section headings with a full-width rule, company and dates on one line with role and location in italics beneath.
+- No highlights strip, colour accents, boxes, or other dashboard-style elements.
+- Bullets lead with the outcome and the decision. Every claim still maps to `docs/blitzit-work-evidence.md` and `docs/maddycustom-work-evidence.md`; no new metrics were introduced.
+- One A4 page, single reading column, no tables or images. Poppler extraction is in `output/pdf/lucky-solanki-resume.txt`.
 
 The sections below describe the October 1 revision and its parsing checks.
 

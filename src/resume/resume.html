@@ -1,162 +1,118 @@
 <!DOCTYPE html>
 <!-- Editable source for the portfolio résumé. Regenerate with npm run resume:pdf.
-     One A4 page, single reading column, selectable text, standard headings,
-     no tables or image-based text. Facts are limited to docs/*-work-evidence.md. -->
+     Classic one-page A4 resume: single reading column, black ink, selectable text,
+     standard headings, no tables, graphics, or image-based text.
+     Facts are limited to docs/*-work-evidence.md. -->
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="description" content="Lucky Solanki, Backend and AI Engineer." />
 <title>Lucky Solanki | Backend &amp; AI Engineer</title>
 <style>
-  /* Static (non-variable) Inter so Chrome embeds real TrueType text, not Type 3 glyphs. */
-  @font-face { font-family:'Inter Resume'; font-style:normal; font-weight:400; font-display:block; src:url(https://cdn.jsdelivr.net/npm/@fontsource/inter@5.1.0/files/inter-latin-400-normal.woff2) format('woff2'); unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-  @font-face { font-family:'Inter Resume'; font-style:normal; font-weight:400; font-display:block; src:url(https://cdn.jsdelivr.net/npm/@fontsource/inter@5.1.0/files/inter-latin-ext-400-normal.woff2) format('woff2'); unicode-range:U+0100-024F, U+20A0-20C0, U+2C60-2C7F, U+A720-A7FF; }
-  @font-face { font-family:'Inter Resume'; font-style:normal; font-weight:500; font-display:block; src:url(https://cdn.jsdelivr.net/npm/@fontsource/inter@5.1.0/files/inter-latin-500-normal.woff2) format('woff2'); unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-  @font-face { font-family:'Inter Resume'; font-style:normal; font-weight:500; font-display:block; src:url(https://cdn.jsdelivr.net/npm/@fontsource/inter@5.1.0/files/inter-latin-ext-500-normal.woff2) format('woff2'); unicode-range:U+0100-024F, U+20A0-20C0, U+2C60-2C7F, U+A720-A7FF; }
-  @font-face { font-family:'Inter Resume'; font-style:normal; font-weight:600; font-display:block; src:url(https://cdn.jsdelivr.net/npm/@fontsource/inter@5.1.0/files/inter-latin-600-normal.woff2) format('woff2'); unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-  @font-face { font-family:'Inter Resume'; font-style:normal; font-weight:600; font-display:block; src:url(https://cdn.jsdelivr.net/npm/@fontsource/inter@5.1.0/files/inter-latin-ext-600-normal.woff2) format('woff2'); unicode-range:U+0100-024F, U+20A0-20C0, U+2C60-2C7F, U+A720-A7FF; }
-  @font-face { font-family:'Inter Resume'; font-style:normal; font-weight:700; font-display:block; src:url(https://cdn.jsdelivr.net/npm/@fontsource/inter@5.1.0/files/inter-latin-700-normal.woff2) format('woff2'); unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-  @font-face { font-family:'Inter Resume'; font-style:normal; font-weight:700; font-display:block; src:url(https://cdn.jsdelivr.net/npm/@fontsource/inter@5.1.0/files/inter-latin-ext-700-normal.woff2) format('woff2'); unicode-range:U+0100-024F, U+20A0-20C0, U+2C60-2C7F, U+A720-A7FF; }
-  :root {
-    --ink:#0f1b2d; --body:#2b3545; --muted:#5d6878; --accent:#1d4ed8; --accent-ink:#1e3a8a;
-    --rule:#dde3ec; --wash:#f3f6fb;
-  }
   * { box-sizing:border-box; margin:0; padding:0; }
   @page { size:A4; margin:0; }
   html,body { width:210mm; }
   body {
-    padding:8.5mm 13.5mm 6mm; background:#fff; color:var(--body);
-    font-family:"Inter Resume","Helvetica Neue",Arial,sans-serif; font-size:9.1pt; line-height:1.34;
-    font-feature-settings:"ss01","cv11"; -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    padding:10mm 14mm 8mm; background:#fff; color:#111;
+    font-family:Charter,"Bitstream Charter","Iowan Old Style",Georgia,serif;
+    font-size:9.6pt; line-height:1.27;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
   }
   a { color:inherit; text-decoration:none; }
-  h1,h2,h3,strong { color:var(--ink); }
-  strong { font-weight:600; }
+  strong { font-weight:700; }
 
-  /* Header */
-  header { display:flex; justify-content:space-between; align-items:flex-end; gap:8mm; }
-  h1 { font-size:24pt; font-weight:700; line-height:1; letter-spacing:-.04em; }
-  .position { font-size:11pt; font-weight:500; color:var(--accent-ink); margin-top:2mm; }
-  .contact { text-align:right; font-size:8.3pt; line-height:1.55; color:var(--muted); }
-  .contact a:hover { color:var(--accent); }
+  header { text-align:center; }
+  h1 { font-size:21pt; font-weight:700; letter-spacing:.02em; line-height:1.1; }
+  .position { font-size:10.5pt; margin-top:1mm; }
+  .contact { font-size:8.7pt; margin-top:1.2mm; }
 
-  .summary { margin-top:3mm; padding-top:2.8mm; border-top:1.2pt solid var(--ink); font-size:9.3pt; line-height:1.42; color:var(--body); }
+  section { margin-top:3.5mm; }
+  h2 { font-size:10.5pt; font-weight:700; letter-spacing:.06em; text-transform:uppercase; border-bottom:.7pt solid #111; padding-bottom:.6mm; margin-bottom:1.5mm; }
 
-  .highlights { display:flex; margin-top:2.8mm; background:var(--wash); border-radius:1.6mm; padding:2.2mm 0; }
-  .highlights p { flex:1; text-align:center; font-size:8.4pt; line-height:1.2; white-space:nowrap; color:var(--muted); border-left:.5pt solid var(--rule); padding:0 2mm; }
-  .highlights p:first-child { border-left:0; }
-  .highlights strong { font-size:12pt; font-weight:700; letter-spacing:-.02em; color:var(--accent-ink); margin-right:.6mm; }
-
-  /* Sections */
-  section { margin-top:3mm; }
-  h2 { font-size:8.4pt; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--accent-ink); padding-bottom:1mm; border-bottom:.5pt solid var(--rule); margin-bottom:2mm; }
-
-  .job { margin-bottom:2.6mm; break-inside:avoid; }
+  .job { margin-bottom:2.2mm; break-inside:avoid; }
   .job:last-child { margin-bottom:0; }
-  .job-head { display:flex; justify-content:space-between; align-items:baseline; gap:4mm; }
-  h3 { font-size:10.6pt; font-weight:700; letter-spacing:-.01em; }
-  h3 .role { font-weight:500; color:var(--body); }
-  h3 .sep { color:var(--rule); font-weight:400; margin:0 1.2mm; }
-  .dates { font-size:8.3pt; color:var(--muted); white-space:nowrap; font-variant-numeric:tabular-nums; }
-  .context { font-size:8.4pt; color:var(--muted); margin:.3mm 0 1.3mm; }
-  .context a { color:var(--accent); }
+  .row { display:flex; justify-content:space-between; align-items:baseline; gap:4mm; }
+  .row .right { white-space:nowrap; }
+  .sub { font-style:italic; margin-bottom:.8mm; }
 
-  ul { list-style:none; }
-  li { position:relative; padding-left:3.6mm; margin-bottom:.9mm; }
+  ul { padding-left:4.6mm; }
+  li { margin-bottom:.8mm; padding-left:.4mm; }
   li:last-child { margin-bottom:0; }
-  li::before { content:""; position:absolute; left:.4mm; top:1.6mm; width:1.25mm; height:1.25mm; border-radius:50%; background:var(--accent); }
-
-  .project { margin-bottom:1.5mm; break-inside:avoid; }
-  .project:last-child { margin-bottom:0; }
-  .project .meta { font-size:8.3pt; color:var(--muted); font-weight:400; }
 
   .skills p { margin-bottom:.6mm; }
   .skills p:last-child { margin-bottom:0; }
-  .skills strong { display:inline-block; width:27mm; }
 
-  .education { display:flex; justify-content:space-between; gap:4mm; }
-  .education small { display:block; font-size:8.4pt; color:var(--muted); margin-top:.3mm; }
-
-  @media screen { html { width:auto; background:#e9edf3; } body { min-height:297mm; margin:20px auto; box-shadow:0 6px 40px #0f1b2d18; } }
+  @media screen { html { width:auto; background:#e8e8e8; } body { min-height:297mm; margin:20px auto; box-shadow:0 4px 24px #0002; } }
 </style>
 </head>
 <body>
 <header>
-  <div>
-    <h1>Lucky Solanki</h1>
-    <p class="position">Backend &amp; AI Engineer</p>
-  </div>
-  <div class="contact">
-    <a href="mailto:luckysolanki902@gmail.com">luckysolanki902@gmail.com</a> · <a href="tel:+919027495997">+91 90274 95997</a><br />
-    <a href="https://www.luckysolanki.com">luckysolanki.com</a> · <a href="https://github.com/luckysolanki902">github.com/luckysolanki902</a><br />
-    <a href="https://linkedin.com/in/luckysolanki902">linkedin.com/in/luckysolanki902</a> · India
-  </div>
+  <h1>Lucky Solanki</h1>
+  <p class="position">Backend &amp; AI Engineer</p>
+  <p class="contact">+91 90274 95997 · <a href="mailto:luckysolanki902@gmail.com">luckysolanki902@gmail.com</a> · <a href="https://www.luckysolanki.com">luckysolanki.com</a> · <a href="https://linkedin.com/in/luckysolanki902">linkedin.com/in/luckysolanki902</a> · <a href="https://github.com/luckysolanki902">github.com/luckysolanki902</a></p>
 </header>
 
-<p class="summary">Backend and applied-AI engineer who takes products from an empty repository to production. Designed and built the <strong>entire Blitzit 3.0 backend</strong>; as co-founder, wrote the <strong>custom commerce platform behind MaddyCustom</strong>. Strongest where product, infrastructure, and LLM agents meet: tool-calling agents, voice, integrations, realtime sync, and payments that recover when things fail.</p>
-
-<div class="highlights">
-  <p><strong>100K+</strong> monthly users</p>
-  <p><strong>12</strong> providers, one SDK</p>
-  <p><strong>70+</strong> MCP tools</p>
-  <p><strong>1,700+</strong> first-month downloads</p>
-</div>
+<section aria-labelledby="summary">
+  <h2 id="summary">Summary</h2>
+  <p>Backend and applied-AI engineer with 3+ years of experience taking products from an empty repository to production. Designed and built the entire Blitzit 3.0 backend, and as co-founder of MaddyCustom wrote the commerce platform behind a business with 100K+ monthly users. Focused on tool-calling agents, voice, third-party integrations, realtime sync, and payment systems that recover when things fail.</p>
+</section>
 
 <section aria-labelledby="experience">
   <h2 id="experience">Experience</h2>
 
   <div class="job">
-    <div class="job-head">
-      <h3>Blitzit<span class="sep">|</span><span class="role">Core Backend Developer &amp; AI Engineer</span></h3>
-      <span class="dates">Nov 2025 - Present</span>
-    </div>
-    <p class="context">AI-native task and focus app · UK-based team, remote · <a href="https://www.luckysolanki.com/work/blitzit">Case study: luckysolanki.com/work/blitzit</a></p>
+    <div class="row"><span><strong>Blitzit</strong>, AI-native task and focus app</span><span class="right">Nov 2025 - Present</span></div>
+    <div class="row sub"><span>Core Backend Developer &amp; AI Engineer</span><span class="right">Remote, UK</span></div>
     <ul>
-      <li><strong>Architected and built the Blitzit 3.0 backend from the first commit:</strong> Fastify/TypeScript domain modules on MongoDB, Redis, and BullMQ, with a typed event bus and an API/worker split that keeps background jobs off user requests.</li>
-      <li><strong>Unified 12 third-party providers behind one integration SDK</strong> and exposed the product through <strong>70+ MCP tools</strong>. In-app agents and external AI clients share one set of schemas, OAuth, permissions, and execution, with bidirectional sync, queued retries, and sync-loop prevention.</li>
-      <li><strong>Designed a two-agent voice assistant:</strong> a realtime speech model runs the conversation and delegates every action to the existing reasoning agent, so voice and chat share one source of truth for tools and permissions.</li>
-      <li><strong>Made every AI action safely undoable</strong> with a per-user change journal that checks for conflicts before reverting, so undoing an agent’s change never overwrites a newer human edit.</li>
-      <li><strong>Trained a custom “Hey Blitzy” wake-word model</strong> (openWakeWord, Colab) running on-device through ONNX/WASM, with candidate verification and a clean microphone handoff into the voice session.</li>
-      <li><strong>Owned the platform end to end:</strong> auth, recurrence and timezone scheduling, notifications, Stripe and RevenueCat billing, WebSocket collaboration, and a resumable per-user 2.0 to 3.0 migration. Multiplexed MongoDB change streams to relieve connection pressure.</li>
+      <li>Architected and built the Blitzit 3.0 backend from the first commit: Fastify/TypeScript domain modules on MongoDB, Redis, and BullMQ, with a typed event bus and an API/worker split that keeps background jobs off user requests.</li>
+      <li>Unified 12 third-party providers behind one integration SDK and exposed the product through 70+ MCP tools, so in-app agents and external AI clients share one set of schemas, OAuth, permissions, and execution, with bidirectional sync, queued retries, and sync-loop prevention.</li>
+      <li>Designed a two-agent voice assistant in which a realtime speech model runs the conversation and delegates every action to the existing reasoning agent, giving voice and chat one source of truth for tools and permissions.</li>
+      <li>Made AI actions safely undoable with a per-user change journal that checks for conflicts before reverting, so undoing an agent’s change never overwrites a newer human edit.</li>
+      <li>Trained a custom “Hey Blitzy” wake-word model (openWakeWord, Colab) that runs on-device through ONNX/WASM, with candidate verification and microphone handoff into the voice session.</li>
+      <li>Owned auth, recurrence and timezone scheduling, notifications, Stripe and RevenueCat billing, WebSocket collaboration, and a resumable 2.0 to 3.0 migration; multiplexed MongoDB change streams to ease connection load.</li>
     </ul>
   </div>
 
   <div class="job">
-    <div class="job-head">
-      <h3>MaddyCustom<span class="sep">|</span><span class="role">Co-founder &amp; Lead Engineer</span></h3>
-      <span class="dates">Dec 2022 - Feb 2026</span>
-    </div>
-    <p class="context">D2C custom-merchandise brand · <a href="https://www.luckysolanki.com/work/maddycustom">Case study: luckysolanki.com/work/maddycustom</a></p>
+    <div class="row"><span><strong>MaddyCustom</strong>, D2C custom-merchandise brand</span><span class="right">Dec 2022 - Feb 2026</span></div>
+    <div class="row sub"><span>Co-founder &amp; Lead Engineer</span><span class="right">India</span></div>
     <ul>
-      <li><strong>Built the commerce platform from scratch instead of using Shopify:</strong> storefront, backend, and operations admin for a business with <strong>100K+ monthly users</strong> and <strong>~$62K (₹60L) annual revenue</strong>.</li>
-      <li><strong>Shipped an AI shopping assistant</strong> on the OpenAI Agents SDK that searches the catalogue, answers policy questions through retrieval, tracks orders, and hands off to a human, grounded in live store data.</li>
-      <li><strong>Engineered checkout that survives gateway failures:</strong> health-aware Razorpay/PayU failover, server-side payment verification, and guarded post-payment processing that withstands duplicate callbacks.</li>
-      <li><strong>Built the operations backbone a small team ran on:</strong> split orders, inventory, production files, Shiprocket fulfilment, role-based access, and first-party funnel analytics with UTM attribution and repeat-buyer reporting.</li>
+      <li>Built the commerce platform from scratch instead of using Shopify (storefront, backend, and operations admin) for a business with 100K+ monthly users and about ₹60L (~$62K) in annual revenue.</li>
+      <li>Shipped an AI shopping assistant on the OpenAI Agents SDK that searches the catalogue, answers policy questions through retrieval, tracks orders, and hands off to a human, grounded in live store data.</li>
+      <li>Engineered checkout to survive gateway failures with health-aware Razorpay/PayU failover, server-side payment verification, and guarded post-payment processing that withstands duplicate callbacks.</li>
+      <li>Built the operations systems the team ran on: split orders, inventory, production files, Shiprocket fulfilment, role-based access, and first-party funnel analytics with UTM attribution and repeat-buyer reporting.</li>
     </ul>
   </div>
 </section>
 
 <section aria-labelledby="projects">
-  <h2 id="projects">Selected Projects &amp; Freelance</h2>
-  <p class="project"><strong><a href="https://avanaapp.ai">Avana</a></strong> <span class="meta">(Sole engineer, freelance · 2025)</span> AI research assistant for Bali land investors: multi-agent orchestration, RAG over regulations, realtime WebRTC voice, and the full Xendit subscription lifecycle.</p>
-  <p class="project"><strong>AutoRemov</strong> <span class="meta">(Backend engineer, freelance · 2026)</span> Built durable pg-boss image-processing workers with job recovery, uploads, credits, and payments; migrated MySQL to PostgreSQL/Prisma behind integration tests.</p>
-  <p class="project"><strong><a href="https://spyll.in">Spyll</a></strong> <span class="meta">(Founder project · 2023)</span> Verified anonymous social network for college students that reached <strong>1,700+ downloads in its first month</strong>: college-email verification, anonymous posting, realtime chat, matching, and moderation.</p>
+  <h2 id="projects">Projects &amp; Freelance</h2>
+  <div class="job">
+    <div class="row"><span><strong><a href="https://avanaapp.ai">Avana</a></strong>, <em>Sole Engineer (Freelance)</em></span><span class="right">2025</span></div>
+    <p>AI research assistant for Bali land investors: multi-agent orchestration, RAG, realtime WebRTC voice, and payments.</p>
+  </div>
+  <div class="job">
+    <div class="row"><span><strong>AutoRemov</strong>, <em>Backend Engineer (Freelance)</em></span><span class="right">2026</span></div>
+    <p>Built durable pg-boss image-processing workers with job recovery and payments; migrated MySQL to PostgreSQL/Prisma.</p>
+  </div>
+  <div class="job">
+    <div class="row"><span><strong><a href="https://spyll.in">Spyll</a></strong>, <em>Founder</em></span><span class="right">2023</span></div>
+    <p>Verified anonymous college social network with realtime chat and moderation; 1,700+ downloads in its first month.</p>
+  </div>
 </section>
 
 <section class="skills" aria-labelledby="skills">
   <h2 id="skills">Technical Skills</h2>
-  <p><strong>Backend</strong>TypeScript, Node.js, Fastify, Python, REST, PostgreSQL, MongoDB, Redis, BullMQ, Prisma</p>
-  <p><strong>AI &amp; agents</strong>OpenAI Agents SDK, LLM tool calling, MCP, RAG, Realtime/WebRTC voice, ONNX</p>
-  <p><strong>Systems</strong>OAuth 2.1, webhooks, WebSockets, background jobs, payments (Stripe, Razorpay, Xendit)</p>
-  <p><strong>Product &amp; cloud</strong>React, Next.js, Flutter, Docker, AWS S3/CloudFront, Vercel, integration testing</p>
+  <p><strong>Languages &amp; backend:</strong> TypeScript, JavaScript, Python, Node.js, Fastify, PostgreSQL, MongoDB, Redis, BullMQ, Prisma</p>
+  <p><strong>AI:</strong> OpenAI Agents SDK, LLM tool calling, Model Context Protocol (MCP), RAG, realtime voice (WebRTC), ONNX</p>
+  <p><strong>Systems:</strong> OAuth 2.1, webhooks, WebSockets, background jobs, payments (Stripe, Razorpay, PayU, Xendit)</p>
+  <p><strong>Frontend &amp; cloud:</strong> React, Next.js, Flutter, Docker, AWS S3/CloudFront, Vercel, integration testing</p>
 </section>
 
 <section aria-labelledby="education">
   <h2 id="education">Education</h2>
-  <div class="education">
-    <p><strong>Harcourt Butler Technical University</strong>, B.Tech, Mechanical Engineering<small>Web Development Head, Technical Sub-Council</small></p>
-    <span class="dates">2021 - 2025</span>
-  </div>
+  <div class="row"><span><strong>Harcourt Butler Technical University</strong>, Kanpur</span><span class="right">2021 - 2025</span></div>
+  <div class="row sub"><span>B.Tech, Mechanical Engineering · Web Development Head, Technical Sub-Council</span></div>
 </section>
 </body>
 </html>

@@ -1,85 +1,65 @@
 Lucky Solanki
-
-luckysolanki902@gmail.com · +91 90274 95997
-luckysolanki.com · github.com/luckysolanki902
-
 Backend & AI Engineer
++91 90274 95997 · luckysolanki902@gmail.com · luckysolanki.com · linkedin.com/in/luckysolanki902 · github.com/luckysolanki902
 
-linkedin.com/in/luckysolanki902 · India
-
-Backend and applied-AI engineer who takes products from an empty repository to production. Designed and built the
-entire Blitzit 3.0 backend; as co-founder, wrote the custom commerce platform behind MaddyCustom. Strongest
-where product, infrastructure, and LLM agents meet: tool-calling agents, voice, integrations, realtime sync, and
-payments that recover when things fail.
-
-100K+ monthly users
-
-12 providers, one SDK
-
-70+ MCP tools
-
-1,700+ first-month downloads
+SUMMARY
+Backend and applied-AI engineer with 3+ years of experience taking products from an empty repository to production.
+Designed and built the entire Blitzit 3.0 backend, and as co-founder of MaddyCustom wrote the commerce platform
+behind a business with 100K+ monthly users. Focused on tool-calling agents, voice, third-party integrations, realtime sync,
+and payment systems that recover when things fail.
 
 EXPERIENCE
-
-Blitzit | Core Backend Developer & AI Engineer
+Blitzit, AI-native task and focus app
+Core Backend Developer & AI Engineer
 
 Nov 2025 - Present
-
-AI-native task and focus app · UK-based team, remote · Case study: luckysolanki.com/work/blitzit
+Remote, UK
 
 Architected and built the Blitzit 3.0 backend from the first commit: Fastify/TypeScript domain modules on MongoDB,
 Redis, and BullMQ, with a typed event bus and an API/worker split that keeps background jobs off user requests.
-Unified 12 third-party providers behind one integration SDK and exposed the product through 70+ MCP tools. In-app
-agents and external AI clients share one set of schemas, OAuth, permissions, and execution, with bidirectional sync,
-queued retries, and sync-loop prevention.
-Designed a two-agent voice assistant: a realtime speech model runs the conversation and delegates every action to
-the existing reasoning agent, so voice and chat share one source of truth for tools and permissions.
-Made every AI action safely undoable with a per-user change journal that checks for conflicts before reverting, so
-undoing an agent’s change never overwrites a newer human edit.
-Trained a custom “Hey Blitzy” wake-word model (openWakeWord, Colab) running on-device through ONNX/WASM,
-with candidate verification and a clean microphone handoff into the voice session.
-Owned the platform end to end: auth, recurrence and timezone scheduling, notifications, Stripe and RevenueCat
-billing, WebSocket collaboration, and a resumable per-user 2.0 to 3.0 migration. Multiplexed MongoDB change
-streams to relieve connection pressure.
-
-MaddyCustom | Co-founder & Lead Engineer
-
+Unified 12 third-party providers behind one integration SDK and exposed the product through 70+ MCP tools, so inapp agents and external AI clients share one set of schemas, OAuth, permissions, and execution, with bidirectional
+sync, queued retries, and sync-loop prevention.
+Designed a two-agent voice assistant in which a realtime speech model runs the conversation and delegates every
+action to the existing reasoning agent, giving voice and chat one source of truth for tools and permissions.
+Made AI actions safely undoable with a per-user change journal that checks for conflicts before reverting, so undoing
+an agent’s change never overwrites a newer human edit.
+Trained a custom “Hey Blitzy” wake-word model (openWakeWord, Colab) that runs on-device through ONNX/WASM,
+with candidate verification and microphone handoff into the voice session.
+Owned auth, recurrence and timezone scheduling, notifications, Stripe and RevenueCat billing, WebSocket
+collaboration, and a resumable 2.0 to 3.0 migration; multiplexed MongoDB change streams to ease connection load.
+MaddyCustom, D2C custom-merchandise brand
 Dec 2022 - Feb 2026
-
-D2C custom-merchandise brand · Case study: luckysolanki.com/work/maddycustom
-
-Built the commerce platform from scratch instead of using Shopify: storefront, backend, and operations admin for a
-business with 100K+ monthly users and ~$62K (₹60L) annual revenue.
+Co-founder & Lead Engineer
+India
+Built the commerce platform from scratch instead of using Shopify (storefront, backend, and operations admin) for a
+business with 100K+ monthly users and about ₹60L (~$62K) in annual revenue.
 Shipped an AI shopping assistant on the OpenAI Agents SDK that searches the catalogue, answers policy questions
 through retrieval, tracks orders, and hands off to a human, grounded in live store data.
-Engineered checkout that survives gateway failures: health-aware Razorpay/PayU failover, server-side payment
+Engineered checkout to survive gateway failures with health-aware Razorpay/PayU failover, server-side payment
 verification, and guarded post-payment processing that withstands duplicate callbacks.
-Built the operations backbone a small team ran on: split orders, inventory, production files, Shiprocket fulfilment,
-role-based access, and first-party funnel analytics with UTM attribution and repeat-buyer reporting.
-SELECTED PROJECTS & FREELANCE
+Built the operations systems the team ran on: split orders, inventory, production files, Shiprocket fulfilment, role-based
+access, and first-party funnel analytics with UTM attribution and repeat-buyer reporting.
 
-Avana (Sole engineer, freelance · 2025) AI research assistant for Bali land investors: multi-agent orchestration, RAG over
-regulations, realtime WebRTC voice, and the full Xendit subscription lifecycle.
-AutoRemov (Backend engineer, freelance · 2026) Built durable pg-boss image-processing workers with job recovery,
-uploads, credits, and payments; migrated MySQL to PostgreSQL/Prisma behind integration tests.
-Spyll (Founder project · 2023) Verified anonymous social network for college students that reached 1,700+ downloads in
-its first month: college-email verification, anonymous posting, realtime chat, matching, and moderation.
+PROJECTS & FREELANCE
+Avana, Sole Engineer (Freelance)
+2025
+AI research assistant for Bali land investors: multi-agent orchestration, RAG, realtime WebRTC voice, and payments.
+AutoRemov, Backend Engineer (Freelance)
+2026
+Built durable pg-boss image-processing workers with job recovery and payments; migrated MySQL to PostgreSQL/Prisma.
+Spyll, Founder
+2023
+Verified anonymous college social network with realtime chat and moderation; 1,700+ downloads in its first month.
+
 TECHNICAL SKILLS
+Languages & backend: TypeScript, JavaScript, Python, Node.js, Fastify, PostgreSQL, MongoDB, Redis, BullMQ, Prisma
+AI: OpenAI Agents SDK, LLM tool calling, Model Context Protocol (MCP), RAG, realtime voice (WebRTC), ONNX
+Systems: OAuth 2.1, webhooks, WebSockets, background jobs, payments (Stripe, Razorpay, PayU, Xendit)
+Frontend & cloud: React, Next.js, Flutter, Docker, AWS S3/CloudFront, Vercel, integration testing
 
-Backend
-AI & agents
-
-TypeScript, Node.js, Fastify, Python, REST, PostgreSQL, MongoDB, Redis, BullMQ, Prisma
-OpenAI Agents SDK, LLM tool calling, MCP, RAG, Realtime/WebRTC voice, ONNX
-
-Systems
-OAuth 2.1, webhooks, WebSockets, background jobs, payments (Stripe, Razorpay, Xendit)
-Product & cloud React, Next.js, Flutter, Docker, AWS S3/CloudFront, Vercel, integration testing
 EDUCATION
-
-Harcourt Butler Technical University, B.Tech, Mechanical Engineering
-Web Development Head, Technical Sub-Council
+Harcourt Butler Technical University, Kanpur
+B.Tech, Mechanical Engineering · Web Development Head, Technical Sub-Council
 
 2021 - 2025
 
