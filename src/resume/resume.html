@@ -68,7 +68,6 @@
       <li>Unified 12 third-party providers behind one integration SDK and exposed the product through 70+ MCP tools, so in-app agents and external AI clients share one set of schemas, OAuth, permissions, and execution, with bidirectional sync, queued retries, and sync-loop prevention.</li>
       <li>Designed a two-agent voice assistant in which a realtime speech model runs the conversation and delegates every action to the existing reasoning agent, giving voice and chat one source of truth for tools and permissions.</li>
       <li>Made AI actions safely undoable with a per-user change journal that checks for conflicts before reverting, so undoing an agent’s change never overwrites a newer human edit.</li>
-      <li>Trained a custom “Hey Blitzy” wake-word model (openWakeWord, Colab) that runs on-device through ONNX/WASM, with candidate verification and microphone handoff into the voice session.</li>
       <li>Owned auth, recurrence and timezone scheduling, notifications, Stripe and RevenueCat billing, WebSocket collaboration, and a resumable 2.0 to 3.0 migration; multiplexed MongoDB change streams to ease connection load.</li>
     </ul>
   </div>
@@ -104,7 +103,7 @@
 <section class="skills" aria-labelledby="skills">
   <h2 id="skills">Technical Skills</h2>
   <p><strong>Languages &amp; backend:</strong> TypeScript, JavaScript, Python, Node.js, Fastify, PostgreSQL, MongoDB, Redis, BullMQ, Prisma</p>
-  <p><strong>AI:</strong> OpenAI Agents SDK, LLM tool calling, Model Context Protocol (MCP), RAG, realtime voice (WebRTC), ONNX</p>
+  <p><strong>AI:</strong> OpenAI Agents SDK, LLM tool calling, Model Context Protocol (MCP), RAG, realtime voice (WebRTC)</p>
   <p><strong>Systems:</strong> OAuth 2.1, webhooks, WebSockets, background jobs, payments (Stripe, Razorpay, PayU, Xendit)</p>
   <p><strong>Frontend &amp; cloud:</strong> React, Next.js, Flutter, Docker, AWS S3/CloudFront, Vercel, integration testing</p>
 </section>
