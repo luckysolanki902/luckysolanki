@@ -32,8 +32,8 @@ Co-founder & Lead Engineer
 Dec 2022 - Feb 2026
 India
 
-Built the commerce platform from scratch instead of using Shopify (Next.js storefront, backend, and operations
-admin) for a business with 100K+ monthly users and about ₹60L (~$62K) in annual revenue.
+Coded the entire e-commerce platform from scratch in Next.js and MongoDB (customer site, 118 API routes of
+business logic, and admin tools) for a business with 100K+ monthly users and ~$62K annual revenue.
 Shipped an AI shopping assistant on the OpenAI Agents SDK that searches the catalogue, answers policy questions
 through retrieval, tracks orders, and hands off to a human, grounded in live store data.
 Engineered checkout that survives payment-gateway failures with health-aware Razorpay/PayU failover, server-side
