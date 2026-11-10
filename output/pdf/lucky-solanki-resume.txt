@@ -26,9 +26,11 @@ an agent’s change never overwrites a newer human edit.
 Owned auth, recurrence and timezone scheduling, notifications, Stripe and RevenueCat billing, WebSocket
 collaboration, and a resumable 2.0 to 3.0 migration; multiplexed MongoDB change streams to ease connection load.
 MaddyCustom, D2C custom-merchandise brand
-Dec 2022 - Feb 2026
 Co-founder & Lead Engineer
+
+Dec 2022 - Feb 2026
 India
+
 Built the commerce platform from scratch instead of using Shopify (storefront, backend, and operations admin) for a
 business with 100K+ monthly users and about ₹60L (~$62K) in annual revenue.
 Shipped an AI shopping assistant on the OpenAI Agents SDK that searches the catalogue, answers policy questions
