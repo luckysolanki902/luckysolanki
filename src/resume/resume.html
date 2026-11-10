@@ -64,11 +64,11 @@
     <div class="row"><span><strong>Blitzit</strong>, AI-native task and focus app</span><span class="right">Nov 2025 - Present</span></div>
     <div class="row sub"><span>Core Backend Developer &amp; AI Engineer</span><span class="right">Remote, UK</span></div>
     <ul>
-      <li>Architected and built the Blitzit 3.0 backend from the first commit: Fastify/TypeScript domain modules on MongoDB, Redis, and BullMQ, with a typed event bus and an API/worker split that keeps background jobs off user requests.</li>
-      <li>Unified 12 third-party providers behind one integration SDK and exposed the product through 70+ MCP tools, so in-app agents and external AI clients share one set of schemas, OAuth, permissions, and execution, with bidirectional sync, queued retries, and sync-loop prevention.</li>
+      <li><strong>Architected and built the Blitzit 3.0 backend</strong> from scratch: Fastify/TypeScript modules on MongoDB, Redis, and BullMQ, with a typed event bus and an API/worker split for background jobs.</li>
+      <li>Unified <strong>12 third-party integrations behind one SDK</strong> and exposed the product through 70+ MCP tools, so in-app agents and external AI clients share one set of schemas, <strong>OAuth</strong>, permissions, and execution, with <strong>webhooks, bidirectional sync</strong>, retries, and sync-loop prevention.</li>
       <li>Designed a two-agent voice assistant in which a realtime speech model runs the conversation and delegates every action to the existing reasoning agent, giving voice and chat one source of truth for tools and permissions.</li>
       <li>Made AI actions safely undoable with a per-user change journal that checks for conflicts before reverting, so undoing an agent’s change never overwrites a newer human edit.</li>
-      <li>Owned auth, recurrence and timezone scheduling, notifications, Stripe and RevenueCat billing, WebSocket collaboration, and a resumable 2.0 to 3.0 migration; multiplexed MongoDB change streams to ease connection load.</li>
+      <li>Owned auth, recurrence and timezone scheduling, notifications, <strong>Stripe and RevenueCat subscription billing</strong>, <strong>realtime WebSocket collaboration</strong>, and a resumable 2.0 to 3.0 migration.</li>
     </ul>
   </div>
 
@@ -76,10 +76,10 @@
     <div class="row"><span><strong>MaddyCustom</strong>, D2C custom-merchandise brand</span><span class="right">Dec 2022 - Feb 2026</span></div>
     <div class="row sub"><span>Co-founder &amp; Lead Engineer</span><span class="right">India</span></div>
     <ul>
-      <li>Built the commerce platform from scratch instead of using Shopify (storefront, backend, and operations admin) for a business with 100K+ monthly users and about ₹60L (~$62K) in annual revenue.</li>
-      <li>Shipped an AI shopping assistant on the OpenAI Agents SDK that searches the catalogue, answers policy questions through retrieval, tracks orders, and hands off to a human, grounded in live store data.</li>
-      <li>Engineered checkout to survive gateway failures with health-aware Razorpay/PayU failover, server-side payment verification, and guarded post-payment processing that withstands duplicate callbacks.</li>
-      <li>Built the operations systems the team ran on: split orders, inventory, production files, Shiprocket fulfilment, role-based access, and first-party funnel analytics with UTM attribution and repeat-buyer reporting.</li>
+      <li>Built the commerce platform from scratch instead of using Shopify (<strong>Next.js storefront</strong>, backend, and operations admin) for a business with <strong>100K+ monthly users</strong> and about <strong>₹60L (~$62K) in annual revenue</strong>.</li>
+      <li>Shipped an <strong>AI shopping assistant</strong> on the OpenAI Agents SDK that searches the catalogue, answers policy questions through retrieval, tracks orders, and hands off to a human, grounded in live store data.</li>
+      <li>Engineered <strong>checkout that survives payment-gateway failures</strong> with health-aware Razorpay/PayU failover, server-side payment verification, and guarded post-payment processing that withstands duplicate callbacks.</li>
+      <li>Built the operations systems the team ran on: split orders, inventory, production files, Shiprocket fulfilment, role-based access, and <strong>first-party conversion-funnel analytics with UTM attribution</strong> and repeat-buyer reporting.</li>
     </ul>
   </div>
 </section>
@@ -103,9 +103,9 @@
 <section class="skills" aria-labelledby="skills">
   <h2 id="skills">Technical Skills</h2>
   <p><strong>Languages &amp; backend:</strong> TypeScript, JavaScript, Python, Node.js, Fastify, PostgreSQL, MongoDB, Redis, BullMQ, Prisma</p>
-  <p><strong>AI:</strong> OpenAI Agents SDK, LLM tool calling, Model Context Protocol (MCP), RAG, realtime voice (WebRTC)</p>
-  <p><strong>Systems:</strong> OAuth 2.1, webhooks, WebSockets, background jobs, payments (Stripe, Razorpay, PayU, Xendit)</p>
   <p><strong>Frontend &amp; cloud:</strong> React, Next.js, Flutter, Docker, AWS S3/CloudFront, Vercel, integration testing</p>
+  <p><strong>Integrations &amp; payments:</strong> Third-party APIs, OAuth 2.1, webhooks, WebSockets, Stripe, Razorpay, PayU, Xendit</p>
+  <p><strong>AI:</strong> OpenAI Agents SDK, LLM tool calling, Model Context Protocol (MCP), RAG, realtime voice (WebRTC)</p>
 </section>
 
 <section aria-labelledby="education">
